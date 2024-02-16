@@ -1,0 +1,27 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: white;
+    background-color: black;
+}
+
+.business-card {
+    width: 300px;
+    height: 200px;
+    background-color: #812323;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+.last-name {
+    font-size: 1.5em;
+}
+
+.age {
+    font-size: 4em;
+    text-align: center;
+}
