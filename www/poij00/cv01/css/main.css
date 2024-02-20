@@ -1,0 +1,84 @@
+* {
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+}
+
+.business-card {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    margin-bottom: 20px;
+    background-color: #000000;
+    color: #e0dbdb;
+    min-width: 500px;
+    height: 300px;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 5px 5px 6px rgba(36, 35, 35, 0.5);
+}
+
+
+.column{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.column2 {
+    margin: auto;
+    padding-left: 13px;
+}
+
+.column2.border {
+    border-left: 2px solid #ffffff;
+}
+
+
+.logo {
+height: 140px;
+width: 140px;
+padding: 30px;
+background-size: cover;
+
+}
+
+.first-name {
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.last-name {
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    color: #8e8e8e;
+}
+
+.info {
+    line-height: 1.3rem;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.company, .position {
+    font-size: 1.4rem;
+}
+
+.company {
+    margin-bottom: 8px;
+}
+
+.company2, .position2 {
+    font-size: 1.1rem;
+}
+
+.company2 {
+    margin-bottom: 8px;
+}
