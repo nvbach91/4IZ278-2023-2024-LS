@@ -1,0 +1,26 @@
+body {
+  display: flex;
+  justify-content: center;
+}
+
+.front-container,
+.back-container {
+  width: 600px;
+  height: 250px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin-top: 100px;
+  background-color: hsl(0, 100%, 70%);
+  border: 5px solid black;
+  box-shadow: black 10px 10px;
+  display: flex;
+}
+img {
+  border-radius: 5px;
+  border: 2px solid black;
+  width: 40%;
+}
+.front-container h1 {
+  margin-left: 20px;
+}
