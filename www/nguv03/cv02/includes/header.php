@@ -10,4 +10,4 @@
     <link rel="stylesheet" type="text/css" href="./css/styles.css">
 </head>
 <body>
-    <header></header>
+    <header>This is the page header with 0 PHP code, just static HTML</header>

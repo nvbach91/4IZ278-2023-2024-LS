@@ -1,5 +1,5 @@
-<?php require './header.php'; ?>
+<?php include './includes/header.php'; ?>
 <main class="container">
-    <?php require './business-card.php'; ?>
+    <?php require './components/business-card.php'; ?>
 </main>
-<?php require './footer.php'; ?>
+<?php include './includes/footer.php'; ?>

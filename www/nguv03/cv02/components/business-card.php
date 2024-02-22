@@ -1,6 +1,6 @@
 <?php
 
-require './Person.php';
+require './classes/Person.php';
 
 $people = [];
 
