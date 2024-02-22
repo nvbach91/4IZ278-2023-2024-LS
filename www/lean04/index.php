@@ -51,6 +51,7 @@ $lookingForWork = false;
                 <p><i class="fa-solid fa-hourglass-half"></i> <?php echo $age; ?> years</p>
                 <p><i class="fa-solid fa-at"></i> <a href="mailto:linh.le@mews.com"><?php echo $email; ?></a></p>
                 <p><i class=" fa-solid fa-phone"></i> <?php echo $phone; ?></p>
+                <p><i class="fa-solid fa-briefcase"></i> <?php echo $lookingForWork ? "Looking for work" : "Not looking for work"; ?></p>
             </div>
             <div class="brand">
                 <img src="https://www.mews.com/hs-fs/hubfs/mews-logo-2020.png?width=2088&name=mews-logo-2020.png" alt="Logo">

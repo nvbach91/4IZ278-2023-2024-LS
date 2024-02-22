@@ -2,6 +2,14 @@ body {
     font-family: "Inter", sans-serif;
 }
 
+h1 {
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
 .business-card-covers > *:not(:last-child) {
     margin-bottom: 24px;
 }
@@ -74,8 +82,8 @@ body {
     align-items: start;
 }
 
-.person-info > *:not(:last-child) {
-    margin-bottom: 4px;
+.person-info > p:not(:last-child) {
+    margin-bottom: 12px;
 }
 
 .role {
@@ -86,6 +94,7 @@ body {
 .divider {
     border: 1px solid black;
     width: 100%;
+    margin: 16px 0;
 }
 
 .contacts {
