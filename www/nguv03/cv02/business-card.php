@@ -4,6 +4,7 @@ require './Person.php';
 
 $people = [];
 
+// tyto data postupne presuneme do souboru, do databaze, ... tj. nebudou takto staticky v PHP kodu
 array_push($people, new Person(
     'jedi-logo.svg',
     'Anakin',
