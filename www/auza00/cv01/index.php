@@ -4,7 +4,7 @@
     $lastName = 'Chong';
     $age = '420'; // int/double/float
     $isMarried = false; // true/false
-    $favouriteCars  = ["Ferrari", "Škoda"];
+    $favouriteCars  = ['Ferrari', 'Škoda'];
     $accounts = [
         'main' => 'Main Bank America',
         'secondary' => 'Chinese Bank',
@@ -25,22 +25,22 @@
     $seekingJob = false;
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>CV 01</title>
-    <link rel="stylesheet" href="css/main.css">
+    <link rel='stylesheet' href='css/main.css'>
 </head>
 <body>
-    <div class="business-card" style='background-image: url(<?php echo $businessCardBackgroundImage; ?>)'>
+    <div class='business-card' style='background-image: url(<?php echo $businessCardBackgroundImage; ?>)'>
         <img id='business-logo' src='<?php echo $businessCardLogo; ?>'>
-        <div class="first-name"><?php echo $firstName; ?></div>
-        <div class="last-name"><?php echo $lastName; ?></div>
-        <div class="age">age: <?php echo $age; ?></div>
+        <div class='first-name'><?php echo $firstName; ?></div>
+        <div class='last-name'><?php echo $lastName; ?></div>
+        <div class='age'>age: <?php echo $age; ?></div>
 
-        <div class="bottom">
-            <div class="favourite-cars">
+        <div class='bottom'>
+            <div class='favourite-cars'>
                 <h3>Favourite cars</h3>
                 <ul>
                     <?php foreach($favouriteCars as $car): ?>
@@ -49,7 +49,7 @@
                 </ul>
             </div>
 
-            <div class="accounts">
+            <div class='accounts'>
                 <h3>Bank accounts</h3>
                 <div><?php echo $accounts['main']; ?></div>
                 <div><?php echo $accounts['secondary']; ?></div>
@@ -58,17 +58,17 @@
         </div>
 
     </div>
-    <div class="business-card" style='background-image: url(<?php echo $businessCardBackgroundImage; ?>)'>
-        <div class="info">Proffesion: <?php echo $profession; ?></div>
-        <div class="info">Firm: <?php echo $firm; ?></div>
-        <div class="info">Street: <?php echo $street; ?></div>
-        <div class="info">House number: <?php echo $houseNumber; ?></div>
-        <div class="info">Street number: <?php echo $streetNumber; ?></div>
-        <div class="info">City: <?php echo $city; ?></div>
-        <div class="info">Phone number: <?php echo $phoneNumber; ?></div>
-        <div class="info">Email: <?php echo $email; ?></div>
-        <div class="info">Website: <?php echo $webAddress; ?></div>
-        <div class="info">Seeking job: <?php echo $seekingJob; ?></div>
+    <div class='business-card' style='background-image: url(<?php echo $businessCardBackgroundImage; ?>)'>
+        <div class='info'>Proffesion: <?php echo $profession; ?></div>
+        <div class='info'>Firm: <?php echo $firm; ?></div>
+        <div class='info'>Street: <?php echo $street; ?></div>
+        <div class='info'>House number: <?php echo $houseNumber; ?></div>
+        <div class='info'>Street number: <?php echo $streetNumber; ?></div>
+        <div class='info'>City: <?php echo $city; ?></div>
+        <div class='info'>Phone number: <?php echo $phoneNumber; ?></div>
+        <div class='info'>Email: <?php echo $email; ?></div>
+        <div class='info'>Website: <?php echo $webAddress; ?></div>
+        <div class='info'>Seeking job: <?php echo $seekingJob; ?></div>
     </div>
 </body>
 </html>
