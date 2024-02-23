@@ -1,0 +1,54 @@
+*{
+    box-sizing: border-box;
+}
+h3{
+    margin: 10px auto;
+}
+ul{
+    padding: 0;
+}
+li{
+    list-style: none;
+}
+.business-card{
+    display: block;
+    padding: 20px;
+    color: white;
+    margin: 50px auto 0 auto;
+    height: 270px;
+    width: 422.58px;
+}
+#business-logo{
+    height: 40px;
+
+}
+.first-name{
+    font-weight: bold;
+    text-align: center;
+    font-size: 22px;
+}
+.last-name{
+    font-weight: bold;
+    text-align: center;
+    font-size: 34px;
+}
+.age{
+    text-align: center;
+    font-weight: bolder;
+}
+.bottom{
+    display: table;
+    position: relative;
+    margin: 0 auto;
+}
+.favourite-cars{
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 30px;
+    text-align: center;
+}
+.accounts{
+    display: inline-block;
+    margin: 0 30px;
+    text-align: center;
+}
