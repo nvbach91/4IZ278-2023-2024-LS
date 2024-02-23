@@ -19,6 +19,14 @@ $accountNumbers = [
   'secondary' => "987654321/4321"
 ];
 
+function calculateAge($birthDate)
+{
+  $birthDate = new DateTime($birthDate);
+  $now = new DateTime();
+  $age = $now->diff($birthDate)->format('%y');
+  return $age;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -107,12 +115,9 @@ $accountNumbers = [
       <div class="mb-0 mt-auto">
         <p class="mt-4 flex items-center gap-3">
           <?php
-          $birthDate = new DateTime($birthDate);
-          $now = new DateTime();
 
-          $interval = $now->diff($birthDate);
 
-          echo "I am " . $interval->format('%y') . " years old (damn).";
+          echo "I am " . calculateAge($birthDate) . " years old (damn).";
           ?>
         </p>
         <p class="mt-2"><?php echo $lookingForJob ? 'Currently looking for a job' : 'Unfortunately not looking for a job!'; ?></p>
