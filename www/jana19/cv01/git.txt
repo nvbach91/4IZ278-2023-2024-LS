@@ -1,0 +1,5 @@
+někde je na to full návod
+
+code - add files - uploada files
+struktura - /www/xname/cvXX
+crate new branch - commit
