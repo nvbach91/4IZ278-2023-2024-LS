@@ -1,0 +1,105 @@
+* {
+    margin: 0 auto;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+    margin-bottom: 50px;
+}
+
+body {
+    text-align: center;
+}
+
+.card-list {
+    list-style-type: none;
+    margin-top: 50px;
+}
+
+.card-element {
+    width: 95%;
+    font-size: 60px;
+}
+
+.business-card-wrapper {
+    width: 100%;
+    display: flex;
+}
+
+.bussiness-card-front {
+    display: flex;
+    background-color: white;
+    border: solid black 7px;
+    width: 45%;
+    height: 243.333px;
+    padding: 50px 0px 50px 0px;
+    margin-bottom: 50px;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.3), 0 8px 22px 0 rgba(0, 0, 0, 0.25);
+}
+
+.avatar {
+    margin: 20px 50px 0px 50px;
+}
+
+.front-wrapper {
+    text-align: left;
+    margin: 0;
+    border-left: solid black 5px;
+    padding-left: 40px;
+    padding-bottom: 0;
+}
+
+.last-name {
+    font-weight: bold;
+    color: rgb(211, 0, 0);
+    margin-bottom: 15px;
+}
+
+.position {
+    font-size: 30px;
+}
+
+.company {
+    font-weight: bold;
+    font-size: 35px;
+}
+
+.bussiness-card-back {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: white;
+    border: solid black 7px;
+    width: 45%;
+    padding: 50px 0px 50px 0px;
+    height: 243.333px;
+    margin-bottom: 50px;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.3), 0 8px 22px 0 rgba(0, 0, 0, 0.25);
+}
+
+.back-wrapper {
+    text-align: left;
+    margin: 0px 50px 0px 50px;
+    padding: 0;
+    padding-bottom: 0;
+    font-size: smaller;
+    line-height: 50px;
+}
+
+.other-info-wrapper {
+    font-size: 19px;
+    text-align: left;
+    margin: 0;
+    border-left: solid black 5px;
+    padding-left: 30px;
+    line-height: 30px;
+}
+
+.adress {
+    font-weight: bold;
+}
+
+.fa {
+    padding-right: 10px;
+}
