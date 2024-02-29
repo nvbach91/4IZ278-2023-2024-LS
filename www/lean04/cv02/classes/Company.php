@@ -4,10 +4,6 @@ class Company
 {
     public function __construct(private $name, private $address, private $logoUrl, private $website)
     {
-        $this->name = $name;
-        $this->address = $address;
-        $this->logoUrl = $logoUrl;
-        $this->website = $website;
     }
 
     public function getName()

@@ -4,9 +4,6 @@ class Person
 {
     public function __construct(private $firstName, private $lastName, private $dateOfBirth)
     {
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
-        $this->dateOfBirth = $dateOfBirth;
     }
 
     public function getFullName()

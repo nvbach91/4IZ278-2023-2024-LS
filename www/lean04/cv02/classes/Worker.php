@@ -13,11 +13,6 @@ class Worker extends Person
         private $lookingForJob = false
     ) {
         parent::__construct($firstName, $lastName, $dateOfBirth, $lookingForJob);
-        $this->jobTitle = $jobTitle;
-        $this->company = $company;
-        $this->phone = $phone;
-        $this->email = $email;
-        $this->lookingForJob = $lookingForJob;
     }
 
     public function getFullName()
