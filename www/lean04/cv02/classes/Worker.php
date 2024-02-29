@@ -3,16 +3,16 @@
 class Worker extends Person
 {
     public function __construct(
-        private $firstName,
-        private $lastName,
-        private $dateOfBirth,
+        $firstName,
+        $lastName,
+        $dateOfBirth,
         private $jobTitle,
         private $company,
         private $phone,
         private $email,
         private $lookingForJob = false
     ) {
-        parent::__construct($firstName, $lastName, $dateOfBirth, $lookingForJob);
+        parent::__construct($firstName, $lastName, $dateOfBirth);
     }
 
     public function getFullName()
