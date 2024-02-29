@@ -20,7 +20,6 @@ $worker1 = new Worker(
     $company,
     "123 456 789",
     "linh.le@mews.com",
-    false
 );
 $worker2 = new Worker(
     "John",
@@ -30,7 +29,6 @@ $worker2 = new Worker(
     $company,
     "987 654 321",
     "john.doe@mews.com",
-    false
 );
 $worker3 = new Worker(
     "Jane",
