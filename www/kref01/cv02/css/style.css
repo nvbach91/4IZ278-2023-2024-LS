@@ -1,0 +1,130 @@
+html {
+    min-width: 700px;
+}
+
+.headline {
+    font-family: 'Cinzel', serif;
+    font-size: 30px;
+    font-weight: bold;
+    margin: 40px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    display: flex;
+    height: 300px;
+    width: 600px;
+    background-color: black;
+    box-shadow: 0px 5px 20px #000;
+    margin-bottom: 2rem;
+
+    color: #c4c4c4;
+    font-family: 'Cinzel', serif;
+
+    background-size: cover;
+    background-position: center;
+}
+
+.avatar {
+    width: 260px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.avatar-pic {
+    width: 150px;
+    height: 150px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-left: 40px;
+    margin-top: 16px;
+}
+
+.front-info {
+    width: 340px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.front-info-content {
+    margin-right: 60px;
+}
+
+.front-name {
+    line-height: 1em;
+    font-size: 1.4em;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.alias {
+    line-height: 1.2em;
+    font-size: 1.3em;
+    margin: 5px 0;
+    font-weight: bold;
+    color: #761111;
+}
+
+.title,
+.company,
+.age {
+    line-height: 1.2em;
+    font-size: 1em;
+    margin: 3px 0;
+}
+
+.back-left {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.back-left-content {
+    margin-left: 50px;
+}
+
+.back-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.back-right-content {
+    margin-left: 30px;
+    padding-left: 15px;
+    margin-right: 50px;
+    border-left: 1px solid #c4c4c4;
+    font-size: 1em;
+    line-height: 1.5em;
+}
+
+.back-name {
+    line-height: 1em;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* .bc-back > div:first-child {
+    border-right: 1px solid #c4c4c4;
+} */
+
+.available {
+    font-weight: bold;
+    color: #761111;
+}
