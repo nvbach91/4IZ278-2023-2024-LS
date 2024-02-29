@@ -32,7 +32,7 @@ $websiteUrl = "https://$website";
     <body>
         <h1>My Business Card</h1>
         <div class="business-card">
-            <div class="avatar"><img src="<?php echo $avatar; ?>"></div>
+            <div class="avatar"><img src="<?php echo $avatar; ?>" alt="avatar"></div>
             <div class="first-name"><?php echo $firstName; ?></div>
             <div class="last-name"><?php echo $lastName; ?></div>
             <div class="age">Age: <?php echo $age; ?></div>
