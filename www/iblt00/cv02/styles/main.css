@@ -1,0 +1,187 @@
+* {
+    font-family: 'Courier New', Courier, monospace;
+}
+.container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.header {
+    text-align: center;
+    size: 2em;
+}
+.cards-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: fit-content;
+    margin: 0.5em;
+
+}
+
+.card-left, .card-right {
+    width: 85mm;
+    height: 54mm;
+    margin: 5px;
+    border-radius: 25px;
+}
+
+.card-left {
+    order: 2;
+}
+
+.card-right {
+    border: 5px solid #57CABC;
+    box-sizing: border-box;
+    order: 1;
+}
+
+.bc-front-header, .bc-front-footer {
+    height: 45%;
+}
+
+.bc-front-deco-extra-mid {
+    height: 20%;
+    background-color: #57CABC
+}
+
+.bc-front-deco-extra {
+    height: 40%;
+}
+
+.bc-front-deco-left, .bc-front-deco-right {
+    width: 45%;
+}
+
+.bc-front-deco-mid {
+    width: 4%;
+    background-color: #57CABC;
+    height: 60%;
+    align-self: center;
+}
+
+.bc-front-deco-side {
+    width: 3%;
+}
+
+.bc-front-footer {
+    text-align: center;
+    color: #6e7272;
+    font-weight: bold;
+}
+
+.bc-front-footer > a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    margin-bottom: 0.5em;
+}
+
+.bc-front-footer > a:hover {
+    color: rebeccapurple;
+}
+
+.bc-front-header {
+    display: flex;
+    align-items: end;
+    font-size: 1.5em;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    color: #57CABC;
+}
+
+.bc-front-header >div {
+    width: 100%;
+    text-align: center;
+
+}
+
+.bc-front-middle {
+    display: flex;
+    height: 10%;
+}
+
+.bc-header {
+    height: 20%;
+    border-left: 5px solid #57CABC;
+    border-right: 5px solid #57CABC;
+    border-top: 5px solid #57CABC;
+    border-radius: 25px 25px 0 0;
+    text-align: center;
+    justify-content: center;
+    font-size: 1.2em;
+    letter-spacing: 0.1em;
+    box-sizing: border-box;
+    color: white;
+    background-color: #57CABC;
+    padding-top: 0.4em;
+}
+
+.bc-content {
+    height: 65%;
+    border-left: 5px solid #57CABC;
+    border-right: 5px solid #57CABC;
+    display: flex;
+    box-sizing: border-box;
+}
+
+.bc-footer {
+    background-color: #6e7272;
+    height: 15%;
+    border-left: 5px solid #6e7272;
+    border-right: 5px solid #6e7272;
+    border-bottom: 5px solid #6e7272;
+    border-radius: 0 0 25px 25px;
+    color: white;
+    font-size: 0.7em;
+    box-sizing: border-box;
+}
+
+.bc-footer > ul {
+    list-style-type: none;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.6em 0.2em 0em 0.2em;
+}
+
+.bc-footer > ul > li > a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.bc-footer > ul > li > a:hover {
+    color: rebeccapurple;
+}
+
+.bc-content-side {
+    background-color: white;
+    flex-grow: 2;
+    color: #57CABC;
+    font-weight: 600;
+    padding: 0.2em;
+}
+
+.bc-content-side > ul {
+    list-style-type: none;
+    padding: 0.2em;
+    margin-top: 0.2em;
+    margin-bottom: 0.4em;
+}
+
+.bc-content-deco {
+    background-color: #57CABC;
+    align-self: center;
+    height: 90%;
+    flex-grow: 0.2;
+}
+
+.last-item-shifted >li:last-child {
+    margin-top: 1em;
+}
+
+.last-item-shifted > li >img {
+    width: 5em;
+    height: 5em;
+}
