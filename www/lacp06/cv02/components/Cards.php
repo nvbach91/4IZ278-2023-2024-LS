@@ -54,42 +54,42 @@ $persons = [$joe, $john, $rick];
   <?php foreach ($persons as $person) : ?>
     <div class="main-card">
       <div class="card2">
-        <img class="logo" src="https://www.logo.wine/a/logo/Chanel/Chanel-Logo.wine.svg">
+        <img class="logo" src="https://www.logo.wine/a/logo/Chanel/Chanel-Logo.wine.svg" alt="logo">
       </div>
       <div class="card">
         <div class="name">
           <p class="first-name"><?php echo $person->getFullName(); ?></p>
         </div>
         <div class="info">
-          <img src="./img/user.svg" />
+          <img src="./img/user.svg" alt="user" />
           <p class="age"><?php echo $person->getAge(); ?></p>
         </div>
         <div class="info">
-          <img src="./img/briefcase.svg" />
+          <img src="./img/briefcase.svg" alt="job" />
           <p class="job"><?php echo $person->isLookingForJob ? "Looking for job" : "Employed"; ?></p>
         </div>
         <div class="info">
-          <img src="./img/building.svg" />
+          <img src="./img/building.svg" alt="company" />
           <p class="company-name"><?php echo $person->companyName; ?></p>
         </div>
         <div class="info">
-          <img src="./img/map.svg" />
+          <img src="./img/map.svg" alt="adress" />
           <p class="adress"><?php echo $person->getAdress(); ?></p>
         </div>
         <div class="info">
-          <img src="./img/home.svg" />
+          <img src="./img/home.svg" alt="home" />
           <p class="city"><?php echo $person->city; ?></p>
         </div>
         <div class="info">
-          <img src="./img/phone.svg" />
+          <img src="./img/phone.svg" alt="phone" />
           <p class="phone"><?php echo $person->phone; ?></p>
         </div>
         <div class="info">
-          <img src="./img/mail.svg" />
+          <img src="./img/mail.svg" alt="emai" />
           <p class="email"><?php echo $person->email; ?></p>
         </div>
         <div class="info">
-          <img src="./img/portfolio.svg" />
+          <img src="./img/portfolio.svg" alt="website" />
           <p class="porfolio"><a href="<?php echo $person->portfolio; ?>" target="_blank"><?php echo $person->portfolio; ?></a></p>
         </div>
       </div>
