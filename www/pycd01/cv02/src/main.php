@@ -1,6 +1,5 @@
 <?php
 require('./classes/Person.php'); 
-require('./utils/person_func.php'); 
 
 $zed = new Person(
     $avatar = './img/zed.png',
@@ -63,19 +62,19 @@ array_push($characters, $aurelion);
     <div class="front-container">
         <img src="<?php echo $character->avatar ?>" alt="avatar">
         <div>
-            <h1><?php echo getFullName($character) ?></h1>
+            <h1><?php echo $zed->getFullName($character) ?></h1>
         </div>
     </div>
     <div class="back-container">
         <div class="name">
-            <h1><?php echo getFullName($character) ?></h1>
+            <h1><?php echo $zed->getFullName($character) ?></h1>
         </div>
         <div class="info">
             <ul>
-                <li>Age: <?php echo getAge($character) ?></li>
+                <li>Age: <?php echo $zed->getAge($character) ?></li>
                 <li>Job: <?php echo $character->job ?></li>
                 <li>
-                    <address> Address: <?php echo getAddress($character) ?> </address>
+                    <address> Address: <?php echo $zed->getAddress($character) ?> </address>
                 </li>
                 <li>Phone: <?php echo $character->phone ?></li>
                 <li>E-mail: <?php echo $character->email ?></li>
