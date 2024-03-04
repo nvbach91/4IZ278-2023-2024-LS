@@ -1,0 +1,47 @@
+body {
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  margin-top: 100px;
+  display: flex;
+  gap: 40px;
+}
+
+.front-container,
+.back-container {
+  width: 600px;
+  height: 250px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  
+  border: 5px solid black;
+  box-shadow: black 10px 10px;
+  color: white;
+}
+img {
+  border-radius: 5px;
+  border: 2px solid black;
+  width: 40%;
+}
+.front-container h1 {
+  margin-left: 20px;
+}
+.ZED .front-container,
+.ZED .back-container {
+  background-color: hsl(0, 90%, 60%);
+}
+.Aurelion .front-container,
+.Aurelion .back-container {
+  background-color: hsl(250, 90%, 60%);
+}
+.Aurelion .front-container a,
+.Aurelion .back-container a {
+  color: red;
+}
+.Shieda .front-container,
+.Shieda .back-container {
+  background-color: hsl(210, 60%, 50%);
+}
