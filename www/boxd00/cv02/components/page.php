@@ -72,13 +72,13 @@ $logoLink = "https://upload.wikimedia.org/wikipedia/commons/3/34/EY_logo_2019.sv
 <div id="business-card" style="background-image: url('<?php echo $cardBackground; ?>')">
     <div class="column">
         <img src="<?php echo $logoLink; ?>"/>
-        <p style="font-size: 1.5rem"><b><?php echo getFullName($person); ?></b> <em><?php echo getAge($person); ?></em></p>
+        <p style="font-size: 1.5rem"><b><?php echo $person->getFullName(); ?></b> <em><?php echo $person->getAge(); ?></em></p>
         <p><b><?php echo $person->occupation; ?></b></p>
         <p><?php if (!$person->lookingForWork): ?>not <?php endif; ?>looking for work</p>
     </div>
     <div class="column" style="margin-left: 1.5rem">
         <p><?php echo $person->company["name"] ?></p>
-        <p><?php echo getAddress($person); ?></p>
+        <p><?php echo $person->getAddress(); ?></p>
         <hr/>
         <p><?php echo $person->contact["phone"] ?></p>
         <p><?php echo $person->contact["email"] ?></p>
