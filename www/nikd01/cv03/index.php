@@ -55,7 +55,7 @@ if (!empty($_POST)) {
     </div>
 <?php endif; ?>
 <form class="form-signup" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-    <div class="alert alert-danger">Show alert only after submission and change alert type accordingly</div>
+    <h1>Lab 03 - Homework</h1>
     <div class="form-group">
         <label>Name*</label>
         <input class="form-control" name="name" value="<?php echo isset($name) ? $name : '' ?>">
