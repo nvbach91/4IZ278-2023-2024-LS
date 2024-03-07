@@ -1,10 +1,5 @@
 <?php
 
-function getFullName($firstName, $lastName)
-{
-  return $firstName . ' ' . $lastName;
-}
-
 function getAddress($street, $houseNumber, $orientationNumber, $city)
 {
   return $street . ' ' . $houseNumber . '/' . $orientationNumber . ', ' . $city;
