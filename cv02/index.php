@@ -1,7 +1,7 @@
 <?php
-require_once 'Person.php';
-require_once 'utils.php';
-require_once 'header.php';
+require_once './classes/Person.php';
+require_once './components/utils.php';
+require_once './components/header.php';
 
 $people = [
     new Person("./images/airbnb-cleaning-min.png", "Samuel", "Lorenc", "2000-10-02", "Web Developer", "Magu s.r.o.", "Kódová", "123", "45", "Praha", "+420 728 980 270", false, "lorencsam@seznam.cz", "www.magu.co", false),
@@ -36,5 +36,5 @@ $people = [
 </main>
 
 <?php
-require_once 'footer.php';
+require_once './components/footer.php';
 ?>
