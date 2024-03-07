@@ -27,8 +27,8 @@ $yoda = new Person(
 $anakin = new Person(
   "anakin-avatar.png",
   "anakin.png",
-  "Anakin",
   "Skywalker",
+  "Anakin",
   "1994-01-01",
   "Guy Who Likes Children (not in a weird way)",
   "Jedi Order",
@@ -49,8 +49,8 @@ $anakin = new Person(
 $obiwan = new Person(
   "obiwan-avatar.png",
   "obiwan.png",
-  "Obi-Wan",
   "Kenobi",
+  "Obi-Wan",
   "1983-01-01",
   "Jedi Master",
   "Jedi Order",
