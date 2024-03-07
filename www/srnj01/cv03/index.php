@@ -1,9 +1,12 @@
 <?php
 if (!empty($_POST)) {
-  $name = htmlspecialchars($_POST['name']);
-  $email = htmlspecialchars($_POST['email']);
-  $phone = htmlspecialchars($_POST['phone']);
-  $avatar = htmlspecialchars($_POST['avatar']);
+  $name = htmlspecialchars(trim($_POST['name']));
+  $email = htmlspecialchars(trim($_POST['email']));
+  $phone = htmlspecialchars(trim($_POST['phone']));
+  $avatar = htmlspecialchars(trim($_POST['avatar']));
+  $gender = htmlspecialchars(trim($_POST['gender']));
+  $deck = htmlspecialchars(trim($_POST['deck']));
+  $cards = htmlspecialchars(trim($_POST['cards']));
 
   $errors = [];
   if (strlen($name) < 3) {
@@ -17,6 +20,12 @@ if (!empty($_POST)) {
   }
   if (!preg_match('/^(\+420)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$/', $phone)) {
     $errors['phone'] = "Phone has to be at least 9 characters long";
+  }
+  if (strlen($deck) < 1) {
+    $errors['deck'] = "Set deck!";
+  }
+  if (!filter_var($cards, FILTER_VALIDATE_INT)) {
+    $errors['cards'] = "Set a whole number amount of cards in your deck.";
   }
 }
 
@@ -101,6 +110,24 @@ if (isset($errors) && count($errors) === 0) {
         <label for="avatar" class="mb-1">Avatar URL*</label>
         <input class="border-2 rounded h-8 px-2 <?php echo isset($errors['avatar']) ? 'border-red-500' : '' ?>" name="avatar" id="avatar" value="<?php echo isset($avatar) ? $avatar : '' ?>">
         <?php echo isset($errors['avatar']) ? '<p class="text-red-500">' . $errors['avatar'] . '</p>' : '' ?>
+      </div>
+      <div class="flex gap-0.5 flex-col">
+        <label>Gender*</label>
+        <select name="gender">
+          <option value="n" <?php echo isset($gender) && $gender === 'n' ? ' selected' : '' ?>>Preffer not to say</option>
+          <option value="f" <?php echo isset($gender) && $gender === 'f' ? ' selected' : '' ?>>Female</option>
+          <option value="m" <?php echo isset($gender) && $gender === 'm' ? ' selected' : '' ?>>Male</option>
+        </select>
+      </div>
+      <div class="flex gap-0.5 flex-col">
+        <label for="deck" class="mb-1">Deck*</label>
+        <input class="border-2 rounded h-8 px-2 <?php echo isset($errors['deck']) ? 'border-red-500' : '' ?>" name="deck" id="deck" value="<?php echo isset($deck) ? $deck : '' ?>">
+        <?php echo isset($errors['deck']) ? '<p class="text-red-500">' . $errors['deck'] . '</p>' : '' ?>
+      </div>
+      <div class="flex gap-0.5 flex-col">
+        <label for="cards" class="mb-1">Amount of Cards in Your Deck*</label>
+        <input class="border-2 rounded h-8 px-2 <?php echo isset($errors['cards']) ? 'border-red-500' : '' ?>" name="cards" id="cards" value="<?php echo isset($cards) ? $cards : '' ?>">
+        <?php echo isset($errors['cards']) ? '<p class="text-red-500">' . $errors['cards'] . '</p>' : '' ?>
       </div>
       <button class="bg-green text-white rounded h-8  <?php if (isset($success) && $success) echo "cursor-not-allowed bg-green-200" ?>" type="submit" <?php if (isset($success) && $success) echo "disabled" ?>>Submit</button>
     </form>
