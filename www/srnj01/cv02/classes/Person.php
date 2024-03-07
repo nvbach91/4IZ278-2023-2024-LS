@@ -32,7 +32,7 @@ class Person
 
   public function getFullName()
   {
-    return getFullName($this->firstName, $this->lastName);
+    return $this->firstName . ' ' . $this->lastName;
   }
 
   public function getPhone()
