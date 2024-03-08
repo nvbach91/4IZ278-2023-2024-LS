@@ -1,0 +1,87 @@
+:root{
+    --main-text-black: #222;
+    --main-text-gray: #888;
+    --main-text-white: #fff;
+    --error-red: #ff0040;
+    --success-green: #21bb21;
+}
+body{
+    font-family: 'Inter', sans-serif;
+    background-color: var(--main-text-white);
+    color: var(--main-text-black);
+}
+.main-wrapper{
+    max-width: 600px;
+    margin: 0 auto 0 auto;
+
+}
+h1{
+    text-align: center;
+}
+h2{
+    text-align: center;
+}
+
+.radius-md{
+    border-radius: .5rem;
+}
+.radius-sm{
+    border-radius: .25rem;
+}
+
+.form-errors{
+    text-align: center;
+    background-color: var(--error-red);
+    padding: 0.5rem 0.25rem 0.5rem 0.25rem;
+    margin-bottom: 1rem;
+}
+.form-error{
+    color: var(--main-text-white);
+}
+.form-success{
+    text-align: center;
+    background-color: var(--success-green);
+    padding: 0.5rem 0.25rem 0.5rem 0.25rem;
+    margin-bottom: 1rem;
+    color: var(--main-text-white);
+    font-size: 1.25rem;
+}
+.form-signup{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.form-group{
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+.form-control{
+    height: 2rem;
+    box-shadow: none;
+    border-width: 1.5px;
+    border-color:var(--main-text-gray);
+}
+select.form-control{
+    height: 2.5rem;
+    box-shadow: none;
+    background-color: var(--main-text-white);
+}
+.input-invalid{
+    border-color: var(--error-red);
+    border-width: 1.5px;
+}
+.btn-primary{
+    background-color: var(--main-text-gray);
+    color: var(--main-text-white);
+    border: none;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    font-size: 1rem;
+}
+.btn-primary:hover{
+    background-color: var(--main-text-black);
+}
+.avatar-img{
+    max-width: 100px;
+}
