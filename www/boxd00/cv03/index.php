@@ -1,12 +1,12 @@
 <?php
 if (!empty($_POST)) {
-    $name = $_POST["name"];
-    $gender = $_POST["gender"];
-    $email = $_POST["email"];
-    $phone = $_POST["phone"];
-    $avatar = $_POST["avatar"];
-    $packName = $_POST["packName"];
-    $number = $_POST["number"];
+    $name = htmlspecialchars(trim($_POST["name"]));
+    $gender = htmlspecialchars(trim($_POST["gender"]));
+    $email = htmlspecialchars(trim($_POST["email"]));
+    $phone = htmlspecialchars(trim($_POST["phone"]));
+    $avatar = htmlspecialchars(trim($_POST["avatar"]));
+    $packName = htmlspecialchars(trim($_POST["packName"]));
+    $number = htmlspecialchars(trim($_POST["number"]));
 
     // validity check
     $errors = [];
@@ -16,13 +16,13 @@ if (!empty($_POST)) {
     if ($gender == "default") {
         array_push($errors, "You must enter gender!");
     }
-    if (empty($email) || !preg_match("/\w+@\w+\.\w+/", $email)) {
+    if (!preg_match("/\w+@\w+\.\w+/", $email)) {
         array_push($errors, "You must enter valid email!");
     }
-    if (empty($phone) || !preg_match("/^(\+420\d{9}|\d{9})$/", $phone)) {
+    if (!preg_match("/^(\+420\d{9}|\d{9})$/", $phone)) {
         array_push($errors, "You must enter valid phone number!");
     }
-    if (empty($avatar) || !preg_match("/^(http|https)\:\/\/\w+\.\w+\/\w+\.(png|jpg|jpeg|gif)$/", $avatar)) {
+    if (!preg_match("/^(http|https)\:\/\/\w+\.\w+\/\w+\.(png|jpg|jpeg|gif)$/", $avatar)) {
         array_push($errors, "You must enter valid avatar path!");
     }
     if (empty($packName)) {
