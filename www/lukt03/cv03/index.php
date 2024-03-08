@@ -1,12 +1,12 @@
 <?php
 if (!empty($_POST)) {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $avatar = $_POST['avatar'];
-    $deckName = $_POST['deckName'];
-    $deckSize = $_POST['deckSize'];
-    $gender = $_POST['gender'];
+    $name = htmlspecialchars(trim($_POST['name']));
+    $email = htmlspecialchars(trim($_POST['email']));
+    $phone = htmlspecialchars(trim($_POST['phone']));
+    $avatar = htmlspecialchars(trim($_POST['avatar']));
+    $deckName = htmlspecialchars(trim($_POST['deckName']));
+    $deckSize = htmlspecialchars(trim($_POST['deckSize']));
+    $gender = htmlspecialchars(trim($_POST['gender']));
 
     $errors = [];
     if (strlen($name) < 3) {
