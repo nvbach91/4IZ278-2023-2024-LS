@@ -6,13 +6,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $submited = true;
 
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $avatar = $_POST['avatar'];
-    $sex = isset($_POST['sex']) ? $_POST['sex'] : '';
-    $deck = isset($_POST['deck']) ? $_POST['deck'] : '';
-    $card = isset($_POST['card']) ? $_POST['card'] : 0;
+    $name = htmlspecialchars(trim($_POST['name']));
+    $email = htmlspecialchars(trim($_POST['email']));
+    $phone = htmlspecialchars(trim($_POST['phone']));
+    $avatar = htmlspecialchars(trim($_POST['avatar']));
+    $sex = isset($_POST['sex']) ? htmlspecialchars(trim($_POST['sex'])) : '';
+    $deck = isset($_POST['deck']) ? htmlspecialchars(trim($_POST['deck'])) : '';
+    $card = isset($_POST['card']) ? htmlspecialchars(trim($_POST['card'])) : 0;
 
     $success_message = "Registration successful!";
 
@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         array_push($error_messages, 'Name is required');
     }
 
-    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         array_push($error_messages, 'Valid email is required');
     }
 
@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         array_push($error_messages, 'Valid phone is required');
     }
 
-    if (empty($avatar) || !filter_var($avatar, FILTER_VALIDATE_URL)) {
+    if (!filter_var($avatar, FILTER_VALIDATE_URL)) {
         array_push($error_messages, 'Valid avatar URL is required');
     }
 }
