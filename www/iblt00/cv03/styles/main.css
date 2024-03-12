@@ -1,0 +1,96 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #662549;
+}
+
+.alert {
+    border-radius: 10px;
+    padding: 0.2em;
+    text-align: center;
+    margin: 0 20% 0 20%;
+
+}
+
+.alert-fail {
+    background-color: rgba(249, 94, 94, 0.484);
+    color: rgb(225, 0, 0);
+}
+
+.alert-success {
+    background-color: rgba(105, 222, 105, 0.224);
+    color: rgb(0, 160, 0);
+}
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+}
+
+.button-submit {
+    text-align: center;
+    padding: 0.5em;
+}
+
+.button-submit > button {
+    font-size: 1.5em;
+    margin-right: 0.5em;
+    background-color: #662549;
+    color: white;
+    border-radius: 10px;
+    border-width: 1px;
+    padding: 0em 2em 0em 2em;
+}
+
+.button-submit > button:hover, .button-submit > button:focus {
+    background-color: white;
+    color: #662549;
+    border-color: #662549;
+    border-width: 2px;
+}
+
+.form-group {
+    margin: 0.2em;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.5em;
+}
+
+.form-group > small {
+    color: lightslategrey;
+    font-size: 0.5em;
+}
+
+em {
+    color: inherit;
+}
+
+.form-input {
+    font-size: 1em;
+    color: black;
+    border-radius: 10px;
+    border-color: #662549;
+    border-width: 1px;
+    padding-left: 0.5em;
+}
+
+.form-input:focus {
+    background-color: white;
+}
+
+.is-invalid {
+    border-color: red;
+    border-style: solid;
+}
+
+h1 {
+    display: block;
+    text-align: center;
+}
