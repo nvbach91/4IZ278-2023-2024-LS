@@ -1,0 +1,46 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.list-wrapper {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.list-users {
+    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    justify-self: center;
+    list-style-type: none;
+    padding: 0;
+}
+
+.user-bracket {
+    border: solid black 3px;
+    margin: 10px;
+    padding: 10px;
+    width: 250px;
+    height: 150px;
+    line-height: 25px;
+}
+
+.button {
+    text-decoration: none;
+    border: solid black 3px;
+    padding: 10px 30px 10px 30px;
+    font-size: 25px;
+    color: black;
+}
+
+.button:hover {
+    background-color: rgba(128, 128, 128, 0.438);
+}
