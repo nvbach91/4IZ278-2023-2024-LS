@@ -1,54 +1,124 @@
 <?php
+$GLOBALS['logs'] = [];
+
+const DB_HOSTNAME = 'localhost';
+const DB_DATABASE = 'test';
+const DB_USERNAME = 'root';
+const DB_PASSWORD = '';
+
+class DatabaseConnection {
+    private static $pdo;
+    public static function getPDOConnection() {
+        if (!self::$pdo) {
+            self::$pdo = new PDO('mysql:host='. DB_HOSTNAME .';dbname=' . DB_DATABASE, DB_USERNAME, DB_PASSWORD);
+            self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            // what is static::class?
+            $GLOBALS['logs'][] = 'A connection to the database was established';
+        } else {
+            $GLOBALS['logs'][] = 'Reusing existing database connection';
+        }
+        return self::$pdo;
+    }
+    // this will get returned when one tries to stringify the instance with i.e. "echo" in method configInfo
+    public static function printConfig() {
+        return 'database config: host: ' . DB_HOSTNAME . ', dbname: ' . DB_DATABASE . ', username: ' . DB_USERNAME;
+    }
+}
 
 interface DatabaseOperations {
     // note that these methods have no body
     // where are their bodies?
-    public function fetch();
     public function create($args);
-    public function save();
-    public function delete();
+    public function find($query);
+    public function update($query, $update);
+    public function delete($query);
 }
+
 abstract class Database implements DatabaseOperations {
-    // why is protected used here?
-    protected $dbPath = '/app/db/'; 
-    protected $dbExtension = '.db';
-    protected $delimiter = ';';
+    protected $pdo;
     public function __construct() {
-        // what is static::class?
-        echo '-----', static::class, ' was instantiated-----', PHP_EOL;
+        $GLOBALS['logs'][] = static::class . ' was instantiated';
+        $this->pdo = DatabaseConnection::getPDOConnection();
     }
-    // this will get returned when one tries to stringify the instance with i.e. echo
-    public function __toString() {
-        return "database config: dbPath: $this->dbPath, dbExtenstion: $this->dbExtension, delimiter: $this->delimiter";
-    }
-    public function configInfo() { 
-        echo $this;
+    public function configInfo() {
+        $GLOBALS['logs'][] = DatabaseConnection::printConfig();
     }
 }
-class UsersDB extends Database {
-    public function create($args) { 
-        echo 'User ', $args['name'], ' age: ', $args['age'], ' was created', PHP_EOL; 
+
+class PlayersDB extends Database {
+    public function create($data) {
+        $GLOBALS['logs'][] = 'You called ' . static::class . ' C method create(' . json_encode($data) . ')';
     }
-    public function fetch()  { echo 'A user was fetched', PHP_EOL; }
-    public function save()   { echo 'A user was saved  ', PHP_EOL; }
-    public function delete() { echo 'A user was deleted', PHP_EOL; }
-}
-class ProductsDB extends Database {
-    public function create($args) { 
-        echo 'Product ', $args['name'], ' $', $args['price'], ' was created', PHP_EOL; 
+    public function find($query) {
+        $GLOBALS['logs'][] = 'You called ' . static::class . ' R method find(' . json_encode($query) . ')';
+        // $statement = $this->pdo->prepare('SELECT * FROM players WHERE 1');
+        // $statement->execute([]);
+        // $players = $statement->fetchAll(PDO::FETCH_ASSOC);
+        // foreach($players as $player) {
+        //     $GLOBALS['logs'][] = 'Found ' . $player['name'];
+        // }
+        // $GLOBALS['logs'][] = 'Found ' . count($players) . ' player(s)';
     }
-    public function fetch()  { echo 'A product was fetched', PHP_EOL; }
-    public function save()   { echo 'A product was saved  ', PHP_EOL; }
-    public function delete() { echo 'A product was deleted', PHP_EOL; }
-}
-class OrdersDB extends Database {
-    public function create($args) { 
-        echo 'Order no. ', $args['number'], ' was created', PHP_EOL; 
+    public function update($query, $update) {
+        $GLOBALS['logs'][] = 'You called ' . static::class . ' U method save(' . json_encode($query) . ', ' . json_encode($update) . ')';
     }
-    public function fetch()  { echo 'An order was fetched', PHP_EOL; }
-    public function save()   { echo 'An order was saved  ', PHP_EOL; }
-    public function delete() { echo 'An order was deleted', PHP_EOL; }
+    public function delete($query) {
+        $GLOBALS['logs'][] = 'You called ' . static::class . ' D method delete(' . json_encode($query) . ')';
+    }
 }
+
+class TeamsDB extends Database {
+    public function create($data) {
+        $GLOBALS['logs'][] = 'You called ' . static::class . ' C method create(' . json_encode($data) . ')';
+    }
+    public function find($query) {
+        $GLOBALS['logs'][] = 'You called ' . static::class . ' R method find(' . json_encode($query) . ')';
+    }
+    public function update($query, $update) {
+        $GLOBALS['logs'][] = 'You called ' . static::class . ' U method save(' . json_encode($query) . ', ' . json_encode($update) . ')';
+    }
+    public function delete($query) {
+        $GLOBALS['logs'][] = 'You called ' . static::class . ' D method delete(' . json_encode($query) . ')';
+    }
+}
+
+class MatchesDB extends Database {
+    public function create($data) {
+        $GLOBALS['logs'][] = 'You called ' . static::class . ' C method create(' . json_encode($data) . ')';
+    }
+    public function find($query) {
+        $GLOBALS['logs'][] = 'You called ' . static::class . ' R method find(' . json_encode($query) . ')';
+    }
+    public function update($query, $update) {
+        $GLOBALS['logs'][] = 'You called ' . static::class . ' U method save(' . json_encode($query) . ', ' . json_encode($update) . ')';
+    }
+    public function delete($query) {
+        $GLOBALS['logs'][] = 'You called ' . static::class . ' D method delete(' . json_encode($query) . ')';
+    }
+}
+
+$playersDB = new PlayersDB();
+$playersDB->configInfo();
+$playersDB->create([ 'id' => 0, 'name' => 'Maradona',            'age' => 76 ]);
+$playersDB->create([ 'id' => 1, 'name' => 'David Beckham',       'age' => 46 ]);
+$playersDB->create([ 'id' => 2, 'name' => 'Cristiano Ronaldo',   'age' => 36 ]);
+$playersDB->create([ 'id' => 3, 'name' => 'Ronaldinho',          'age' => 44 ]);
+$playersDB->find([]);
+$playersDB->find([ 'name' => 'Ronaldinho' ]);
+$playersDB->find([ 'age' => 44 ]);
+$playersDB->update([ 'id' => 2 ], ['name' => 'Ronaldoosiu' ]);
+$playersDB->delete([ 'id' => 2 ]);
+$playersDB->delete([ 'name' => 'David Beckham' ]);
+
+$teamsDB = new TeamsDB();
+$teamsDB->configInfo();
+$teamsDB->create([ 'id' => 0, 'name' => 'FC Real Madrid' ]);
+$teamsDB->create([ 'id' => 1, 'name' => 'FC Barcelona' ]);
+
+$matchesDB = new MatchesDB();
+$matchesDB->configInfo();
+$matchesDB->create([ 'id' => 1, 'home' => 0, 'guest' => 1, 'venue' => 'Stantiago Bernabeu' ]);
+
 
 ?>
 
@@ -59,110 +129,23 @@ class OrdersDB extends Database {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <style>
-        body { display: flex; }
-        pre { padding: 10px; width: 50%; overflow-x: auto; }
-    </style>
+    <style>body { font-family: Consolas, monospace;}</style>
 </head>
 <body>
-    <pre class="prettyprint lang-php">
-
-    interface DatabaseOperations {
-    // note that these methods have no body
-    // where are their bodies?
-    public function fetch();
-    public function create($args);
-    public function save();
-    public function delete();
-}
-abstract class Database implements DatabaseOperations {
-    // why is protected used here?
-    protected $dbPath = '/app/db/'; 
-    protected $dbExtension = '.db';
-    protected $delimiter = ';';
-    public function __construct() {
-        // what is static::class?
-        echo '-----', static::class, ' was instantiated-----', PHP_EOL;
-    }
-    // this will get returned when one tries to stringify the instance with i.e. echo
-    public function __toString() {
-        return "database config: dbPath: $this->dbPath, dbExtenstion: $this->dbExtension, delimiter: $this->delimiter";
-    }
-    public function configInfo() { 
-        echo $this;
-    }
-}
-class UsersDB extends Database {
-    public function create($args) { 
-        echo 'User ', $args['name'], ' age: ', $args['age'], ' was created', PHP_EOL; 
-    }
-    public function fetch()  { echo 'A user was fetched', PHP_EOL; }
-    public function save()   { echo 'A user was saved  ', PHP_EOL; }
-    public function delete() { echo 'A user was deleted', PHP_EOL; }
-}
-class ProductsDB extends Database {
-    public function create($args) { 
-        echo 'Product ', $args['name'], ' $', $args['price'], ' was created', PHP_EOL; 
-    }
-    public function fetch()  { echo 'A product was fetched', PHP_EOL; }
-    public function save()   { echo 'A product was saved  ', PHP_EOL; }
-    public function delete() { echo 'A product was deleted', PHP_EOL; }
-}
-class OrdersDB extends Database {
-    public function create($args) { 
-        echo 'Order no. ', $args['number'], ' was created', PHP_EOL; 
-    }
-    public function fetch()  { echo 'An order was fetched', PHP_EOL; }
-    public function save()   { echo 'An order was saved  ', PHP_EOL; }
-    public function delete() { echo 'An order was deleted', PHP_EOL; }
-}
-
-
-$users = new UsersDB();
-$users->create(['name' => 'Dave', 'age' => 42]);
-$users->create(['name' => 'Dave', 'age' => 42]);
-$users->fetch();
-$users->save();
-$users->delete();
-echo PHP_EOL;
-
-$products = new ProductsDB();
-$products->create(['name' => 'Broom of Harry', 'price' => 4500]);
-$products->create(['name' => 'Wand of Albuss', 'price' => 7690]);
-echo PHP_EOL;
-
-$orders = new OrdersDB();
-$orders->configInfo();
-echo PHP_EOL;
-echo $orders, PHP_EOL;
-$orders->create(['number' => 42, 'date' => '2019-03-08']);
-echo $orders, PHP_EOL;
-
-
-    </pre>
-    <pre><?php 
-            
-            $users = new UsersDB();
-            $users->create(['name' => 'Dave', 'age' => 42]);
-            $users->create(['name' => 'Jane', 'age' => 29]);
-            $users->fetch();
-            $users->save();
-            $users->delete();
-            echo PHP_EOL;
-
-            $products = new ProductsDB();
-            $products->create(['name' => 'Broom of Harry', 'price' => 4500]);
-            $products->create(['name' => 'Wand of Albuss', 'price' => 7690]);
-            echo PHP_EOL;
-
-            $orders = new OrdersDB();
-            $orders->configInfo();
-            echo PHP_EOL;
-            echo $orders, PHP_EOL;
-            $orders->create(['number' => 42, 'date' => '2019-03-08']);
-            echo $orders, PHP_EOL;
-
-    ?></pre>
-    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <h1>Some stuff happened with your database</h1>
+    <article>
+        <h4>Database connection</h4>
+        <ul>
+            <li><?php echo DatabaseConnection::printConfig(); ?></li>
+        </ul>
+    </article>
+    <article>
+        <h4>Database operations</h4>
+        <ul>
+            <?php foreach($GLOBALS['logs'] as $log): ?>
+                <li><?php echo $log; ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </article>
 </body>
 </html>
