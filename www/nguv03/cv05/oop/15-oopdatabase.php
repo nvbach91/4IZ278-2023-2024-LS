@@ -8,12 +8,21 @@ const DB_PASSWORD = '';
 
 class DatabaseConnection {
     private static $pdo;
+    // private consctructor will prevent instantiation of this class
+    private function __construct() {}
     public static function getPDOConnection() {
         if (!self::$pdo) {
             self::$pdo = new PDO('mysql:host='. DB_HOSTNAME .';dbname=' . DB_DATABASE, DB_USERNAME, DB_PASSWORD);
             self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             // what is static::class?
             $GLOBALS['logs'][] = 'A connection to the database was established';
+            $statement = self::$pdo->prepare('SHOW TABLES');
+            $statement->execute([]);
+            $tables = $statement->fetchAll(PDO::FETCH_COLUMN);
+            // var_dump($tables);
+            foreach($tables as $table) {
+                $GLOBALS['logs'][] = 'Found table ' . $table;
+            }
         } else {
             $GLOBALS['logs'][] = 'Reusing existing database connection';
         }
@@ -43,6 +52,12 @@ abstract class Database implements DatabaseOperations {
     public function configInfo() {
         $GLOBALS['logs'][] = DatabaseConnection::printConfig();
     }
+    // protected function runQuery($sql, $params = []) {
+    //     $statement = $this->pdo->prepare($sql);
+    //     $statement->execute($params);
+    //     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+    //     return $results;
+    // }
 }
 
 class PlayersDB extends Database {
@@ -51,13 +66,7 @@ class PlayersDB extends Database {
     }
     public function find($query) {
         $GLOBALS['logs'][] = 'You called ' . static::class . ' R method find(' . json_encode($query) . ')';
-        // $statement = $this->pdo->prepare('SELECT * FROM players WHERE 1');
-        // $statement->execute([]);
-        // $players = $statement->fetchAll(PDO::FETCH_ASSOC);
-        // foreach($players as $player) {
-        //     $GLOBALS['logs'][] = 'Found ' . $player['name'];
-        // }
-        // $GLOBALS['logs'][] = 'Found ' . count($players) . ' player(s)';
+        // return $this->runQuery('SELECT * FROM players WHERE 1');
     }
     public function update($query, $update) {
         $GLOBALS['logs'][] = 'You called ' . static::class . ' U method save(' . json_encode($query) . ', ' . json_encode($update) . ')';
@@ -103,7 +112,11 @@ $playersDB->create([ 'id' => 0, 'name' => 'Maradona',            'age' => 76 ]);
 $playersDB->create([ 'id' => 1, 'name' => 'David Beckham',       'age' => 46 ]);
 $playersDB->create([ 'id' => 2, 'name' => 'Cristiano Ronaldo',   'age' => 36 ]);
 $playersDB->create([ 'id' => 3, 'name' => 'Ronaldinho',          'age' => 44 ]);
-$playersDB->find([]);
+$players = $playersDB->find([]);
+// foreach($players as $player) {
+//     $GLOBALS['logs'][] = 'Found ' . $player['name'];
+// }
+// $GLOBALS['logs'][] = 'Found ' . count($players) . ' player(s)';
 $playersDB->find([ 'name' => 'Ronaldinho' ]);
 $playersDB->find([ 'age' => 44 ]);
 $playersDB->update([ 'id' => 2 ], ['name' => 'Ronaldoosiu' ]);
