@@ -2,7 +2,7 @@
 
 <?php 
 $slidesDB = new SlidesDB();
-$slides = $slidesDB->fetchAll();
+$slides = $slidesDB->find();
 
 // $slides = [
 //     ['slide_id' => 1, 'img' => 'https://listaka.com/wp-content/uploads/2015/06/Langra.jpg', 'alt' => 'First slide'],

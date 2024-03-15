@@ -3,11 +3,11 @@
 
 class ProductsDB extends Database {
     protected $tableName = 'cv06_products';
-    public function fetchByCategory($category_id) {
-        return $this->fetchBy('category_id', $category_id);
+    public function findByCategory($category_id) {
+        return $this->findBy('category_id', $category_id);
     }
     public function create($args) {
-        $sql = 'INSERT INTO ' . $this->tableName . '(name, price, img) VALUES (:name, :price, :img)';
+        $sql = "INSERT INTO $this->tableName (name, price, img) VALUES (:name, :price, :img)";
         $statement = $this->pdo->prepare($sql);
         $statement->execute([
             'name' => $args['name'], 

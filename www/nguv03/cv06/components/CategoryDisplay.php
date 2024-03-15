@@ -2,7 +2,7 @@
 <?php
 
 $categoriesDB = new CategoriesDB();
-$categories = $categoriesDB->fetchAll();
+$categories = $categoriesDB->find();
 
 // $categories = [
 //     ['category_id' => 0, 'name' => 'Alphonso'],

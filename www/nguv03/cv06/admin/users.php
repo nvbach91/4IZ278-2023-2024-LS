@@ -4,8 +4,8 @@
 // simply use its public methods
 // to achieve this we need OOP
 $usersDB = new UsersDB();
-$users = $usersDB->fetchAll();
-//$users = $usersDB->fetchBy('email', 'samuel@drake.net');
+$users = $usersDB->find();
+//$users = $usersDB->findBy('email', 'samuel@drake.net');
 //$usersDB->deleteBy('email', 'nathan@drake.net');
 //$usersDB->create(['email' => 'nathan@drake.net', 'name' => 'Nathan', 'age' => 45]);
 //$usersDB->updateBy(['email' => 'nathan@drake.net'], ['name' => 'Nate']);
