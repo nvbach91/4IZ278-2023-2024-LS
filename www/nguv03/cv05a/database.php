@@ -19,7 +19,7 @@ class DatabaseConnection {
             $statement = self::$pdo->prepare('SHOW TABLES');
             $statement->execute();
             $results = $statement->fetchAll(PDO::FETCH_COLUMN);
-            echo implode('<br>', $results), PHP_EOL;
+            // echo implode('<br>', $results), PHP_EOL;
         }
         return self::$pdo;
     }
