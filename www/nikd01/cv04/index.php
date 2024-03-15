@@ -6,10 +6,10 @@ $filename = __DIR__ . '/database/users.db';
 $errors = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = trim(filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING));
+    $name = trim(filter_input(INPUT_POST, 'name'));
     $email = trim(filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL));
-    $password = trim(filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING));
-    $confirm_password = trim(filter_input(INPUT_POST, 'confirm_password', FILTER_SANITIZE_STRING));
+    $password = trim($_POST['password']);
+    $confirm_password = trim($_POST['confirm_password']);
 
     if (empty($name)) {
         $errors['name'] = 'Please enter your name';
