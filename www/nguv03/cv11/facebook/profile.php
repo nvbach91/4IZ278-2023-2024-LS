@@ -31,7 +31,7 @@ try {
     <meta name="description" content="mangomaniac, mango, mango, mango">
     <meta name="author" content="Nguyen Viet Bach">
     <title>Mango Shop | Mangomaniac Inc.</title>
-    <link rel="shortcut icon" href="https://cdn.iconscout.com/icon/free/png-256/mango-fruit-vitamin-healthy-summer-food-31184.png">
+    <link rel="shortcut icon" href="https://github.com/nvbach91/nvbach91/assets/20724910/8654c49b-8357-4fe3-8785-4a03870e29ea">
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//code.jquery.com/jquery-3.5.0.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>

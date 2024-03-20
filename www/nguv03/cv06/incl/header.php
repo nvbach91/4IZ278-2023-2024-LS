@@ -7,7 +7,7 @@
     <meta name="description" content="mangomaniac, mango, mango, mango">
     <meta name="author" content="Nguyen Viet Bach">
     <title>Mango Shop | Mangomaniac Inc.</title>
-    <link rel="shortcut icon" href="https://cdn.iconscout.com/icon/free/png-256/mango-fruit-vitamin-healthy-summer-food-31184.png">
+    <link rel="shortcut icon" href="https://github.com/nvbach91/nvbach91/assets/20724910/8654c49b-8357-4fe3-8785-4a03870e29ea">
     <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
     <link rel="stylesheet" href="<?php echo isset($contextPath) ? $contextPath : '.'; ?>/css/styles.css">
@@ -16,7 +16,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
         <div class="container">
-            <img class="logo" src="https://cdn.iconscout.com/icon/free/png-256/mango-fruit-vitamin-healthy-summer-food-31184.png" alt="logo">
+            <img class="logo" src="https://github.com/nvbach91/nvbach91/assets/20724910/8654c49b-8357-4fe3-8785-4a03870e29ea" alt="logo">
             <a class="navbar-brand" href="#">Mangomaniac</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
