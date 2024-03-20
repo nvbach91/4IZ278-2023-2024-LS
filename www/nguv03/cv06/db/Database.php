@@ -33,6 +33,7 @@ abstract class Database implements DatabaseOperations {
         $sql = "SELECT * FROM $this->tableName WHERE $field = :value";
         $statement = $this->pdo->prepare($sql);
         $statement->execute(['value' => $value]);
+        // echo '<pre>', $statement->debugDumpParams(), '</pre>';
 
         // ROW COUNT
         // $rowCount = $statement->rowCount();
