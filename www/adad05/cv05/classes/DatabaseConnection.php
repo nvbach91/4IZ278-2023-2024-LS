@@ -3,7 +3,7 @@
 const DB_HOSTNAME = 'localhost';
 const DB_DATABASE = 'adad05';
 const DB_USERNAME = 'adad05';
-const DB_PASSWORD = 'chu3choesufujohaL9';
+const DB_PASSWORD = '';
 
 class DatabaseConnection
 {
