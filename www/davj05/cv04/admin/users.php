@@ -1,8 +1,9 @@
 <?php
 
-require __DIR__ . "../functions.php";
+require "../functions.php";
 
-$users = fetch_users("/users.db");
+$users = fetch_users("../users.db");
+$view_dir = "../views/";
 ?>
 
 
