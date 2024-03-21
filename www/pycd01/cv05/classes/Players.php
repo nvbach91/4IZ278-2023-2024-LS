@@ -21,8 +21,6 @@ class PlayersDB extends Database {
     $statement->bindParam(':teamId', $player->team->id, PDO::PARAM_INT);
     $statement->execute();
     $res = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-    var_dump($res);
     }
     public function read() 
     {

@@ -4,9 +4,9 @@ include_once("./classes/Players.php");
 include_once("./classes/Teams.php");
 include_once("./classes/Matches.php");
 
-$pDB = new PlayersDB();
-$tDB = new TeamsDB();
-$mDB = new MatchesDB();
+$pDB = PlayersDB::getInstance();
+$tDB = TeamsDB::getInstance();
+$mDB = MatchesDB::getInstance();
 $players = $pDB->read();
 $teams = $tDB->read();
 $matches =$mDB->read();

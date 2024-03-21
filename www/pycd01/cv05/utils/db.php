@@ -2,7 +2,7 @@
 
 const DB_SERVERNAME = "localhost";
 const DB_USERNAME = "pycd01";
-const DB_PASSWORD = "";
+const DB_PASSWORD = "EeMethius9ohj3eino";
 const DB_NAME = "pycd01";
 
 interface CRUD {
@@ -12,14 +12,20 @@ interface CRUD {
     public function delete($obj);
   }
 abstract class Database implements CRUD {
-    protected $DB;
+    private static $DB;
 
-    public function __construct() {
-        $this->DB = new PDO('mysql:host='.DB_SERVERNAME.';dbname='. DB_NAME, DB_USERNAME, DB_PASSWORD);
+    protected function __construct() {
+        
+    }
+    public static function getInstance() {
+        if(!isset(self::$DB)) {
+            self::$DB = new PDO('mysql:host='.DB_SERVERNAME.';dbname='. DB_NAME, DB_USERNAME, DB_PASSWORD);
+        }
+        return self::$DB;
     }
 
-    public function __destruct() {
-        $this->DB = null;
+    protected function __destruct() {
+        self::$DB = null;
     }
     
     public function showDBSettings()

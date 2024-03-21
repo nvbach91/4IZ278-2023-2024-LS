@@ -15,8 +15,6 @@ class TeamsDB extends Database {
     $statement->bindParam(':name', $team->name, PDO::PARAM_STR);
     $statement->execute();
     $res = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-    var_dump($res);
     }
     public function read() 
     {

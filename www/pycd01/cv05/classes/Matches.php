@@ -20,8 +20,6 @@ class MatchesDB extends Database {
     $statement->bindParam(':awayScore', $match->awayScore, PDO::PARAM_INT);
     $statement->execute();
     $res = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-    var_dump($res);
     }
     public function read() 
     {
