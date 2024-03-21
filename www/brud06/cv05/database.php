@@ -3,7 +3,7 @@
 const DB_HOSTNAME = 'localhost';
 const DB_DATABASE = 'brud06'; //xname
 const DB_USERNAME = 'brud06'; //xname or root
-const DB_PASSWORD = 'aeCh7mei9mohb7kahj'; //home through eso - mysql.txt
+const DB_PASSWORD = '';
 
 class DatabaseConnection
 {
@@ -36,8 +36,8 @@ interface DatabaseOperations{
 
 abstract class Database implements DatabaseOperations{
     protected $pdo;
-   public function __construct(){
-    $pdo = DatabaseConnection::getPDOConnection();
+    public function __construct(){
+        $this->pdo = DatabaseConnection::getPDOConnection();
    }
 }
 
