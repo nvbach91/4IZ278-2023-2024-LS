@@ -2,7 +2,7 @@
 
 const DB_SERVERNAME = "localhost";
 const DB_USERNAME = "pycd01";
-const DB_PASSWORD = "EeMethius9ohj3eino";
+const DB_PASSWORD = "";
 const DB_NAME = "pycd01";
 
 interface CRUD {
