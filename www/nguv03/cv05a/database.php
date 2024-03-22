@@ -56,8 +56,8 @@ class MatchesDB extends Database {
 
 }
 */
-$playersDB = new PlayersDB();
-$playersDB->create([]);
+// $playersDB = new PlayersDB();
+// $playersDB->create([]);
 
 // $pdoConnection = DatabaseConnection::getPDOConnection();
 
