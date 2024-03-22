@@ -1,7 +1,5 @@
 <?php
-require './classes/DatabaseConnection.php';
-require './classes/DatabaseOperations.php';
-require './classes/Database.php';
+require_once './classes/DatabaseConnection.php';
 
 require './classes/PlayersDB.php';
 require './classes/MatchesDB.php';

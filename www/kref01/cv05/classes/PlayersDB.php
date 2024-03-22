@@ -1,4 +1,6 @@
 <?php
+require_once './classes/Database.php';
+
 class PlayersDB extends Database {
     public function create($data) {
         echo "create -$data- [PlayersDB]\n";
