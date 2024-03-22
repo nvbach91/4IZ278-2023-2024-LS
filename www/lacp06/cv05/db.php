@@ -36,6 +36,6 @@ abstract class Database implements DatabaseOperations
   protected $pdo;
   public function __construct()
   {
-    $pdo = DatabaseConnection::getPDOConnection();
+    $this->pdo = DatabaseConnection::getPDOConnection();
   }
 }
