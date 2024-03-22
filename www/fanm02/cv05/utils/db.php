@@ -16,7 +16,7 @@ abstract class Database implements IDatabaseOperations {
 
     protected $pdo;
     public function __construct() {
-        $pdo = DatabaseConnection::getConnection();
+        $this->pdo = DatabaseConnection::getConnection();
     }
 
     public function logConfig() {
