@@ -3,7 +3,7 @@
 const DB_HOSTNAME = "localhost";
 const DB_DATABASE = "mald16"; // xname
 const DB_USERNAME = "mald16"; // xname
-const DB_PASSWORD = "iazooweiN9jeesiu9a"; //heslo najdu na Esu
+const DB_PASSWORD = ""; //heslo najdu na Esu
 
 class DatabaseConnection {
     private static $pdo;
@@ -33,7 +33,7 @@ interface DatabaseOperations {
 abstract class Database implements DatabaseOperations {
     protected $pdo;
     public function __construct() {
-        $pdo = DatabaseConnection::getPDOConnection();
+        $this->pdo = DatabaseConnection::getPDOConnection();
     }
 }
 

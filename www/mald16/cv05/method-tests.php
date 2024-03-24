@@ -1,3 +1,9 @@
+<?php require "./database.php";
+$players = new PlayersDB();
+$teams = new TeamsDB();
+$matches = new MatchesDB();
+
+?>
 <h1>cv05</h1>
 <br>
 <h2>PlayersDB</h2>

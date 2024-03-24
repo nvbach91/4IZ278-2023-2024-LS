@@ -1,10 +1,3 @@
-<?php require "./database.php";
-$players = new PlayersDB();
-$teams = new TeamsDB();
-$matches = new MatchesDB();
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
