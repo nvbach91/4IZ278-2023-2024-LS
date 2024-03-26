@@ -1,0 +1,62 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+main {
+    display: flex;
+    background-color: #f0f0f0;
+}
+.categories {
+    min-width: 20%;
+    max-width: 20%;
+    min-height: 100vh;
+    padding: 20px;
+}
+.categories button {
+    width: 100%;
+    padding: 10px;
+    border: black 5px solid;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    background-color: #f0f0f0;
+    font-size: 16px;
+    font-weight: bold;
+}
+.categories #selected-button {
+    background-color: black;
+    color: white;
+}
+.categories .reset {
+    width: 75px;
+}
+.products {
+    width: auto;
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.product-card {
+    width: 300px;
+    max-height: 500px;
+    border: black 5px solid;
+    border-radius: 5px;
+    margin: 20px;
+    padding: 10px;
+    text-align: center;
+}
+.product-title {
+    height: 100px;
+    
+}
+.product-card:hover,
+.categories button:hover {
+    background-color: #ddd;
+}
+img {
+    width: calc(100% - 20px);
+    height: 250px;
+    padding: 10px;
+    object-fit: contain;
+}
