@@ -2,12 +2,12 @@
 
 require "./database/ProductsDB.php";
 
-$ProductsDB = new ProductsDB();
+$productsDB = new ProductsDB();
 
 if (!empty($_GET["category_id"])) {
-    $products = $ProductsDB->findByCategory(["category_id" => $_GET["category_id"]]);
+    $products = $productsDB->findByCategory(["category_id" => $_GET["category_id"]]);
 } else {
-    $products = $ProductsDB->find();
+    $products = $productsDB->find();
 }
 
 ?>

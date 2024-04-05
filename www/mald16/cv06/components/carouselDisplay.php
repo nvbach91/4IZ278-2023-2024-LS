@@ -2,8 +2,8 @@
 
 require "./database/CarouselDB.php";
 
-$CarouselDB = new CarouselDB;
-$carouselSlides = $CarouselDB->find();
+$carouselDB = new CarouselDB;
+$carouselSlides = $carouselDB->find();
 
 ?>
 

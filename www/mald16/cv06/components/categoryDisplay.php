@@ -2,8 +2,8 @@
 
 require "./database/CategoriesDB.php";
 
-$CategoriesDB = new CategoriesDB();
-$categories = $CategoriesDB->find();
+$categoriesDB = new CategoriesDB();
+$categories = $categoriesDB->find();
 
 ?>
 
