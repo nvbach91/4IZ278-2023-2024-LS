@@ -18,7 +18,7 @@ class ProductsDB extends Database
     {
         return $this->runQuery('SELECT * FROM cv06_products WHERE category_id = :category_id;', [
             'category_id' => $query['category_id']
-        ]);
+        ])->fetchAll();
     }
     public function update($query, $data)
     {
