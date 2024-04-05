@@ -12,7 +12,7 @@ class CategoriesDB extends Database
     }
     public function findAll()
     {
-        return $this->runQuery('SELECT * FROM cv06_categories;', []);
+        return $this->runQuery('SELECT * FROM cv06_categories;', [])->fetchAll();
     }
     public function update($query, $data)
     {

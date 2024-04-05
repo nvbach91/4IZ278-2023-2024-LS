@@ -12,13 +12,13 @@ class ProductsDB extends Database
     }
     public function findAll()
     {
-        return $this->runQuery('SELECT * FROM cv06_products;', []);
+        return $this->runQuery('SELECT * FROM cv06_products;', [])->fetchAll();
     }
     public function findByCategory($query)
     {
         return $this->runQuery('SELECT * FROM cv06_products WHERE category_id = :category_id;', [
             'category_id' => $query['category_id']
-        ]);
+        ])->fetchAll();
     }
     public function update($query, $data)
     {

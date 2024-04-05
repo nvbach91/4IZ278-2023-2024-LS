@@ -12,7 +12,7 @@ class SlidesDB extends Database
     }
     public function findAll()
     {
-        return $this->runQuery('SELECT * FROM cv06_slides;', []);
+        return $this->runQuery('SELECT * FROM cv06_slides;', [])->fetchAll();
     }
     public function update($query, $data)
     {
