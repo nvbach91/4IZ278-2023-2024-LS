@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <ul id="display"></ul>
+    <script>
+        const source = new EventSource('event.php');
+        const displayContainer = document.querySelector('#display');
+        source.onopen = (event) => {
+            console.log('source opened', event);
+        }
+        source.onmessage = (event) => {
+            const newItem = document.createElement('li');
+            newItem.textContent = event.data;
+            displayContainer.append(newItem);
+        };
+        source.onerror = (error) => {
+            console.log(error);
+        };
+    </script>
+</body>
+
+</html>
