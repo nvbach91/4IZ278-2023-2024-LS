@@ -2,6 +2,7 @@
 require __DIR__ . "/db/db.php";
 session_start();
 
+$products = [];
 if (isset($_SESSION["cart"])) {
     if (count($_SESSION["cart"]) > 0) {
         $_SESSION["cart"] = array_values($_SESSION["cart"]);
@@ -27,7 +28,6 @@ if (isset($_SESSION["cart"])) {
             return $carry;
         }, []);
 
-        $products = [];
         foreach ($_SESSION["cart"] as $id) {
             if (isset($productsById[$id])) {
                 $products[] = $productsById[$id];
@@ -61,7 +61,7 @@ include __DIR__ . "/inc/head.php";
                 </div>
             <?php endforeach; ?>
         </div>
-        <?php if (count($_SESSION["cart"]) == 0) : ?>
+        <?php if (isset($_SESSION["cart"]) && count($_SESSION["cart"]) == 0) : ?>
             <div class="alert alert-warning" role="alert" style="margin-left: 30px;">
                 <strong> Košík je prázdný.
                 </strong><a href="index.php" style="color: inherit; text-decoration: underline; cursor: pointer">Vrátit se na hlavní stránku.</a>
