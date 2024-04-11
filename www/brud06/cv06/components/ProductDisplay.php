@@ -14,7 +14,7 @@ if (isset($_GET['category_id'])) {
   <?php foreach($products as $product): ?>
   <div class="col-lg-4 col-md-6 mb-4">
     <div class="card h-100">
-      <a href="#!"><img class="card-img-top" src="<?php echo $product['img']; ?>" alt="..." /></a>
+      <a href="#!"><img class="card-img-top" src="<?php echo $product['img']; ?>" alt="..."></a>
       <div class="card-body">
         <h4 class="card-title"><a href="#!"><?php echo $product['name']; ?></a></h4>
         <h5><?php echo number_format($product['price'], 2) . ' ' . '€'; ?></h5>

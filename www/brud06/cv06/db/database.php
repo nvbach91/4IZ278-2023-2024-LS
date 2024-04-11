@@ -2,7 +2,7 @@
 
 const DB_HOSTNAME = 'localhost';
 const DB_DATABASE = 'brud06'; //xname
-const DB_USERNAME = 'root'; //xname or root
+const DB_USERNAME = ''; //xname or root
 const DB_PASSWORD = '';
 
 class DatabaseConnection
