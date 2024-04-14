@@ -1,0 +1,94 @@
+.goods {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.good {
+    width: 25%;
+}
+
+.card-img-top {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.price {
+    font-size: 32px;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.btn-group {
+    margin: 10px 10px;
+    background-color: #0056b3;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.emptyCart,
+.buyMoreStuff {
+    text-align: center;
+    font-size: 2em;
+}
+
+form {
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1.2em;
+}
+
+form input[type="text"],
+form input[type="password"],
+form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+form input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+form input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+.createItem {
+    font-size: 1.2em;
+}
+.container {
+    max-width: 70%;
+    margin: auto;
+}
+form input, form textarea {
+    display: block;
+    margin-bottom: 10px;
+}
