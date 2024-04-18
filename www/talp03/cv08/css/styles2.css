@@ -1,0 +1,27 @@
+.row {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.col-lg-9 {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    width: 100% !important;
+    justify-content: space-between;
+
+}
+
+.pagination {
+    margin: 30px 0px 30px 0px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.pagination a {
+    border: solid rgb(0, 72, 255) 1px;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    text-align: center;
+    align-items: center;
+}
