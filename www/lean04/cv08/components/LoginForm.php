@@ -24,7 +24,7 @@ if (!empty($_POST)) {
 
     if (count($errors) == 0) {
         try {
-            setcookie('name', $email, time() + 60 * 60);
+            setcookie('name', $email, time() + 60 * 60, "/");
             header("Location: index.php");
         } catch (Exception $e) {
             array_push($errors, $e->getMessage());
