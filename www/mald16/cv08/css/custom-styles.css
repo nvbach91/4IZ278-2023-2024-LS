@@ -1,0 +1,9 @@
+.products-wrapper {
+	display: flex;
+	margin: 20px 0;
+	flex-wrap: wrap;
+}
+
+.products-wrapper > .card {
+	margin: 30px;
+}
