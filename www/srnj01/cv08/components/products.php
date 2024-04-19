@@ -24,8 +24,7 @@ $pages = getPages();
 ?>
 
 <div class="row">
-  <?php foreach ($products as $product) {
-  ?>
+  <?php foreach ($products as $product) : ?>
     <div class="col-lg-4 col-md-6 mb-4 mt-4">
       <div class="card h-100">
         <img class="card-img-top img-cover" src="<?php echo $product['img'] == null || $product['img'] == '' ? 'https://placehold.co/600x400' : $product['img']; ?>" alt="<?php echo $product['name'] ?>" />
@@ -54,8 +53,7 @@ $pages = getPages();
         </div>
       </div>
     </div>
-  <?php
-  } ?>
+  <?php endforeach; ?>
 </div>
 
 <nav aria-label="Page navigation example">
