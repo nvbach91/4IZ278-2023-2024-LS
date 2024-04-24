@@ -38,6 +38,13 @@ if (!empty($_POST)) {
             echo $error . '<br>';
         }
     }
+} else {
+    $goodsDB = new GoodsDB();
+    $product = $goodsDB->checkProductByID($_GET['id']);
+    $name = $product[0]['name'];
+    $price = $product[0]['price'];
+    $description = $product[0]['description'];
+    $image = $product[0]['img'];
 }
 
 ?>
