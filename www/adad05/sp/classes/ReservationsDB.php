@@ -50,4 +50,18 @@ class ReservationsDB extends Database
                 ORDER BY car_id ASC, time ASC) as asd on asd.time = time_blocks.time_id", []);
         return $results;
     }
+
+    public function isReservation($user_id, $date, $time){
+        $results = $this->runQuery("SELECT * from reservations where booked_by like '$user_id' and date like '$date' and time like '$time'", []);
+        if (count($results) > 0){
+            return [true, $results[0]['reservation_id']];
+        }
+        return [false, ''];
+    }
+
+    public function createReservation($user_id, $date, $time)
+    {
+        $results = $this->runQuery("INSERT INTO reservations (booked_by, date, time) values ('$user_id', '$date', '$time') ", []);
+        return $results;
+    }
 }

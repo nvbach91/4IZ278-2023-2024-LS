@@ -5,6 +5,11 @@ require __DIR__ . '/../classes/CarsDB.php';
 
 $date = date('Y-m-d');
 $user_email = 'danadam@seznam.cz';
+$user_id = 1;
+
+if (!empty($_GET['date'])){
+    $date = $_GET['date'];
+}
 
 if (!empty($_POST)){
     $date = $_POST['date'];
@@ -29,7 +34,7 @@ foreach ($cars as $car) {
 
     <div class="form-date-div">
         <form class="form-date" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
-            <input type="date" name="date" value="<?php echo (isset($_POST['date'])) ? $date : date('Y-m-d'); ?>">
+            <input type="date" name="date" value="<?php echo $date; ?>">
             <button type="submit">Potvrdit datum</button>
         </form>
     </div>
@@ -58,7 +63,7 @@ foreach ($cars as $car) {
                     // ošetření pro první buňku
                     if($x == 0){
                         // moje rezervace
-                        if($reservations[$i][$x]['email'] == $user_email){ $cellType = 1; }
+                        if($reservations[$i][$x]['email'] == $user_email  and $reservations[$i][$x]['email'] != null){ $cellType = 1; }
                         // rezervace někoho jiného
                         elseif($reservations[$i][$x]['email'] != null and $reservations[$i][$x]['email'] != $user_email){ $cellType = 2; }
                         // bez rezervace
@@ -75,7 +80,7 @@ foreach ($cars as $car) {
                     // ošetření pro poslední buňku
                     elseif($x == 23){
                         // moje rezervace
-                        if($reservations[$i][$x]['email'] == $user_email){ $cellType = 1; }
+                        if($reservations[$i][$x]['email'] == $user_email and $reservations[$i][$x]['email'] != null){ $cellType = 1; }
                         // rezervace někoho jiného
                         elseif($reservations[$i][$x]['email'] != null and $reservations[$i][$x]['email'] != $user_email){ $cellType = 2; }
                         // bez rezervace
@@ -102,6 +107,8 @@ foreach ($cars as $car) {
                         <div class="reservation available button">
                             <form method="post" action="make-reservation.php">
                                 <input name="email" value="<?php echo $user_email; ?>" style="display:none">
+                                <input name="user_id" value="<?php echo $user_id; ?>" style="display:none">
+                                <input name="date" value="<?php echo $date; ?>" style="display:none">
                                 <input name="car_id" value="<?php echo $cars[$i]['car_id']; ?>" style="display:none">
                                 <input name="time_id" value="<?php echo $x; ?>" style="display:none">
                                 <button class="button-reservation" type="submit">+</button>
@@ -111,6 +118,8 @@ foreach ($cars as $car) {
                         <div class="reservation owned button">
                             <form method="post" action="cancel-reservation.php">
                                 <input name="email" value="<?php echo $user_email; ?>" style="display:none">
+                                <input name="user_id" value="<?php echo $user_id; ?>" style="display:none">
+                                <input name="date" value="<?php echo $date; ?>" style="display:none">
                                 <input name="car_id" value="<?php echo $cars[$i]['car_id']; ?>" style="display:none">
                                 <input name="time_id" value="<?php echo $x; ?>" style="display:none">
                                 <button class="button-reservation" type="submit">✔</button>
