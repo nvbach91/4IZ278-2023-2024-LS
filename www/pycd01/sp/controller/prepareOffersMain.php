@@ -23,7 +23,9 @@ if (!empty($_POST) && !empty($_POST['homeType']))
 	$maxPrice = $_POST['maxPrice'];
 	$minSize = $_POST['minSize'];
 	$maxSize = $_POST['maxSize'];
-	$tag = $_POST['tag'];
+	if (!empty($_POST['tag'])) {
+		$tag = $_POST['tag'];
+	}
 
     	if(empty($homeType) || !($homeType == 'house' || $homeType == 'apartment')) {
 		$homeType = 'house';

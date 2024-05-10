@@ -20,8 +20,11 @@ const homeCustomersDB = new homeCustomersDB();
 $homeCustomers = homeCustomersDB->readAll();
 const customersDB = new CustomersDB();
 $customers = customersDB->readAll();
-
-$email =  $_COOKIE['email'];
+if (!empty($_COOKIE['email'])) {
+  $email =  $_COOKIE['email'];
+} else {
+  $email = '';
+}
 $customer = null;
 foreach ($customers as $c) {
 if($c['email'] == $email) {
