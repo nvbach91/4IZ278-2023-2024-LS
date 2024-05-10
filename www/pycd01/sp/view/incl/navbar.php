@@ -1,4 +1,6 @@
-<?php session_start(); ?>
+<?php session_start(); 
+$loggedIn = !empty($_COOKIE['email']);
+?>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
         
@@ -22,26 +24,22 @@
                         <?php endif; ?>
                     </form>
 		</li>
+		<?php if(!$loggedIn): ?>
 		<li class="nav-item">
-                    <a class="nav-link" href="./cart.php">Registrovat se</a>
-                </li>
-
+                    <a class="nav-link" href="./register.php">Registrovat se</a>
+		</li>
+		<?php endif; ?>
+		<?php if($loggedIn):?>
+		<li class="nav-item">
+                        <a class="nav-link" href="./logout.php">Odhlásit se</a>
+		</li>
+		<?php endif; ?>
                 <?php if (!$loggedIn) : ?>
                     <li class="nav-item">
                         <a class="nav-link" href="./login.php">Přihlásit se</a>
-                    </li>
+		    </li>
                 <?php endif; ?>
-                <?php if ($loggedIn) : ?>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img width="32" src="./assets/avatar.svg" alt="Profile">
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="./profile.php">My profile</a></li>
-                            <li><a class="dropdown-item" href="./logout.php">Sign out</a></li>
-                        </ul>
-                    </li>
-                <?php endif; ?>
+                
             </ul>
 
         </div>

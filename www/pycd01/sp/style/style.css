@@ -295,3 +295,12 @@ main .search-container img {
   border: 3px solid var(--allwaysBlack);
   padding: 20px;
 }
+#messageModal .modal-content {
+  background-color: var(--background);
+  border: 3px solid var(--allwaysBlack);
+}
+#messageModal .modal-content textarea {
+  width: 100%;
+  min-height: 100px;
+  border: var(--allwaysBlack) 1px solid;
+} 

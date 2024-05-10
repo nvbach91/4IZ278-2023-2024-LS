@@ -1,33 +1,30 @@
 <?php 
-include_once './classes/Users.php';
+include_once '../controller/CustomersDB.php';
 $errors = [];
-$successMess = "";
-
 const TRIM_CHARS = ' \n\r\t\v\x00';
 
 if (!empty($_POST)) {
     $email = htmlspecialchars(trim($_POST['email'], TRIM_CHARS));
     $password = htmlspecialchars(trim($_POST['password'], TRIM_CHARS));
 
-    $db = new UsersDB();
-    $users = $db->readAll();
-    $user = null;
-    foreach ($users as $DBuser) {
-        if ($DBuser['email'] == $email) {
-            $user = $DBuser;
+    $customersDB = new CustomersDB();
+    $customers = $customersDB->readAll();
+    $customer = null;
+    foreach ($customers as $c) {
+        if ($c['email'] == $email) {
+            $customer = $c;
         }
     }
     
-    if ($user == null) {
-        array_push($errors, "User doesn't exist");
+    if ($customer == null) {
+        array_push($errors, "Email není registrovaný");
     } else {
-        if (!password_verify($password, $user["password"])) {
-            array_push($errors, "Incorrect password");
+        if (!password_verify($password, $customer["password"])) {
+            array_push($errors, "Nesprávné heslo");
         }
     }
 
     if (count($errors) == 0) {
-        $successMess = "You have logged in!";
         setcookie("email", $email, time() + 3600);
         setcookie("privilege", $user['privilege'], time() + 3600);
         header('Location: ./main.php');
@@ -39,7 +36,6 @@ if (!empty($_POST)) {
 <?php require __DIR__ . '/incl/header.php'; ?>
 <?php require __DIR__ . '/incl/navbar.php'; ?>
     <section class="login">
-        <h1><?php echo $successMess ?></h1>
         <form class="form-signup" method="POST" action="<?php $_SERVER['PHP_SELF'] ?>">
             <a href="./main.php"><button id="secondary-button" type="button">Zpět</button></a>
             <div class="login-content">

@@ -11,10 +11,10 @@ class TagsDB extends Database {
     {
         $statement = self::$DB->prepare('INSERT INTO '.$this->tableName.' (tag, color, priority, home_id) 
         VALUES (:tag, :color, :priority, :home_id)');
-        $statement->bindValue(':tag', $tag['tag']);
-        $statement->bindValue(':color', $tag['color']);
-        $statement->bindValue(':priority', $tag['priority']);
-        $statement->bindValue(':home_id', $tag['home_id']);
+        $statement->bindValue(':tag', $tag->tag);
+        $statement->bindValue(':color', $tag->color);
+        $statement->bindValue(':priority', $tag->priority);
+        $statement->bindValue(':home_id', $tag->home_id);
         $statement->execute();
     }
 
@@ -22,10 +22,10 @@ class TagsDB extends Database {
     {
         $statement = self::$DB->prepare('UPDATE '.$this->tableName.' SET tag = :tag, color = :color, priority = :priority, home_id = :home_id WHERE id = :id');
         $statement->bindValue(':id', $id);
-        $statement->bindValue(':tag', $tag['tag']);
-        $statement->bindValue(':color', $tag['color']);
-        $statement->bindValue(':priority', $tag['priority']);
-        $statement->bindValue(':home_id', $tag['home_id']);
+        $statement->bindValue(':tag', $tag->tag);
+        $statement->bindValue(':color', $tag->color);
+        $statement->bindValue(':priority', $tag->priority);
+        $statement->bindValue(':home_id', $tag->home_id);
         $statement->execute();
     }
 public function readAll()

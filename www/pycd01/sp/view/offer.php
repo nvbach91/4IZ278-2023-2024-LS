@@ -1,6 +1,7 @@
 <?php
 include '../controller/PrepareOffer.php';
 include '../controller/themeSession.php';
+$loggedIn = !empty($_COOKIE['email']);
 ?>
 <?php require __DIR__ . '/incl/header.php'; ?>
 <?php require __DIR__ . '/incl/navbar.php'; ?>
@@ -27,18 +28,28 @@ include '../controller/themeSession.php';
 	<?php endif; 
 	endforeach; ?>
     	</div>
-    
     </div>
     <div class="agency-info">
 	<p>Realitní kancelář: <?= $agency['name'] ?></p>
     	<p>Zahájení prodeje: <?= $offer['time_offered'] ?></p>
     	<p>tel. č.: <?= $agency['phone'] ?></p>
 	<p>e-mail: <?= $agency['email'] ?></p>
-	<button id="primary-button">Mám zájem</button>
-	<button id="primary-button">Už nemám zájem</button>
+      <?php if($loggedIn): ?>
+      <form method="POST" action="<?php $_SERVER['PHP_SELF'] ?>">
+        <input hidden name="follow" value="follow">
+        <?php if(!$isFollowing): ?>
+        <button id="primary-button">Mám zájem</button>
+        <?php else: ?>
+        <button id="primary-button">Už nemám zájem</button>
+        <?php endif; ?>
+      </form>
 	<hr>
-    	<button id="primary-button">Kontaktovat kancelář</button>
+	<button id="primary-button" data-bs-toggle="modal" data-bs-target="#messageModal">Kontaktovat kancelář</button>
+	<?php else: ?>
+	<strong>Přihlašte se pro kontaktování kanceláře.</strong>
+	<?php endif; ?>
     </div>
-</div>
+  </div>
+<?php require '../view/messageModal.php'; ?>
 </section>
 <?php require __DIR__ . '/incl/footer.php'; ?>

@@ -8,7 +8,7 @@ include '../controller/themeSession.php';
 <main>
 <div class="errors">
 	<?php foreach($errors as $error): ?>
-		<p><?= $error ?></p>
+		<div class="alert alert-danger"><?= $error ?></div>
 	<?php endforeach; ?>
 </div>
     <div class="search-container">
