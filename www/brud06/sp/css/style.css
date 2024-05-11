@@ -1,0 +1,272 @@
+body {
+    font-family: Arial, sans-serif;
+}
+.wrapper {
+    display: flex;
+}
+aside {
+    background-color: aqua;
+}
+
+main {
+    flex: 1;
+}
+
+
+aside nav {
+    width: 300px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    box-sizing: border-box;
+}
+
+aside nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+aside nav ul li a {
+    display: block;
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #ffffff;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+aside nav ul li a:hover {
+    background-color: #0056b3;
+}
+#profileImage {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+#characterImage {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+.background {
+    display:flex;
+    justify-content: space-between;
+    background-color: #f0f0f0; /* light gray */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+.equipment {
+    background-color: #f0f0f0; /* light gray */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.weapon, .armor, .ring, .boots {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #e0e0e0; /* slightly darker gray */
+    border-radius: 5px;
+    width: 120px;
+}
+.characterAndEquipment {
+    display: flex;
+    justify-content: space-between;
+    background-color: yellow;
+    flex: 1;
+    margin-right: 20px;
+}
+
+.characterInfo {
+    flex: 7;
+    margin-right: 20px;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.equipment {
+    flex: 3;
+}
+.level{
+    background-color: lime;
+    width: 90%;
+    text-align: center;
+    position: relative;
+}
+.xpBubble {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+    width: 200px;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.level:hover .xpBubble {
+    display: block;
+}
+.stats{
+    align-self: center;
+    width: 90%;
+    box-sizing: border-box;
+}
+.stats ul {
+    list-style-type: none;
+    width: 100%;
+    padding-left: 0;
+    margin-left: 0;
+    align-self: center;
+}
+.attribute{
+    border: 2px solid black;
+    margin-bottom: 5px;
+    padding: 4px;
+}
+.stats li {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;;
+}
+.smallText {
+    font-size: 16px !important;
+}
+.increaseStat {
+    margin-left: 50px;
+}
+.inventory{
+    flex: 1;
+    background-color: #0056b3;
+    display: grid;
+    grid-template-columns: repeat(4, 120px);
+    grid-template-rows: repeat(2, 120px);
+    gap: 10px; /* Adjust this value as needed */
+    justify-content: center;
+    padding-top: 20px;
+    height: 300px;
+    
+}
+.item {
+    background-color: #f0f0f0; /* light gray */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+#characterImage {
+    width: 250px; /* Increase this value */
+    height: 250px; /* Increase this value */
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+#weaponImage {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+}
+.goods {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.good {
+    width: 25%;
+}
+
+.card-img-top {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.price {
+    font-size: 32px;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.btn-group {
+    margin: 10px 10px;
+    background-color: #0056b3;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.emptyCart,
+.buyMoreStuff {
+    text-align: center;
+    font-size: 2em;
+}
+
+form {
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1.2em;
+}
+
+form input[type="text"],
+form input[type="password"],
+form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+form input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+form input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+.createItem {
+    font-size: 1.2em;
+}
+.container {
+    max-width: 70%;
+    margin: auto;
+}
+form input, form textarea {
+    display: block;
+    margin-bottom: 10px;
+}
