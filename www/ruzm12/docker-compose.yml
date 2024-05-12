@@ -1,0 +1,58 @@
+version: "3"
+
+services:
+  webserver:
+    build:
+      context: docker/webserver
+      args:
+        - WWW_DATA_UID=${WWW_DATA_UID:-orig}
+        - WWW_DATA_GID=${WWW_DATA_GID:-orig}
+    expose:
+      - 80
+    ports:
+      - ${APP_PORT:-80}:80
+    volumes:
+      - .:/var/www/html
+    environment:
+      APACHE_DOCUMENT_ROOT: /var/www/html/public
+  ###> doctrine/doctrine-bundle ###
+  database:
+    image: mariadb:10.5.19
+    expose:
+      - 3306
+    volumes:
+      - .:/mnt
+    working_dir: /mnt
+    environment:
+      MARIADB_ROOT_PASSWORD: rootpass
+      MARIADB_DATABASE: thedatabase
+      MARIADB_USER: user
+      MARIADB_PASSWORD: userpass
+      # database:
+      #   image: postgres:${POSTGRES_VERSION:-13}-alpine
+      #   environment:
+      #     POSTGRES_DB: ${POSTGRES_DB:-app}
+      #     # You should definitely change the password in production
+      #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ChangeMe}
+      #     POSTGRES_USER: ${POSTGRES_USER:-symfony}
+      #   volumes:
+      #     - db-data:/var/lib/postgresql/data:rw
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./docker/db/data:/var/lib/postgresql/data:rw
+      ###< doctrine/doctrine-bundle ###
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8081:80
+    links:
+      - database
+    environment:
+      PMA_ARBITRARY: 1
+      PMA_HOST: database
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: rootpass
+volumes:
+  ###> doctrine/doctrine-bundle ###
+  db-data: ###< doctrine/doctrine-bundle ###
