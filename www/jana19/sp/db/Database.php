@@ -11,7 +11,12 @@ abstract class Database implements DatabaseOperations
     }
 
     // přidat funkce
-
+    public function readAll($tableName) {
+        $sql = "SELECT * FROM $this->tableName";
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute();
+        return $statement->fetchAll();
+    }
     
 }
 ?>

@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-lg-3">
             <h1 class="my-4">Ahmad Tea Shop</h1>
-            <?php // require __DIR__ . '/components/CategoryDisplay.php'; ?>
+            <?php require __DIR__ . '/components/ProductTypeDisplay.php'; ?>
         </div>
         <div class="col-lg-9">
             <?php // require __DIR__ . '/components/SlideDisplay.php'; ?>
