@@ -1,0 +1,3 @@
+[submodule "www/davj05/sp/kartio"]
+	path = www/davj05/sp/kartio
+	url = https://github.com/Resonect-Technology/kartio.git
