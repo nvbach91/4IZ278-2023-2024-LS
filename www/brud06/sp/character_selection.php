@@ -1,18 +1,20 @@
 <?php
-// $query = "SELECT * FROM characters WHERE user_id = ?";
-// $stmt = $db->prepare($query);
-// $stmt->bind_param("i", $userId);
-// $stmt->execute();
-// $result = $stmt->get_result();
+session_start();
+require_once 'db/CharactersDB.php';
+include './includes/head.php';
 
-// while ($row = $result->fetch_assoc()) {
-//     // Code removed
-// }
+$characterDB = new CharactersDB();
+$character = $characterDB->findCharacterByUserId($_SESSION['user_id']);
 ?>
 
-<div class='character'>
-    <img src='dummy_image.jpg' alt='Character Image'>
-    <h2><a href='components/CharacterDisplay.php'>Dummy Character</a></h2>
-</div>
+<?php if ($character): ?>
+    <div class='character'>
+        <img src='<?php echo $character['image']; ?>' alt='Character Image'>
+        <h2><a href='components/CharacterDisplay.php'><?php echo $character['name']; ?></a></h2>
+    </div>
+<?php else: ?>
+    <p>No character found. Create one!</p>
+    <button onclick="location.href='character_creation.php'">Create Character</button>
+<?php endif; ?>
 
-<button onclick="location.href='character_creation.php'">Create Character</button>
+

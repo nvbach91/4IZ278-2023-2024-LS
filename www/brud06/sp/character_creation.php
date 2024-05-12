@@ -1,12 +1,31 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    //$name = $_POST['name'];
-    //$image = $_POST['image'];
+session_start();
 
-    //$query = "INSERT INTO characters (user_id, name, image) VALUES (?, ?, ?)";
-    //$stmt = $db->prepare($query);
-    //$stmt->bind_param("iss", $userId, $name, $image);
-    //$stmt->execute();
+
+require_once 'classes/Character.php';
+require_once 'db/CharactersDB.php';
+
+var_dump($_SESSION['user_id']);
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = $_POST['name'];
+    $userId = $_SESSION['user_id'];
+
+    // Define the other character attributes
+    $image = 'img/profile-placeholder.png'; // Replace with actual image
+    $class = 'Warrior';
+    $gold = 10;
+    $xp = 0;
+    $level = 1;
+    $strength = 10;
+    $dexterity = 10;
+    $hitpoints = 100;
+    $luck = 10;
+    $stamina = 100;
+
+    $character = new Character($name, $image, $class, $gold, $xp, $level, $strength, $dexterity, $hitpoints, $luck, $stamina, $userId);
+    $characterDB = new CharactersDB();
+    $characterDB->createCharacter($character);
 
     header("Location: components/CharacterDisplay.php");
     exit();
@@ -16,6 +35,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <form method="post" action="character_creation.php">
     <label for="name">Character Name:</label>
     <input type="text" id="name" name="name" required>
-
     <input type="submit" value="Create Character">
 </form>

@@ -5,14 +5,14 @@ class UsersDB extends Database
 
     function findUser($email)
     {
-        $statement = $this->pdo->prepare("SELECT * FROM cv10_users WHERE email = :email");
+        $statement = $this->pdo->prepare("SELECT * FROM sp_users WHERE email = :email");
         $statement->execute(['email' => $email]);
         $users = $statement->fetchAll();
         return count($users) > 0 ? $users[0] : null;
     }
     function createUser($user)
     {
-        $sql = "INSERT INTO cv10_users (email , password, privilege) VALUES (:email, :password, :privilege)";
+        $sql = "INSERT INTO sp_users (email , password, privilege) VALUES (:email, :password, :privilege)";
         $result = $this->runQuery($sql, [
             'email' => $user['email'],
             'password' => $user['password'],
@@ -30,7 +30,7 @@ class UsersDB extends Database
     }
     function fetchAllUsers()
     {
-        $statement = $this->pdo->prepare("SELECT * FROM cv10_users");
+        $statement = $this->pdo->prepare("SELECT * FROM sp_users");
         $statement->execute();
         return $statement->fetchAll();
     }
@@ -45,7 +45,7 @@ class UsersDB extends Database
 
     function setPrivilege($email, $privilege)
     {
-        $sql = "UPDATE cv10_users SET privilege = :privilege WHERE email = :email";
+        $sql = "UPDATE sp_users SET privilege = :privilege WHERE email = :email";
         $result = $this->runQuery($sql, [
             'email' => $email,
             'privilege' => $privilege,

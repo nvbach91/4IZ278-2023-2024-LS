@@ -7,8 +7,8 @@
 
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/myStyle.css" rel="stylesheet">
-  <title>My Eshop</title>
+  <link href="css/style.css" rel="stylesheet">
+  <title>My Browser Game</title>
 </head>
 
 

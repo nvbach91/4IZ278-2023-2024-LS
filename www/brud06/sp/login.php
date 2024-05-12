@@ -19,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $messageForUser = "You have been successfully logged in!";
         $_SESSION['name'] = $email;
         $_SESSION['privilege'] = $user['privilege'];
+        $_SESSION['user_id'] = $user['user_id'];
         setcookie('name', $email, time() + (86400 * 30), "/");
         header('Location: character_selection.php');
         exit;

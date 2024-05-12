@@ -5,7 +5,7 @@ class Character
     private $image;
     private $class;
     private $gold;
-    private $exp;
+    private $xp;
     private $level;
     private $strength;
     private $dexterity;
@@ -14,13 +14,13 @@ class Character
     private $stamina;
     private $user_id;
 
-    public function __construct($name, $image, $class, $gold, $exp, $level, $strength, $dexterity, $hitpoints, $luck, $stamina, $user_id)
+    public function __construct($name, $image, $class, $gold, $xp, $level, $strength, $dexterity, $hitpoints, $luck, $stamina, $user_id)
     {
         $this->name = $name;
         $this->image = $image;
         $this->class = $class;
         $this->gold = $gold;
-        $this->exp = $exp;
+        $this->xp = $xp;
         $this->level = $level;
         $this->strength = $strength;
         $this->dexterity = $dexterity;
@@ -70,14 +70,14 @@ class Character
         $this->gold = $gold;
     }
 
-    public function getExp()
+    public function getXp()
     {
-        return $this->exp;
+        return $this->xp;
     }
 
-    public function setExp($exp)
+    public function setXp($xp)
     {
-        $this->exp = $exp;
+        $this->xp = $xp;
     }
 
     public function getLevel()

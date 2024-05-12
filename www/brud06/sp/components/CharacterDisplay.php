@@ -1,13 +1,17 @@
 <?php
-$gold = 100;
-$strength = 10; // replace with actual value
-$dexterity = 10; // replace with actual value
-$intelligence = 10; // replace with actual value
-$constitution = 10; // replace with actual value
-$luck = 10; // replace with actual value
 
+session_start();
+require_once '../db/CharactersDB.php';
+
+$characterDB = new CharactersDB();
+$character = $characterDB->findCharacterByUserId($_SESSION['user_id']);
+
+$gold = $character['gold'];
+$strength = $character['strength'];
+$dexterity = $character['dexterity'];
+$hitpoints = $character['hitpoints'];
+$luck = $character['luck'];
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,7 +28,7 @@ $luck = 10; // replace with actual value
     <div class="wrapper">
         <aside>
             <nav>
-                <img src="../img/profile-placeholder.png" alt="Profile Image" id="profileImage">
+                <img src='../<?php echo $character['image']; ?>' alt="Profile Image" id="profileImage">
                 <div> <?php echo "Gold: $gold" ?> </div>
                 <ul>
                     <li><a href="./CharacterDisplay.php">Character</a></li>
@@ -40,16 +44,16 @@ $luck = 10; // replace with actual value
                 <div class=characterAndEquipment>
                     <div class="characterInfo">
                         <div id="profile">
-                            <img src="../img/profile-placeholder.png" alt="Character Image" id="characterImage">
+                            <img src='../<?php echo $character['image']; ?>' alt="Character Image" id="characterImage">
                         </div>
                         <div class="name">
-                            <h2>Character Name</h2>
+                            <h2><?php echo $character['name']; ?></h2>
                         </div>
                         <div class="level">
-                            <h3>Level 1</h3>
+                            <h3>Level <?php echo $character['level']; ?></h3>
                             <div class="xpBubble">
-                                <p>Current XP: 50</p>
-                                <p>XP to Level Up: 100</p>
+                                <p>Current XP: <?php echo $character['current_xp']; ?></p>
+                                <p>XP to Level Up: <?php echo $character['xp_to_level_up']; ?></p>
                             </div>
                         </div>
                         <div class="stats">
@@ -63,7 +67,7 @@ $luck = 10; // replace with actual value
                                     <li class="smallText">Chance to Avoid</li>
                                 </div>
                                 <div class="attribute">
-                                    <li>Constitution: <?php echo $constitution; ?> <button class='increaseStat'>+</button></li>
+                                    <li>HitPoints: <?php echo $hitpoints; ?> <button class='increaseStat'>+</button></li>
                                     <li class="smallText">Hit Point</li>
                                 </div>
                                 <div class="attribute">
@@ -73,6 +77,7 @@ $luck = 10; // replace with actual value
                             </ul>
                         </div>
                     </div>
+                    <!-- Rest of your code... -->
                     <div class="equipment">
                         <div class="weapon">
                             <!-- Weapon goes here -->
