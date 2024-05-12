@@ -1,0 +1,1 @@
+<!-- Daily View for privileged user html -->

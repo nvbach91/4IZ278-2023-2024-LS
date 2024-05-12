@@ -1,0 +1,33 @@
+:root {
+    --primary: #9EABA2;
+    --secondary: #b9cfbf;
+    --terciary: #676767;
+    --hovered-text: white;
+}
+
+.fc-col-header-cell-cushion {
+    text-decoration: none;
+    color: var(--terciary);
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 1.5em;
+}
+.fc-timegrid-slot {
+    color: var(--terciary);
+    font-weight: bold;
+}
+.fc .fc-button {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+.fc .fc-button-primary:hover {
+    background-color: var(--secondary);
+    border-color: var(--secondary);
+}
+.fc-button-active {
+    background-color: red;
+}
+/* TODO active buttons + on click action color */
+h2 {
+    color: var(--terciary);
+}

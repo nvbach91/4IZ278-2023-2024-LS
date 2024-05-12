@@ -1,0 +1,41 @@
+:root {
+    --primary: #9EABA2;
+    --secondary: #b9cfbf;
+    --terciary: #676767;
+    --hovered-text: white;
+}
+
+main {
+    color: var(--terciary);
+}
+
+.bg-color-primary{
+    background-color: var(--primary);
+}
+.grow-img {
+    height: 80px;
+}
+#navbarItems>div:hover {
+    background-color: var(--primary);
+    color: var(--hovered-text);
+}
+
+/* bootstrap sm */
+@media screen and (max-width: 576px) {
+
+    .h-sm-fit-content {
+        height: fit-content;
+    }
+    .small-menu-centered-item {
+        width: 100%;
+    }
+    .grow-img {
+        height: 60px;
+    }
+}
+/* bootstrap xl */
+@media screen and (min-width:1200px) {
+    .grow-img {
+        height: 120px;
+    }
+}
