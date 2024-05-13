@@ -10,16 +10,24 @@ class Monster
     private $luck;
     private $isDungeonMonster;
 
-    public function __construct($id, $name, $level, $strength, $dexterity, $hitpoints, $luck, $isDungeonMonster)
+    public function __construct()
     {
-        $this->id=$id;
-        $this->name = $name;
-        $this->level = $level;
-        $this->strength = $strength;
-        $this->dexterity = $dexterity;
-        $this->hitpoints = $hitpoints;
-        $this->luck = $luck;
-        $this->isDungeonMonster = $isDungeonMonster;
+        $args = func_get_args();
+        $numArgs = func_num_args();
+
+        if ($numArgs == 1 && is_array($args[0])) {
+            $data = $args[0];
+            $this->id = $data['monster_id'];
+            $this->name = $data['name'];
+            $this->level = $data['level'];
+            $this->strength = $data['strength'];
+            $this->dexterity = $data['dexterity'];
+            $this->hitpoints = $data['hitpoints'];
+            $this->luck = $data['luck'];
+            $this->isDungeonMonster = $data['isDungeonMonster'];
+        } else if ($numArgs == 8) {
+            list($this->id, $this->name, $this->level, $this->strength, $this->dexterity, $this->hitpoints, $this->luck, $this->isDungeonMonster) = $args;
+        }
     }
     public function getId()
     {

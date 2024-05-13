@@ -14,21 +14,29 @@ class Character
     private $stamina;
     private $user_id;
 
-    public function __construct($name, $image, $class, $gold, $xp, $level, $strength, $dexterity, $hitpoints, $luck, $stamina, $user_id)
-    {
-        $this->name = $name;
-        $this->image = $image;
-        $this->class = $class;
-        $this->gold = $gold;
-        $this->xp = $xp;
-        $this->level = $level;
-        $this->strength = $strength;
-        $this->dexterity = $dexterity;
-        $this->hitpoints = $hitpoints;
-        $this->luck = $luck;
-        $this->stamina = $stamina;
-        $this->user_id = $user_id;
+    public function __construct()
+{
+    $args = func_get_args();
+    $numArgs = func_num_args();
+
+    if ($numArgs == 1 && is_array($args[0])) {
+        $data = $args[0];
+        $this->name = $data['name'];
+        $this->image = $data['image'];
+        $this->class = $data['class'];
+        $this->gold = $data['gold'];
+        $this->xp = $data['xp'];
+        $this->level = $data['level'];
+        $this->strength = $data['strength'];
+        $this->dexterity = $data['dexterity'];
+        $this->hitpoints = $data['hitpoints'];
+        $this->luck = $data['luck'];
+        $this->stamina = $data['stamina'];
+        $this->user_id = $data['user_id'];
+    } else if ($numArgs == 12) {
+        list($this->name, $this->image, $this->class, $this->gold, $this->xp, $this->level, $this->strength, $this->dexterity, $this->hitpoints, $this->luck, $this->stamina, $this->user_id) = $args;
     }
+}
 
     public function getName()
     {

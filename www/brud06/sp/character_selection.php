@@ -5,6 +5,11 @@ include './includes/head.php';
 
 $characterDB = new CharactersDB();
 $character = $characterDB->findCharacterByUserId($_SESSION['user_id']);
+
+// Store character id in session
+if ($character) {
+    $_SESSION['character_id'] = $character['character_id'];
+}
 ?>
 
 <?php if ($character): ?>
