@@ -17,14 +17,14 @@
     height: 34px;
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 20px;
+    margin-bottom: 1px;
 }
 
 .reservation-row {
     height: 30px;
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
 }
 
 .reservation-row:last-child {
@@ -265,12 +265,31 @@ header {
     margin-bottom: 14px;
 }
 
+.form-date-2 {
+    margin-left: 4px;
+}
+
+.form-date-3 {
+    text-align: right;
+}
+
 h1 {
     color: rgba(0, 0, 0, 0.712);
 }
 
 .form-date-div {
     padding-top: 4px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 50%;
+}
+
+.form-date-div-right {
+    padding-top: 4px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    width: 50%;
 }
 
 .tab-reservation {
