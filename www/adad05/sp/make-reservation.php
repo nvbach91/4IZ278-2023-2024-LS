@@ -15,13 +15,13 @@ if ($isReservationCreated[0]){
     echo $isReservationCreated[1];
     echo $_POST['car_id'];
     $associationDB->createAssociation($isReservationCreated[1], $_POST['car_id']);
-    Header('Location: reservation-page.php?date=' . $_POST['date']);
+    Header('Location: reservation-page.php');
     exit;
 } else {
     $reservationsDB->createReservation($_POST['user_id'], $_POST['date'], $_POST['time_id']);
     $isReservationCreated = $reservationsDB->isReservation($_POST['user_id'], $_POST['date'], $_POST['time_id']);
     $associationDB->createAssociation($isReservationCreated[1], $_POST['car_id']);
-    Header('Location: reservation-page.php?date=' . $_POST['date']);
+    Header('Location: reservation-page.php');
     exit;
 }
 

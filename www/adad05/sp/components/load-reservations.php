@@ -3,17 +3,29 @@
 require __DIR__ . '/../classes/ReservationsDB.php';
 require __DIR__ . '/../classes/CarsDB.php';
 
-$date = date('Y-m-d');
+$date;
+session_start();
+if (empty($_SESSION['date'])) {
+    if (!empty($_POST['date'])) {
+        $date = $_POST['date'];
+        $_SESSION['date'] = $date;
+    } else {
+        $date = date('Y-m-d');
+        $_SESSION['date'] = $date;
+    }
+} else {
+    if (!empty($_POST['date'])) {
+        $date = $_POST['date'];
+        $_SESSION['date'] = $date;
+    } else {
+        $date = $_SESSION['date'];
+    }
+
+}
+
+
 $user_email = 'pejsek@seznam.cz';
 $user_id = 2;
-
-if (!empty($_GET['date'])) {
-    $date = $_GET['date'];
-}
-
-if (!empty($_POST['date'])) {
-    $date = $_POST['date'];
-}
 
 $filtered_car;
 if (!empty($_POST['car_filter'])) {
@@ -25,7 +37,7 @@ $reservationsDB = new ReservationsDB();
 $carsDB = new CarsDB();
 $cars;
 
-if(isset($filtered_car)){
+if (isset($filtered_car)) {
     $cars = $carsDB->findByName($filtered_car);
 } else {
     $cars = $carsDB->find();
