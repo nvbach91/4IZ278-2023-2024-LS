@@ -34,6 +34,7 @@ if (!empty($_POST)) {
         $success = true;
         $usersDB->createUser($name, $email, password_hash($password, PASSWORD_DEFAULT));
         header("Location: login-page.php");
+        exit;
     }
 }
 
@@ -54,7 +55,7 @@ if (!empty($_POST)) {
             <label>Uživatelský email:</label><br>
             <input name="email" value="<?php echo (isset($email) && !$success) ? $email : '' ?>"><br>
             <label>Uživatelské heslo:</label><br>
-            <input name="password" value="<?php echo (isset($password) && !$success) ? $password : '' ?>"><br>
+            <input name="password" value="<?php echo (isset($password) && !$success) ? $password : '' ?>" type="password"><br>
             <button class="btn btn-primary btn-new" type="submit">Registrovat se</button>
         </form>
 

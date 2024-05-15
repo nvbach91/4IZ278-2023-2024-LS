@@ -1,6 +1,15 @@
 <?php
 
-var_dump($_POST);
+if(!isset($_COOKIE['email'])){
+    Header('Location: login-page.php');
+    exit;
+}
+
+if($_COOKIE['privilege'] == 1){
+    Header('Location: administration-page.php');
+    exit;
+}
+
 if (empty($_POST)){
     header("Location: reservation-page.php");
     exit;

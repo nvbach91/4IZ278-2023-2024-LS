@@ -3,6 +3,11 @@
 require __DIR__ . '/../classes/ReservationsDB.php';
 require __DIR__ . '/../classes/CarsDB.php';
 
+if(!isset($_COOKIE['email'])){
+    Header('Location: login-page.php');
+    exit;
+}
+
 $date;
 session_start();
 if (empty($_SESSION['date'])) {
@@ -24,8 +29,8 @@ if (empty($_SESSION['date'])) {
 }
 
 
-$user_email = 'pejsek@seznam.cz';
-$user_id = 2;
+$user_email = $_COOKIE['email'];
+$user_id = $_COOKIE['user_id'];
 
 $filtered_car;
 if (!empty($_POST['car_filter'])) {

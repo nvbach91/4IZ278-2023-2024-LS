@@ -35,6 +35,7 @@ if (!empty($_POST)) {
         setcookie("user_id", $users[0]['user_id'], time() + 60 * 60);
         setcookie("privilege", $users[0]['privilege'], time() + 60 * 60);
         header("Location: reservation-page.php");
+        exit;
     }
 }
 
@@ -52,7 +53,7 @@ if (!empty($_POST)) {
             <label>Uživatelský email:</label><br>
             <input name="email" value="<?php echo (isset($email) && !$success) ? $email : '' ?>"><br>
             <label>Uživatelské heslo:</label><br>
-            <input name="password" value="<?php echo (isset($password) && !$success) ? $password : '' ?>"><br>
+            <input name="password" value="<?php echo (isset($password) && !$success) ? $password : '' ?>" type="password"><br>
             <button class="btn btn-primary btn-new" type="submit">Přihlásit se</button>
         </form>
 

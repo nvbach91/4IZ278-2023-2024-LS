@@ -27,4 +27,10 @@ class UsersDB extends Database
         $results = $this->runQuery("UPDATE users SET privilege = $privilege WHERE email like '$email'", []);
         return $results;
     }
+
+    public function findWithHotel()
+    {
+        $results = $this->runQuery("SELECT users.user_id, users.name, users.email, users.privilege, hotels.name as hotel, hotels.address FROM users left join hotels on hotels.hotel_id = users.hotel", []);
+        return $results;
+    }
 }

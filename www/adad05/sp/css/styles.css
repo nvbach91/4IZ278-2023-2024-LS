@@ -290,3 +290,33 @@ h1 {
 .div-registration {
     text-align: center;
 }
+
+.users-table {
+    border-collapse: collapse;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.users-table th, td {
+    border: 1px solid rgba(0, 0, 0, 0.863);
+    padding: 2px 4px;
+}
+
+tr:first-child{
+    background-image: linear-gradient(to bottom right, rgb(182, 133, 88), rgb(126, 102, 93));
+}
+
+h2 {
+    color: rgba(0, 0, 0, 0.712);
+    margin-top: 0px;
+    margin-bottom: 4px;
+}
+
+.div-update {
+    margin-top: 8px;
+    margin-bottom: 20px;
+}
+
+.form-admin {
+    margin-bottom: 2px;
+}

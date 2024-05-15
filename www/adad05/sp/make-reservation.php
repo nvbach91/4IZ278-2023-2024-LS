@@ -1,7 +1,18 @@
 <?php
 
+if(!isset($_COOKIE['email'])){
+    Header('Location: login-page.php');
+    exit;
+}
+
+if($_COOKIE['privilege'] == 1){
+    Header('Location: unauthorized-message.php?reason=hotel-required');
+    exit;
+}
+
 if (empty($_POST)){
     header("Location: reservation-page.php");
+    exit;
 }
 
 require __DIR__ . '/classes/ReservationsDB.php';
