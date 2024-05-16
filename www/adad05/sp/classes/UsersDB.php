@@ -22,9 +22,15 @@ class UsersDB extends Database
         return $results;
     }
 
-    public function updateUser($email, $privilege)
+    public function updateUser($user_id, $privilege)
     {
-        $results = $this->runQuery("UPDATE users SET privilege = $privilege WHERE email like '$email'", []);
+        $results = $this->runQuery("UPDATE users SET privilege = $privilege WHERE user_id like '$user_id'", []);
+        return $results;
+    }
+
+    public function updateUserHotel($user_id, $hotel_id)
+    {
+        $results = $this->runQuery("UPDATE users SET hotel = $hotel_id WHERE user_id like '$user_id'", []);
         return $results;
     }
 

@@ -1,0 +1,15 @@
+{
+    "name": "adad05/reservation",
+    "description": "Semestralka",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniel Adam",
+            "email": "adad05@vse.cz"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.8"
+    }
+}

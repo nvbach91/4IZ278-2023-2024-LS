@@ -52,28 +52,28 @@ $hotels = $hotelsDB->find();
         <?php endforeach; ?>
     </table>
     <div class="div-update">
-        <form class="form-admin">
+        <form class="form-admin"  method="post" action="change-privilege.php">
             <label>Změnit oprávnění uživatele:</label>
-            <select>
+            <select required name="user_id">
                 <?php foreach ($users as $user): ?>
                     <option value="<?php echo $user['user_id']; ?>"><?php echo $user['email']; ?></option>
                 <?php endforeach; ?>
             </select>
-            <select>
+            <select required name="privilege">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
             </select>
             <button type="submit">Změnit oprávnění</button>
         </form>
-        <form>
+        <form class="form-admin"  method="post" action="change-user-hotel.php">
             <label>Změnit hotel uživatele:</label>
-            <select>
+            <select required name="user_id">
                 <?php foreach ($users as $user): ?>
                     <option value="<?php echo $user['user_id']; ?>"><?php echo $user['email']; ?></option>
                 <?php endforeach; ?>
             </select>
-            <select>
+            <select required name="hotel_id">
                 <?php foreach ($hotels as $hotel): ?>
                     <option value="<?php echo $hotel['hotel_id']; ?>"><?php echo $hotel['name']; ?></option>
                 <?php endforeach; ?>
@@ -122,20 +122,20 @@ $hotels = $hotelsDB->find();
         <?php endforeach; ?>
     </table>
     <div class="div-update">
-        <form class="form-admin">
+        <form class="form-admin" method="post" action="add-car.php">
             <label>Přidat vozidlo:</label>
-            <input type="text" min="1" max="40" required placeholder="Název vozidla">
-            <input type="number" min="1" max="20" required placeholder="Místa">
+            <input type="text" min="1" max="40" required placeholder="Název vozidla" name="model">
+            <input type="number" min="1" max="20" required placeholder="Místa" name="capacity">
             <button type="submit">Přidat vozidlo</button>
         </form>
-        <form class="form-admin">
+        <form class="form-admin" method="post" action="change-capacity.php">
             <label>Změnit kapacitu vozidla:</label>
-            <select>
+            <select required name="car_id">
                 <?php foreach ($cars as $car): ?>
                     <option value="<?php echo $car['car_id']; ?>"><?php echo $car['model']; ?></option>
                 <?php endforeach; ?>
             </select>
-            <input type="number" min="1" max="20" required placeholder="Místa">
+            <input type="number" min="1" max="20" required placeholder="Místa" name="capacity">
             <button type="submit">Změnit oprávnění</button>
         </form>
     </div>
