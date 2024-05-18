@@ -3,6 +3,8 @@
 require __DIR__ . '/../classes/ReservationsDB.php';
 require __DIR__ . '/../classes/CarsDB.php';
 
+$date_time = date('Y-m-d G:i:s');
+
 if(!isset($_COOKIE['email'])){
     Header('Location: login-page.php');
     exit;
@@ -190,6 +192,7 @@ foreach ($cars as $car) {
                                     <input name="date" value="<?php echo $date; ?>" style="display:none">
                                     <input name="car_id" value="<?php echo $cars[$i]['car_id']; ?>" style="display:none">
                                     <input name="time_id" value="<?php echo $x; ?>" style="display:none">
+                                    <input name="date_time" value="<?php echo $date_time; ?>" style="display:none">
                                     <button class="button-reservation" type="submit">+</button>
                                 </form>
                             </div> <?php break;
@@ -201,6 +204,7 @@ foreach ($cars as $car) {
                                     <input name="date" value="<?php echo $date; ?>" style="display:none">
                                     <input name="car_id" value="<?php echo $cars[$i]['car_id']; ?>" style="display:none">
                                     <input name="time_id" value="<?php echo $x; ?>" style="display:none">
+                                    <input name="date_time" value="<?php echo $date_time; ?>" style="display:none">
                                     <button class="button-reservation" type="submit">✔</button>
                                 </form>
                             </div> <?php break;

@@ -320,3 +320,15 @@ h2 {
 .form-admin {
     margin-bottom: 2px;
 }
+
+.legend.github {
+    width: 20%;
+    margin: 20px auto;
+    margin-bottom: 10px;
+}
+
+a.github {
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+}

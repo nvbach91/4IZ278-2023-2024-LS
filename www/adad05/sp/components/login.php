@@ -57,7 +57,8 @@ if (!empty($_POST)) {
             <button class="btn btn-primary btn-new" type="submit">Přihlásit se</button>
         </form>
 
-        <a href="https://github.com/login/oauth/authorize?scope=user:email&client_id=Ov23lixouLhq0FxwIyzV">Github login</a>
+        <hr class="legend github">
+        <a class="github" href="https://github.com/login/oauth/authorize?scope=user:email&client_id=Ov23lixouLhq0FxwIyzV">Přihlásit se přes GitHub</a>
 
         <div class="errors">
             <?php if (isset($errors)) {

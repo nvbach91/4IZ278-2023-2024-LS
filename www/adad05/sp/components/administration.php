@@ -136,7 +136,7 @@ $hotels = $hotelsDB->find();
                 <?php endforeach; ?>
             </select>
             <input type="number" min="1" max="20" required placeholder="Místa" name="capacity">
-            <button type="submit">Změnit oprávnění</button>
+            <button type="submit">Změnit kapacitu</button>
         </form>
     </div>
 </div>

@@ -1,6 +1,5 @@
 <?php
 
-
 $client_id = "";
 $client_secret = "";
 
@@ -8,33 +7,6 @@ require __DIR__ . '/vendor/autoload.php';
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 
-
-function getUser() {
-    if(empty($_COOKIE['cr_github_access_token'])) {
-        return false;
-    }
-
-    $apiUrl = "https://api.github.com/user";
-
-    $client = new Client();
-
-    try {
-        $response = $client->get($apiUrl, [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $_COOKIE['cr_github_access_token'],
-                'Accept' => 'application/json',
-            ]
-        ]);
-
-        if($response->getStatusCode() == 200) {
-            return json_decode($response->getBody()->getContents());
-        }
-        return false;
-    }
-    catch(RequestException $e) {
-        return false;
-    }
-}
 
 function exchangeCode($data, $apiUrl) {
     $client = new Client();
@@ -92,9 +64,8 @@ if(!empty($tokenData->error)) {
 if(!empty($tokenData->access_token)) {
     setcookie('cr_github_access_token', $tokenData->access_token, time() + 2592000, "/", "", false, true);
     // the last argument - true - sets it as an httponly cookie
+    header('Location: github-login.php');
+    exit();
 }
-
-$user = getUser();
-var_dump($user);
 
 ?>
