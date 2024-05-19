@@ -14,28 +14,14 @@ return new class extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->boolean('active');
+            $table->boolean('active')->default(true);
             $table->float('fee');
             $table->timestamps();
         });
         Schema::create('users_clients', function (Blueprint $table) {
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('client_id')->constrained('clients')->onDelete('cascade');
-            $table->boolean('owner');
-            $table->timestamps();
-        });
-        Schema::create('accounts', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->foreignId('client_id')->constrained('clients')->onDelete('cascade');
-            $table->string('number');
-            $table->integer('sequence')->nullable();
-            $table->timestamps();
-        });
-        Schema::create('api_keys', function (Blueprint $table) {
-            $table->id();
-            $table->string('key');
-            $table->foreignId('account_id')->constrained('accounts')->onDelete('cascade');
+            $table->boolean('owner')->default(false);
             $table->timestamps();
         });
         Schema::create('sequences', function (Blueprint $table) {
@@ -44,11 +30,25 @@ return new class extends Migration
             $table->string('last_used');
             $table->timestamps();
         });
+        Schema::create('accounts', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->foreignId('client_id')->constrained('clients')->onDelete('cascade');
+            $table->string('number');
+            $table->foreignId('sequence')->nullable()->constrained('sequences')->onDelete('set null');
+            $table->timestamps();
+        });
+        Schema::create('api_keys', function (Blueprint $table) {
+            $table->id();
+            $table->string('key');
+            $table->foreignId('account_id')->constrained('accounts')->onDelete('cascade');
+            $table->timestamps();
+        });
         Schema::create('sellers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('hash');
-            $table->boolean('active');
+            $table->boolean('active')->default(true);
             $table->foreignId('client_id')->constrained('clients')->onDelete('cascade');
             $table->timestamps();
         });
@@ -58,7 +58,7 @@ return new class extends Migration
             $table->string('variable_symbol');
             $table->foreignId('seller_id')->constrained('sellers')->onDelete('cascade');
             $table->foreignId('account_id')->constrained('accounts')->onDelete('cascade');
-            $table->boolean('success');
+            $table->boolean('success')->default(false);
             $table->timestamps();
         });
     }

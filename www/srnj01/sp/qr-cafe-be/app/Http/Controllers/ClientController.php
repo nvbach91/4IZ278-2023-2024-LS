@@ -7,82 +7,85 @@ use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $user = auth()->user();
-        $clients = $user->clients()->get();
+
+        if ($user->role === 'admin') {
+            // Admin can view all clients
+            $clients = Client::all();
+        } else if ($user->role === 'client') {
+            // Client can view their associated clients
+            $clients = $user->clients()->get();
+        } else {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
 
         return response()->json($clients);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
+        $user = auth()->user();
+
+        if ($user->role !== 'admin') {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'active' => 'required|boolean',
+            'active' => 'boolean',
             'fee' => 'required|numeric',
         ]);
 
-        $client = Client::create($validatedData);
+        $validatedData['active'] = $request->input('active', true);
 
-        $user = auth()->user();
-        $user->clients()->attach($client->id, ['owner' => true]);
+        $client = Client::create($validatedData);
 
         return response()->json($client, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Client $client)
     {
         $user = auth()->user();
-        if (!$user->clients->contains($client)) {
-            return response()->json(['error' => 'Forbidden'], 403);
-        }
 
-        return response()->json($client);
+        if ($this->authorize('view', $client)) {
+            return response()->json($client);
+        } else {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Client $client)
     {
         $user = auth()->user();
-        if (!$user->clients->contains($client)) {
-            return response()->json(['error' => 'Forbidden'], 403);
+
+        if ($this->authorize('update', $client)) {
+            $validatedData = $request->validate([
+                'name' => 'string|max:255',
+                'active' => 'boolean',
+                'fee' => 'numeric',
+            ]);
+
+            $validatedData['active'] = $request->input('active', true);
+
+            $client->update($validatedData);
+
+            return response()->json($client);
+        } else {
+            return response()->json(['error' => 'Unauthorized'], 403);
         }
-
-        $validatedData = $request->validate([
-            'name' => 'string|max:255',
-            'active' => 'boolean',
-            'fee' => 'numeric',
-        ]);
-
-        $client->update($validatedData);
-
-        return response()->json($client);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Client $client)
     {
         $user = auth()->user();
-        if (!$user->clients->contains($client)) {
-            return response()->json(['error' => 'Forbidden'], 403);
+
+        if ($this->authorize('delete', $client)) {
+            $client->delete();
+            return response()->json(null, 204);
+        } else {
+            return response()->json(['error' => 'Unauthorized'], 403);
         }
-
-        $client->delete();
-
-        return response()->json(null, 204);
     }
 }
