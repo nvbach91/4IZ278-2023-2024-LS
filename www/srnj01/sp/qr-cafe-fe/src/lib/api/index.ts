@@ -1,3 +1,7 @@
+import { PUBLIC_API_URL } from '$env/static/public';
+
+export const buildUrl = (path: string) => `${PUBLIC_API_URL}${path}`;
+
 export const customFetch = async (route: string, options: RequestInit) =>
 	fetch(route, {
 		credentials: 'include',
