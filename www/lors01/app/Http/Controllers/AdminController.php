@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Category;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Redirect;
 
 class AdminController extends Controller
 {
@@ -15,39 +16,13 @@ class AdminController extends Controller
     {
         $products = Product::all();
         $orders = Order::with('products')->get();
-        $categories = Category::all(); // Fetch all categories
+        $categories = Category::all();
 
-        return Inertia::render('AdminPage', compact('products', 'orders', 'categories')); // Pass categories
+        return Inertia::render('AdminPage', compact('products', 'orders', 'categories'));
     }
 
     public function addProduct(Request $request)
     {
-        // Validate product data and the image file
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-            'price' => 'required|numeric',
-            'stock' => 'required|integer',
-            'category_id' => 'required|exists:categories,id',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048', // Add this line for image validation
-        ]);
-    
-        // Handle the image upload
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imagePath = $image->store('images', 'public'); // Save to 'public/products' directory
-            $validatedData['image'] = $imagePath;
-        }
-    
-        Product::create($validatedData);
-    
-        return redirect()->route('admin.index')->with('success', 'Product added successfully.');
-    }
-    
-    
-    public function updateProduct(Request $request, $id)
-    {
-        // Validate product data and the image file
         $validatedData = $request->validate([
             'name' => 'required',
             'description' => 'required',
@@ -56,42 +31,81 @@ class AdminController extends Controller
             'category_id' => 'required|exists:categories,id',
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
-    
-        // Find the product by ID
-        $product = Product::findOrFail($id);
-    
-        // Handle the image update
+
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imagePath = $image->store('images', 'public');
             $validatedData['image'] = $imagePath;
         }
-    
-        $product->update($validatedData);
-    
-        return redirect()->route('admin.index')->with('success', 'Product updated successfully.');
+
+        Product::create($validatedData);
+
+        return redirect()->route('admin.index')->with('success', 'Product added successfully.');
     }
 
-    public function deleteProduct($id)
+    public function updateProduct(Request $request, $id)
     {
-        // Find the product by ID
-        $product = Product::findOrFail($id);
+        try {
+            $product = Product::findOrFail($id);
     
-        // Check if the product has an associated image
-        if ($product->image) {
-            // Construct the full path to the image file
-            $imagePath = storage_path('app/public/' . $product->image);
+            $validatedData = $request->validate([
+                'name' => 'required',
+                'description' => 'required',
+                'price' => 'required|numeric',
+                'stock' => 'required|integer',
+                'category_id' => 'required|exists:categories,id',
+            ]);
     
-            // Check if the file exists, then delete it
-            if (file_exists($imagePath)) {
-                unlink($imagePath);
+            $product->update($validatedData);
+    
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    // Only separating the image update from the updateProduct worked. When I submit a form that includes both text data and a file, the request payload is sent in a multipart format. This means that the request is divided into multiple parts, each containing a specific piece of data. 
+    public function updateProductImage(Request $request, $id)
+    {
+        try {
+            $product = Product::findOrFail($id);
+
+            $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            ]);
+
+            // Delete the old image if exists
+            if ($product->image) {
+                Storage::disk('public')->delete($product->image);
+            }
+
+            // Store the new image
+            $imagePath = $request->file('image')->store('images', 'public');
+            $product->image = $imagePath;
+            $product->save();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+        }
+    }
+
+
+        public function deleteProduct($id)
+        {
+            try {
+                $product = Product::findOrFail($id);
+
+                if ($product->image) {
+                    Storage::disk('public')->delete($product->image);
+                }
+
+                $product->delete();
+
+                return Redirect::route('admin.index')->with('success', 'Product deleted successfully.');
+            } catch (\Exception $e) {
+                return Redirect::route('admin.index')->with('error', 'Chyba při odstraňování produktu: ' . $e->getMessage());
             }
         }
-    
-        // Delete the product from the database
-        $product->delete();
-    
-        return redirect()->route('admin.index')->with('success', 'Product deleted successfully.');
-    }
-    
+
 }

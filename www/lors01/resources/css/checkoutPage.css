@@ -1,0 +1,117 @@
+/* checkout-styles.css */
+.checkout-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+.checkout-title {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+.checkout-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.checkout-cart-items, .checkout-form {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex: 1 1 300px; /* Make flex items wrap sooner */
+}
+
+.checkout-cart-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    transition: box-shadow 0.3s ease;
+}
+
+.checkout-cart-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.checkout-cart-item-image {
+    width: 80px;
+    height: 80px;
+    margin-right: 15px;
+    border-radius: 8px;
+}
+
+.checkout-cart-item-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.checkout-form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.checkout-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
+}
+
+.checkout-input:focus {
+    border-color: #3490dc;
+}
+
+.checkout-input-error {
+    border-color: #e3342f;
+}
+
+.checkout-error {
+    color: #e3342f;
+    font-size: 0.875rem;
+    margin-top: -8px;
+    margin-bottom: 10px;
+}
+
+.checkout-submit-button {
+    display: inline-block;
+    width: 100%;
+    padding: 12px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    background-color: #3490dc;
+    border: none;
+    border-radius: 8px;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+}
+
+.checkout-submit-button:hover {
+    background-color: #2779bd;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Media Query to adjust flex-wrap behavior */
+@media (max-width: 768px) {
+    .checkout-content {
+        flex-direction: column;
+    }
+
+    .checkout-cart-items, .checkout-form {
+        flex: 1 1 100%;
+    }
+}

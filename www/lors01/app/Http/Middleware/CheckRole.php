@@ -18,6 +18,11 @@ class CheckRole
         if (! $request->user() || $request->user()->role !== $role) {
             abort(403, 'Unauthorized');
         }
+        // Check if the request method is allowed
+        $allowedMethods = ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE'];
+        if (!in_array($request->method(), $allowedMethods)) {
+            abort(405, 'Method Not Allowed');
+        }
 
         return $next($request);
     }

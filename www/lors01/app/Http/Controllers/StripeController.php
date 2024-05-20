@@ -70,6 +70,8 @@ class StripeController extends Controller
                     ];
                 }, $request->items)),
                 'email' => $request->email,
+                'first_name' => $request->firstName,
+                'last_name' => $request->lastName,
                 'address' => $request->address,
                 'city' => $request->city,
                 'zip' => $request->zip,
@@ -122,6 +124,8 @@ public function handleWebhook(Request $request)
         $order = Order::create([
             'user_id' => $userId,
             'email' => $email,
+            'first_name' => $session->metadata->first_name,
+            'last_name' => $session->metadata->last_name,
             'address' => $session->metadata->address,
             'city' => $session->metadata->city,
             'zip' => $session->metadata->zip,

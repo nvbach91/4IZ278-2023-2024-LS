@@ -76,9 +76,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::middleware(['auth', 'verified', \App\Http\Middleware\CheckRole::class.':admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
-    Route::post('/admin', [AdminController::class, 'addProduct'])->name('admin.addProduct');
-    Route::put('/admin/{id}', [AdminController::class, 'updateProduct'])->name('admin.updateProduct');
-    Route::put('/admin/{id}', [AdminController::class, 'deleteProduct'])->name('admin.deleteProduct');
+    Route::post('/admin/add', [AdminController::class, 'addProduct'])->name('admin.addProduct');
+    Route::put('/admin/update/{id}', [AdminController::class, 'updateProduct'])->name('admin.updateProduct');
+    Route::put('/admin/delete/{id}', [AdminController::class, 'deleteProduct'])->name('admin.deleteProduct');
+    Route::post('/admin/products/{id}/image', [AdminController::class, 'updateProductImage'])->name('admin.updateProductImage'); // Only separating the image update worked
     // Add more routes for managing orders as needed
 });
 

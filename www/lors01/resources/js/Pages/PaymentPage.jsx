@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Head, router } from '@inertiajs/react';
 import { loadStripe } from '@stripe/stripe-js';
+import '../../css/paymentPage.css';
 
 const stripePromise = loadStripe('pk_test_51N7d6TGb9oIEuaf3cHUvqvYoIuTABOVGqO9QcARE0DrX6dubs4bDdQnpJ5pQB0lXZrktS2SwOIUVVV5LDuxaopKJ00RDMJBtnd');
 
@@ -35,9 +36,9 @@ export default function PaymentPage({ auth }) {
                 items: cartItems,
                 total: calculateTotal(),
                 email: checkoutData.email,
-                address: checkoutData.address,
                 firstName: checkoutData.firstName,
                 lastName: checkoutData.lastName,
+                address: checkoutData.address,
                 company: checkoutData.company,
                 city: checkoutData.city,
                 zip: checkoutData.zip,
@@ -68,9 +69,9 @@ export default function PaymentPage({ auth }) {
                 items: cartItems,
                 total: calculateTotal(),
                 email: checkoutData.email,
-                address: checkoutData.address,
                 firstName: checkoutData.firstName,
                 lastName: checkoutData.lastName,
+                address: checkoutData.address,
                 company: checkoutData.company,
                 city: checkoutData.city,
                 zip: checkoutData.zip,
@@ -99,21 +100,21 @@ export default function PaymentPage({ auth }) {
     return (
         <>
             <Head title="Platba" />
-            <div className="container mx-auto px-4">
-                <h1 className="text-2xl mb-4">Platba</h1>
-                <div className="mb-4">
-                    <h2 className="text-xl">Souhrn objednávky</h2>
+            <div className="payment-container">
+                <h1 className="payment-title">Platba</h1>
+                <div className="payment-summary">
+                    <h2 className="payment-subtitle">Souhrn objednávky</h2>
                     {cartItems.map((item, index) => (
-                        <div key={index} className="flex justify-between">
+                        <div key={index} className="payment-item">
                             <div>{item.name} x {item.quantity}</div>
                             <div>{item.price * item.quantity} CZK</div>
                         </div>
                     ))}
-                    <div className="mb-4">
-                        <h3 className="text-lg">Způsob doručení</h3>
-                        <div className={`border ${shippingMethodError ? 'border-red-500' : ''} p-2`}>
+                    <div className="payment-shipping-method">
+                        <h3 className="payment-shipping-title">Způsob doručení</h3>
+                        <div className={`payment-shipping-options ${shippingMethodError ? 'payment-shipping-error' : ''}`}>
                             {shippingMethods.map((method) => (
-                                <div key={method.id} className="flex items-center">
+                                <div key={method.id} className="payment-shipping-option">
                                     <input
                                         type="radio"
                                         id={method.id}
@@ -124,7 +125,7 @@ export default function PaymentPage({ auth }) {
                                             setSelectedShippingMethod(method);
                                             setShippingMethodError(false);
                                         }}
-                                        className="mr-2"
+                                        className="payment-radio"
                                     />
                                     <label htmlFor={method.id}>
                                         {method.name} - {method.price} CZK
@@ -133,25 +134,25 @@ export default function PaymentPage({ auth }) {
                             ))}
                         </div>
                     </div>
-                    <div className="flex justify-between font-bold">
+                    <div className="payment-total">
                         <div>Celkem</div>
                         <div>{calculateTotal()} CZK</div>
                     </div>
                 </div>
-                <div className="mb-4">
+                <div className="payment-button-container">
                     <button
                         onClick={handleCashPayment}
                         disabled={loading}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        className="payment-button payment-cash-button"
                     >
                         {loading ? 'Zpracovává se...' : 'Zaplatit dobírkou'}
                     </button>
                 </div>
-                <div>
+                <div className="payment-button-container">
                     <button
                         onClick={handleStripePayment}
                         disabled={loading}
-                        className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
+                        className="payment-button payment-stripe-button"
                     >
                         {loading ? 'Zpracovává se...' : 'Zaplatit kartou'}
                     </button>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Head, useForm } from '@inertiajs/react';
+import { Head, useForm, router } from '@inertiajs/react';
+import axios from 'axios';
 
 export default function AdminPage({ products, orders, categories }) {
     const [editingProduct, setEditingProduct] = useState(null);
@@ -59,32 +60,55 @@ export default function AdminPage({ products, orders, categories }) {
         setEditingProduct(product);
     };
 
-    const handleUpdateProduct = () => {
-        put(route('admin.updateProduct', editingProduct.id), {
-            onSuccess: () => {
-                setEditingProduct(null);
-                resetEditedProduct();
-                setEditingProductImagePreview('');
-                alert('Produkt úspěšně aktualizován.');
-            },
-            onError: () => {
-                alert('Chyba při aktualizaci produktu.');
+    const handleUpdateProduct = async () => {
+        try {
+            // Update product data without the image
+            await axios.put(route('admin.updateProduct', editingProduct.id), {
+                name: editedProduct.name,
+                description: editedProduct.description,
+                price: editedProduct.price,
+                stock: editedProduct.stock,
+                category_id: editedProduct.category_id,
+            });
+    
+            // Update the image separately if a new image is selected
+            if (editedProduct.image instanceof File) {
+                const formData = new FormData();
+                formData.append('image', editedProduct.image);
+    
+                await axios.post(route('admin.updateProductImage', editingProduct.id), formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
             }
-        });
+    
+            setEditingProduct(null);
+            resetEditedProduct();
+            setEditingProductImagePreview('');
+            alert('Produkt úspěšně aktualizován.');
+        } catch (error) {
+            console.error('Chyba při aktualizaci produktu:', error);
+            alert('Chyba při aktualizaci produktu.');
+        }
     };
-
+    
     const handleDeleteProduct = (productId) => {
         if (confirm('Opravdu chcete tento produkt odstranit?')) {
             put(route('admin.deleteProduct', productId), {
                 onSuccess: () => {
-                    alert('Produkt úspěšně odstraněn.');
+                    setEditingProduct(null);
+                    resetEditedProduct();
+                    setEditingProductImagePreview('');
+                    alert('Produkt úspěšně smazán.');
                 },
                 onError: () => {
                     alert('Chyba při odstraňování produktu.');
                 }
             });
-        };
+        }
     };
+    
 
     const handleNewProductImageChange = (e) => {
         const file = e.target.files[0];
@@ -113,6 +137,7 @@ export default function AdminPage({ products, orders, categories }) {
                             <th className="px-4 py-2">Popis</th>
                             <th className="px-4 py-2">Cena</th>
                             <th className="px-4 py-2">Sklad</th>
+                            <th className="px-4 py-2">Akce</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -186,7 +211,6 @@ export default function AdminPage({ products, orders, categories }) {
                         onChange={(e) => setNewProduct('stock', e.target.value)}
                         className="border rounded py-1 px-2 mr-2"
                     />
-
                     <select
                         name="category_id"
                         value={newProduct.category_id}
@@ -207,7 +231,6 @@ export default function AdminPage({ products, orders, categories }) {
                     >
                         Vyberte obrázek
                     </button>
-
                     <input
                         type="file"
                         id="newProductImage"

@@ -38,7 +38,7 @@ class ProductSeeder extends Seeder
             'image' => 'images/mystic.png' 
         ]);
         Product::create([
-            'id' => 2,
+            'id' => 3,
             'name' => 'Green Kombucha',
             'description' => 'Nová edice s mnohem lepší chutí',
             'price' => 899,
@@ -47,7 +47,7 @@ class ProductSeeder extends Seeder
             'image' => 'images/green.png' 
         ]);
         Product::create([
-            'id' => 2,
+            'id' => 4,
             'name' => 'Holy Kombucha',
             'description' => 'Nová edice s mnohem lepší chutí',
             'price' => 999,

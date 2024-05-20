@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->string('email');
+            $table->string('first_name');
+            $table->string('last_name');
             $table->string('address');
             $table->string('city');
             $table->string('zip');
