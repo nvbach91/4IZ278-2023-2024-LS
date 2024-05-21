@@ -5,7 +5,7 @@ require __DIR__ . '/../classes/CarsDB.php';
 
 $date_time = date('Y-m-d G:i:s');
 
-if(!isset($_COOKIE['email'])){
+if (!isset($_COOKIE['email'])) {
     Header('Location: login-page.php');
     exit;
 }
@@ -209,13 +209,34 @@ foreach ($cars as $car) {
                                 </form>
                             </div> <?php break;
                         case 2: ?>
-                            <div class="reservation unavailable">X</div> <?php break;
+                            <?php if ($_COOKIE['privilege'] == 3) { ?>
+                                <div class="reservation unavailable">
+                                    <div class="hover-container">
+                                        <div class="hover-target">X</div>
+                                        <aside class="hover-popup">
+                                            <h2 class="h2-popup"><?php echo $reservations[$i][$x]['name'] . ' (' . $reservations[$i][$x]['email'] . ')'; ?></h2>
+                                        </aside>
+                                    </div>
+                                </div>
+                            <?php } else { ?>
+                                <div class="reservation unavailable pad-top">X</div>
+                            <?php } break;
                         case 3: ?>
-                            <div class="reservation blocked">X</div> <?php break;
+                            <?php if ($_COOKIE['privilege'] == 3) { ?>
+                                <div class="reservation blocked">
+                                    <div class="hover-container">
+                                        <div class="hover-target">X</div>
+                                        <aside class="hover-popup">
+                                            <h2 class="h2-popup">Čas vyhrazený pro výměnu klientů.</h2>
+                                        </aside>
+                                    </div>
+                                </div>
+                            <?php } else { ?>
+                                <div class="reservation blocked pad-top">X</div>
+                            <?php } break;
                     }
                 } ?>
             </div>
         </div>
     <?php } ?>
-
 </div>

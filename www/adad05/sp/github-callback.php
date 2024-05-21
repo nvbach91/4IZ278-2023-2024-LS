@@ -62,7 +62,7 @@ if(!empty($tokenData->error)) {
 }
 
 if(!empty($tokenData->access_token)) {
-    setcookie('cr_github_access_token', $tokenData->access_token, time() + 2592000, "/", "", false, true);
+    setcookie('cr_github_access_token', $tokenData->access_token, time() + 10, "/", "", false, true);
     // the last argument - true - sets it as an httponly cookie
     header('Location: github-login.php');
     exit();

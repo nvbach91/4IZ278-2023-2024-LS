@@ -6,7 +6,7 @@ if (empty($_GET['reason'])){
 } else {
     switch($_GET['reason']){
         case 'admin-required': $message = 'Pro přístup do administrace potřebujete nejvyšší oprávnění!'; break;
-        case 'hotel-required': $message = 'Pro tvorbu rezerevací Vám musí administrátor přiřadit hotel!'; break;
+        case 'hotel-required': $message = 'Pro tvorbu rezerevací Vám musí administrátor přiřadit oprávnění!'; break;
     }
 }
 

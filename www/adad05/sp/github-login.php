@@ -5,6 +5,8 @@ require __DIR__ . '/vendor/autoload.php';
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 
+$usersDB = new UsersDB();
+
 function getUser($apiUrl) {
     if(empty($_COOKIE['cr_github_access_token'])) {
         return false;
@@ -39,7 +41,7 @@ foreach($emails as $email) {
 }
 
 var_dump($user_email);
-$usersDB = new UsersDB();
+
 $user = $usersDB->findByEmail($user_email);
 if(!empty($user)) {
     setcookie("email", $user[0]['email'], time() + 60 * 60);
