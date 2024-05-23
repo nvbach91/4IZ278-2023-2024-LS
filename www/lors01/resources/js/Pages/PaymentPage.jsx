@@ -51,7 +51,16 @@ export default function PaymentPage({ auth }) {
             localStorage.removeItem('checkoutData');
             router.visit('/order-confirmation');
         } catch (error) {
-            console.error('Chyba při vytváření objednávky:', error);
+            if (error.response && error.response.status === 400) {
+                const productId = error.response.data.product_id;
+                // Remove the out-of-stock product from localStorage
+                const updatedCartItems = cartItems.filter(item => item.id !== productId);
+                localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+                // Redirect to homepage
+                router.visit('/');
+            } else {
+                console.error('Chyba při vytváření objednávky:', error);
+            }
         }
         setLoading(false);
     };
@@ -86,7 +95,16 @@ export default function PaymentPage({ auth }) {
                 console.error('Chyba při Stripe platbě:', result.error);
             }
         } catch (error) {
-            console.error('Chyba při vytváření Stripe platební relace:', error);
+            if (error.response && error.response.status === 400) {
+                const productId = error.response.data.product_id;
+                // Remove the out-of-stock product from localStorage
+                const updatedCartItems = cartItems.filter(item => item.id !== productId);
+                localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+                // Redirect to homepage
+                router.visit('/');
+            } else {
+                console.error('Chyba při vytváření Stripe platební relace:', error);
+            }
         }
         setLoading(false);
     };
@@ -95,6 +113,11 @@ export default function PaymentPage({ auth }) {
         const itemsTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
         const shippingPrice = selectedShippingMethod ? selectedShippingMethod.price : 0;
         return itemsTotal + shippingPrice;
+    };
+
+    const isCheckoutDataComplete = () => {
+        const requiredFields = ['email', 'firstName', 'lastName', 'address', 'city', 'zip', 'phone', 'country'];
+        return requiredFields.every(field => checkoutData[field]);
     };
 
     return (
@@ -142,7 +165,7 @@ export default function PaymentPage({ auth }) {
                 <div className="payment-button-container">
                     <button
                         onClick={handleCashPayment}
-                        disabled={loading}
+                        disabled={loading || cartItems.length === 0 || !isCheckoutDataComplete()}
                         className="payment-button payment-cash-button"
                     >
                         {loading ? 'Zpracovává se...' : 'Zaplatit dobírkou'}
@@ -151,7 +174,7 @@ export default function PaymentPage({ auth }) {
                 <div className="payment-button-container">
                     <button
                         onClick={handleStripePayment}
-                        disabled={loading}
+                        disabled={loading || cartItems.length === 0 || !isCheckoutDataComplete()}
                         className="payment-button payment-stripe-button"
                     >
                         {loading ? 'Zpracovává se...' : 'Zaplatit kartou'}

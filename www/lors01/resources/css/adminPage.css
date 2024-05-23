@@ -1,0 +1,141 @@
+.admin-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin-title {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.admin-subtitle {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+
+.admin-table-header {
+    background-color: #f1f1f1;
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+    color: #333;
+    border-bottom: 2px solid #ddd;
+}
+
+.admin-table-row:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.admin-table-cell {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.admin-product-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.admin-button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+    color: #fff;
+}
+
+.admin-button-edit {
+    background-color: #1e90ff;
+    margin-right: 10px;
+}
+
+.admin-button-edit:hover {
+    background-color: #1c86ee;
+}
+
+.admin-button-delete {
+    background-color: #ff4500;
+}
+
+.admin-button-delete:hover {
+    background-color: #ff6347;
+}
+
+.admin-form-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+.admin-form {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin-input,
+.admin-select {
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 1em;
+    width: calc(100% - 20px);
+}
+
+.admin-input-file {
+    display: none;
+}
+
+.admin-button-upload {
+    background-color: #32cd32;
+    margin-right: 10px;
+}
+
+.admin-button-upload:hover {
+    background-color: #2eb82e;
+}
+
+.admin-button-add {
+    background-color: #32cd32;
+}
+
+.admin-button-add:hover {
+    background-color: #2eb82e;
+}
+
+.admin-button-update {
+    background-color: #1e90ff;
+}
+
+.admin-button-update:hover {
+    background-color: #1c86ee;
+}
+
+.admin-image-preview {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}

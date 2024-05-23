@@ -21,8 +21,25 @@ class OrderController extends Controller
         return response()->json($orders);
     }
 
+    protected function checkStock($items)
+    {
+        foreach ($items as $item) {
+            $product = Product::find($item['id']);
+            if (!$product || $product->stock < $item['quantity']) {
+                return $item['id']; // Return the ID of the out-of-stock product
+            }
+        }
+        return true;
+    }
+
     public function store(Request $request)
     {
+        // Check stock availability
+        $stockCheck = $this->checkStock($request->items);
+        if ($stockCheck !== true) {
+            return response()->json(['message' => 'Some items are out of stock or quantity exceeds available stock', 'product_id' => $stockCheck], 400);
+        }
+
         $order = Order::create([
             'user_id' => $request->user_id,
             'email' => $request->email,
@@ -55,6 +72,6 @@ class OrderController extends Controller
         // Send order confirmation email
         Mail::to($request->email)->send(new OrderConfirmation($order));
 
-       return response()->json(['message' => 'Order created successfully']);
-   }
+        return redirect('/order-confirmation');
+    }
 }

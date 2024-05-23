@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Head, router } from '@inertiajs/react';
 import '../../css/checkoutPage.css';
 
-export default function CheckoutPage() {
+export default function CheckoutPage({ auth }) {
     const defaultFormData = {
         email: '',
         country: 'CZ',
@@ -25,8 +25,18 @@ export default function CheckoutPage() {
         setCartItems(items);
         if (storedFormData) {
             setFormData(storedFormData);
+        } else if (auth.user) {
+            // Extract first and last name from the full name
+            const [firstName, lastName] = auth.user.name.split(' ');
+            // Prefill form with user data if logged in
+            setFormData({
+                email: auth.user.email || '',
+                country: 'CZ',
+                firstName: firstName || '',
+                lastName: lastName || '',
+            });
         }
-    }, []);
+    }, [auth.user]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;

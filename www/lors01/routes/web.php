@@ -80,7 +80,6 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\CheckRole::class.':a
     Route::put('/admin/update/{id}', [AdminController::class, 'updateProduct'])->name('admin.updateProduct');
     Route::put('/admin/delete/{id}', [AdminController::class, 'deleteProduct'])->name('admin.deleteProduct');
     Route::post('/admin/products/{id}/image', [AdminController::class, 'updateProductImage'])->name('admin.updateProductImage'); // Only separating the image update worked
-    // Add more routes for managing orders as needed
 });
 
 require __DIR__.'/auth.php';
