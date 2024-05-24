@@ -18,19 +18,19 @@ class UsersDB extends Database
 
     public function createUser($name, $email, $password)
     {
-        $results = $this->runQuery("INSERT INTO users (name, email, password, privilege) values ('$name', '$email', '$password', 1) ", []);
+        $results = $this->runQuery("INSERT INTO users (name, email, password, privilege) values (:name, :email, :password, 1) ", [":name" => $name, ":email"=> $email, ":password"=> $password]);
         return $results;
     }
 
     public function updateUser($user_id, $privilege)
     {
-        $results = $this->runQuery("UPDATE users SET privilege = $privilege WHERE user_id like '$user_id'", []);
+        $results = $this->runQuery("UPDATE users SET privilege = :privilege WHERE user_id like :user_id", [":privilege" => $privilege, ":user_id" => $user_id]);
         return $results;
     }
 
     public function updateUserHotel($user_id, $hotel_id)
     {
-        $results = $this->runQuery("UPDATE users SET hotel = $hotel_id WHERE user_id like '$user_id'", []);
+        $results = $this->runQuery("UPDATE users SET hotel = :hotel_id WHERE user_id like :user_id", [":hotel_id" => $hotel_id, ":user_id" => $user_id]);
         return $results;
     }
 

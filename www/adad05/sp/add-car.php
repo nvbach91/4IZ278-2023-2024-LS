@@ -5,7 +5,7 @@ $carsDB = new CarsDB();
 
 if(isset($_POST)){
     $carsDB->createCar($_POST['model'], $_POST['capacity']);
-    Header ('Location: administration-page.php');
+    Header ('Location: administration-page.php?edit-mode=vehicles');
 }
 
 ?>

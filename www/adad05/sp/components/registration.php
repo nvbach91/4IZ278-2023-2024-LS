@@ -26,8 +26,16 @@ if (!empty($_POST)) {
         array_push($errors, "Zadejte správný formát emailu!");
     }
 
-    if (strlen($password) < 3) {
-        array_push($errors, "Heslo musí obsahovat alespoň 3 znaky!");
+    if (strlen($password) < 8) {
+        array_push($errors, "Heslo musí obsahovat alespoň 8 znaků!");
+    }
+
+    if (!preg_match('/[a-zA-Z]/', $password)) {
+        array_push($errors, "Heslo musí obsahovat alespoň 1 písmeno!");
+    }
+
+    if (!preg_match('/[0-9]/', $password)) {
+        array_push($errors, "Heslo musí obsahovat alespoň 1 číslo!");
     }
 
     if (count($errors) == 0) {

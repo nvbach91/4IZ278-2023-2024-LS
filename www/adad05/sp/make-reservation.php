@@ -5,6 +5,7 @@ if(!isset($_COOKIE['email'])){
     exit;
 }
 
+// opravneni nedrzet v cookies - pouze ID
 if($_COOKIE['privilege'] == 1){
     Header('Location: unauthorized-message.php?reason=hotel-required');
     exit;

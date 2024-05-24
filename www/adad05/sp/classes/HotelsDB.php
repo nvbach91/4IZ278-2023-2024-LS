@@ -12,7 +12,7 @@ class HotelsDB extends Database
 
     public function createHotel($name, $address)
     {
-        $results = $this->runQuery("INSERT INTO hotels (name, address) values ('$name', '$address') ", []);
+        $results = $this->runQuery("INSERT INTO hotels (name, address) values (:name, :address) ", [":name" => $name, ":address" => $address]);
         return $results;
     }
 }

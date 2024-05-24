@@ -76,12 +76,11 @@ foreach ($cars as $car) {
         </div>
         <div class="form-date-div-right">
             <form class="form-date" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
-                <input list="cars_enum" name="car_filter" placeholder="Filtrovat vůz">
-                <datalist id="cars_enum">
-                    <?php foreach ($cars as $car) { ?>
-                        <option><?php echo $car['model']; ?></option>
-                    <?php } ?>
-                </datalist>
+                <select required name="car_filter">
+                    <?php foreach ($cars as $car): ?>
+                        <option value="<?php echo $car['model']; ?>"><?php echo $car['model']; ?></option>
+                    <?php endforeach; ?>
+                </select>
                 <button type="submit">Zobrazit zvolený vůz</button>
             </form>
             <form class="form-date-2" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
@@ -107,7 +106,7 @@ foreach ($cars as $car) {
 
     <?php for ($i = 0; $i < count($cars); $i++) { ?>
         <div class="reservation-row">
-            <div class="car-info-cell"><?php echo $cars[$i]['model'] . ':' ?></div>
+            <div class="car-info-cell"><?php echo $cars[$i]['model'] . ' (' . $cars[$i]['capacity'] . '):' ?></div>
             <div class="reservations">
                 <?php for ($x = 0; $x < 24; $x++) {
 
@@ -214,13 +213,19 @@ foreach ($cars as $car) {
                                     <div class="hover-container">
                                         <div class="hover-target">X</div>
                                         <aside class="hover-popup">
-                                            <h2 class="h2-popup"><?php echo $reservations[$i][$x]['name'] . ' (' . $reservations[$i][$x]['email'] . ')'; ?></h2>
+                                            <h2 class="h2-popup">
+                                                <?php echo $reservations[$i][$x]['name'] . ' (' . $reservations[$i][$x]['email'] . ')'; ?>
+                                            </h2>
+                                            <h2 class="h2-popup">
+                                                <?php echo $reservations[$i][$x]['hotel_name'] . ' (' . $reservations[$i][$x]['address'] . ')'; ?>
+                                            </h2>
                                         </aside>
                                     </div>
                                 </div>
                             <?php } else { ?>
                                 <div class="reservation unavailable pad-top">X</div>
-                            <?php } break;
+                            <?php }
+                            break;
                         case 3: ?>
                             <?php if ($_COOKIE['privilege'] == 3) { ?>
                                 <div class="reservation blocked">
@@ -233,7 +238,8 @@ foreach ($cars as $car) {
                                 </div>
                             <?php } else { ?>
                                 <div class="reservation blocked pad-top">X</div>
-                            <?php } break;
+                            <?php }
+                            break;
                     }
                 } ?>
             </div>

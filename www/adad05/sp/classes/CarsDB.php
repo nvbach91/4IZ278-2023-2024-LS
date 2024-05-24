@@ -12,19 +12,19 @@ class CarsDB extends Database
     
     public function findByName($model)
     {
-        $results = $this->runQuery("SELECT DISTINCT car_id, model, capacity from cars where model like '$model'", []);
+        $results = $this->runQuery("SELECT DISTINCT car_id, model, capacity from cars where model like :model", [":model" => $model]);
         return $results;
     }
 
     public function createCar($model, $capacity)
     {
-        $results = $this->runQuery("INSERT INTO cars (model, capacity) values ('$model', '$capacity') ", []);
+        $results = $this->runQuery("INSERT INTO cars (model, capacity) values (:model, :capacity) ", [":model" => $model, ":capacity" => $capacity]);
         return $results;
     }
 
     public function changeCapacity($car_id, $capacity)
     {
-        $results = $this->runQuery("UPDATE cars SET capacity = $capacity where car_id like '$car_id' ", []);
+        $results = $this->runQuery("UPDATE cars SET capacity = :capacity where car_id like :car_id ", [":capacity" => $capacity, ":car_id"=> $car_id]);
         return $results;
     }
 }

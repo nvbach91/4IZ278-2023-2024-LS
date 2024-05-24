@@ -25,10 +25,6 @@ if (!empty($_POST)) {
         array_push($errors, "Zadejte správný formát emailu!");
     }
 
-    if (strlen($password) < 3) {
-        array_push($errors, "Heslo musí obsahovat alespoň 3 znaky!");
-    }
-
     if (count($errors) == 0) {
         $success = true;
         setcookie("email", $email, time() + 60 * 60);
