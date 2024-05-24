@@ -16,7 +16,7 @@ export default function AdminPage({ auth, products, orders, categories }) {
     const handleToggle = () => {
         setIsActive(!isActive);
     };
-    
+
     // New Product Form
     const { data: newProduct, setData: setNewProduct, post, processing: addProcessing, reset: resetNewProduct } = useForm({
         name: '',
@@ -73,7 +73,7 @@ export default function AdminPage({ auth, products, orders, categories }) {
     const handleUpdateProduct = async () => {
         try {
             // Update product data without the image
-            await axios.put(route('admin.updateProduct', editingProduct.id), {
+            await axios.post(route('admin.updateProduct', editingProduct.id), {
                 name: editedProduct.name,
                 description: editedProduct.description,
                 price: editedProduct.price,
@@ -105,7 +105,7 @@ export default function AdminPage({ auth, products, orders, categories }) {
 
     const handleDeleteProduct = (productId) => {
         if (confirm('Opravdu chcete tento produkt odstranit?')) {
-            put(route('admin.deleteProduct', productId), {
+            post(route('admin.deleteProduct', productId), {
                 onSuccess: () => {
                     setEditingProduct(null);
                     resetEditedProduct();

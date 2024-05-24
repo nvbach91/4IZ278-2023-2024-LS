@@ -9,6 +9,7 @@ use App\Models\Category;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -45,9 +46,10 @@ class AdminController extends Controller
 
     public function updateProduct(Request $request, $id)
     {
+        \Illuminate\Support\Facades\Log::info("Updating product image with ID: {$id}");
         try {
             $product = Product::findOrFail($id);
-    
+
             $validatedData = $request->validate([
                 'name' => 'required',
                 'description' => 'required',

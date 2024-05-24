@@ -12,8 +12,8 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        $userEmail = $request->user()->email;
-        $orders = Order::where('email', $userEmail)
+        $userId = $request->user()->user_id;
+        $orders = Order::where('user_id', $userId)
             ->with(['products' => function ($query) {
                 $query->with('category');
             }])
