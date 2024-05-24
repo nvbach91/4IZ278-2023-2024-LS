@@ -1,0 +1,432 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+}
+
+.wrapper {
+    width: 1200px;
+    margin: 0 auto;
+    /* background-color: rgb(250, 250, 250); */
+    border-left: 2px solid rgba(0, 0, 0, 0.116);
+    border-right: 2px solid rgba(0, 0, 0, 0.116);
+    padding: 10px;
+    min-height: calc(100vh - 60px);
+    /* border-left: 1px solid rgba(0, 0, 0, 0.137);
+    border-right: 1px solid rgba(0, 0, 0, 0.137); */
+}
+
+.info-row {
+    height: 34px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1px;
+}
+
+.reservation-row {
+    height: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1px;
+}
+
+.reservation-row:last-child {
+    margin-bottom: 0;
+}
+
+.info-cell {
+    width: 10%;
+    background-color: rgb(209, 209, 209);
+    line-height: 34px;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    border-bottom-left-radius: 2px;
+    border-top-left-radius: 2px;
+}
+
+.time-schedule {
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.car-info-cell {
+    background-color: rgb(209, 209, 209);
+    width: 10%;
+    text-align: center;
+    line-height: 30px;
+    border-bottom-left-radius: 2px;
+    border-top-left-radius: 2px;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.reservations {
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.time {
+    width: calc(100% / 24);
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    margin-left: -1px;
+    border-left: 1px solid black;
+    line-height: 14px;
+    background-color: rgb(218, 218, 218);
+    padding-top: 4px;
+}
+
+.time:last-child {
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+.reservation {
+    width: calc(100% / 24);
+    line-height: 30px;
+    text-align: center;
+    border-left: 1px solid black;
+    margin-left: -1px;
+    background-color: rgb(212, 212, 212);
+    font-weight: bold;
+}
+
+.reservation.available.button {
+    line-height: 24px;
+    font-size: 26px;
+}
+
+.reservation.owned.button {
+    line-height: 20px;
+    font-size: 26px;
+}
+
+.reservation.available.button:hover {
+    cursor: default;
+}
+
+.reservation.owned.button:hover {
+    cursor: default;
+}
+
+.button-reservation {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    vertical-align: middle;
+    border: 0;
+    height: 30px;
+    background-color: transparent;
+    /* font-size: 26px; */
+    font-weight: 200;
+    color: rgba(22, 22, 22, 0.671);
+}
+
+.button-reservation:hover {
+    cursor: pointer;
+}
+
+.reservation:last-child {
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+.available {
+    background-image: linear-gradient(to bottom right, rgb(32, 116, 57), rgb(79, 165, 29));
+    font-size: 34px;
+    font-weight: 100;
+    color: rgba(4, 43, 17, 0.322);
+}
+
+.unavailable {
+    background-image: linear-gradient(to bottom right, rgb(146, 33, 33), rgb(228, 86, 20));
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 10px;
+    color: rgba(0, 0, 0, 0.719);
+}
+
+.blocked {
+    background-image: linear-gradient(to bottom right, rgb(80, 80, 80), rgb(148, 148, 148));
+    font-size: 10px;
+    line-height: 10px;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.685);
+}
+
+.owned {
+    background-image: linear-gradient(to bottom right, rgb(43, 46, 194), rgb(17, 111, 253));
+    font-size: 20px;
+    font-weight: bold;
+    color: rgba(15, 15, 15, 0.329);
+}
+
+.reservation.available:hover {
+    background-image: linear-gradient(to bottom right, rgb(47, 54, 49), rgb(122, 160, 35));
+    cursor: pointer;
+}
+
+.reservation.unavailable:hover {
+    background-image: linear-gradient(to bottom right, rgb(100, 26, 26), rgb(209, 79, 19));
+}
+
+.reservation.blocked:hover {
+    background-image: linear-gradient(to bottom right, rgb(44, 44, 44), rgb(148, 148, 148));
+}
+
+.reservation.owned:hover {
+    background-image: linear-gradient(to bottom right, rgb(32, 40, 150), rgb(39, 79, 255));
+    cursor: pointer;
+}
+
+header {
+    height: 40px;
+    background-color: rgba(228, 228, 228, 0.5);
+    background-image: url(./../img/header.png);
+}
+
+.header-panel {
+    width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.footer-panel {
+    height: 100px;
+    background-color: rgba(228, 228, 228, 0.5);
+    margin-top: -1px;
+}
+
+.reservation-div {
+    margin: 0 auto;
+    padding: 4px;
+}
+
+.legend {
+    margin-bottom: 10px;
+}
+
+.form-date {
+    margin-bottom: 14px;
+}
+
+.form-date-2 {
+    margin-left: 4px;
+}
+
+.form-date-3 {
+    text-align: right;
+}
+
+h1 {
+    color: rgba(0, 0, 0, 0.712);
+    font-size: 50px;
+    text-align: center;
+    margin: 20px 0;
+    margin-bottom: 30px;
+}
+
+.form-date-div {
+    display: flex;
+    flex-wrap: wrap;
+    width: 50%;
+}
+
+.form-date-div-right {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    width: 50%;
+}
+
+.tab {
+    width: 20%;
+    font-size: 20px;
+    text-align: center;
+    line-height: 40px;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.712);
+}
+
+.tab.tab-reservation {
+    margin-right: 40%;
+}
+
+.active {
+    background-color: rgba(0, 0, 0, 0.397);
+}
+
+.tab-a {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.959);
+}
+
+.errors {
+    margin-top: 20px;
+}
+
+.form-register {
+    font-size: 24px;
+}
+
+.form-register>input {
+    width: 200px;
+    height: 20px;
+    margin-bottom: 4px;
+}
+
+.form-register>button {
+    width: 208px;
+    height: 30px;
+    font-size: 20px;
+}
+
+.div-registration {
+    text-align: center;
+}
+
+.users-table {
+    border-collapse: collapse;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.users-table th,
+td {
+    border: 1px solid rgba(0, 0, 0, 0.863);
+    padding: 2px 4px;
+}
+
+tr:first-child {
+    background-image: linear-gradient(to bottom right, rgb(182, 133, 88), rgb(126, 102, 93));
+}
+
+h2 {
+    color: rgba(0, 0, 0, 0.712);
+    margin-top: 0px;
+    margin-bottom: 4px;
+}
+
+.div-update {
+    margin-top: 8px;
+    margin-bottom: 20px;
+}
+
+.form-admin {
+    margin-bottom: 2px;
+}
+
+.legend.github {
+    width: 20%;
+    margin: 20px auto;
+    margin-bottom: 10px;
+}
+
+a.github {
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+}
+
+.hover-container {
+    position: relative;
+    height: 100%;
+}
+
+.hover-target {
+    position: relative;
+    height: 100%;
+    padding-top: 11px;
+}
+
+.hover-popup {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    top: 90%;
+    left: 0%;
+    margin: min(1rem, 20px);
+    font-size: .8rem;
+    background-color: #f3f3f3;
+    border-radius: 2px;
+    padding: 10px;
+    z-index: 42;
+    transform: scale(0);
+    transition: transform 200ms ease;
+    transform-origin: 8% -10px;
+    line-height: 8px;
+}
+
+.hover-target:hover+.hover-popup,
+.hover-target:focus+.hover-popup,
+.hover-popup:hover {
+    transform: scale(1);
+}
+
+.hover-popup :not(:first-child) {
+    margin-top: 1rem;
+}
+
+.hover-popup span {
+    color: rgb(200, 20, 0);
+    font-weight: 700;
+}
+
+.pad-top {
+    padding-top: 11px;
+}
+
+.h2-popup {
+    margin: 0;
+    font-size: 16px;
+    width: 100%;
+    text-wrap: nowrap;
+}
+
+.admin-tab-div {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.admin-tab {
+    width: calc(100% / 4);
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.712);
+}
+
+.admin-tab:nth-child(2){
+    border-left: 1px solid rgb(179, 179, 179);
+    border-right: 1px solid rgb(179, 179, 179);
+    margin: 0 -1px;
+}
+
+.admin-tab:nth-child(3){
+    border-right: 1px solid rgb(179, 179, 179);
+    margin-right: -1px;
+}
+
+.active-admin-tab {
+    font-weight: bold;
+}
+
+.form-overview {
+    margin-bottom: 10px;
+}
+
+.h3-date {
+    margin-bottom: 4px;
+    color: rgba(0, 0, 0, 0.747);
+    font-size: 16px;
+}
+
+.dates-table {
+    margin-bottom: 10px;
+}
