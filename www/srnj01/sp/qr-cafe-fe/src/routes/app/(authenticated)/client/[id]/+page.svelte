@@ -2,7 +2,7 @@
 	import FormBuilder from '$components/app/FormBuilder.svelte';
 	import FormItem from '$components/app/FormItem.svelte';
 	import { onMount } from 'svelte';
-	import { getClient, updateClient } from '$lib/api/clients';
+	import { deleteClient, getClient, updateClient } from '$lib/api/clients';
 	import type { Client as ClientType, Seller as SellerType } from '$types/user';
 	import type { PageData } from './$types';
 	import { createSeller, getSellers } from '$lib/api/sellers';
@@ -19,6 +19,8 @@
 	import { CircleHelp } from 'lucide-svelte';
 	import Checkbox from '$components/ui/checkbox/checkbox.svelte';
 	import { createHash } from '$lib/api';
+	import { goto } from '$app/navigation';
+	import { Description } from '$components/ui/card';
 
 	export let data: PageData;
 
@@ -52,6 +54,9 @@
 
 	let createOpen = false;
 	let createMessage: string | undefined = undefined;
+
+	let deleteOpen = false;
+	let deleteMessage: string | undefined = undefined;
 </script>
 
 <div class="container mt-4">
@@ -75,10 +80,47 @@
 				<ActiveBadge active={client.active} />
 			</div>
 			<p>Current Fee: {client.fee}%</p>
-			<div class="flex gap-2">
+			<div class="mt-2 flex gap-2">
 				<Dialog.Trigger>
-					<Button variant="outline" class="mt-2">Edit</Button>
+					<Button variant="outline">Edit</Button>
 				</Dialog.Trigger>
+				<Dialog.Root>
+					<Dialog.Trigger>
+						<Button class="bg-red-800 text-white">Delete</Button>
+					</Dialog.Trigger>
+					<Dialog.Content>
+						<Dialog.Header>
+							<Dialog.Title>Delete client</Dialog.Title>
+							<Dialog.Description
+								>Are you sure you want to delete this client? This action is not reversible! If you
+								wish, you can just deactivate the client using the edit form.</Dialog.Description
+							>
+							<Dialog.Description>
+								{client.name} will be permanently deleted from the system. All sellers associated with
+								this client will also be deleted with all their data.
+							</Dialog.Description>
+							{#if deleteMessage}
+								<Dialog.Description class="text-red-800">{deleteMessage}</Dialog.Description>
+							{/if}
+						</Dialog.Header>
+						<FormBuilder message={deleteMessage}>
+							<Button
+								variant="outline"
+								class="bg-red-800 text-white"
+								on:click={async () => {
+									try {
+										await deleteClient(data.id);
+										goto('/app');
+									} catch (e) {
+										if (e instanceof Error) deleteMessage = e.message;
+									}
+								}}
+							>
+								Delete
+							</Button>
+						</FormBuilder>
+					</Dialog.Content>
+				</Dialog.Root>
 			</div>
 
 			{#if loadingSellers}

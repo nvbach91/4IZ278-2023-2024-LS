@@ -1,5 +1,5 @@
 import type { Client, ClientAdd, ClientEditable } from '$types/user';
-import { buildUrl, create, read, update } from '.';
+import { buildUrl, create, read, remove, update } from '.';
 
 export const getClients = async (): Promise<Client[] | null> => {
 	const result = await read(buildUrl('/api/clients'));
@@ -35,4 +35,11 @@ export const createClient = async (client: ClientAdd): Promise<Client> => {
 		return (await result.json()) as Client;
 	}
 	throw new Error('Failed to add client');
+};
+
+export const deleteClient = async (id: string): Promise<void> => {
+	const result = await remove(buildUrl(`/api/clients/${id}`));
+	if (!result.ok) {
+		throw new Error('Failed to delete client');
+	}
 };
