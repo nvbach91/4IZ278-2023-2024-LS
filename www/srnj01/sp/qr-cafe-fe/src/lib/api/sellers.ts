@@ -1,5 +1,5 @@
-import type { Seller } from '$types/user';
-import { buildUrl, read } from '.';
+import type { Seller, SellerEditable } from '$types/user';
+import { buildUrl, read, update } from '.';
 
 export const getSellers = async (): Promise<Seller[] | null> => {
 	const result = await read(buildUrl('/api/sellers'));
@@ -29,4 +29,12 @@ export const getSellerByHash = async (hash: string): Promise<Seller | null> => {
 		return null;
 	}
 	throw new Error('Failed to fetch seller');
+};
+
+export const updateSeller = async (id: string, seller: SellerEditable): Promise<Seller> => {
+	const result = await update(buildUrl(`/api/sellers/${id}`), seller);
+	if (result.ok) {
+		return (await result.json()) as Seller;
+	}
+	throw new Error('Failed to update client');
 };

@@ -4,7 +4,7 @@
 </script>
 
 {#if active}
-	<Badge class="bg-lime-600">Active</Badge>
+	<Badge class="bg-lime-600">Activated</Badge>
 {:else}
-	<Badge class="bg-red-800">Inactive</Badge>
+	<Badge class="bg-red-800">Deactivated</Badge>
 {/if}

@@ -138,6 +138,7 @@
 								});
 								client = await getClient(data.id);
 								editOpen = false;
+								editMessage = undefined;
 							} catch (e) {
 								if (e instanceof Error) editMessage = e.message;
 							}

@@ -45,6 +45,11 @@ export type Seller = {
 	generated?: Generated[];
 };
 
+export type SellerEditable = {
+	name: string;
+	active: boolean;
+};
+
 export type Account = {
 	id: number;
 	name: string;
