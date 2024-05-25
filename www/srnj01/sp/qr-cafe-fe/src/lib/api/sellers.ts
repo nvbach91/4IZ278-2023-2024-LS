@@ -1,5 +1,5 @@
 import type { Seller, SellerAdd, SellerEditable } from '$types/user';
-import { buildUrl, create, read, update } from '.';
+import { buildUrl, create, read, remove, update } from '.';
 
 export const getSellers = async (): Promise<Seller[] | null> => {
 	const result = await read(buildUrl('/api/sellers'));
@@ -45,4 +45,11 @@ export const createSeller = async (seller: SellerAdd): Promise<Seller> => {
 		return (await result.json()) as Seller;
 	}
 	throw new Error('Failed to add seller');
+};
+
+export const deleteSeller = async (id: string): Promise<void> => {
+	const result = await remove(buildUrl(`/api/sellers/${id}`));
+	if (!result.ok) {
+		throw new Error('Failed to delete seller');
+	}
 };
