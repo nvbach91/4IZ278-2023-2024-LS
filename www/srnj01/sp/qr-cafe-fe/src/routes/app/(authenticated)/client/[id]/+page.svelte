@@ -18,7 +18,7 @@
 	import { user } from '$lib';
 	import { CircleHelp } from 'lucide-svelte';
 	import Checkbox from '$components/ui/checkbox/checkbox.svelte';
-	import { create, createHash } from '$lib/api';
+	import { createHash } from '$lib/api';
 
 	export let data: PageData;
 
@@ -122,6 +122,8 @@
 											});
 											sellers = await getSellers();
 											createOpen = false;
+											newName = '';
+											active = true;
 										} catch (e) {
 											if (e instanceof Error) createMessage = e.message;
 										}
@@ -153,8 +155,8 @@
 									<CircleHelp size={16} />
 								</Tooltip.Trigger>
 								<Tooltip.Content>
-									The fee is the percentage of the total sale that the client will pay to the
-									company. If you wish to change the fee, please contact an administrator.
+									The fee is the percentage of the total sale that the client will pay to QR Café.
+									If you wish to change the fee, please contact an administrator.
 								</Tooltip.Content>
 							</Tooltip.Root>
 						</Label>

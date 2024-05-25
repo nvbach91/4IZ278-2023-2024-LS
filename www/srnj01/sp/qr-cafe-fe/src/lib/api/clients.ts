@@ -1,5 +1,5 @@
-import type { Client, ClientEditable } from '$types/user';
-import { buildUrl, read, update } from '.';
+import type { Client, ClientAdd, ClientEditable } from '$types/user';
+import { buildUrl, create, read, update } from '.';
 
 export const getClients = async (): Promise<Client[] | null> => {
 	const result = await read(buildUrl('/api/clients'));
@@ -27,4 +27,12 @@ export const updateClient = async (id: string, client: ClientEditable): Promise<
 		return (await result.json()) as Client;
 	}
 	throw new Error('Failed to update client');
+};
+
+export const createClient = async (client: ClientAdd): Promise<Client> => {
+	const result = await create(buildUrl('/api/clients'), client);
+	if (result.ok) {
+		return (await result.json()) as Client;
+	}
+	throw new Error('Failed to add client');
 };

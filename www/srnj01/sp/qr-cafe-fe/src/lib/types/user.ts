@@ -26,6 +26,12 @@ export type ClientEditable = {
 	fee: number | null;
 };
 
+export type ClientAdd = {
+	name: string;
+	active: boolean;
+	fee: number | null;
+};
+
 export type UserClient = {
 	user_id: number;
 	client_id: number;
