@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { Badge } from '$components/ui/badge/';
 	import * as Card from '$components/ui/card';
 	import type { Client } from '$types/user';
 	import ActiveBadge from './ActiveBadge.svelte';

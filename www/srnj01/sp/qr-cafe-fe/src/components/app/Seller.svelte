@@ -1,8 +1,7 @@
 <script lang="ts">
 	import * as Card from '$components/ui/card';
 	import type { Seller as SellerType } from '$types/user';
-	import { Pencil } from 'lucide-svelte';
-	import ActiveBadge from './ActiveBadge.svelte';
+	import ActiveBadge from '$components/app/ActiveBadge.svelte';
 	export let seller: SellerType;
 </script>
 

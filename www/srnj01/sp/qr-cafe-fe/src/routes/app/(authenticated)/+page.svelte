@@ -36,8 +36,8 @@
 	<UserInfo />
 	{#if loadingClients}
 		<p>Loading clients...</p>
-	{:else if !clients || clients.length === 0}
-		<p>No clients found</p>
+	{:else if !clients}
+		<p>Oops, something went wrong!</p>
 	{:else}
 		<h2 class="mt-4 text-2xl font-bold">Clients</h2>
 		<div class="mt-4 grid max-w-full grid-cols-[repeat(auto-fill,_minmax(256px,_1fr))] gap-4">

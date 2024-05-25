@@ -8,11 +8,14 @@
 	import ActiveBadge from '$components/app/ActiveBadge.svelte';
 	import { Button } from '$components/ui/button/';
 	import * as Dialog from '$components/ui/dialog';
+	import * as Tooltip from '$components/ui/tooltip';
 	import FormBuilder from '$components/app/FormBuilder.svelte';
 	import FormItem from '$components/app/FormItem.svelte';
 	import Label from '$components/ui/label/label.svelte';
 	import Input from '$components/ui/input/input.svelte';
 	import { goto } from '$app/navigation';
+	import { Check, Copy } from 'lucide-svelte';
+	import CopyButton from '$components/app/CopyButton.svelte';
 
 	export let data: PageData;
 
@@ -68,12 +71,28 @@
 				</h2>
 				<ActiveBadge active={seller.active} />
 			</div>
-			<Button
-				variant="outline"
-				href="/app/seller/{seller.hash}"
-				target="_blank"
-				class="mt-2 block w-fit">Go to seller page</Button
-			>
+
+			<Tooltip.Root>
+				<Tooltip.Trigger>
+					<CopyButton text={seller?.hash ?? ''} let:copied>
+						{seller.hash}
+						{#if copied}
+							<Check size={16} />
+						{:else}
+							<Copy size={16} />
+						{/if}
+					</CopyButton>
+				</Tooltip.Trigger>
+				<Tooltip.Content>
+					This is the unique identifier for this seller. It cannot be changed. By opening the seller
+					page, you can access the payment generator. Click to copy.
+				</Tooltip.Content>
+			</Tooltip.Root>
+			<div class="flew-wrap mt-2 flex">
+				<Button variant="outline" href="/app/seller/{seller.hash}" target="_blank">
+					Go to seller page
+				</Button>
+			</div>
 			<div class="mt-2 flex gap-2">
 				<Button
 					variant="outline"

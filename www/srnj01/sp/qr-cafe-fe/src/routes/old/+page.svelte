@@ -59,7 +59,7 @@
 	};
 
 	const logout = async () => {
-		const res = await fetch(`${PUBLIC_API_URL}/logout`, {
+		await fetch(`${PUBLIC_API_URL}/logout`, {
 			method: 'POST',
 			credentials: 'include',
 			headers: {

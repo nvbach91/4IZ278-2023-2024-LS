@@ -20,7 +20,6 @@
 	import Checkbox from '$components/ui/checkbox/checkbox.svelte';
 	import { createHash } from '$lib/api';
 	import { goto } from '$app/navigation';
-	import { Description } from '$components/ui/card';
 
 	export let data: PageData;
 
@@ -55,7 +54,6 @@
 	let createOpen = false;
 	let createMessage: string | undefined = undefined;
 
-	let deleteOpen = false;
 	let deleteMessage: string | undefined = undefined;
 </script>
 
@@ -125,8 +123,8 @@
 
 			{#if loadingSellers}
 				<p>Loading sellers...</p>
-			{:else if !sellers || sellers.length === 0}
-				<p>No sellers found</p>
+			{:else if !sellers}
+				<p>Oops, something went wrong!</p>
 			{:else}
 				<h2 class="mt-4 text-2xl font-bold">Sellers</h2>
 				<div class="mt-4 grid max-w-full grid-cols-[repeat(auto-fill,_minmax(256px,_1fr))] gap-4">

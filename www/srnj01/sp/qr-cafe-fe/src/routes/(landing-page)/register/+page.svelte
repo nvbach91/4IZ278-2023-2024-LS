@@ -11,7 +11,6 @@
 	let passwordConfirmation = 'password';
 
 	let loading = false;
-	let registered = false;
 </script>
 
 <div class="container mt-4">
@@ -23,7 +22,6 @@
 				const result = await register(name, email, password, passwordConfirmation);
 				if (result.ok) {
 					loading = false;
-					registered = true;
 					goto('/app');
 				} else {
 					loading = false;
