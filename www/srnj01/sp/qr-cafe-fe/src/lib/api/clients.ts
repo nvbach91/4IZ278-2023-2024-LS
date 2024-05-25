@@ -1,5 +1,5 @@
-import type { Client } from '$types/user';
-import { buildUrl, read } from '.';
+import type { Client, ClientEditable } from '$types/user';
+import { buildUrl, read, update } from '.';
 
 export const getClients = async (): Promise<Client[] | null> => {
 	const result = await read(buildUrl('/api/clients'));
@@ -19,4 +19,12 @@ export const getClient = async (id: string): Promise<Client | null> => {
 		return null;
 	}
 	throw new Error('Failed to fetch client');
+};
+
+export const updateClient = async (id: string, client: ClientEditable): Promise<Client> => {
+	const result = await update(buildUrl(`/api/clients/${id}`), client);
+	if (result.ok) {
+		return (await result.json()) as Client;
+	}
+	throw new Error('Failed to update client');
 };

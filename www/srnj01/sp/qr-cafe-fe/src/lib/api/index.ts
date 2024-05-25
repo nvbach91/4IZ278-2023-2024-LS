@@ -18,7 +18,7 @@ export const customFetch = async (route: string, options: RequestInit) =>
 
 export const create = (
 	route: string,
-	body?: { [key: string]: string | number | boolean },
+	body?: { [key: string]: string | number | boolean | null },
 	method = 'POST'
 ) =>
 	customFetch(route, {
@@ -29,4 +29,14 @@ export const create = (
 export const read = (route: string, method = 'GET') =>
 	customFetch(route, {
 		method
+	});
+
+export const update = (
+	route: string,
+	body: { [key: string]: string | number | boolean | null },
+	method = 'PATCH'
+) =>
+	customFetch(route, {
+		method,
+		body: JSON.stringify(body)
 	});

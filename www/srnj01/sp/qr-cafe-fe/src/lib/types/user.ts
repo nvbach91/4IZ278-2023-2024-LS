@@ -20,6 +20,12 @@ export type Client = {
 	accounts?: Account[];
 };
 
+export type ClientEditable = {
+	name: string;
+	active: boolean;
+	fee: number | null;
+};
+
 export type UserClient = {
 	user_id: number;
 	client_id: number;
