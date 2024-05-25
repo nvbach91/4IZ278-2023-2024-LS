@@ -27,3 +27,4 @@ Route::get('generated', [GeneratedController::class, 'index']);
 Route::get('generated/{generated}', [GeneratedController::class, 'show']);
 Route::put('generated/{generated}', [GeneratedController::class, 'update']);
 Route::delete('generated/{generated}', [GeneratedController::class, 'destroy']);
+Route::get('seller/{hash}', [SellerController::class, 'showByHash']);

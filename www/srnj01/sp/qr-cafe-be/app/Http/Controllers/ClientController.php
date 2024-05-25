@@ -28,8 +28,12 @@ class ClientController extends Controller
     {
         $user = auth()->user();
 
-        if ($user->role !== 'admin') {
+        if ($user->role === 'client' && $request->input('fee') !== null) {
             return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        if ($user->role === 'client') {
+            $request->offsetSet('fee', 2);
         }
 
         $validatedData = $request->validate([
@@ -41,6 +45,8 @@ class ClientController extends Controller
         $validatedData['active'] = $request->input('active', true);
 
         $client = Client::create($validatedData);
+
+        $client->users()->attach($user, ['owner' => true]);
 
         return response()->json($client, 201);
     }
@@ -61,6 +67,14 @@ class ClientController extends Controller
         $user = auth()->user();
 
         if ($this->authorize('update', $client)) {
+            if ($user->role === 'client' && $request->input('fee') !== null) {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+
+            if ($user->role === 'client') {
+                $request->offsetSet('fee', $client->fee);
+            }
+
             $validatedData = $request->validate([
                 'name' => 'string|max:255',
                 'active' => 'boolean',

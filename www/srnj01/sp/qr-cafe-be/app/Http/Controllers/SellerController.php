@@ -11,18 +11,36 @@ class SellerController extends Controller
     {
         $user = auth()->user();
 
-        if ($user->role === 'client') {
-            // Client can view sellers associated with their clients
-            $clientIds = $user->clients->pluck('id');
-            $sellers = Seller::whereIn('client_id', $clientIds)->get();
-        } else {
+        if (!$user) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
+
+        $clientIds = $user->clients->pluck('id');
+        $sellers = Seller::whereIn('client_id', $clientIds)->get();
 
         return response()->json($sellers);
     }
 
-    public function show(Request $request, $hash)
+    public function show(Request $request, $id)
+    {
+        // View a seller by id
+        $seller = Seller::where('id', $id)->first();
+
+        if (!$seller) {
+            return response()->json(['error' => 'Seller not found'], 404);
+        }
+
+        $user = auth()->user();
+        if ($user->clients->contains($seller->client)) {
+            return response()->json($seller);
+        } else if ($request->has('seller_id') && $request->seller_id === $id) {
+            return response()->json($seller);
+        } else {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+    }
+
+    public function showByHash(Request $request, $hash)
     {
         // View a seller by hash
         $seller = Seller::where('hash', $hash)->first();
@@ -31,14 +49,7 @@ class SellerController extends Controller
             return response()->json(['error' => 'Seller not found'], 404);
         }
 
-        $user = auth()->user();
-        if ($user->role === 'client' && $user->clients->contains($seller->client)) {
-            return response()->json($seller);
-        } else if ($request->has('seller_hash') && $request->seller_hash === $hash) {
-            return response()->json($seller);
-        } else {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
+        return response()->json($seller);
     }
 
     public function store(Request $request)
@@ -70,7 +81,7 @@ class SellerController extends Controller
         return response()->json($seller, 201);
     }
 
-    public function update(Request $request, $hash)
+    public function update(Request $request, $id)
     {
         $user = auth()->user();
 
@@ -78,7 +89,7 @@ class SellerController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        $seller = Seller::where('hash', $hash)->first();
+        $seller = Seller::where('id', $id)->first();
 
         if (!$seller) {
             return response()->json(['error' => 'Seller not found'], 404);
@@ -103,7 +114,7 @@ class SellerController extends Controller
         return response()->json($seller);
     }
 
-    public function destroy(Request $request, $hash)
+    public function destroy(Request $request, $id)
     {
         $user = auth()->user();
 
@@ -111,7 +122,7 @@ class SellerController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        $seller = Seller::where('hash', $hash)->first();
+        $seller = Seller::where('id', $id)->first();
 
         if (!$seller) {
             return response()->json(['error' => 'Seller not found'], 404);

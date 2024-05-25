@@ -12,12 +12,14 @@ class SellerPolicy
 
     public function viewAny(User $user)
     {
+        return true;
         // Client can view sellers associated with their clients
         return $user->clients()->exists();
     }
 
     public function view(User $user, Seller $seller)
     {
+        return true;
         // Client can view sellers associated with their clients
         return $user->clients->contains($seller->client);
     }
