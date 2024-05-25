@@ -1,7 +1,8 @@
 <script lang="ts">
-	import Badge from '$components/ui/badge/badge.svelte';
+	import { Badge } from '$components/ui/badge/';
 	import * as Card from '$components/ui/card';
 	import type { Client } from '$types/user';
+	import ActiveBadge from './ActiveBadge.svelte';
 	export let client: Client;
 </script>
 
@@ -10,11 +11,7 @@
 		<Card.Header>
 			<Card.Title>{client.name}</Card.Title>
 			<Card.Description>
-				{#if client.active}
-					<Badge class="bg-lime-600">Active</Badge>
-				{:else}
-					<Badge class="bg-red-800">Inactive</Badge>
-				{/if}
+				<ActiveBadge active={client.active} />
 			</Card.Description>
 		</Card.Header>
 		<Card.Content>

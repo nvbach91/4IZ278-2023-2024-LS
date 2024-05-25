@@ -6,7 +6,7 @@
 <nav class="flex h-16 w-full items-center border-b">
 	<div class="container mx-auto flex items-center justify-between">
 		<div class="flex items-center">
-			<a href="/" class="text-lg">QR Café</a>
+			<a href="/app" class="text-lg">QR Café</a>
 		</div>
 		<div class="flex items-center gap-2">
 			<Button

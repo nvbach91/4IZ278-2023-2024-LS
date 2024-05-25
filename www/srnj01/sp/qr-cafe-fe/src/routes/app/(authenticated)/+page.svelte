@@ -4,10 +4,9 @@
 	import { getClients } from '$lib/api/clients';
 	import type { Client as ClientType } from '$types/user';
 	import { onMount } from 'svelte';
-	import { Plus } from 'lucide-svelte';
-	import Card from '$components/ui/card/card.svelte';
+	import Adder from '$components/app/Adder.svelte';
 
-	let clients: ClientType[] = [];
+	let clients: ClientType[] | null = [];
 	let loadingClients = true;
 
 	onMount(async () => {
@@ -20,7 +19,7 @@
 	<UserInfo />
 	{#if loadingClients}
 		<p>Loading clients...</p>
-	{:else if clients.length === 0}
+	{:else if !clients || clients.length === 0}
 		<p>No clients found</p>
 	{:else}
 		<h2 class="mt-4 text-2xl font-bold">Clients</h2>
@@ -28,16 +27,7 @@
 			{#each clients as client}
 				<Client {client} />
 			{/each}
-			<a href="/app/client/new" class="h-full min-w-64 max-w-96">
-				<Card class="h-full pb-8 pt-8 transition-all hover:border-zinc-500">
-					<div class="grid h-full place-content-center">
-						<div class="flex gap-2">
-							Add New
-							<Plus />
-						</div>
-					</div>
-				</Card>
-			</a>
+			<Adder />
 		</div>
 	{/if}
 </div>
