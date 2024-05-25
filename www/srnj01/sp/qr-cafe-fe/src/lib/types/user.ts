@@ -50,6 +50,13 @@ export type SellerEditable = {
 	active: boolean;
 };
 
+export type SellerAdd = {
+	name: string;
+	active: boolean;
+	hash: string;
+	client_id: number | string;
+};
+
 export type Account = {
 	id: number;
 	name: string;

@@ -1,5 +1,5 @@
-import type { Seller, SellerEditable } from '$types/user';
-import { buildUrl, read, update } from '.';
+import type { Seller, SellerAdd, SellerEditable } from '$types/user';
+import { buildUrl, create, read, update } from '.';
 
 export const getSellers = async (): Promise<Seller[] | null> => {
 	const result = await read(buildUrl('/api/sellers'));
@@ -37,4 +37,12 @@ export const updateSeller = async (id: string, seller: SellerEditable): Promise<
 		return (await result.json()) as Seller;
 	}
 	throw new Error('Failed to update client');
+};
+
+export const createSeller = async (seller: SellerAdd): Promise<Seller> => {
+	const result = await create(buildUrl('/api/sellers'), seller);
+	if (result.ok) {
+		return (await result.json()) as Seller;
+	}
+	throw new Error('Failed to add seller');
 };

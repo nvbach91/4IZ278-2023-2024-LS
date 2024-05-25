@@ -40,3 +40,26 @@ export const update = (
 		method,
 		body: JSON.stringify(body)
 	});
+
+export const remove = (route: string) =>
+	customFetch(route, {
+		method: 'DELETE'
+	});
+
+export const randomChars = (length: number): string => {
+	const CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	return Array.from({ length }, () =>
+		CHARACTERS.charAt(Math.floor(Math.random() * CHARACTERS.length))
+	).join('');
+};
+
+export const createHash = (): string => {
+	const timestamp = new Date().getTime();
+	return timestamp
+		.toString()
+		.split('')
+		.map((a) => {
+			return `${a}${randomChars(2)}`;
+		})
+		.join('');
+};

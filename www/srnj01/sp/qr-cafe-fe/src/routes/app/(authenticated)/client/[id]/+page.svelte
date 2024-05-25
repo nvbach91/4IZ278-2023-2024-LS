@@ -5,7 +5,7 @@
 	import { getClient, updateClient } from '$lib/api/clients';
 	import type { Client as ClientType, Seller as SellerType } from '$types/user';
 	import type { PageData } from './$types';
-	import { getSellers } from '$lib/api/sellers';
+	import { createSeller, getSellers } from '$lib/api/sellers';
 	import Seller from '$components/app/Seller.svelte';
 	import Adder from '$components/app/Adder.svelte';
 	import * as Breadcrumb from '$components/ui/breadcrumb';
@@ -17,6 +17,8 @@
 	import Input from '$components/ui/input/input.svelte';
 	import { user } from '$lib';
 	import { CircleHelp } from 'lucide-svelte';
+	import Checkbox from '$components/ui/checkbox/checkbox.svelte';
+	import { create, createHash } from '$lib/api';
 
 	export let data: PageData;
 
@@ -29,6 +31,9 @@
 	let name = '';
 	let fee = 0;
 	let active = false;
+
+	let newName = '';
+	let newActive = true;
 
 	onMount(async () => {
 		client = await getClient(data.id);
@@ -44,6 +49,9 @@
 
 	let editOpen = false;
 	let editMessage: string | undefined = undefined;
+
+	let createOpen = false;
+	let createMessage: string | undefined = undefined;
 </script>
 
 <div class="container mt-4">
@@ -85,7 +93,45 @@
 							<Seller {seller} />
 						</a>
 					{/each}
-					<Adder />
+					<Dialog.Root bind:open={createOpen}>
+						<Dialog.Trigger>
+							<Adder />
+						</Dialog.Trigger>
+						<Dialog.Content>
+							<Dialog.Header>
+								<Dialog.Title>Add seller</Dialog.Title>
+								<Dialog.Description>Add a new seller to the client</Dialog.Description>
+							</Dialog.Header>
+							<FormBuilder message={createMessage}>
+								<FormItem>
+									<Label for="name">Name</Label>
+									<Input type="text" id="name" name="name" bind:value={newName} />
+								</FormItem>
+								<FormItem row>
+									<Checkbox bind:checked={newActive} id="active">Active</Checkbox>
+									<Label for="active" class="cursor-pointer">Active</Label>
+								</FormItem>
+								<Button
+									on:click={async () => {
+										try {
+											await createSeller({
+												name: newName,
+												active: newActive,
+												client_id: data.id,
+												hash: createHash()
+											});
+											sellers = await getSellers();
+											createOpen = false;
+										} catch (e) {
+											if (e instanceof Error) createMessage = e.message;
+										}
+									}}
+								>
+									Add
+								</Button>
+							</FormBuilder>
+						</Dialog.Content>
+					</Dialog.Root>
 				</div>
 			{/if}
 
