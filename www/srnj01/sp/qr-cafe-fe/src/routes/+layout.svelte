@@ -4,6 +4,10 @@
 	import { PUBLIC_API_URL } from '$env/static/public';
 	import { user } from '$lib';
 	import { read } from '$lib/api';
+	import { Toaster } from '$components/ui/sonner';
+	import { setMode } from 'mode-watcher';
+
+	setMode('light');
 
 	onMount(async () => {
 		try {
@@ -32,5 +36,7 @@
 		}
 	});
 </script>
+
+<Toaster theme="light" />
 
 <slot />

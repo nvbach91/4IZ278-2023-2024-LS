@@ -3,7 +3,11 @@
 	import FormItem from '$components/app/FormItem.svelte';
 	import { onMount } from 'svelte';
 	import { deleteClient, getClient, updateClient } from '$lib/api/clients';
-	import type { Client as ClientType, Seller as SellerType } from '$types/user';
+	import type {
+		Client as ClientType,
+		Seller as SellerType,
+		Sequence as SequenceType
+	} from '$types/user';
 	import type { PageData } from './$types';
 	import { createSeller, getSellers } from '$lib/api/sellers';
 	import Seller from '$components/app/Seller.svelte';
@@ -20,6 +24,8 @@
 	import Checkbox from '$components/ui/checkbox/checkbox.svelte';
 	import { createHash } from '$lib/api';
 	import { goto } from '$app/navigation';
+	import { createSequence, getSequences } from '$lib/api/sequences';
+	import Sequence from '$components/app/Sequence.svelte';
 
 	export let data: PageData;
 
@@ -29,12 +35,18 @@
 	let sellers: SellerType[] | null = [];
 	let loadingSellers = true;
 
+	let sequences: SequenceType[] | null = [];
+	let loadingSequences = true;
+
 	let name = '';
 	let fee = 0;
 	let active = false;
 
 	let newName = '';
 	let newActive = true;
+
+	let newGenerator = '';
+	let newLastUsed = '';
 
 	onMount(async () => {
 		client = await getClient(data.id);
@@ -46,6 +58,8 @@
 		}
 		sellers = await getSellers();
 		loadingSellers = false;
+		sequences = await getSequences();
+		loadingSequences = false;
 	});
 
 	let editOpen = false;
@@ -53,6 +67,9 @@
 
 	let createOpen = false;
 	let createMessage: string | undefined = undefined;
+
+	let sequenceOpen = false;
+	let sequenceMessage: string | undefined = undefined;
 
 	let deleteMessage: string | undefined = undefined;
 </script>
@@ -159,6 +176,92 @@
 												active: newActive,
 												client_id: data.id,
 												hash: createHash()
+											});
+											sellers = await getSellers();
+											createOpen = false;
+											newName = '';
+											active = true;
+										} catch (e) {
+											if (e instanceof Error) createMessage = e.message;
+										}
+									}}
+								>
+									Add
+								</Button>
+							</FormBuilder>
+						</Dialog.Content>
+					</Dialog.Root>
+				</div>
+			{/if}
+
+			{#if loadingSequences}
+				<p>Loading sequences...</p>
+			{:else if !sequences}
+				<p>Oops, something went wrong!</p>
+			{:else}
+				<h2 class="mt-4 text-2xl font-bold">Sequences</h2>
+				<div class="mt-4 grid max-w-full grid-cols-[repeat(auto-fill,_minmax(256px,_1fr))] gap-4">
+					{#each sequences.filter((sequence) => sequence.client_id.toString() === data.id) as sequence}
+						<Sequence {sequence} />
+					{/each}
+					<Dialog.Root bind:open={sequenceOpen}>
+						<Dialog.Trigger>
+							<Adder />
+						</Dialog.Trigger>
+						<Dialog.Content>
+							<Dialog.Header>
+								<Dialog.Title>Add sequence</Dialog.Title>
+								<Dialog.Description>Add a new sequence to the client</Dialog.Description>
+								<Dialog.Description>
+									Sequence is a way to auto generate variable symbols. You can associate a sequence
+									with one or more accounts and thus this sequence will be used with all od those.
+								</Dialog.Description>
+								<Dialog.Description>
+									You can use several variables in the sequence:
+									<ul>
+										<li>
+											<code>YYYY</code> - the current year, e.g. 2024
+										</li>
+										<li>
+											<code>YY</code> - the current year, e.g. 24
+										</li>
+										<li>
+											<code>MM</code> - the current month, e.g. 01
+										</li>
+										<li>
+											<code>DD</code> - the current day, e.g. 01
+										</li>
+										<li>
+											<code>S</code> - the current number in the sequence, this can be repeated until
+											the sequence is 10 characters long.
+										</li>
+									</ul>
+								</Dialog.Description>
+								<Dialog.Description>
+									The recommended sequence is&nbsp;<code>YYMMSSSSSS</code>.
+								</Dialog.Description>
+							</Dialog.Header>
+							<FormBuilder message={createMessage}>
+								<FormItem>
+									<Label for="generator">Sequence generator</Label>
+									<Input
+										type="text"
+										id="generator"
+										name="generator"
+										bind:value={newGenerator}
+										placeholder="YYMMSSSSSS"
+									/>
+								</FormItem>
+								<FormItem>
+									<Label for="lastUsed">Last Used</Label>
+									<Input type="text" id="lastUsed" name="lastUsed" bind:value={newLastUsed} />
+								</FormItem>
+								<Button
+									on:click={async () => {
+										try {
+											await createSequence({
+												generator: newGenerator,
+												last_used: newLastUsed
 											});
 											sellers = await getSellers();
 											createOpen = false;

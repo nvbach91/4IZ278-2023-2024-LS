@@ -68,7 +68,7 @@ export type Account = {
 	name: string;
 	number: string;
 	client_id: number;
-	sequence_id?: number;
+	sequence?: number;
 	created_at?: string;
 	updated_at?: string;
 	api_keys?: ApiKey[];
@@ -87,8 +87,18 @@ export type Sequence = {
 	id: number;
 	generator: string;
 	last_used: string;
+	client_id: number;
 	created_at?: string;
 	updated_at?: string;
+};
+
+export type SequenceEditable = {
+	last_used: string;
+};
+
+export type SequenceAdd = {
+	generator: string;
+	last_used: string;
 };
 
 export type Generated = {

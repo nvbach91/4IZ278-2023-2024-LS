@@ -1,7 +1,7 @@
 <script lang="ts">
 	import * as Card from '$components/ui/card';
 	import type { Client } from '$types/user';
-	import ActiveBadge from './ActiveBadge.svelte';
+	import ActiveBadge from '$components/app/ActiveBadge.svelte';
 	export let client: Client;
 </script>
 

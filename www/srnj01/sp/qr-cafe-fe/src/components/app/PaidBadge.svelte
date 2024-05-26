@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { CheckCircle2, CircleAlert } from 'lucide-svelte';
+	import { CheckCircle2, LoaderCircle } from 'lucide-svelte';
 	export let paid = true;
 </script>
 
@@ -13,6 +13,8 @@
 		<CheckCircle2 size={16} />
 	{:else}
 		This payment has not been paid
-		<CircleAlert size={16} />
+		<div class="animate-spin">
+			<LoaderCircle size={16} />
+		</div>
 	{/if}
 </div>
