@@ -101,3 +101,15 @@ export type Generated = {
 	created_at?: string;
 	updated_at?: string;
 };
+
+export type GeneratedEditable = {
+	success: boolean;
+};
+
+export type GeneratedAdd = {
+	amount: number;
+	variable_symbol: string;
+	seller_id: number;
+	account_id: number;
+	success: boolean;
+};
