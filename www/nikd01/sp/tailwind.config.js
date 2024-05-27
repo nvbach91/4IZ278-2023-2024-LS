@@ -16,8 +16,26 @@ export default {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
                 'hanken-grotesk': ["Hanken Grotesk", "sans-serif"],
             },
+            typography: {
+                DEFAULT: {
+                    css: {
+                        '.line-clamp-3': {
+                            overflow: 'hidden',
+                            display: '-webkit-box',
+                            WebkitBoxOrient: 'vertical',
+                            WebkitLineClamp: '3',
+                        },
+                        '.line-clamp-none': {
+                            overflow: 'visible',
+                            display: 'block',
+                            WebkitBoxOrient: 'unset',
+                            WebkitLineClamp: 'unset',
+                        },
+                    },
+                },
+            },
         },
     },
 
-    plugins: [forms],
+    plugins: [forms, require('@tailwindcss/typography')],
 };
