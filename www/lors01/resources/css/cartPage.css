@@ -1,0 +1,161 @@
+
+
+.cart-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+.cart-empty-message {
+    text-align: center;
+    color: #666;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    transition: box-shadow 0.3s ease;
+}
+
+.cart-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cart-item img {
+    width: 20%;
+    margin-right: 20px;
+    border-radius: 8px;
+}
+
+.cart-info-container{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.cart-item-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.cart-item-price,
+.cart-item-quantity,
+.cart-item-stock {
+    color: #888;
+}
+
+.cart-item-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-align: center;
+}
+
+.cart-button {
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 0.5rem 1.5rem; /* Slightly larger padding for better touch targets */
+    border: none;
+    cursor: pointer;
+    border-radius: 0.5rem; /* More rounded corners */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.cart-button-remove {
+    background-color: rgb(255, 74, 74);
+}
+
+.cart-button-remove:hover {
+    background-color: rgb(255, 27, 27);
+    transform: translateY(-2px);
+}
+
+.cart-button-add {
+    background-color: rgb(38, 225, 38);
+}
+
+.cart-button-add:hover {
+    background-color: rgb(9, 206, 9);
+    transform: translateY(-2px);
+}
+
+.cart-disabled {
+    background-color: gray;
+    cursor: not-allowed;
+}
+
+.cart-quantity {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0 1rem;
+    color: black;
+}
+
+.cart-warning {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.cart-mx-2 {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+
+.cart-checkout-button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    background-color: #3490dc;
+    border: none;
+    border-radius: 0.5rem;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    width: 100%;
+}
+
+.cart-checkout-button:hover {
+    background-color: #2779bd;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+
+
+@media (max-width: 700px) {
+    .cart-item{
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .cart-item img {
+        width: 60%;
+        margin-right: 0;
+    }
+    .cart-info-container{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        text-align: center;
+    }
+}

@@ -1,0 +1,134 @@
+.payment-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-in-out;
+}
+
+.payment-title {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+.payment-summary {
+    margin-bottom: 20px;
+}
+
+.payment-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.payment-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.payment-item:hover {
+    transform: translateY(-2px);
+}
+
+.payment-shipping-method {
+    margin-bottom: 20px;
+}
+
+.payment-shipping-title {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
+
+.payment-shipping-options {
+    padding: 10px;
+    border-radius: 8px;
+    background: #fff;
+    border: 1px solid #ddd;
+}
+
+.payment-shipping-error {
+    border-color: #e3342f;
+}
+
+.payment-shipping-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.payment-radio {
+    margin-right: 10px;
+}
+
+.payment-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.25rem;
+    font-weight: bold;
+    padding: 10px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.payment-button-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.payment-button {
+    font-size: 1.25rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.payment-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.payment-cash-button {
+    background-color: #3490dc;
+    min-width: 200px;
+}
+
+.payment-cash-button:hover:not(:disabled) {
+    background-color: #2779bd;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.payment-stripe-button {
+    background-color: #6f42c1;
+    min-width: 200px;
+
+}
+
+.payment-stripe-button:hover:not(:disabled) {
+    background-color: #5939a9;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
