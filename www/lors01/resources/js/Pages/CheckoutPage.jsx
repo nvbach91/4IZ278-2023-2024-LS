@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Head, router } from '@inertiajs/react';
+import axios from 'axios';
 import '../../css/checkoutPage.css';
 
 export default function CheckoutPage({ auth }) {
@@ -47,38 +48,18 @@ export default function CheckoutPage({ auth }) {
         }
     };
 
-    const validateForm = () => {
-        const newErrors = {};
-        // Required fields
-        ['email', 'firstName', 'lastName', 'address', 'city', 'zip', 'phone'].forEach(field => {
-            if (!formData[field]) {
-                newErrors[field] = 'Toto pole je povinné';
-            }
-        });
-        // Email format
-        if (formData.email && !/\S+@\S+\.\S+/.test(formData.email)) {
-            newErrors.email = 'E-mailová adresa není platná';
-        }
-        // Phone number should contain only digits
-        if (formData.phone && !/^\d+$/.test(formData.phone)) {
-            newErrors.phone = 'Telefonní číslo musí být číselné';
-        }
-        // ZIP code validation
-        if (formData.zip && (!/^\d{5}$/.test(formData.zip))) {
-            newErrors.zip = 'PSČ musí být přesně 5 číslic';
-        }
-        return newErrors;
-    };
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        const validationErrors = validateForm();
-        if (Object.keys(validationErrors).length > 0) {
-            setErrors(validationErrors);
-            return;
-        }
-        localStorage.setItem('checkoutData', JSON.stringify(formData));
-        router.visit('/payment'); 
+        axios.post('/validate-checkout', formData)
+            .then(response => {
+                localStorage.setItem('checkoutData', JSON.stringify(formData));
+                router.visit('/payment');
+            })
+            .catch(error => {
+                if (error.response && error.response.data.errors) {
+                    setErrors(error.response.data.errors);
+                }
+            });
     };
 
     return (

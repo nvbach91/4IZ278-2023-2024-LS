@@ -10,6 +10,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\Product;
+use App\Http\Requests\CheckoutRequest;
 
 
 Route::get('/', function () {
@@ -61,7 +62,9 @@ Route::get('/order-confirmation', function () {
     return Inertia::render('OrderConfirmation');
 });
 
-
+Route::post('/validate-checkout', function (CheckoutRequest $request) {
+    return response()->json(['message' => 'Validation passed']);
+});
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {

@@ -12,7 +12,7 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        $userId = $request->user()->user_id;
+        $userId = $request->user()->id;
         $orders = Order::where('user_id', $userId)
             ->with(['products' => function ($query) {
                 $query->with('category');
