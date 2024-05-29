@@ -15,7 +15,6 @@
 	import * as Select from '$components/ui/select';
 	import { generateNext } from '$lib/api/sequences';
 	import { toast } from 'svelte-sonner';
-	import { sequence } from '@sveltejs/kit/hooks';
 
 	export let data: PageData;
 

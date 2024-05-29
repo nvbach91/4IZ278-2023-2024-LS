@@ -44,7 +44,7 @@ export const createGenerated = async (
 	throw new Error('Failed to add generated');
 };
 
-export const updateClient = async (
+export const updateGenerated = async (
 	id: string,
 	generated: GeneratedEditable
 ): Promise<Generated> => {
@@ -55,7 +55,7 @@ export const updateClient = async (
 	throw new Error('Failed to update generated');
 };
 
-export const deleteClient = async (id: string): Promise<void> => {
+export const deleteGenerated = async (id: string): Promise<void> => {
 	const result = await remove(buildUrl(`/api/generated/${id}`));
 	if (!result.ok) {
 		throw new Error('Failed to delete generated');

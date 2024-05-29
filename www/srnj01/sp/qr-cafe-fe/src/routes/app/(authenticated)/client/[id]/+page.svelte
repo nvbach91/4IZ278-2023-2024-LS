@@ -6,7 +6,8 @@
 	import type {
 		Client as ClientType,
 		Seller as SellerType,
-		Sequence as SequenceType
+		Sequence as SequenceType,
+		Account as AccountType
 	} from '$types/user';
 	import type { PageData } from './$types';
 	import { createSeller, getSellers } from '$lib/api/sellers';
@@ -15,6 +16,7 @@
 	import * as Breadcrumb from '$components/ui/breadcrumb';
 	import * as Dialog from '$components/ui/dialog';
 	import * as Tooltip from '$components/ui/tooltip';
+	import * as Select from '$components/ui/select';
 	import ActiveBadge from '$components/app/ActiveBadge.svelte';
 	import { Button } from '$components/ui/button';
 	import Label from '$components/ui/label/label.svelte';
@@ -26,6 +28,8 @@
 	import { goto } from '$app/navigation';
 	import { createSequence, getSequences } from '$lib/api/sequences';
 	import Sequence from '$components/app/Sequence.svelte';
+	import { createAccount, getAccounts } from '$lib/api/accounts';
+	import Account from '$components/app/Account.svelte';
 
 	export let data: PageData;
 
@@ -38,6 +42,9 @@
 	let sequences: SequenceType[] | null = [];
 	let loadingSequences = true;
 
+	let accounts: AccountType[] | null = [];
+	let loadingAccounts = true;
+
 	let name = '';
 	let fee = 0;
 	let active = false;
@@ -47,6 +54,10 @@
 
 	let newGenerator = '';
 	let newLastUsed = '';
+
+	let newAccountName = '';
+	let newAccountNumber = '';
+	let newAccountSequence: number | null = null;
 
 	onMount(async () => {
 		client = await getClient(data.id);
@@ -60,6 +71,8 @@
 		loadingSellers = false;
 		sequences = await getSequences();
 		loadingSequences = false;
+		accounts = await getAccounts();
+		loadingAccounts = false;
 	});
 
 	let editOpen = false;
@@ -71,10 +84,13 @@
 	let sequenceOpen = false;
 	let sequenceMessage: string | undefined = undefined;
 
+	let accountOpen = false;
+	let accountMessage: string | undefined = undefined;
+
 	let deleteMessage: string | undefined = undefined;
 </script>
 
-<div class="container mt-4">
+<div class="container mb-16 mt-4">
 	{#if loadingClient}
 		<p>Loading client...</p>
 	{:else if client}
@@ -240,6 +256,9 @@
 								<Dialog.Description>
 									The recommended sequence is&nbsp;<code>YYMMSSSSSS</code>.
 								</Dialog.Description>
+								{#if sequenceMessage}
+									<Dialog.Description class="text-red-800">{sequenceMessage}</Dialog.Description>
+								{/if}
 							</Dialog.Header>
 							<FormBuilder message={createMessage}>
 								<FormItem>
@@ -261,12 +280,112 @@
 										try {
 											await createSequence({
 												generator: newGenerator,
-												last_used: newLastUsed
+												last_used: newLastUsed,
+												client_id: parseInt(data.id)
 											});
 											sellers = await getSellers();
 											createOpen = false;
 											newName = '';
 											active = true;
+										} catch (e) {
+											if (e instanceof Error) sequenceMessage = e.message;
+										}
+									}}
+								>
+									Add
+								</Button>
+							</FormBuilder>
+						</Dialog.Content>
+					</Dialog.Root>
+				</div>
+			{/if}
+
+			{#if loadingAccounts}
+				<p>Loading accounts...</p>
+			{:else if !accounts}
+				<p>Oops, something went wrong!</p>
+			{:else}
+				<h2 class="mt-4 text-2xl font-bold">Accounts</h2>
+				<div class="mt-4 grid max-w-full grid-cols-[repeat(auto-fill,_minmax(256px,_1fr))] gap-4">
+					{#each accounts.filter((account) => account.client_id.toString() === data.id) as account}
+						<Account
+							{account}
+							sequences={sequences
+								? sequences.filter((sequence) => sequence.client_id.toString() === data.id)
+								: []}
+						/>
+					{/each}
+					<Dialog.Root bind:open={accountOpen}>
+						<Dialog.Trigger>
+							<Adder />
+						</Dialog.Trigger>
+						<Dialog.Content>
+							<Dialog.Header>
+								<Dialog.Title>Add account</Dialog.Title>
+								{#if accountMessage}
+									<Dialog.Description class="text-red-800">{accountMessage}</Dialog.Description>
+								{/if}
+							</Dialog.Header>
+							<FormBuilder message={createMessage}>
+								<FormItem>
+									<Label for="newAccountName">Account name</Label>
+									<Input
+										type="text"
+										id="newAccountName"
+										name="newAccountName"
+										bind:value={newAccountName}
+									/>
+								</FormItem>
+								<FormItem>
+									<Label for="newAccountNumber">Account number</Label>
+									<Input
+										type="text"
+										id="newAccountNumber"
+										name="newAccountNumber"
+										bind:value={newAccountNumber}
+										placeholder="123456789/1234"
+									/>
+								</FormItem>
+								<FormItem>
+									<Label for="newAccountSequence" class="flex items-center gap-2">Sequence</Label>
+									<Select.Root
+										onSelectedChange={(v) => {
+											v && (newAccountSequence = v.value);
+										}}
+										selected={{
+											value: newAccountSequence,
+											label: sequences?.find((s) => s.id == newAccountSequence)?.generator ?? 'None'
+										}}
+									>
+										<Select.Trigger name="account" id="account">
+											<Select.Value placeholder="Sequence" />
+										</Select.Trigger>
+										<Select.Content>
+											<Select.Item value={undefined}>None</Select.Item>
+											{#each (sequences ?? []).filter((sequence) => sequence.client_id.toString() === data.id) as sequence}
+												<Select.Item value={sequence.id}>{sequence.generator}</Select.Item>
+											{/each}
+										</Select.Content>
+									</Select.Root>
+								</FormItem>
+								<Button
+									on:click={async () => {
+										try {
+											if (!newAccountName || !newAccountNumber)
+												throw new Error('Account name and number fields are required');
+
+											await createAccount({
+												name: newAccountName,
+												number: newAccountNumber,
+												sequence: newAccountSequence,
+												client_id: parseInt(data.id)
+											});
+											accounts = await getAccounts();
+											accountOpen = false;
+											newAccountName = '';
+											newAccountNumber = '';
+											newAccountSequence = null;
+											createMessage = undefined;
 										} catch (e) {
 											if (e instanceof Error) createMessage = e.message;
 										}

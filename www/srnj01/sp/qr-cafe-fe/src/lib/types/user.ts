@@ -6,7 +6,6 @@ export type User = {
 	role: string;
 	created_at?: string;
 	updated_at?: string;
-	clients?: Client[];
 };
 
 export type Client = {
@@ -16,8 +15,6 @@ export type Client = {
 	fee: number;
 	created_at?: string;
 	updated_at?: string;
-	sellers?: Seller[];
-	accounts?: Account[];
 };
 
 export type ClientEditable = {
@@ -48,7 +45,6 @@ export type Seller = {
 	client_id: number;
 	created_at?: string;
 	updated_at?: string;
-	generated?: Generated[];
 };
 
 export type SellerEditable = {
@@ -71,8 +67,19 @@ export type Account = {
 	sequence?: number;
 	created_at?: string;
 	updated_at?: string;
-	api_keys?: ApiKey[];
-	generated?: Generated[];
+};
+
+export type AccountEditable = {
+	name: string;
+	number: string;
+	sequence?: number | null;
+};
+
+export type AccountAdd = {
+	name: string;
+	number: string;
+	client_id: number;
+	sequence?: number | null;
 };
 
 export type ApiKey = {
@@ -99,6 +106,7 @@ export type SequenceEditable = {
 export type SequenceAdd = {
 	generator: string;
 	last_used: string;
+	client_id: number;
 };
 
 export type Generated = {
