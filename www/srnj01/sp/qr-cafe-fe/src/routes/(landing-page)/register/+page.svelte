@@ -5,10 +5,10 @@
 	import { Label } from '$components/ui/label';
 	import { register } from '$lib/api/user';
 
-	let name = 'Test';
-	let email = 'test@srnka.net';
-	let password = 'password';
-	let passwordConfirmation = 'password';
+	let name = '';
+	let email = '';
+	let password = '';
+	let passwordConfirmation = '';
 
 	let loading = false;
 </script>

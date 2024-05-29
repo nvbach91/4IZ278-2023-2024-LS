@@ -8,8 +8,8 @@
 	import { read } from '$lib/api';
 	import { login } from '$lib/api/user';
 
-	let email = 'test@srnka.net';
-	let password = 'password';
+	let email = '';
+	let password = '';
 </script>
 
 <div class="container mt-4">
