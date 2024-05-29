@@ -39,6 +39,29 @@ class CharactersDB extends Database
         return $stmt->fetch();
     }
 
+    function updateCharacter($character)
+    {
+        $sql = "UPDATE sp_characters SET name = :name, image = :image, class = :class, gold = :gold, xp = :xp, level = :level, strength = :strength, dexterity = :dexterity, hitpoints = :hitpoints, luck = :luck, stamina = :stamina WHERE user_id = :user_id";
+
+        $result = $this->runQuery($sql, [
+            'name' => $character->getName(),
+            'image' => $character->getImage(),
+            'class' => $character->getClass(),
+            'gold' => $character->getGold(),
+            'xp' => $character->getXp(),
+            'level' => $character->getLevel(),
+            'strength' => $character->getStrength(),
+            'dexterity' => $character->getDexterity(),
+            'hitpoints' => $character->getHitpoints(),
+            'luck' => $character->getLuck(),
+            'stamina' => $character->getStamina(),
+            'user_id' => $character->getUserId(),
+        ]);
+
+        return $result !== false;
+    }
+
+
 
 
 

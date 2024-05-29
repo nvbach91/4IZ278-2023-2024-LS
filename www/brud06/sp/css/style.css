@@ -291,3 +291,46 @@ form input, form textarea {
     font-size: 2em;
     color: #333;
 }
+.character-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    background-color: #f0f0f0; /* light gray */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    height: 400px;
+}
+
+.character-card img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.character-card h2 {
+    font-size: 2em;
+    color: #333;
+}
+
+.character-card .hp {
+    font-size: 20px;
+}
+
+.encounter-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.row-encounter {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}

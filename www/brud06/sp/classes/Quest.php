@@ -7,13 +7,21 @@ class Quest {
     private $stamina_cost;
     private $monster_id;
 
-    public function __construct($id, $xp, $gold, $description, $stamina_cost, $monster_id) {
-        $this->id = $id;
-        $this->xp = $xp;
-        $this->gold = $gold;
-        $this->description = $description;
-        $this->stamina_cost = $stamina_cost;
-        $this->monster_id = $monster_id;
+    public function __construct() {
+        $args = func_get_args();
+        $numArgs = func_num_args();
+    
+        if ($numArgs == 1 && is_array($args[0])) {
+            $data = $args[0];
+            $this->id = $data['quest_id'];
+            $this->xp = $data['xp'];
+            $this->gold = $data['gold'];
+            $this->description = $data['description'];
+            $this->stamina_cost = $data['stamina_cost'];
+            $this->monster_id = $data['monster_id'];
+        } else if ($numArgs == 6) {
+            list($this->id, $this->xp, $this->gold, $this->description, $this->stamina_cost, $this->monster_id) = $args;
+        }
     }
 
     public function getId() {

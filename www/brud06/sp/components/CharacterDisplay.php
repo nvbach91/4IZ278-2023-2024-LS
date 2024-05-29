@@ -32,7 +32,7 @@ $luck = $character['luck'];
                 <div> <?php echo "Gold: $gold" ?> </div>
                 <ul>
                     <li><a href="./CharacterDisplay.php">Character</a></li>
-                    <li><a href="#">Quests</a></li>
+                    <li><a href="./QuestDisplay.php">Quests</a></li>
                     <li><a href="#">Blacksmith</a></li>
                     <li><a href="#">Dungeons</a></li>
                     <li><a href="#">Hall of Fame</a></li>
@@ -52,8 +52,8 @@ $luck = $character['luck'];
                         <div class="level">
                             <h3>Level <?php echo $character['level']; ?></h3>
                             <div class="xpBubble">
-                                <p>Current XP: <?php echo $character['current_xp']; ?></p>
-                                <p>XP to Level Up: <?php echo $character['xp_to_level_up']; ?></p>
+                                <p>Current XP: <?php echo $character['xp']; ?></p>
+                                <p>XP needed to Level Up: 150 </p>
                             </div>
                         </div>
                         <div class="stats">
