@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin | Buldok{% endblock %}
+
+{% block body %}
+
+
+
+<div class="container is-fluid mt-5">
+
+    <div class="columns">
+        <div class="column is-one-quarter">
+            {% block admin_menu %}
+            
+            {% endblock %}
+        </div>
+        <div class="column">
+            <div class="section">
+                {% block admin_content %}
+
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+{% endblock %}

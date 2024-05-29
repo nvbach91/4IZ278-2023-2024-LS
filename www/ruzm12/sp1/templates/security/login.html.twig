@@ -1,0 +1,117 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+<!-- 
+{#
+<form method="post">
+    {% if error %}
+    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    {% if app.user %}
+    <div class="mb-3">
+        You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+    </div>
+    {% endif %}
+
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <label for="username">Email</label>
+    <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control"
+        autocomplete="email" required autofocus>
+    <label for="password">Password</label>
+    <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+    {#
+            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+            See https://symfony.com/doc/current/security/remember_me.html
+
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" name="_remember_me"> Remember me
+                </label>
+            </div>
+        #}
+
+    <button class="btn btn-lg btn-primary" type="submit">
+        Sign in
+    </button>
+</form>
+
+
+
+<input class="input" type="email" placeholder="Email">
+<input class="input" type="password" placeholder="Password">
+#}
+-->
+
+<div class="container">
+
+    <h1 class="is-size-1 has-text-centered">Login</h1>
+
+
+    <form method="POST" class="box">
+
+        {% if error %}
+
+        <article class="message is-danger">
+            <div class="message-header">
+                <p>Chyba při přihlášení</p>
+                <button class="delete" aria-label="delete"></button>
+            </div>
+            <div class="message-body">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        </article>
+
+        {% endif %}
+
+        {% if app.user %}
+
+        <article class="message is-info">
+            <div class="message-header">
+                <p>Jste přihlášen jako {{ app.user.userIdentifier }}</p>
+                <button class="delete" aria-label="delete"></button>
+            </div>
+            <div class="message-body">
+                <a href="{{ path('app_logout') }}" class="button is-danger">Odhlásit</a>
+            </div>
+
+        </article>
+
+        {% endif %}
+
+        <div class="field">
+            <p class="control has-icons-left has-icons-right">
+                <input type="email" value="{{ last_username }}" name="_username" id="username" class="input"
+                    autocomplete="email" placeholder="Email" required autofocus>
+                <span class="icon is-small is-left">
+                    <i class="fas fa-envelope"></i>
+                </span>
+            </p>
+        </div>
+        <div class="field">
+            <p class="control has-icons-left">
+
+                <input type="password" name="_password" id="password" class="input" autocomplete="current-password"
+                    placeholder="Heslo" required>
+                <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                </span>
+            </p>
+        </div>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        <div class="field">
+            <p class="control">
+                <button class="button is-success">
+                    Login
+                </button>
+            </p>
+        </div>
+    </form>
+
+</div>
+{% endblock %}

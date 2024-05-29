@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Zápasy{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <h1 class="has-text-centered is-size-1 mt-3">Zápasy</h1>
+
+    <div class="box">
+
+        {% if errors %}
+        <div class="box">
+            <div class="content">
+                <h3 class="">Chyba</h3>
+                {% for error in errors %}
+                <ul>
+                    <li>{{ error }}</li>
+                </ul>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        
+       
+    </div>
+</div>
+
+{% endblock %}

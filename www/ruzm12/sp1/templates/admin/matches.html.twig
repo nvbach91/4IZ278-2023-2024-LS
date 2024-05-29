@@ -1,0 +1,63 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Buldok | Správa zápasů{% endblock %}
+
+{% block body %}
+<div class="container is-fluid mt-5">
+
+    <div class="columns">
+        <div class="column is-one-quarter">
+            {% block admin_menu %}
+            <aside class="menu">
+                <p class="menu-label">Zápasy</p>
+                <ul class="menu-list">
+                    <li><a class="is-active" href={{ path("app_admin_matches") }}>Spravovat zápasy</a></li>
+                </ul>
+                <p class="menu-label">Uživatelé</p>
+                <ul class="menu-list">
+                    <li><a href={{ path("app_admin_users") }}>Spravovat uživatele</a></li>
+                </ul>
+                <p class="menu-label">Vstupy</p>
+                <ul class="menu-list">
+                    <li><a href={{ path("app_admin_entrances") }}>Spravovat vstupy</a></li>
+                </ul>
+            </aside>
+            {% endblock %}
+        </div>
+        <div class="column">
+            <div class="section">
+                {% block admin_content %}
+                <h1 class="is-size-1 has-text-centered has-text-weight-bold">Zápasy</h1>
+                <a class="button is-primary" href={{ path("app_admin_matches_create") }}>Vytvořit zápas</a>
+                <div class="table-container mt-3">
+                    <table class="table is-striped is-fullwidth">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Název</th>
+                                <th>Status</th>
+                                <th>Termín</th>
+                                <th>Upravit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for match in matches %}
+                            <tr>
+                                <td>{{ match.id }}</td>
+                                <td>{{ match.title }}</td>
+                                <td>{{ match.status }}</td>
+                                <td>{{ match.getPlayedAt|format_datetime(locale='en', timezone='Europe/Prague') }}</td>
+                                <td> <a href={{ path("app_admin_match_edit", {slug: match.slug}) }} class="button is-link">Upravit</a> </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+
+</div>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Buldok | Vytvoření zápasu{% endblock %}
+
+{% block body %}
+<div class="container is-fluid mt-5">
+
+    <div class="columns">
+        <div class="column is-one-quarter">
+            {% block admin_menu %}
+            <aside class="menu">
+                <p class="menu-label">Zápasy</p>
+                <ul class="menu-list">
+                    <li><a class="is-active" href={{ path("app_admin_matches") }}>Spravovat zápasy</a></li>
+                </ul>
+                <p class="menu-label">Uživatelé</p>
+                <ul class="menu-list">
+                    <li><a href={{ path("app_admin_users") }}>Spravovat uživatele</a></li>
+                </ul>
+                <p class="menu-label">Vstupy</p>
+                <ul class="menu-list">
+                    <li><a href={{ path("app_admin_entrances") }}>Spravovat vstupy</a></li>
+                </ul>
+            </aside>
+            {% endblock %}
+        </div>
+        <div class="column">
+            <div class="section">
+                {% block admin_content %}
+                <h1 class="is-size-1 has-text-centered has-text-weight-bold">Vytvořit zápas</h1>
+
+                {{ form_start(form) }}
+
+                {% if form.vars.errors|length > 0 %}
+
+                <article class="message is-danger mt-3">
+                    <div class="message-header">
+                        <p>Došlo k chybě při vytváření zápasu</p>
+                        <button class="delete" aria-label="delete"></button>
+                    </div>
+                    <div class="message-body">
+                        {{form_errors(form)}}
+                    </div>
+                </article>
+
+                {% elseif status == "success" %}
+                    
+                    <article class="message is-success mt-3">
+                    <div class="message-header">
+                        <p></p>
+                        <button class="delete" aria-label="delete"></button>
+                    </div>
+                    <div class="message-body">
+                        {{form_errors(form)}}
+                    </div>
+                </article>
+
+                {% endif %}
+
+                <div class="field">
+                    <label class="label">Název</label>
+                    <div class="control">
+                        {{ form_widget(form.title, {"attr": {'class': 'input'}}) }}
+                    </div>
+                    <p class="help is-danger">{{ form_errors(form.title) }}</p>
+                </div>
+
+                <div class="field">
+                    <label class="label">Status</label>
+                    <div class="control">
+                        {{ form_widget(form.status, {"attr": {'class': 'input'}}) }}
+                    </div>
+                    <p class="help is-danger">{{ form_errors(form.status) }}</p>
+                </div>
+
+                <div class="field">
+                    <label class="label">Termín</label>
+                    <div class="control">
+                        {{ form_widget(form.played_at, {"attr": {'class': 'input'}}) }}
+                    </div>
+                    <p class="help is-danger">{{ form_errors(form.played_at) }}</p>
+                </div>
+
+                <div class="field">
+                    <label class="label">Plná cena</label>
+                    <div class="control">
+                        {{ form_widget(form.full_price, {"attr": {'class': 'input'}}) }}
+                    </div>
+                    <p class="help is-danger">{{ form_errors(form.full_price) }}</p>
+                </div>
+
+                <div class="field">
+                    <label class="label">Dětská cena</label>
+                    <div class="control">
+                        {{ form_widget(form.child_price, {"attr": {'class': 'input'}}) }}
+                    </div>
+                    <p class="help is-danger">{{ form_errors(form.child_price) }}</p>
+                </div>
+
+                <button class="button is-primary mt-3" type="submit">Vytvořit</button>
+
+                {{ form_end(form) }}
+
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+
+</div>
+{% endblock %}

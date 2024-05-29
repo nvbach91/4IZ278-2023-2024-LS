@@ -1,0 +1,15 @@
+#!/bin/bash
+
+export RUNTIME_ENV_TYPE="$1"
+shift
+
+if [ -x "./invoke" ]; then
+    ./invoke "$@"
+else
+    if [ "$RUNTIME_ENV_TYPE" = "mysql" ]; then
+        host="db"
+    else
+        host="webserver"
+    fi
+    bin/docker exec "$host" "$@"
+fi
