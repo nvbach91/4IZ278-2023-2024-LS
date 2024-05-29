@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ApiKey;
 use App\Models\Generated;
 use App\Models\Seller;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class GeneratedController extends Controller
 {
@@ -53,10 +57,80 @@ class GeneratedController extends Controller
         $seller = $generated->seller;
 
         if ($hash && $hash === $seller->hash) {
+            // Check payment status
+            $this->checkPaymentStatus($generated->account_id);
+
             return response()->json($generated);
         }
 
         return response()->json(['error' => 'Unauthorized'], 403);
+    }
+
+    protected function checkPaymentStatus($accountId)
+    {
+        $apiKeys = ApiKey::where('account_id', $accountId)->orderBy('updated_at', 'asc')->get();
+
+        if ($apiKeys->isEmpty()) {
+            return;
+        }
+
+        $numKeys = $apiKeys->count();
+        $optimalInterval = 30 / $numKeys; // Calculate the optimal time interval between key usages
+
+        $eligibleApiKey = null;
+        $now = now();
+
+        foreach ($apiKeys as $apiKey) {
+            $lastUsed = $apiKey->updated_at ? Carbon::parse($apiKey->updated_at) : Carbon::createFromTimestamp(0);
+            if ($lastUsed->diffInSeconds($now) >= 30 || $lastUsed->diffInSeconds($now) >= $optimalInterval) {
+                $eligibleApiKey = $apiKey;
+                break;
+            }
+        }
+
+        if (!$eligibleApiKey) {
+            return;
+        }
+
+        $response = Http::get("https://www.fio.cz/ib_api/rest/last/{$eligibleApiKey->key}/transactions.json");
+
+        if ($response->failed()) {
+            return;
+        }
+
+        $transactions = $response->json()['accountStatement']['transactionList']['transaction'] ?? [];
+
+        Log::info('Fetched transactions', [
+            'account_id' => $accountId,
+            'num_transactions' => count($transactions)
+        ]);
+
+        $generatedEntries = Generated::where('account_id', $accountId)->get();
+
+        foreach ($generatedEntries as $generated) {
+            foreach ($transactions as $transaction) {
+                $variableSymbol = $transaction['column5']['value'] ?? null;
+
+                if ($variableSymbol == $generated->variable_symbol) {
+                    $generated->success = true;
+                    $generated->save();
+
+                    // Log the payment processing
+                    Log::info('Payment processed', [
+                        'generated_id' => $generated->id,
+                        'account_id' => $generated->account_id,
+                        'variable_symbol' => $variableSymbol,
+                        'transaction_id' => $transaction['column22'],
+                        'amount' => $transaction['column1'],
+                        'currency' => $transaction['column14'],
+                        'date' => $transaction['column0']
+                    ]);
+                }
+            }
+        }
+
+        // Update the updated_at timestamp of the eligible ApiKey
+        $eligibleApiKey->touch();
     }
 
     public function show(Request $request, $id)
