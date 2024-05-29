@@ -7,7 +7,8 @@
 		Client as ClientType,
 		Seller as SellerType,
 		Sequence as SequenceType,
-		Account as AccountType
+		Account as AccountType,
+		ApiKey as ApiKeyType
 	} from '$types/user';
 	import type { PageData } from './$types';
 	import { createSeller, getSellers } from '$lib/api/sellers';
@@ -30,6 +31,7 @@
 	import Sequence from '$components/app/Sequence.svelte';
 	import { createAccount, getAccounts } from '$lib/api/accounts';
 	import Account from '$components/app/Account.svelte';
+	import { getApiKeys } from '$lib/api/apiKeys';
 
 	export let data: PageData;
 
@@ -44,6 +46,9 @@
 
 	let accounts: AccountType[] | null = [];
 	let loadingAccounts = true;
+
+	let apiKeys: ApiKeyType[] | null = [];
+	let loadingApiKeys = true;
 
 	let name = '';
 	let fee = 0;
@@ -73,6 +78,8 @@
 		loadingSequences = false;
 		accounts = await getAccounts();
 		loadingAccounts = false;
+		apiKeys = await getApiKeys();
+		loadingApiKeys = false;
 	});
 
 	let editOpen = false;
@@ -313,6 +320,7 @@
 							sequences={sequences
 								? sequences.filter((sequence) => sequence.client_id.toString() === data.id)
 								: []}
+							apiKeys={(apiKeys ?? []).filter((apiKey) => apiKey.account_id === account.id)}
 						/>
 					{/each}
 					<Dialog.Root bind:open={accountOpen}>

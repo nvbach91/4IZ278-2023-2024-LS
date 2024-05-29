@@ -90,6 +90,11 @@ export type ApiKey = {
 	updated_at?: string;
 };
 
+export type ApiKeyAdd = {
+	key: string;
+	account_id: number;
+};
+
 export type Sequence = {
 	id: number;
 	generator: string;
