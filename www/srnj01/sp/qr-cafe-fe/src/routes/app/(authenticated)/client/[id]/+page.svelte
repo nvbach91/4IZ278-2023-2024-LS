@@ -8,7 +8,8 @@
 		Seller as SellerType,
 		Sequence as SequenceType,
 		Account as AccountType,
-		ApiKey as ApiKeyType
+		ApiKey as ApiKeyType,
+		Generated
 	} from '$types/user';
 	import type { PageData } from './$types';
 	import { createSeller, getSellers } from '$lib/api/sellers';
@@ -32,6 +33,7 @@
 	import { createAccount, getAccounts } from '$lib/api/accounts';
 	import Account from '$components/app/Account.svelte';
 	import { getApiKeys } from '$lib/api/apiKeys';
+	import { getGenerated } from '$lib/api/generated';
 
 	export let data: PageData;
 
@@ -49,6 +51,9 @@
 
 	let apiKeys: ApiKeyType[] | null = [];
 	let loadingApiKeys = true;
+
+	let payments: Generated[] = [];
+	let loadingPayments = true;
 
 	let name = '';
 	let fee = 0;
@@ -80,6 +85,13 @@
 		loadingAccounts = false;
 		apiKeys = await getApiKeys();
 		loadingApiKeys = false;
+		payments = ((await getGenerated()) ?? []).filter((payment) =>
+			sellers
+				?.filter((seller) => seller.client_id.toString() == data.id)
+				?.map((seller) => seller.id)
+				.includes(payment.seller_id)
+		);
+		loadingPayments = false;
 	});
 
 	let editOpen = false;
@@ -117,7 +129,23 @@
 				<h2 class="text-2xl font-bold">{client.name}</h2>
 				<ActiveBadge active={client.active} />
 			</div>
-			<p>Current Fee: {client.fee}%</p>
+			<p>Your current fee is {client.fee}%</p>
+			{#if loadingPayments}
+				<p>Loading payments...</p>
+			{:else if !payments}
+				<p>Oops, something went wrong!</p>
+			{:else if payments.length === 0}
+				<p>You have not made any sales yet.</p>
+			{:else if client}
+				<p>
+					You have made {payments
+						.map(($) => $.amount)
+						.reduce((accumulator, value) => accumulator + value, 0)} CZK in total sales, with a total
+					fee of {payments
+						.map(($) => $.amount * ((client?.fee ?? 0) / 100))
+						.reduce((accumulator, value) => accumulator + value, 0)} CZK.
+				</p>
+			{/if}
 			<div class="mt-2 flex gap-2">
 				<Dialog.Trigger>
 					<Button variant="outline">Edit</Button>

@@ -121,6 +121,7 @@ export type Generated = {
 	seller_id: number;
 	account_id: number;
 	success: boolean;
+	client_id?: number;
 	created_at?: string;
 	updated_at?: string;
 };
