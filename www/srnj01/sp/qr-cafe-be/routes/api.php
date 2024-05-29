@@ -13,6 +13,13 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+Route::get('seller/{hash}', [SellerController::class, 'showByHash']);
+Route::get('seller/{hash}/generated', [GeneratedController::class, 'index']);
+Route::post('seller/{hash}/generated', [GeneratedController::class, 'store']);
+Route::get('seller/{hash}/generated/{id}', [GeneratedController::class, 'showWithHash', 'id', 'hash']);
+Route::get('seller/{hash}/sequences/{id}/generate', [SequenceController::class, 'nextWithHash', 'id', 'hash']);
+Route::get('seller/{hash}/accounts', [AccountController::class, 'index']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::resource('clients', ClientController::class)->except(['create', 'edit']);
     Route::resource('sequences', SequenceController::class)->except(['create', 'edit']);
@@ -21,10 +28,3 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('sellers', SellerController::class)->except(['create', 'edit']);
     Route::resource('generated', GeneratedController::class)->except(['create', 'edit']);
 });
-
-Route::post('generated', [GeneratedController::class, 'store']);
-Route::get('generated', [GeneratedController::class, 'index']);
-Route::get('generated/{generated}', [GeneratedController::class, 'show']);
-Route::put('generated/{generated}', [GeneratedController::class, 'update']);
-Route::delete('generated/{generated}', [GeneratedController::class, 'destroy']);
-Route::get('seller/{hash}', [SellerController::class, 'showByHash']);

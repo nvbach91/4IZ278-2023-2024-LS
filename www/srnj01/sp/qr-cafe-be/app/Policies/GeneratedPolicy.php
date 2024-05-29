@@ -10,19 +10,19 @@ class GeneratedPolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(User $user)
+    public function viewAny()
     {
-        return $user->clients()->exists();
+        return true;
     }
 
-    public function view(User $user, Generated $generated)
+    public function view()
     {
-        return $user->clients->contains($generated->seller->client);
+        return true;
     }
 
-    public function create(User $user)
+    public function create()
     {
-        return true; // Creation allowed with seller's hash
+        return true;
     }
 
     public function update(User $user, Generated $generated)

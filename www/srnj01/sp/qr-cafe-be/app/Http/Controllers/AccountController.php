@@ -3,13 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\Seller;
 use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
-    public function index()
+    public function index(Request $request, $hash = null)
     {
-        return response()->json(Account::all());
+        if ($hash !== null) {
+            $seller = Seller::where('hash', $hash)->first();
+            if ($seller) {
+                $accounts = Account::where('client_id', $seller->client->id)->get();
+                return response()->json($accounts);
+            }
+            return response()->json(['error' => 'Seller not found'], 404);
+        }
+
+        $user = auth()->user();
+        if ($user) {
+            $clients = $user->clients->pluck('id');
+            $accounts = Account::whereIn('client_id', $clients)->get();
+            return response()->json($accounts);
+        }
+
+        return response()->json(['error' => 'Unauthorized'], 401);
     }
 
     public function store(Request $request)
@@ -34,7 +51,6 @@ class AccountController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'string|max:255',
-            'client_id' => 'exists:clients,id',
             'number' => 'string|max:255',
             'sequence' => 'nullable|exists:sequences,id',
         ]);

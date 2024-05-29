@@ -28,6 +28,7 @@ return new class extends Migration
             $table->id();
             $table->string('generator');
             $table->string('last_used');
+            $table->foreignId('client_id')->constrained('clients')->onDelete('cascade');
             $table->timestamps();
         });
         Schema::create('accounts', function (Blueprint $table) {

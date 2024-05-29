@@ -8,11 +8,11 @@ use Illuminate\Http\Request;
 
 class GeneratedController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, $hash = null)
     {
-        if ($request->has('seller_hash')) {
+        if ($hash !== null) {
             // Get generated entries by seller hash
-            $seller = Seller::where('hash', $request->input('seller_hash'))->first();
+            $seller = Seller::where('hash', $hash)->first();
             if ($seller) {
                 $generated = Generated::where('seller_id', $seller->id)->get();
                 return response()->json($generated);
@@ -22,14 +22,41 @@ class GeneratedController extends Controller
 
         $user = auth()->user();
         if ($user) {
+            if ($user->role === 'admin') {
+                $generated = Generated::all();
+                foreach ($generated as $entry) {
+                    $entry->client_id = $entry->seller->client_id;
+                }
+                return response()->json($generated);
+            }
             $clients = $user->clients->pluck('id');
             $generated = Generated::whereIn('seller_id', function ($query) use ($clients) {
                 $query->select('id')->from('sellers')->whereIn('client_id', $clients);
             })->get();
+            foreach ($generated as $entry) {
+                $entry->client_id = $entry->seller->client_id;
+            }
             return response()->json($generated);
         }
 
         return response()->json(['error' => 'Unauthorized'], 401);
+    }
+
+    public function showWithHash(Request $request, $hash = null, $id)
+    {
+        $generated = Generated::find($id);
+
+        if (!$generated) {
+            return response()->json(['error' => 'Generated entry not found'], 404);
+        }
+
+        $seller = $generated->seller;
+
+        if ($hash && $hash === $seller->hash) {
+            return response()->json($generated);
+        }
+
+        return response()->json(['error' => 'Unauthorized'], 403);
     }
 
     public function show(Request $request, $id)
@@ -42,10 +69,6 @@ class GeneratedController extends Controller
 
         $seller = $generated->seller;
 
-        if ($request->has('seller_hash') && $request->input('seller_hash') === $seller->hash) {
-            return response()->json($generated);
-        }
-
         $user = auth()->user();
         if ($user && $user->clients->contains($seller->client)) {
             return response()->json($generated);
@@ -54,7 +77,7 @@ class GeneratedController extends Controller
         return response()->json(['error' => 'Unauthorized'], 403);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $hash = null)
     {
         $validatedData = $request->validate([
             'amount' => 'required|numeric',
@@ -66,8 +89,8 @@ class GeneratedController extends Controller
 
         $validatedData['success'] = $request->input('success', true);
 
-        if ($request->has('seller_hash')) {
-            $seller = Seller::where('hash', $request->input('seller_hash'))->first();
+        if ($hash !== null) {
+            $seller = Seller::where('hash', $hash)->first();
             if (!$seller) {
                 return response()->json(['error' => 'Seller not found'], 404);
             }
