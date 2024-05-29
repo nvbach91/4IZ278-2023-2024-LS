@@ -15,8 +15,13 @@ export const getAccounts = async (
 	throw new Error('Failed to fetch accounts');
 };
 
-export const getAccount = async (id: number): Promise<Account | null> => {
-	const result = await read(buildUrl(`/api/accounts/${id}`));
+export const getAccount = async (
+	id: number,
+	seller_hash: string | undefined = undefined
+): Promise<Account | null> => {
+	const result = await read(
+		buildUrl(`/api${seller_hash !== undefined ? `/seller/${seller_hash}` : ''}/accounts/${id}`)
+	);
 	if (result.ok) {
 		return (await result.json()) as Account;
 	} else if (result.status === 404 || result.status === 403) {

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Generated } from '$types/user';
+	import type { Account, Generated } from '$types/user';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 	import { getSingleGenerated } from '$lib/api/generated';
@@ -8,11 +8,18 @@
 	import * as Dialog from '$components/ui/dialog';
 	import { goto } from '$app/navigation';
 	import Button from '$components/ui/button/button.svelte';
+	import { convertToIBAN, paymentSerializer } from '$lib/payment';
+	import { getAccount, getAccounts } from '$lib/api/accounts';
 
 	export let data: PageData;
 
 	let payment: Generated | null = null;
 	let loadingPayment = true;
+
+	let accounts: Account[] | null = null;
+	let loadingAccount = true;
+
+	let account: Account | null = null;
 
 	let paid = false;
 
@@ -21,6 +28,9 @@
 	onMount(async () => {
 		payment = await getSingleGenerated(data.payment, data.hash);
 		loadingPayment = false;
+		accounts = await getAccounts(data.hash);
+		loadingAccount = false;
+		account = accounts?.find((account) => account.id === payment?.account_id) ?? null;
 		if (!payment?.success) {
 			const interval = setInterval(async () => {
 				payment = await getSingleGenerated(data.payment, data.hash);
@@ -53,6 +63,19 @@
 			<PaidBadge paid={payment.success} />
 		</div>
 		<p class="mt-2">Variable symbol: {payment.variable_symbol}</p>
+		{#if account}
+			<img
+				src="https://qr.gpcz.eu/qr.php?data={paymentSerializer({
+					amount: payment.amount,
+					variableSymbol: payment.variable_symbol,
+					message: 'QR code for payment',
+					instant: true,
+					targetAccount: convertToIBAN(account.number),
+					currency: 'CZK'
+				})}"
+				alt="QR code"
+			/>
+		{/if}
 	{/if}
 	<Dialog.Root
 		bind:open={paid}
