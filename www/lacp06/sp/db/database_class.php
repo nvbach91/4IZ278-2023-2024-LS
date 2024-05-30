@@ -157,7 +157,6 @@ class BooksDB extends DatabaseEshop
     if (!empty($order) && $order == "not_published") {
       $query .= " AND publish_date > NOW()";
     }
-    $_SESSION['jaj'] = $query;
     return $this->runCount($query, $params);
   }
   public function updateBook($id, $name, $author, $price, $discount, $units, $publish_date, $language, $image, $description, $pages, $rating, $publisher_id, $genre_id, $world_id)
@@ -245,6 +244,16 @@ class UsersDB extends DatabaseEshop
       ]
     );
   }
+  public function findUserById($id)
+  {
+    $query = "SELECT * FROM user WHERE id = :id";
+    return $this->runQuery(
+      $query,
+      [
+        ':id' => $id
+      ]
+    );
+  }
   public function createUser($username, $email, $password, $token)
   {
     $query = "INSERT INTO user (username, email, password, token) VALUES (:username, :email, :password, :token)";
@@ -317,6 +326,40 @@ class OrdersDB extends DatabaseEshop
     $query = "SELECT * FROM orders ORDER BY timestamp DESC LIMIT 1";
     return $this->runQuery($query, []);
   }
+  public function findForUser($user_id, $offset, $limit)
+  {
+    $query = "SELECT * FROM orders WHERE user_id = :user_id ORDER BY timestamp DESC";
+    $query .= " LIMIT " . intval($limit);
+    $query .= " OFFSET " . intval($offset);
+    return $this->runQuery(
+      $query,
+      [
+        ':user_id' => $user_id
+      ]
+    );
+  }
+  public function findAll($offset, $limit)
+  {
+    $query = "SELECT * FROM orders ORDER BY timestamp DESC";
+    $query .= " LIMIT " . intval($limit);
+    $query .= " OFFSET " . intval($offset);
+    return $this->runQuery($query, []);
+  }
+  public function countForUser($user_id)
+  {
+    $query = "SELECT COUNT(*) FROM orders WHERE user_id = :user_id";
+    return $this->runCount(
+      $query,
+      [
+        ':user_id' => $user_id
+      ]
+    );
+  }
+  public function countAll()
+  {
+    $query = "SELECT COUNT(*) FROM orders";
+    return $this->runCount($query, []);
+  }
 }
 
 class BookOrdersDB extends DatabaseEshop
@@ -331,6 +374,16 @@ class BookOrdersDB extends DatabaseEshop
         ':book_id' => $book_id,
         ':units' => $units,
         ':price' => $price,
+      ]
+    );
+  }
+  public function findAll($order_id)
+  {
+    $query = "SELECT * FROM book_order WHERE order_id = :order_id";
+    return $this->runQuery(
+      $query,
+      [
+        ':order_id' => $order_id
       ]
     );
   }

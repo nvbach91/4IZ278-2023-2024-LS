@@ -628,6 +628,50 @@ button {
   }
 }
 
+/* -------------------------------ORDERS */
+.order-container {
+  display: flex;
+  width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  flex-direction: column;
+  border-radius: 8px;
+  padding: 10px;
+  border: 3px solid grey;
+
+  @media (max-width: 992px) {
+    width: 100%;
+  }
+}
+
+.order-number {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.order-container .details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  row-gap: 10px;
+}
+
+.order-container .details p {
+  border-bottom: 1px solid #ececec;
+  padding-bottom: 10px;
+  margin: 0;
+}
+
+.order-container .content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.order-container .content p {
+  border-bottom: 3px solid #ececec;
+  padding-bottom: 10px;
+  margin: 0;
+}
 /* -------------------------------SELECTION NAV */
 .selection-button {
   display: none;

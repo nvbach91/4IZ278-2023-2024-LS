@@ -8,12 +8,16 @@ $genresDB = new GenresDB();
 $action = $_SERVER['PHP_SELF'];
 
 if (isset($_GET['genre_id'])) {
+  $genre = $genresDB->findById($_GET['genre_id']);
+  if (empty($genre)) {
+    header('Location: /www/lacp06/sp/routes/index.php');
+    exit();
+  }
   $_SESSION['admin_genre']['genre_id'] = $_GET['genre_id'];
   $timestamp = date('Y-m-d H:i:s');
   $_SESSION['genre_timestamp'] = $timestamp;
   $genresDB->updateTimestamp($_SESSION['admin_genre']['genre_id'], $timestamp);
 
-  $genre = $genresDB->findById($_SESSION['admin_genre']['genre_id']);
   $_SESSION['admin_genre']['name'] = $genre[0]['name'];
   $_SESSION['admin_genre']['description'] = $genre[0]['description'];
   $_SESSION['admin_genre']['image'] = $genre[0]['image'];

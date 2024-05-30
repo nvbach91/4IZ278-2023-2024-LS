@@ -47,7 +47,7 @@ if (isset($_SESSION['confirmation'])) {
                     <p class="name"><a href="<?php echo $absolutePath; ?>routes/single_book.php/?book_id=<?php echo $book['id']; ?>"><?= $book['name'] ?></a></p>
                     <?php if ($book['discount']) : ?>
                       <p style="text-decoration: line-through;">Cena: <?php echo number_format($book['price'], 2, ',', ' '); ?> Kč</p>
-                      <div class="cart-discount">-<?php echo $book['discount']; ?>%</div>
+                      <div class="cart-discount" style="right: 0; left: 110px;">-<?php echo $book['discount']; ?>%</div>
                       <p style="color: #dc3545;">Vaše Cena: <?php echo number_format($book['price'] - ($book['price'] * $book['discount'] / 100), 2, ',', ' '); ?> Kč</p>
                     <?php else : ?>
                       <p style="color: #dc3545;">Cena: <?php echo number_format($book['price'], 2, ',', ' '); ?> Kč</p>

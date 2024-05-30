@@ -8,12 +8,16 @@ $publishersDB = new PublishersDB();
 $action = $_SERVER['PHP_SELF'];
 
 if (isset($_GET['publisher_id'])) {
+  $publisher = $publishersDB->findById($_GET['publisher_id']);
+  if (empty($publisher)) {
+    header('Location: /www/lacp06/sp/routes/index.php');
+    exit();
+  }
   $_SESSION['admin_publisher']['publisher_id'] = $_GET['publisher_id'];
   $timestamp = date('Y-m-d H:i:s');
   $_SESSION['publisher_timestamp'] = $timestamp;
   $publishersDB->updateTimestamp($_SESSION['admin_publisher']['publisher_id'], $timestamp);
 
-  $publisher = $publishersDB->findById($_SESSION['admin_publisher']['publisher_id']);
   $_SESSION['admin_publisher']['name'] = $publisher[0]['name'];
   $_SESSION['admin_publisher']['description'] = $publisher[0]['description'];
   $_SESSION['admin_publisher']['image'] = $publisher[0]['image'];

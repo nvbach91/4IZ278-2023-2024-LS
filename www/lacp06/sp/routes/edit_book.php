@@ -15,12 +15,16 @@ $genresDB = new GenresDB();
 $genres = $genresDB->findAll();
 
 if (isset($_GET['book_id'])) {
+  $book = $booksDB->findById($_GET['book_id']);
+  if (empty($book)) {
+    header('Location: /www/lacp06/sp/routes/index.php');
+    exit();
+  }
   $_SESSION['admin_book']['book_id'] = $_GET['book_id'];
   $timestamp = date('Y-m-d H:i:s');
   $_SESSION['book_timestamp'] = $timestamp;
   $booksDB->updateTimestamp($_SESSION['admin_book']['book_id'], $timestamp);
 
-  $book = $booksDB->findById($_SESSION['admin_book']['book_id']);
   $_SESSION['admin_book']['name'] = $book[0]['name'];
   $_SESSION['admin_book']['author'] = $book[0]['author'];
   $_SESSION['admin_book']['price'] = $book[0]['price'];

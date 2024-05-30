@@ -45,6 +45,9 @@ require_once '../utils/absolute-path.php';
             <li class="nav-item"><a class="nav-link" href="<?php echo $absolutePath; ?>routes/login.php">Přihlásit</a></li>
           <?php endif; ?>
           <li class="nav-item"><a class="nav-link" href="<?php echo $absolutePath; ?>routes/cart.php">Košík</a></li>
+          <?php if (isset($_COOKIE["name"])) : ?>
+            <li class="nav-item"><a class="nav-link" href="<?php echo $absolutePath; ?>routes/orders.php">Objednávky</a></li>
+          <?php endif; ?>
         </ul>
       </div>
     </div>

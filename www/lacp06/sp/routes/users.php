@@ -4,6 +4,7 @@ require_once '../db/database_class.php';
 require_once '../utils/admin-check.php';
 
 $usersDB = new UsersDB();
+session_start();
 
 $users = $usersDB->findUsers($_COOKIE['name']);
 $action = $_SERVER['PHP_SELF'];
@@ -20,6 +21,7 @@ if (!empty($_POST)) {
 
   if (count($errors) == 0) {
     $usersDB->changePrivileges($email, $privileges);
+    $_SESSION['temp_save'][$_POST['email']] = $_POST['privileges'];
   }
 }
 
@@ -39,12 +41,18 @@ if (!empty($_POST)) {
               <div class="email"><?php echo $user['email']; ?></div>
               <input type="hidden" name="email" value="<?php echo $user['email']; ?>">
               <select name="privileges" class="form-select comic-select">
-                <option value="1" <?php echo $user['privileges'] == 1 ? 'selected' : ''; ?>>Zákazník</option>
-                <option value="2" <?php echo $user['privileges'] == 2 ? 'selected' : ''; ?>>Manažer</option>
+                <?php if (isset($_SESSION['temp_save'][$user['email']])) : ?>
+                  <option value="1" <?php echo $_SESSION['temp_save'][$user['email']] == 1 ? 'selected' : ''; ?>>Zákazník</option>
+                  <option value="2" <?php echo $_SESSION['temp_save'][$user['email']] == 2 ? 'selected' : ''; ?>>Manažer</option>
+                <?php else : ?>
+                  <option value="1" <?php echo $user['privileges'] == 1 ? 'selected' : ''; ?>>Zákazník</option>
+                  <option value="2" <?php echo $user['privileges'] == 2 ? 'selected' : ''; ?>>Manažer</option>
+                <?php endif; ?>
               </select>
               <button type="submit" class="btn btn-danger">Změnit</button>
             </div>
           </form>
+          <?php unset($_SESSION['temp_save'][$user['email']]); ?>
         <?php endforeach; ?>
       </div>
     </div>

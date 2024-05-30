@@ -8,12 +8,16 @@ $worldsDB = new WorldsDB();
 $action = $_SERVER['PHP_SELF'];
 
 if (isset($_GET['world_id'])) {
+  $world = $worldsDB->findById($_GET['world_id']);
+  if (empty($world)) {
+    header('Location: /www/lacp06/sp/routes/index.php');
+    exit();
+  }
   $_SESSION['admin_world']['world_id'] = $_GET['world_id'];
   $timestamp = date('Y-m-d H:i:s');
   $_SESSION['world_timestamp'] = $timestamp;
   $worldsDB->updateTimestamp($_SESSION['admin_world']['world_id'], $timestamp);
 
-  $world = $worldsDB->findById($_SESSION['admin_world']['world_id']);
   $_SESSION['admin_world']['name'] = $world[0]['name'];
   $_SESSION['admin_world']['description'] = $world[0]['description'];
   $_SESSION['admin_world']['image'] = $world[0]['image'];

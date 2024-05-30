@@ -40,13 +40,25 @@ if (isset($_POST['pay'])) {
 
   if (count($errors) == 0) {
     $successMessage = "Objednávka byla úspěšně odeslána!";
+
+    unset($_SESSION['cart']);
+    $user = $usersDB->findUser($email);
+    $user_id = $user[0]['id'];
+    $ordersDB->create($user_id, $timestamp, $final_price, 'Zaplaceno');
+    $latestOrder = $ordersDB->findLatest()[0]['id'];
+    foreach ($books as $book) {
+      $bookOrdersDB->create($latestOrder, $book['id'], $book['units'], $book['price'] - ($book['price'] * $book['discount'] / 100));
+      $_SESSION['confirmation'] = 'Objednávka byla úspěšně odeslána!';
+    }
+
     $mail->isSMTP();
     $mail->Host       = 'smtp.gmail.com';
     $mail->SMTPAuth   = true;
     $mail->Username   = 'paja.lacina@gmail.com';
-    $mail->Password   = 'txkjkotxlvxytfwz';
+    $mail->Password   = '';
     $mail->SMTPSecure = 'ssl';
     $mail->Port       = 465;
+    $mail->CharSet = 'UTF-8';
 
     //Recipients
     $mail->setFrom('paja.lacina@gmail.com', 'Comic Central');
@@ -54,10 +66,11 @@ if (isset($_POST['pay'])) {
 
     //Content
     $mail->isHTML(true);
-    $mail->Subject = 'Comic Central - Objednavka';
+    $mail->Subject = 'Comic Central - Objednávka';
     $mail->Body    = '
       <h1>Objednávka z Comic Central</h1>
       <p>Dobrý den ' . $full_name . '. Zde vám posíláme shrnutí vaší objednávky:</p>
+      <p><b>Číslo objednávky:</b> ' . $latestOrder . '</p>
       <p><b>Uživatelské údaje</b></p>
       <p>Email: ' . $email . '</p>
       <p>Jméno a příjmení: ' . $full_name . '</p>
@@ -76,15 +89,6 @@ if (isset($_POST['pay'])) {
       ';
 
     $mail->send();
-    unset($_SESSION['cart']);
-    $user = $usersDB->findUser($email);
-    $user_id = $user[0]['id'];
-    $ordersDB->create($user_id, $timestamp, $final_price, 'Zaplaceno');
-    $latestOrder = $ordersDB->findLatest()[0]['id'];
-    foreach ($books as $book) {
-      $bookOrdersDB->create($latestOrder, $book['id'], $book['units'], $book['price'] - ($book['price'] * $book['discount'] / 100));
-      $_SESSION['confirmation'] = 'Objednávka byla úspěšně odeslána!';
-    }
     header("Location: /www/lacp06/sp/routes/cart.php");
   } else {
     $_SESSION['errors'] = $errors;
