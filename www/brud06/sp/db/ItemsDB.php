@@ -4,13 +4,35 @@ class ItemsDB extends Database
 {
     public function create($data)
     {
-        $sql = "INSERT INTO sp_items (name, price, description, img) VALUES (:name, :price, :description, :img)";
+        $sql = "INSERT INTO sp_items (name, price, img) VALUES (:name, :price, :description, :img)";
         $this->runQuery($sql, [
             'name' => $data['name'],
             'price' => $data['price'],
             'description' => $data['description'],
             'img' => $data['img']
         ]);
+    }
+
+
+    public function getRandomItems($limit = 6)
+    {
+        $sql = "SELECT * FROM sp_items ORDER BY RAND() LIMIT :limit";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+    public function findByName($name)
+    {
+        $sql = "SELECT * FROM sp_items WHERE name = :name";
+        $result = $this->runQuery($sql, ['name' => $name]);
+        return $result ? $result[0] : false;
+    }
+    public function getItem($item_id)
+    {
+        $sql = "SELECT * FROM sp_items WHERE item_id = :item_id";
+        $result = $this->runQuery($sql, ['item_id' => $item_id]);
+        return $result ? $result[0] : false;
     }
 
     public function find($conditions)
@@ -41,7 +63,7 @@ class ItemsDB extends Database
 
     public function getTotalCount()
     {
-        $sql = "SELECT COUNT(*) FROM cv08_goods";
+        $sql = "SELECT COUNT(*) FROM sp_items";
         $result = $this->runQuery($sql, []);
         return $result[0]['COUNT(*)'];
     }

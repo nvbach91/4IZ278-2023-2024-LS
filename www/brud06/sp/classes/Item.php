@@ -2,12 +2,13 @@
 class Item {
     private $id;
     private $name;
+    private $image;
     private $type;
     private $rarity;
     private $buyingCost;
     private $sellingCost;
 
-    public function __construct($id, $name, $type, $rarity, $buyingCost, $sellingCost) {
+    public function __construct($id, $name, $image, $type, $rarity, $buyingCost, $sellingCost) {
         $this->id = $id;
         $this->name = $name;
         $this->type = $type;
@@ -30,6 +31,9 @@ class Item {
 
     public function setName($name) {
         $this->name = $name;
+    }
+    public function getImage() {
+        return $this->image;
     }
 
     public function getType() {

@@ -2,8 +2,9 @@
 class Inventory {
     private $characterId;
     private $itemId;
+    private $capacity = 8;
 
-    public function __construct($characterId, $itemId, $quantity) {
+    public function __construct($characterId, $itemId) {
         $this->characterId = $characterId;
         $this->itemId = $itemId;
     }
@@ -22,6 +23,12 @@ public function getItemId() {
 
 public function setItemId($itemId) {
     $this->itemId = $itemId;
+}
+public function getCapacity() {
+    return $this->capacity;
+}
+public function isInventoryFull($inventory) {
+    return count($inventory) >= $this->capacity;
 }
 }
 ?>

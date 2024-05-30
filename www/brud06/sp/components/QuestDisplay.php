@@ -35,7 +35,7 @@ $quests = $questsDB->getRandomQuests(3);
                 <ul>
                     <li><a href="./CharacterDisplay.php">Character</a></li>
                     <li><a href="./QuestDisplay.php">Quests</a></li>
-                    <li><a href="#">Blacksmith</a></li>
+                    <li><a href="./BlacksmithDisplay.php">Blacksmith</a></li>
                     <li><a href="#">Dungeons</a></li>
                     <li><a href="#">Hall of Fame</a></li>
                 </ul>
