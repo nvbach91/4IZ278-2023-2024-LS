@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../db/OrderDatabase.php';
 require_once __DIR__ . '/../db/UserDatabase.php';
 
-$productsDB = new OrdersDatabase();
+$ordersDB = new OrdersDatabase();
 
 
 $currentUrlParams = $_SERVER['QUERY_STRING'];
@@ -16,7 +16,8 @@ for ($i = 0; $i < count($urlParamsArr); $i++) {
     }
 }
 
-$orders = $productsDB->readOrderById($orderId);
+$orders = $ordersDB->readOrderById($orderId);
+$listProducts = $ordersDB->readOrderItems($orderId);
 
 session_start();
 $totalCost = $_SESSION['totalCost'];
@@ -41,6 +42,15 @@ $totalCost = $_SESSION['totalCost'];
                 <span>Order ID: <?= number_format($order['idOrder'], 0); ?></span>
                 <span>State: <?= htmlspecialchars($order['state'], ENT_QUOTES, 'UTF-8'); ?></span>
                 <br><br>
+                <?php foreach ($listProducts as $listproduct) : ?>
+                    <div class="list-group-item">
+
+                        <span>Product name: <?= htmlspecialchars($listproduct['name'], ENT_QUOTES, 'UTF-8'); ?> – </span>
+                        <span><?= number_format($listproduct['productQuantity'], 0); ?>x</span>
+
+                    </div>
+                <?php endforeach; ?>
+                <br><br>
                 <span>Total cost: <?= number_format($totalCost, 0); ?> CZK</span>
                 <hr>
                 <?php if ($order['state'] == 'pending') : ?>
@@ -56,4 +66,3 @@ $totalCost = $_SESSION['totalCost'];
         </div>
     <?php endforeach; ?>
 </div>
-

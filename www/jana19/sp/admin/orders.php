@@ -91,13 +91,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     $result = $usersDB->readUserById($order['idUser'])[0];
 
+                    $listProducts = $ordersDB->readOrderItems($order['idOrder']);
+
 
                     ?>
 
                     <span>User ID: <?= number_format($order['idUser'], 0); ?> <?= htmlspecialchars($result['email']); ?></span>
                     <br>
                     <span>Order ID: <?= number_format($order['idOrder'], 0); ?></span>
+                    <span>Placed on: <?= htmlspecialchars($order['date'], ENT_QUOTES, 'UTF-8'); ?></span>
                     <span>State: <?= htmlspecialchars($order['state'], ENT_QUOTES, 'UTF-8'); ?></span>
+                    <br><br>
+                    <?php foreach ($listProducts as $listproduct) : ?>
+                        <div class="list-group-item">
+
+                            <span>Product name: <?= htmlspecialchars($listproduct['name'], ENT_QUOTES, 'UTF-8'); ?> – </span>
+                            <span><?= number_format($listproduct['productQuantity'], 0); ?>x</span>
+
+                        </div>
+                    <?php endforeach; ?>
                     <br><br>
                     <span>Total cost: <?= number_format($totalCost, 0); ?> CZK</span>
                     <hr>

@@ -3,9 +3,9 @@ require_once __DIR__ . '/Database.php';
 
 class OrdersDatabase extends Database
 {
-    protected $tableName = 'Order';
-    protected $tableNameRelation = 'OrderProducts';
-    protected $tableId = 'idOrder';
+    protected $tableName = 'order';
+    protected $tableNameRelation = 'orderproducts';
+    protected $tableId = 'idorder';
 
 
     public function readAllOrders()
@@ -17,6 +17,13 @@ class OrdersDatabase extends Database
     public function readOrderById($orderId)
     {
         $sql = "SELECT * FROM `$this->tableName` WHERE $this->tableId  = :idOrder;";
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute([':idOrder' => $orderId]);
+        return $statement->fetchAll();
+    }
+
+    public function readOrderItems($orderId){
+        $sql = "SELECT product.name, orderproducts.productQuantity FROM `orderproducts` JOIN product ON orderproducts.idProduct = product.idProduct WHERE idOrder = :idOrder; ";
         $statement = $this->pdo->prepare($sql);
         $statement->execute([':idOrder' => $orderId]);
         return $statement->fetchAll();

@@ -3,7 +3,7 @@ require_once __DIR__ . '/Database.php';
 
 class UsersDatabase extends Database
 {
-    protected $tableName = 'User';
+    protected $tableName = 'user';
     protected $tableId = 'idUser';
     protected $userEmail = 'email';
     protected $userRole = 'role';
@@ -25,6 +25,10 @@ class UsersDatabase extends Database
         $sql = "SELECT COUNT($this->tableId) FROM $this->tableName WHERE $this->userEmail = :email";
             $statement = $this->pdo->prepare($sql);
             $statement->bindParam(':email', $string);
+
+            var_dump($statement);
+            var_dump($string);
+
             $statement->execute();
             return (int) $statement->fetchColumn();
     }

@@ -3,11 +3,11 @@ require_once __DIR__ . '/Database.php';
 
 class ProductsDatabase extends Database
 {
-    protected $tableName = 'Product';
+    protected $tableName = 'product';
     protected $tableId = 'idProduct';
     protected $tablePrice = 'price';
-    protected $tableNameType = 'ProductTypes';
-    protected $tableNameRelationType = 'ProductType';
+    protected $tableNameType = 'producttypes';
+    protected $tableNameRelationType = 'producttype';
 
     // public function readAllProducts()
     // {
@@ -406,10 +406,10 @@ class ProductsDatabase extends Database
     {
         $sqlKey = 'idProduct';
         $sqlProductAvailability = "isAvailable";
-        $newAvailability = true;
+        $newAvailability = 1;
 
         if ($isAvailable == true) {
-            $newAvailability = false;
+            $newAvailability = 0;
         }
 
         $sql = "UPDATE `$this->tableName` SET $sqlProductAvailability = :productAvailability WHERE $sqlKey = :idProduct;";
