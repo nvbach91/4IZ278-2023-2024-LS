@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Buldok vstupenky{% endblock %}
+
+{% block body %}
+
+<div class="container">
+
+<h1 class="is-size-1 has-text-centered has-text-weight-bold">Buldok vstupenky</h1>
+
+    {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+    <div class="box is-flex is-flex-direction-column is-justify-content-center">
+        
+        <p class="has-text-centered m-2">Pro přístup do aplikace se, prosím, přihlašte</p>
+        <div class="is-flex is-justify-content-center">
+            <a class="button is-primary m-3" href={{ path("app_register") }}>
+                <strong>Registrace</strong>
+            </a>
+            <a class="button is-light m-3" href={{ path("app_login") }}>
+                Přihlásit se
+            </a>
+        </div>
+
+
+    </div>
+
+    {% else %}
+
+    <h3 class="is-size-5 has-text-centered">Vítej {{app.user.userIdentifier}}!</h3>
+
+    <div class="container mt-5">
+        <div class="box">
+            <h2 class="is-size-4 has-text-centered has-text-weight-semibold mt-2 mb-4">Zápasy</h2>
+
+            <div class="box">
+                <h4 class=" is-size-4 has-text-weight-bold">Buldok - Slavia Praha</h4>
+                <p>Termín: 12.12.2021</p>
+                <p>Čas: 18:00</p>
+                <p>Místo: Stadion Strahov</p>
+                <a class="button is-primary mt-3" >Vstupenky</a>
+            </div>
+        </div>
+        
+    </div>
+
+    {% endif %}
+
+</div>
+{% endblock %}

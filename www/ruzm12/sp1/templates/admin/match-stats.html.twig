@@ -1,0 +1,42 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Buldok | Vstupenky zápasu
+{% endblock %}
+
+
+{% block admin_menu %}
+	<aside class="menu">
+		<p class="menu-label">Zápasy</p>
+		<ul class="menu-list">
+			<li>
+				<a class="is-active" href={{ path("app_admin_matches") }}>Spravovat zápasy</a>
+			</li>
+		</ul>
+		<p class="menu-label">Uživatelé</p>
+		<ul class="menu-list">
+			<li>
+				<a href={{ path("app_admin_users") }}>Spravovat uživatele</a>
+			</li>
+		</ul>
+		<p class="menu-label">Vstupy</p>
+		<ul class="menu-list">
+			<li>
+				<a href={{ path("app_admin_entrances") }}>Spravovat vstupy</a>
+			</li>
+		</ul>
+	</aside>
+{% endblock %}
+{% block admin_content %}
+
+	<div class="container">
+		<h1 class="is-size-1 has-text-centered mb-3 has-text-weight-bold">Statistiky zapasu
+			{{ match.title }}</h1>
+
+		<div class="box">
+			<p>Počet vstupenek pro dospělé:
+				{{ numberOfAdultTickets }}</p>
+			<p>Počet vstupenek pro děti:
+				{{ numberOfChildTickets }}</p>
+		</div>
+	</div>
+{% endblock %}

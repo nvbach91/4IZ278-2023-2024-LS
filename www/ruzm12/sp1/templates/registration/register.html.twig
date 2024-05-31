@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Buldok | Registrace{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <h1 class="has-text-centered is-size-1 mt-3">Registrace</h1>
+
+    <div class="box">
+
+        {% if errors %}
+        <div class="box">
+            <div class="content">
+                <h3 class="">Chyba</h3>
+                {% for error in errors %}
+                <ul>
+                    <li>{{ error }}</li>
+                </ul>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+
+        {{ form_errors(registrationForm) }}
+
+        {{ form_start(registrationForm) }}
+
+        <div class="field">
+            <div class="label">
+                Křestní jméno
+            </div>
+            <div class="control">
+                {{ form_widget(registrationForm.firstName, {"attr": {'class': 'input'}}) }}
+
+                {% if form_errors(registrationForm.firstName) %}
+                <p class="help is-danger">{{ form_errors(registrationForm.firstName) }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="label">
+                Příjmení
+            </div>
+            <div class="control">
+                {{ form_widget(registrationForm.lastName, {"attr": {'class': 'input'}}) }}
+
+                {% if form_errors(registrationForm.lastName) %}
+                <p class="help is-danger">{{ form_errors(registrationForm.lastName) }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="label">
+                {{ form_label(registrationForm.email) }}
+            </div>
+            <div class="control">
+                {{ form_widget(registrationForm.email, {"attr": {'class': 'input'}}) }}
+
+                {% if form_errors(registrationForm.email) %}
+                <p class="help is-danger">{{ form_errors(registrationForm.email) }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="label">
+                Heslo
+            </div>
+            <div class="control">
+                {{ form_widget(registrationForm.plainPassword, {"attr": {'class': 'input'}}) }}
+
+                {% if form_errors(registrationForm.plainPassword) %}
+                <p class="help is-danger">{{ form_errors(registrationForm.plainPassword) }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="label">
+                Kontrola hesla
+            </div>
+            <div class="control">
+                {{ form_widget(registrationForm.passwordCheck, {"attr": {'class': 'input'}}) }}
+
+                {% if form_errors(registrationForm.passwordCheck) %}
+                <p class="help is-danger">{{ form_errors(registrationForm.passwordCheck) }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        {# <div class="field">
+            <label class="checkbox">
+                {{ form_row(registrationForm.agreeTerms) }}
+            </label>
+        </div> #}
+
+
+        <button type="submit" class="button is-primary">Registrovat se</button>
+        {{ form_end(registrationForm) }}
+    </div>
+</div>
+
+{% endblock %}

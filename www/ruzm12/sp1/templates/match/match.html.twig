@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Zápasy
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+		<div class="box">
+			<h1 class="has-text-centered is-size-1 mt-3 has-text-weight-bold">{{ match.title }}</h1>
+
+			{{ form_start(form) }}
+
+			<div class="field">
+				<label class="label">Počet vstupenek pro dospělé</label>
+				<div class="control">
+					{{ form_widget(form.numberOfAdultTickets, {"attr": {'class': 'input'}}) }}
+				</div>
+				<p class="help is-danger">{{ form_errors(form.numberOfAdultTickets) }}</p>
+			</div>
+
+			<div class="field">
+				<label class="label">Počet vstupenek pro děti</label>
+				<div class="control">
+					{{ form_widget(form.numberOfChildTickets, {"attr": {'class': 'input'}}) }}
+				</div>
+				<p class="help is-danger">{{ form_errors(form.numberOfChildTickets) }}</p>
+			</div>
+
+			<button type="submit" class="button is-primary">Rezervovat vstupenky</button>
+
+			{{ form_end(form) }}
+
+
+		</div>
+	</div>
+{% endblock %}

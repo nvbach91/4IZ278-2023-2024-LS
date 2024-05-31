@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="icon" href={{ asset("build/img/favicon.ico") }}>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link
+		rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+		{# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
+
+		<script src="https://kit.fontawesome.com/868ac28d90.js" crossorigin="anonymous"></script>
+
+
+	</head>
+
+	<body>
+		<nav class="navbar" role="navigation" aria-label="main navigation">
+			<div class="navbar-brand">
+				<a class="navbar-item" href={{ path('app_main') }}>
+					<img src={{ asset("build/img/football.png") }} alt="">
+
+				</a>
+
+				<a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+					<span aria-hidden="true"></span>
+					<span aria-hidden="true"></span>
+					<span aria-hidden="true"></span>
+					<span aria-hidden="true"></span>
+				</a>
+			</div>
+
+			<div id="navbarBasicExample" class="navbar-menu">
+				<div class="navbar-start">
+					<a class="navbar-item" href={{ path('app_main') }}>
+						Domů
+					</a>
+
+					{% if is_granted("ROLE_USER") %}
+						<a class="navbar-item" href={{ path("app_users_tickets") }}>
+							Moje vstupenky
+						</a>
+					{% endif %}
+
+					{% if is_granted("ROLE_ADMIN") %}
+						<a class="navbar-item" href={{ path("app_admin") }}>
+							Admin
+						</a>
+					{% endif %}
+				</div>
+
+				<div class="navbar-end">
+					<div class="navbar-item">
+						<div class="buttons">
+							{% if app.user %}
+								<a href="" class="button is-light">
+									<i class="fa-solid fa-cart-shopping"></i>
+								</a>
+								<a href={{ path("app_logout") }} class="button is-light">
+									<i class="fa-solid fa-right-from-bracket"></i>
+								</a>
+							{% else %}
+								<a class="button is-primary" href={{ path("app_register") }}>
+									<strong>Registrace</strong>
+								</a>
+								<a class="button is-light" href={{ path("app_login") }}>
+									Přihlásit se
+								</a>
+							{% endif %}
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+		{% block body %}{% endblock %}
+
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+	</body>
+
+</html>

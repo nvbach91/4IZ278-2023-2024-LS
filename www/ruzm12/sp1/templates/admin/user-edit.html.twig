@@ -1,0 +1,85 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Buldok | Správa uživatelů{% endblock %}
+
+{% block body %}
+<div class="container is-fluid mt-5">
+
+    <div class="columns">
+        <div class="column is-one-quarter">
+            {% block admin_menu %}
+            <aside class="menu">
+                <p class="menu-label">Zápasy</p>
+                <ul class="menu-list">
+                    <li><a href={{ path("app_admin_matches") }}>Spravovat zápasy</a></li>
+                </ul>
+                <p class="menu-label">Uživatelé</p>
+                <ul class="menu-list">
+                    <li><a class="is-active" href={{ path("app_admin_users") }}>Spravovat uživatele</a></li>
+                </ul>
+                <p class="menu-label">Vstupy</p>
+                <ul class="menu-list">
+                    <li><a href={{ path("app_admin_entrances") }}>Spravovat vstupy</a></li>
+                </ul>
+            </aside>
+            {% endblock %}
+        </div>
+        <div class="column">
+            <div class="section">
+                <h1 class="is-size-1 has-text-centered has-text-weight-bold">Úprava uživatele {{ user.email }}</h1>
+                {% block admin_content %}
+
+                {% if status == "success" %}
+                <article class="message is-success mt-3">
+                    <div class="message-header">
+                        <p>Uživatel úspěšně uložen</p>
+                    </div>
+                </article>
+                {% endif %}
+
+
+                {{ form_start(form) }}
+
+                <div class="field">
+                    <label class="label">Email</label>
+                    <div class="control">
+                        {{ form_widget(form.email, {"attr": {'class': 'input'}}) }}
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Jméno</label>
+                    <div class="control">
+                        {{ form_widget(form.firstName, {"attr": {'class': 'input'}}) }}
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Příjmení</label>
+                    <div class="control">
+                        {{ form_widget(form.lastName, {"attr": {'class': 'input'}}) }}
+                    </div>
+                </div>
+
+                <label class="checkbox">
+                    {{ form_widget(form.roles) }}
+                </label>
+
+                <br>
+
+                <button type="submit" class="button is-primary mt-3">
+                    Uložit
+                </button>
+
+                {{ form_end(form) }}
+
+
+
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+
+</div>
+{% endblock %}
