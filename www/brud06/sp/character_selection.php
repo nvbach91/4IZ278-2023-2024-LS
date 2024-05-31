@@ -14,6 +14,7 @@ if ($character) {
 
 <?php if ($character): ?>
     <div class='character'>
+    <button onclick="deleteCharacter()">Delete Character</button>
         <img src='<?php echo $character['image']; ?>' alt='Character Image'>
         <h2><a href='components/CharacterDisplay.php'><?php echo $character['name']; ?></a></h2>
     </div>
@@ -22,4 +23,4 @@ if ($character) {
     <button onclick="location.href='character_creation.php'">Create Character</button>
 <?php endif; ?>
 
-
+<script src="./JS/script.js"></script>

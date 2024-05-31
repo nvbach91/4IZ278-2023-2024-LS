@@ -25,6 +25,13 @@ if (isset($_SESSION['item_name'])) {
         $gold -= $item['price_to_buy'];
         $character->setGold($gold);
         $characterDB->updateCharacter($character);
+
+        // Remove the bought item from the blacksmith items in the session
+        $key = array_search($item, $_SESSION['blacksmith_items']);
+        if ($key !== false) {
+            unset($_SESSION['blacksmith_items'][$key]);
+        }
+        
         header('Location: components/CharacterDisplay.php');
         exit();
     }

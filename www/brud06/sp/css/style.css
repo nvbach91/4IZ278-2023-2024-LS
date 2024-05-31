@@ -401,6 +401,9 @@ form input, form textarea {
 }
 .item-card {
     position: relative;
+        min-width: 100px;
+        min-height: 100px;
+        margin-bottom: 10px;
 }
 
 .item-stats {
@@ -408,11 +411,34 @@ form input, form textarea {
     position: absolute;
     /* Adjust the position as needed. */
     top: 0;
-    left: 0;
+    left: -100px;
+    pointer-events: none;
     /* Add other styles as needed (e.g., background color, padding, etc.). */
 } 
 .item-card:hover .item-stats {
     display: block;
     background-color: #f9f9f9;
     padding: 0 20px;
+}
+.action-dialog-hidden {
+    display: none;
+}
+
+.action-dialog-visible {
+    display: flex;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.action-dialog-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
 }

@@ -20,6 +20,9 @@ if ($quest === false || !isset($quest['monster_id'])) {
 $_SESSION['accepted_quest_id'] = $_POST['quest_id'];
 $_SESSION['monster_id'] = $quest['monster_id'];
 
+// Clear the quests from the session
+unset($_SESSION['quests']);
+
 // Redirect back to quests page
 header('Location: components/EncounterDisplay.php');
 exit;

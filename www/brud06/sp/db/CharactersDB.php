@@ -60,6 +60,13 @@ class CharactersDB extends Database
 
         return $result !== false;
     }
+    function deleteCharacter($characterId)
+    {
+        $sql = "DELETE FROM sp_characters WHERE character_id = :character_id";
+        $stmt = $this->pdo->prepare($sql);
+        $result = $stmt->execute(['character_id' => $characterId]);
+        return $result !== false;
+    }
 
 
 

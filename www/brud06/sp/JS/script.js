@@ -31,3 +31,49 @@ function confirmPurchase(itemName, itemPrice) {
         dialog.className = 'confirm-dialog-hidden';
     };
 }
+
+function confirmInventoryAction(itemName) {
+    console.log("confirmInventoryAction called with item:", itemName);
+    var dialog = document.getElementById('inventoryActionDialog');
+    var dialogText = document.getElementById('inventoryActionDialogText');
+    var equipButton = document.getElementById('inventoryActionDialogEquip');
+    var sellButton = document.getElementById('inventoryActionDialogSell');
+    var cancelButton = document.getElementById('inventoryActionDialogCancel');
+
+    dialogText.textContent = "What do you want to do with " + itemName + "?";
+    dialog.className = 'action-dialog-visible';
+
+    equipButton.onclick = function() {
+        dialog.className = 'action-dialog-hidden';
+    
+        fetch('../store_item_to_equip_in_session.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'item_name=' + encodeURIComponent(itemName),
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+            window.location.href = '../components/CharacterDisplay.php'; // Redirect to equip_item.php
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    };
+
+    sellButton.onclick = function() {
+        dialog.className = 'action-dialog-hidden';
+        // Add code here to sell the item
+    };
+
+    cancelButton.onclick = function() {
+        dialog.className = 'action-dialog-hidden';
+    };
+}
+function deleteCharacter() {
+    if (confirm('Are you sure you wish to delete this character?')) {
+        location.href='delete_character.php';
+    }
+}

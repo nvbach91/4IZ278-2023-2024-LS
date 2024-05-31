@@ -44,6 +44,10 @@ class ItemsDB extends Database
         $result = $this->runQuery($sql, $conditions);
         return $result ? $result[0] : false;
     }
+public function getItemDetails($itemId) {
+    $conditions = ['item_id' => $itemId];
+    return $this->find($conditions);
+}
 
     public function findByCategory($category_id)
     {

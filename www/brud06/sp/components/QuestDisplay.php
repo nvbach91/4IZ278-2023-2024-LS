@@ -1,7 +1,9 @@
 <?php
-session_start();
+//session_start();
+require_once '../restrictions/user_required.php';
 require_once '../db/CharactersDB.php';
 require_once '../db/QuestsDB.php';
+
 
 $characterDB = new CharactersDB();
 $character = $characterDB->findCharacterByUserId($_SESSION['user_id']);
@@ -13,7 +15,15 @@ $hitpoints = $character['hitpoints'];
 $luck = $character['luck'];
 
 $questsDB = new QuestsDB();
-$quests = $questsDB->getRandomQuests(3);
+// Check if there are already quests in the session
+if (isset($_SESSION['quests'])) {
+    // Use the quests from the session
+    $quests = $_SESSION['quests'];
+} else {
+    // Generate new quests and store them in the session
+    $quests = $questsDB->getRandomQuests(3);
+    $_SESSION['quests'] = $quests;
+}
 ?>
 
 <!DOCTYPE html>
