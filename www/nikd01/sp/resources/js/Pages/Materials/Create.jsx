@@ -4,24 +4,30 @@ import TextInput from "@/Components/TextInput.jsx";
 import InputError from "@/Components/InputError.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import React, {useEffect} from "react";
-import {Head, useForm} from "@inertiajs/react";
+import {Head, useForm, usePage} from "@inertiajs/react";
 import FileInput from "@/Components/FileInput.jsx";
+import {getQueryParams} from "@/utils/utils.js";
 
 export default function Create({auth, universities, subjects}) {
+    const {url} = usePage();
+    const queryParams = getQueryParams(url) || {};
     const {data, setData, post, processing, errors, reset} = useForm({
         title: '',
         description: '',
         file: null,
-        subject_id: '',
+        subject_id: queryParams.subject || '',
     });
 
-    const [universityId, setUniversityId] = React.useState(1);
+    const initialUniversityId = subjects?.find((subject) => subject.id === parseInt(data.subject_id))?.university_id;
+
+    const [universityId, setUniversityId] = React.useState(initialUniversityId);
 
     useEffect(() => {
+        setData('subject_id', queryParams.subject || '');
         return () => {
             reset('title', 'description', 'file');
         };
-    }, []);
+    }, [url]);
 
     const handleFileChange = (e) => {
         setData('file', e.target.files[0]);
@@ -62,6 +68,7 @@ export default function Create({auth, universities, subjects}) {
                                     id="university"
                                     name="university"
                                     className="mt-1 block w-full rounded-md border-gray-300"
+                                    value={universityId}
                                     onChange={(e) => setUniversityId(e.target.value)}
                                 >
                                     <option value="">Select a university</option>
@@ -78,6 +85,7 @@ export default function Create({auth, universities, subjects}) {
                                     id="subject"
                                     name="subject"
                                     className="mt-1 block w-full rounded-md border-gray-300"
+                                    value={data.subject_id}
                                     onChange={(e) => setData('subject_id', e.target.value)}
                                     disabled={!filteredSubjects.length}
                                 >

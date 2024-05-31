@@ -1,7 +1,7 @@
 import LinkUnderlined from "@/Components/LinkUnderlined.jsx";
 
 export default function SubjectCard({subject}) {
-    const {name, code, description} = subject;
+    const {name, code, description, materials_count} = subject || {};
 
     return (
         <div
@@ -13,7 +13,7 @@ export default function SubjectCard({subject}) {
                 </h3>
                 <p className="text-sm mt-4">{description}</p>
                 <LinkUnderlined url={`/subjects/${subject.id}`} customClass="mt-8">
-                    View Materials
+                    View {materials_count ?? ''} Materials
                 </LinkUnderlined>
             </div>
         </div>

@@ -1,24 +1,28 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import React, {useEffect} from "react";
-import {Head, useForm} from "@inertiajs/react";
+import {Head, useForm, usePage} from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel.jsx";
 import InputError from "@/Components/InputError.jsx";
 import TextInput from "@/Components/TextInput.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
+import {getQueryParams} from "@/utils/utils.js";
 
 export default function Create({auth, universities}) {
+    const {url} = usePage();
+    const queryParams = getQueryParams(url) || {};
     const {data, setData, post, processing, errors, reset} = useForm({
         name: '',
         code: '',
         description: '',
-        university_id: 0
+        university_id: queryParams?.uni || 0,
     });
 
     useEffect(() => {
+        setData('university_id', queryParams?.uni || 0);
         return () => {
             reset('name', 'code', 'description', 'university_id');
         };
-    }, []);
+    }, [url]);
 
     const submit = (e) => {
         e.preventDefault();
@@ -49,6 +53,7 @@ export default function Create({auth, universities}) {
                                     id="university"
                                     name="university"
                                     className="mt-1 block w-full rounded-md border-gray-300"
+                                    value={data.university_id}
                                     onChange={(e) => setData('university_id', e.target.value)}
                                 >
                                     <option value={0}>Select university</option>

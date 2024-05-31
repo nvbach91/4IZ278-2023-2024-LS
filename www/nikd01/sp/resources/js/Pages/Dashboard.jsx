@@ -3,7 +3,7 @@ import {Head} from '@inertiajs/react';
 import LinkButton from "@/Components/LinkButton.jsx";
 import MaterialCard from "@/Components/Cards/MaterialCard.jsx";
 
-export default function Dashboard({auth, materials}) {
+export default function Dashboard({auth, materials, latestMaterials}) {
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -37,6 +37,17 @@ export default function Dashboard({auth, materials}) {
                             </LinkButton>
                         </div>
                     </div>
+                    {latestMaterials?.length > 0 && (
+                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg px-6 pt-6 pb-12 mt-10">
+                            <h1 className="text-3xl font-bold text-center">Latest materials</h1>
+
+                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                                {latestMaterials?.map((material) => (
+                                    <MaterialCard key={material.id} material={material} isAuthenticated/>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </AuthenticatedLayout>

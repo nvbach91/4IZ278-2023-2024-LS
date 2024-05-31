@@ -96,6 +96,10 @@ function MaterialContent({material, isAuthenticated, auth, canDelete}) {
     const hasAlreadyBeenReviewed = ratings?.find(r => r?.user_id === auth?.user.id);
     const isUsersOwnMaterial = auth?.user?.id === material?.user_id;
 
+    const canDeleteComment = (comment) => {
+        return comment?.user_id === auth?.user?.id || auth?.user?.is_admin === 1 || isUsersOwnMaterial;
+    }
+
     return (
         <>
             <Modal show={showDeleteModal} maxWidth="md">
@@ -154,7 +158,7 @@ function MaterialContent({material, isAuthenticated, auth, canDelete}) {
                                             <strong>{comment?.user?.name}</strong>
                                             <p>{comment?.comment_text}</p>
                                         </div>
-                                        {(comment?.user_id === auth?.user?.id || auth?.user?.is_admin || isUsersOwnMaterial) && (
+                                        {canDeleteComment(comment) && (
                                             <button onClick={() => deleteComment(comment.id)}
                                                     className="text-red-500 hover:text-red-500/80 text-sm ml-auto">Delete</button>
                                         )}

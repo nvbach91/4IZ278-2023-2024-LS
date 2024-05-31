@@ -36,6 +36,11 @@ function SubjectContent({subject, isAuthenticated = false}) {
         <section className="flex flex-col items-center">
             <h1 className="font-bold text-3xl">{name}</h1>
             <h2 className="text-black/80 text-lg mt-4 max-w-xl text-center">{description}</h2>
+            <div className="mt-4">
+                <LinkButton href={`/materials/create?subject=${subject?.id}`}>
+                    Add new material
+                </LinkButton>
+            </div>
             {materials?.length > 0 ? (
                 <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 mt-8">
                     {materials?.map(material => (

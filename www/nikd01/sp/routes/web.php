@@ -22,6 +22,7 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard', [
         'materials' => Material::all()->where('user_id', auth()->id())->values(),
+        'latestMaterials' => Material::latest()->take(10)->get(),
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -29,6 +30,7 @@ Route::get('/browse', function (Request $request) {
     $query = $request->input('query');
 
     $universities = University::query()
+        ->withCount('subjects')
         ->when($query, function ($queryBuilder) use ($query) {
             $queryBuilder->where('name', 'like', '%' . $query . '%');
         })

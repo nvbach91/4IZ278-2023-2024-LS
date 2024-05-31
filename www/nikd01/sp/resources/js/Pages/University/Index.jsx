@@ -75,7 +75,7 @@ function UniversityContent({university, subjects, query, canUpdate}) {
                 {subjects?.data?.length > 0 ? (
                     <>
                         <div className="flex justify-center w-full">
-                            <LinkButton href={route('subjects.create')}>
+                            <LinkButton href={`${route('subjects.create')}?uni=${university?.id}`}>
                                 Add new subject
                             </LinkButton>
                         </div>
@@ -90,7 +90,7 @@ function UniversityContent({university, subjects, query, canUpdate}) {
                         <img src="/images/nothing-found.svg" alt="No subjects found"
                              className="h-[200px]"/>
                         <p className="font-bold text-lg text-center w-full">No subjects found.</p>
-                        <LinkButton href={route('subjects.create')}>
+                        <LinkButton href={`${route('subjects.create')}?uni=${university?.id}`}>
                             Add subject
                         </LinkButton>
                     </div>

@@ -47,6 +47,7 @@ class UniversityController extends Controller
     {
         $query = $request->input('query', '');
         $subjects = $university->subjects()
+            ->withCount('materials')
             ->when($query, function ($queryBuilder) use ($query) {
                 $queryBuilder->where('name', 'like', "%{$query}%");
             })
