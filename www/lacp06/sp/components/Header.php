@@ -33,6 +33,7 @@ require_once '../utils/absolute-path.php';
           <?php if (isset($_COOKIE["name"])) : ?>
             <?php if ($privileges > 2) : ?>
               <li class="nav-item"><a class="nav-link" href="<?php echo $absolutePath; ?>routes/users.php">Uživatelé</a></li>
+              <li class="nav-item"><a class="nav-link" href="<?php echo $absolutePath; ?>routes/statistics.php">Finanční přehled</a></li>
             <?php endif; ?>
             <li class="nav-item" style="display: flex; align-items: center; padding: 8px;">
               <a href="<?php echo $absolutePath; ?>routes/profile.php" style="color: wheat;"><?php echo $_COOKIE["name"]; ?></a>

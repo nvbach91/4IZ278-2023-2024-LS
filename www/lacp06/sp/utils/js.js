@@ -18,6 +18,14 @@ $("#genre").on("change", function () {
   $("#book-filter").submit();
 });
 
+$("#month").on("change", function () {
+  $("#statistics").submit();
+});
+
+$("#year").on("change", function () {
+  $("#statistics").submit();
+});
+
 $("#publisher").on("change", function () {
   $("#book-filter").submit();
 });

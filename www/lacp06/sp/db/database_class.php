@@ -338,11 +338,33 @@ class OrdersDB extends DatabaseEshop
       ]
     );
   }
+  public function findStatistics($month, $year)
+  {
+    $query = "SELECT * FROM orders WHERE 1=1";
+    $params = [];
+
+    if ($month) {
+      $query .= " AND MONTH(timestamp) = :month";
+      $params[':month'] = $month;
+    }
+    if ($year) {
+      $query .= " AND YEAR(timestamp) = :year";
+      $params[':year'] = $year;
+    }
+    return $this->runQuery(
+      $query,
+      $params
+    );
+  }
   public function findAll($offset, $limit)
   {
     $query = "SELECT * FROM orders ORDER BY timestamp DESC";
-    $query .= " LIMIT " . intval($limit);
-    $query .= " OFFSET " . intval($offset);
+    if ($limit) {
+      $query .= " LIMIT " . intval($limit);
+    }
+    if ($offset) {
+      $query .= " OFFSET " . intval($offset);
+    }
     return $this->runQuery($query, []);
   }
   public function countForUser($user_id)
@@ -359,6 +381,37 @@ class OrdersDB extends DatabaseEshop
   {
     $query = "SELECT COUNT(*) FROM orders";
     return $this->runCount($query, []);
+  }
+  public function findById($id)
+  {
+    $query = "SELECT * FROM orders WHERE id = :id";
+    return $this->runQuery(
+      $query,
+      [
+        ':id' => $id
+      ]
+    );
+  }
+  public function delete($id)
+  {
+    $query = "DELETE FROM orders WHERE id = :id";
+    return $this->runExecute(
+      $query,
+      [
+        ':id' => $id
+      ]
+    );
+  }
+  public function updateState($id, $state)
+  {
+    $query = "UPDATE orders SET state = :state WHERE id = :id";
+    return $this->runExecute(
+      $query,
+      [
+        ':id' => $id,
+        ':state' => $state,
+      ]
+    );
   }
 }
 
@@ -378,6 +431,26 @@ class BookOrdersDB extends DatabaseEshop
     );
   }
   public function findAll($order_id)
+  {
+    $query = "SELECT * FROM book_order WHERE order_id = :order_id";
+    return $this->runQuery(
+      $query,
+      [
+        ':order_id' => $order_id
+      ]
+    );
+  }
+  public function delete($order_id)
+  {
+    $query = "DELETE FROM book_order WHERE order_id = :order_id";
+    return $this->runExecute(
+      $query,
+      [
+        ':order_id' => $order_id
+      ]
+    );
+  }
+  public function findById($order_id)
   {
     $query = "SELECT * FROM book_order WHERE order_id = :order_id";
     return $this->runQuery(

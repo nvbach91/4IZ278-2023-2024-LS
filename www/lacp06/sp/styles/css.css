@@ -644,6 +644,13 @@ button {
   }
 }
 
+.statistics {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
+
 .order-number {
   font-size: 20px;
   font-weight: bold;

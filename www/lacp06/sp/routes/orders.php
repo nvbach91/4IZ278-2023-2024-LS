@@ -3,6 +3,7 @@
 require_once '../db/database_class.php';
 require_once '../utils/user-check.php';
 require_once '../utils/check-privileges.php';
+require_once '../utils/absolute-path.php';
 
 $ordersDB = new OrdersDB();
 $bookOrdersDB = new BookOrdersDB();
@@ -77,6 +78,16 @@ foreach ($orders as $order) {
                 <p><?php echo number_format($content['price'] * $content['units'], 2, ',', ' '); ?> kč</p>
               <?php endforeach; ?>
             </div>
+            <?php if ($order['state'] == 'Zaplaceno') : ?>
+              <a href="<?php echo $absolutePath; ?>utils/delete-order.php/?order_id=<?php echo $order["id"]; ?>" style="margin-top: 10px;">
+                <button class="btn btn-danger">Zrušit objednávku</button>
+              </a>
+            <?php endif; ?>
+            <?php if ($privileges > 2 && $order['state'] == 'Zaplaceno') : ?>
+              <a href="<?php echo $absolutePath; ?>utils/complete-order.php/?order_id=<?php echo $order["id"]; ?>" style="margin-top: 10px;">
+                <button class="btn btn-danger">Odeslat objednávku</button>
+              </a>
+            <?php endif; ?>
           </div>
         <?php endforeach; ?>
         <?php require '../components/Pagination.php'; ?>
