@@ -79,6 +79,21 @@ class CreateMatchFormType extends AbstractType
                 ],
                 'required' => true,
                 'invalid_message' => 'Cena musí být číslo'
+            ])
+            ->add('availability', ChoiceType::class, [
+                'choices' => [
+                    'Ano' => true,
+                    'Ne' => false
+                ],
+                'required' => true,
+                'constraints' => [
+                    new NotNull(),
+                    new Choice([
+                        'choices' => [true, false],
+                        'message' => 'Vyberte dostupnost vstupenek'
+                    ])
+                ]
+
             ]);
     }
 

@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Validator\Constraints\PasswordStrength;
 
 class RegistrationFormType extends AbstractType
 {
@@ -26,7 +27,7 @@ class RegistrationFormType extends AbstractType
                 [
                     'constraints' => [
                         new NotBlank([
-                            'message' => 'Please enter your email',
+                            'message' => 'Prosím, vyplňte emailovou adresu.',
                         ]),
                     ],
                 ]
@@ -46,14 +47,18 @@ class RegistrationFormType extends AbstractType
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Prosím, vyplňte heslo.',
                     ]),
                     new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'min' => 8,
+                        'minMessage' => 'Vaše heslo musí mít alespoň {{ limit }} znaků.',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
+                    new PasswordStrength([
+                        'minScore' => PasswordStrength::STRENGTH_VERY_STRONG,
+                        'message' => 'Vámi zvolené heslo je příliš slabé. Zadejte prosím silnější heslo.',
+                    ])
                 ],
             ])
             ->add('passwordCheck', PasswordType::class, [
@@ -61,27 +66,21 @@ class RegistrationFormType extends AbstractType
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
+                        'message' => 'Prosím, potvrďte heslo.',
+                    ])
                 ],
             ])
             ->add('firstName', TextType::class, [
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter your first name',
+                        'message' => 'Prosím, vyplňte vaše jméno.',
                     ]),
                 ],
             ])
             ->add('lastName', TextType::class, [
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter your last name',
+                        'message' => 'Prosím, vyplňte vaše příjmení.',
                     ]),
                 ],
             ]);

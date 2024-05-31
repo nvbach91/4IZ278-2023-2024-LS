@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Ticket;
 use App\Form\EditUserType;
 use App\Entity\FootballMatch;
 use App\Form\CreateMatchFormType;
@@ -65,7 +66,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/admin-matches/{slug}', name: 'app_admin_match_edit')]
+    #[Route('/admin-matches/match/edit/{slug}', name: 'app_admin_match_edit')]
     public function editMatch(string $slug, EntityManagerInterface $em, Request $request): Response
     {
         $match = $em->getRepository(FootballMatch::class)->findOneBy(['slug' => $slug]);
@@ -89,6 +90,112 @@ class AdminController extends AbstractController
         return $this->render('admin/match-create.html.twig', [
             "form" => $form->createView(),
             "status" => $status
+        ]);
+    }
+
+    #[Route('/admin-matches/match/register/{slug}', name: 'app_admin_match_register')]
+    public function matchRegister(string $slug, EntityManagerInterface $em, Request $request): Response
+    {
+        $match = $em->getRepository(FootballMatch::class)->findOneBy(['slug' => $slug]);
+        $errors = [];
+
+        if (!$match) {
+            throw $this->createNotFoundException('Zápas nebyl nalezen');
+        }
+
+        if ($request->isMethod('POST')) {
+            $user = $em->getRepository(User::class)->findOneBy(['email' => $request->request->get('userEmail')]);
+
+            if (!$user) {
+                $errors[] = "Uživatel nebyl nalezen";
+
+                return $this->render('admin/match-register.html.twig', [
+                    "match" => $match,
+                    "errors" => $errors
+                ]);
+            }
+
+            $userMatchTickets = $em->getRepository(Ticket::class)->findBy(['owner' => $user, 'FootballMatch' => $match, 'confirmed' => false]);
+
+            if (empty($userMatchTickets)) {
+                $errors[] = "Uživatel nemá zakoupené vstupenky na tento zápas";
+
+                return $this->render('admin/match-register.html.twig', [
+                    "match" => $match,
+                    "errors" => $errors
+                ]);
+            }
+
+
+
+            $numberOfAdultTickets = 0;
+            $numberOfChildTickets = 0;
+
+            foreach ($userMatchTickets as $ticket) {
+                if ($ticket->getType() === 'adult') {
+                    $numberOfAdultTickets++;
+                } else if ($ticket->getType() === 'child') {
+                    $numberOfChildTickets++;
+                }
+            }
+
+            dump($userMatchTickets);
+
+            return $this->render('admin/match-register.html.twig', [
+                "match" => $match,
+                "errors" => $errors,
+                'numberOfAdultTickets' => $numberOfAdultTickets,
+                'numberOfChildTickets' => $numberOfChildTickets,
+                'user' => $user
+            ]);
+        }
+
+
+        return $this->render('admin/match-register.html.twig', [
+            "match" => $match,
+            "errors" => $errors,
+        ]);
+    }
+
+    #[Route('/admin-users/confirm-tickets/{user}/{slug}', name: 'app_admin_confirm_tickets', methods: ['POST'])]
+    public function confirmUsersTickets(string $user, string $slug, EntityManagerInterface $em): Response
+    {
+        $allUsers = $em->getRepository(User::class)->findOneBy(['email' => $user]);
+        $match = $em->getRepository(FootballMatch::class)->findOneBy(['slug' => $slug]);
+        $tickets = $em->getRepository(Ticket::class)->findBy(['owner' => $allUsers, 'FootballMatch' => $match]);
+
+        foreach ($tickets as $ticket) {
+            $ticket->setConfirmed(true);
+            $em->persist($ticket);
+        }
+
+        $em->flush();
+
+
+        return $this->redirectToRoute('app_admin_match_register', ['slug' => $slug]);
+    }
+
+    #[Route('/admin-match/stats/{slug}', name: 'app_admin_match_stats')]
+    public function matchStats(string $slug, EntityManagerInterface $em): Response
+    {
+        $match = $em->getRepository(FootballMatch::class)->findOneBy(['slug' => $slug]);
+        $tickets = $em->getRepository(Ticket::class)->findBy(['FootballMatch' => $match, 'confirmed' => true]);
+
+        $numberOfAdultTickets = 0;
+        $numberOfChildTickets = 0;
+
+        foreach ($tickets as $ticket) {
+            if ($ticket->getType() === 'adult') {
+                $numberOfAdultTickets++;
+            } else if ($ticket->getType() === 'child') {
+                $numberOfChildTickets++;
+            }
+        }
+
+        return $this->render('admin/match-stats.html.twig', [
+            "match" => $match,
+            "numberOfAdultTickets" => $numberOfAdultTickets,
+            "numberOfChildTickets" => $numberOfChildTickets
         ]);
     }
 
