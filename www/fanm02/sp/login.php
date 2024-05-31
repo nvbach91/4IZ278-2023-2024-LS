@@ -7,7 +7,6 @@ $error = true;
 $usersDb = new UsersDB();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
     do {
         if(empty($_POST['username']) || empty($_POST['password'])) {
             $message = 'Please fill in both fields';
@@ -29,10 +28,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             break;
         }
 
-        setcookie('name', $username, time() + 3600, "/");
+        setcookie('display_name', $registeredUser['username'], time() + 3600, "/");
+
+        if($registeredUser['photo_url'] != null){
+            setcookie('photo_url', $registeredUser['photo_url'], time() + 3600, "/");
+        }
+
         $error = false;
-        $message = 'Logged successfuly as ' . $username;
-        header( "refresh:1;url=index.php" );
+        $message = 'Logged successfuly as ' . $registeredUser['username'];
+        header('Location: index.php');
     
     } while(0);
 }
@@ -46,6 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="form-container">
     Username (email): <input type="text" name="username"><br>
     Password: <input type="password" name="password"><br>
+    <a href="reset-password.php">Forgot password</a>
     <input type="submit" value="Log in">
     </div>
 

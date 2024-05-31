@@ -3,7 +3,7 @@
 define('DB_HOSTNAME', 'localhost');
 define('DB_NAME', 'sp');
 define('DB_USER', 'root');
-define('DB_PASSWORD', '');
+define('DB_PASSWORD', 'mypass');
 
 interface IDatabaseOperations {
     public function runQuery($query, $data);

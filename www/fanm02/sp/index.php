@@ -21,15 +21,15 @@ $DBproducts->execute();
 $products = $DBproducts->fetchAll();
 */
 
-$products = [];
-$paginations = 1;
+$meals = [];
+$paginations = 0;
 
 ?>
 
 <main class='container' style='max-width: 90%;min-height: 100vh;'>
     <div style='display: flex; justify-content: center; margin-top: 50px'>
         <nav>
-            <div style='display: flex; justify-content: center'> <a class='btn btn-primary' href='create-item.php'>Vytvořit produkt</a>
+            <div style='display: flex; justify-content: center'> <a class='btn btn-primary' href='create-listing.php'>Vytvořit nabídku</a>
             </div>
             <hr>
             <ul class='pagination'>
@@ -40,7 +40,7 @@ $paginations = 1;
         </nav>
     </div>
     <div class='products-wrapper'>
-        <?php foreach ($products as $product) : ?>
+        <?php foreach ($meals as $meal) : ?>
             <div class='card' style='width: 350px; height: min-content;'>
                 <img class='card-img-top' style='width: 100%; height: 150px; object-fit: cover;' src='<?php echo $product['img']; ?>' alt='<?php echo $product['name']; ?> photo'>
                 <div class='card-body'>
@@ -56,3 +56,4 @@ $paginations = 1;
     </div>
 </main>
 <?php include __DIR__ . '/components/footer.php' ?>
+

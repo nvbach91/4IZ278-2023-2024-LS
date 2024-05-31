@@ -34,16 +34,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             break;
         }
 
-        $existedUser = $usersDb->getUser($username, null);
+        $existedUser = $usersDb->getUser($username, '');
 
-        if ($existedUser == null){
+        if ($existedUser != null){
             $message = 'Username already taken';
             break;
         }
 
-        $existedUser = $usersDb->getUser(null, $email);
+        $existedUser = $usersDb->getUser('', $email);
 
-        if ($existedUser == null){
+        if ($existedUser != null){
             $message = 'Email already used';
             break;
         }
@@ -51,10 +51,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $passwordHash = password_hash($password, PASSWORD_DEFAULT);
         $usersDb->create([$username, $email, $passwordHash]);
 
-        setcookie('name', $username, time() + 3600, "/");
+        setcookie('display_name', $username, time() + 3600, "/");
         $error = false;
         $message = 'Registration successful';
-        header( "refresh:1;url=index.php" );
+        header('Location: index.php');
 
     } while(0);
 

@@ -1,4 +1,9 @@
 <?php
+
+require_once 'db/Users.php';
+
+$usersDb = new UsersDB();
+
 // Initialize the session
 session_start();
 // Update the following variables
@@ -43,10 +48,19 @@ if (isset($_GET['code']) && !empty($_GET['code'])) {
             session_regenerate_id();
             $_SESSION['google_loggedin'] = TRUE;
             $_SESSION['google_email'] = $profile['email'];
-            $_SESSION['google_name'] = implode(' ', $google_name_parts);
+            $_SESSION['google_name'] = strtolower(implode('', $google_name_parts));
             $_SESSION['google_picture'] = isset($profile['picture']) ? $profile['picture'] : '';
 
-            setcookie('name', $_SESSION['google_name'], time() + 3600, "/");
+            $registeredUser = $usersDb->getUser($_SESSION['google_name'], $profile['email']);
+
+            if ($registeredUser == null) {
+                $usersDb->createOAuth([$_SESSION['google_name'], $profile['email']]);
+                setcookie('display_name', $_SESSION['google_name'], time() + 3600, "/");
+            }
+            else {
+                setcookie('display_name', $registeredUser['username'], time() + 3600, "/");
+            }
+
             // Redirect to profile page
             header('Location: index.php');
             exit;

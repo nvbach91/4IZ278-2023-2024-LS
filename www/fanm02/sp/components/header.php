@@ -21,13 +21,21 @@
             <div class='collapse navbar-collapse' id='navbarResponsive'>
                 <ul class='navbar-nav ml-auto'>
                     <li class='nav-item active'><a class='nav-link' href='index.php'>Home</a></li>
-                    <?php if (!isset($_COOKIE['name'])) : ?>
+                    <?php if (!isset($_COOKIE['display_name'])) : ?>
                         <li class='nav-item'><a class='nav-link' href='login.php'>Login</a></li>
                         <li class='nav-item'><a class='nav-link' href='register.php'>Register</a></li>
                     <?php endif ?>
-                    <?php if (isset($_COOKIE['name'])) : ?>
+                    <?php if (isset($_COOKIE['display_name'])) : ?>
                         <!--<li class='nav-item'><a class='nav-link' href='cart.php'>Košík</a></li>-->
-                        <li class='nav-item'><a class='nav-link' href='#!'>Profil (<?php echo $_COOKIE['name'] ?>)</a></li>
+                        <li class='nav-item'><a class='nav-link' href='profile.php'>
+                            <?php
+                                if(isset($_COOKIE['photo_url'])) {
+                                    echo "<img src='".$_COOKIE['photo_url']."' style='width: 30px; height: 30px; border-radius: 50%;'> ";
+                                }
+                                else {
+                                    echo "<img src='https://www.w3schools.com/howto/img_avatar.png' style='width: 30px; height: 30px; border-radius: 50%;'> ";
+                                }
+                            ?>Profil (<?php echo $_COOKIE['display_name'] ?>)</a></li>
                         <li class='nav-item'><a class='nav-link' href='logout.php'>Logout</a></li>
                     <?php endif ?>
                 </ul>
