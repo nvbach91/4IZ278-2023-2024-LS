@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TicketController!
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="box">
+			<h1 class="has-text-centered is-size-1 mt-3 mb-3 has-text-weight-bold">Moje vstupenky</h1>
+
+			{% for item in tickets|sort((a,b) => a.matchDate <=> b.matchDate) %}
+
+				<div class="box">
+					<h4 class=" is-size-4 has-text-weight-bold">{{ item.match.title }}</h4>
+					<p>Termín:
+						{{ item.match.getPlayedAt|format_datetime(pattern="d.M.y hh:mm") }}</p>
+
+					<p>Počet vstupenek pro dospělé:
+						{{ item.numberOfAdultTickets }}</p>
+					<p>Počet vstupenek pro děti:
+						{{ item.numberOfChildTickets }}</p>
+					<p>Cena celkem:
+						{{ item.totalPrice }}
+						Kč</p>
+
+					{# <a href={{ path('app_edit_user_match', {slug: item.match.slug} ) }} class="button is-info">Upravit rezervaci</a> #}
+
+
+				</div>
+			{% endfor %}
+		</div>
+	{% endblock %}

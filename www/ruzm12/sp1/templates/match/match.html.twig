@@ -1,30 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Zápasy{% endblock %}
+{% block title %}Zápasy
+{% endblock %}
 
 {% block body %}
 
-<div class="container">
-    <h1 class="has-text-centered is-size-1 mt-3">Zápasy</h1>
+	<div class="container">
+		<div class="box">
+			<h1 class="has-text-centered is-size-1 mt-3 has-text-weight-bold">{{ match.title }}</h1>
 
-    <div class="box">
+			{{ form_start(form) }}
 
-        {% if errors %}
-        <div class="box">
-            <div class="content">
-                <h3 class="">Chyba</h3>
-                {% for error in errors %}
-                <ul>
-                    <li>{{ error }}</li>
-                </ul>
-                {% endfor %}
-            </div>
-        </div>
-        {% endif %}
+			<div class="field">
+				<label class="label">Počet vstupenek pro dospělé</label>
+				<div class="control">
+					{{ form_widget(form.numberOfAdultTickets, {"attr": {'class': 'input'}}) }}
+				</div>
+				<p class="help is-danger">{{ form_errors(form.numberOfAdultTickets) }}</p>
+			</div>
 
-        
-       
-    </div>
-</div>
+			<div class="field">
+				<label class="label">Počet vstupenek pro děti</label>
+				<div class="control">
+					{{ form_widget(form.numberOfChildTickets, {"attr": {'class': 'input'}}) }}
+				</div>
+				<p class="help is-danger">{{ form_errors(form.numberOfChildTickets) }}</p>
+			</div>
 
+			<button type="submit" class="button is-primary">Rezervovat vstupenky</button>
+
+			{{ form_end(form) }}
+
+
+		</div>
+	</div>
 {% endblock %}

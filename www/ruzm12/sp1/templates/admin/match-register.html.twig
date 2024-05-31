@@ -1,0 +1,81 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Buldok | Vstupenky zápasu
+{% endblock %}
+
+
+{% block admin_menu %}
+	<aside class="menu">
+		<p class="menu-label">Zápasy</p>
+		<ul class="menu-list">
+			<li>
+				<a class="is-active" href={{ path("app_admin_matches") }}>Spravovat zápasy</a>
+			</li>
+		</ul>
+		<p class="menu-label">Uživatelé</p>
+		<ul class="menu-list">
+			<li>
+				<a href={{ path("app_admin_users") }}>Spravovat uživatele</a>
+			</li>
+		</ul>
+		<p class="menu-label">Vstupy</p>
+		<ul class="menu-list">
+			<li>
+				<a href={{ path("app_admin_entrances") }}>Spravovat vstupy</a>
+			</li>
+		</ul>
+	</aside>
+{% endblock %}
+{% block admin_content %}
+
+	<div class="container">
+		<h1 class="is-size-1 has-text-centered mb-3 has-text-weight-bold">Vstupenky na zápas</h1>
+
+		<div class="box">
+			{% if errors|length > 0 %}
+				<article class="message is-danger mt-3">
+					<div class="message-header">
+						<p>Chyba</p>
+						<button class="delete" aria-label="delete"></button>
+					</div>
+					<div class="message-body">
+						{% for error in errors %}
+							{{ error }}
+						{% endfor %}
+					</div>
+				</article>
+			{% endif %}
+
+			<form method="post">
+				<div class="field">
+					<label for="numberOfAdultTickets" class="label">Email uživatele</label>
+					<div class="control">
+						<input type="email" class="input" name="userEmail">
+					</div>
+				</div>
+
+				<button type="submit" class="button is-primary">
+					Zkontrolovat vstupenky
+				</button>
+			</form>
+
+			{% if user is defined %}
+				<div class="box mt-5">
+					<h5 class="is-size-5 text-centered has-text-weight-bold">Vstupenky uživatele
+						{{ user.email }}</h5>
+
+					<p>Počet vstupenek pro dospělé:
+						{{ numberOfAdultTickets }}</p>
+					<p>Počet vstupenek pro děti:
+						{{ numberOfChildTickets }}</p>
+
+					<form method="post" action={{ path("app_admin_confirm_tickets", {slug: match.slug, user: user.email} ) }}>
+						<button class="button is-danger mt-3" type="submit">Odepsat vstupenky</button>
+					</form>
+				</div>
+			{% endif %}
+
+
+		</div>
+	</div>
+{% endblock %}

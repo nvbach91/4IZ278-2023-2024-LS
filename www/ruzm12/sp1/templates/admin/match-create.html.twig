@@ -97,6 +97,14 @@
                     <p class="help is-danger">{{ form_errors(form.child_price) }}</p>
                 </div>
 
+                <div class="field">
+                    <label class="label">Dostupnost pro koupi</label>
+                    <div class="control">
+                        {{ form_widget(form.availability, {"attr": {'class': 'input'}}) }}
+                    </div>
+                    <p class="help is-danger">{{ form_errors(form.availability) }}</p>
+                </div>
+
                 <button class="button is-primary mt-3" type="submit">Vytvořit</button>
 
                 {{ form_end(form) }}

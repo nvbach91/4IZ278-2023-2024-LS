@@ -35,14 +35,11 @@ class FootballMatch
     #[ORM\Column]
     private ?float $child_price = null;
 
-    /**
-     * @var Collection<int, Ticket>
-     */
-    #[ORM\ManyToMany(targetEntity: Ticket::class, mappedBy: 'matches')]
-    private Collection $tickets;
-
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
+
+    #[ORM\Column]
+    private ?bool $availability = null;
 
     public function __construct()
     {
@@ -125,34 +122,6 @@ class FootballMatch
 
         return $this;
     }
-
-    /**
-     * @return Collection<int, Ticket>
-     */
-    public function getTickets(): Collection
-    {
-        return $this->tickets;
-    }
-
-    public function addTicket(Ticket $ticket): static
-    {
-        if (!$this->tickets->contains($ticket)) {
-            $this->tickets->add($ticket);
-            $ticket->addMatch($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTicket(Ticket $ticket): static
-    {
-        if ($this->tickets->removeElement($ticket)) {
-            $ticket->removeMatch($this);
-        }
-
-        return $this;
-    }
-
     public function getSlug(): ?string
     {
         return $this->slug;
@@ -161,6 +130,18 @@ class FootballMatch
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function isAvailability(): ?bool
+    {
+        return $this->availability;
+    }
+
+    public function setAvailability(bool $availability): static
+    {
+        $this->availability = $availability;
 
         return $this;
     }

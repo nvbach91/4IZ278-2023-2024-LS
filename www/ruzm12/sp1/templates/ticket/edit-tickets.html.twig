@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Buldok | Úprava vstupenek
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="box">
+			<h1 class="has-text-centered is-size-1 mt-3 mb-3 has-text-weight-bold">Úprava vstupenek</h1>
+
+
+			<div class="box">
+				<h4 class=" is-size-4 has-text-weight-bold">{{ match.title }}</h4>
+
+				<form method="post">
+					<div class="field">
+						<label for="numberOfAdultTickets" class="label">Počet vstupenek pro dospělé</label>
+						<div class="control">
+							<input type="number" class="input" name="numberOfAdultTickets" value={{ numberOfAdultTickets }}>
+						</div>
+					</div>
+
+					<div class="field">
+						<label for="numberOfChildTickets" class="label">Počet vstupenek pro děti</label>
+						<div class="control">
+							<input type="number" class="input" name="numberOfChildTickets" value={{ numberOfChildTickets }}>
+						</div>
+					</div>
+
+					<button type="submit" class="button is-primary">Upravit vstupenky</button>
+				</form>
+
+			</div>
+		</div>
+	{% endblock %}

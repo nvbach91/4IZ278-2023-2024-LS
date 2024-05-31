@@ -1,28 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Zápasy{% endblock %}
+{% block title %}Zápasy
+{% endblock %}
 
 {% block body %}
 
-<div class="container mt-5">
-    
+	<div class="container mt-5">
 
 
-        <div class="container">
-            <div class="box">
-            <h1 class="has-text-centered is-size-1 mb-4 has-text-weight-bold">Zápasy</h1>
-                {% for match in matches %}
-                <div class="box">
-                    <h4 class=" is-size-4 has-text-weight-bold">{{ match.title }}</h4>
-                    <p>Termín: {{ match.getPlayedAt|format_datetime(locale='en', timezone='Europe/Prague') }}</p>
-                    <a class="button is-primary mt-3">Vstupenky</a>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
+		<div class="container">
+			<div class="box">
+				<h1 class="has-text-centered is-size-1 mb-4 has-text-weight-bold">Zápasy</h1>
+				{% for match in matches|sort((a,b) => a.getPlayedAt <=> b.getPlayedAt) %}
+					<div class="box">
+						<h4 class=" is-size-4 has-text-weight-bold">{{ match.title }}</h4>
+						<p>Termín:
+							{{ match.getPlayedAt|format_datetime(pattern="d.M.y hh:mm") }}</p>
+
+						{% if not match.availability %}
+							<p>Zápas je již vyprodaný.</p>
+							<button class="button is-primary mt-3 disabled" disabled>Vstupenky</button>
+						{% else %}
+							<a href={{ path('app_match_tickets', {slug: match.slug} ) }}>
+								<button class="button is-primary mt-3">Vstupenky</button>
+							</a>
+
+						{% endif %}
+					</div>
+				{% endfor %}
+			</div>
+		</div>
 
 
-
-</div>
+	</div>
 
 {% endblock %}
