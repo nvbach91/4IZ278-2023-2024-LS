@@ -25,6 +25,15 @@ abstract class Database{
         return $statement->fetchAll();
     }
 
+    public function findByJoin($joinTable, $foreignKey, $localKey, $field, $value) {
+        $sql = "SELECT t.* FROM $this->tableName t
+                JOIN $joinTable jt ON t.$localKey = jt.$foreignKey
+                WHERE jt.$field = :value";
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute(['value' => $value]);
+        return $statement->fetchAll();
+    }
+
 }
 
 ?>
