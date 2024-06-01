@@ -5,6 +5,6 @@ const DB_DATABASE = 'softball_eshop';
 const DB_USERNAME = 'root';
 const DB_PASSWORD = '';
 
-const GLOBAL_CURRENCY = 'Kc';
+const GLOBAL_CURRENCY = 'Kč';
 
 ?>

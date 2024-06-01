@@ -16,14 +16,14 @@ abstract class Database{
         return $statement->fetchAll();
     }
 
-    public function findBy($field, $value) {
-
+    public function findBy($field, $value, $fetchAll = true) {
         $sql = "SELECT * FROM $this->tableName WHERE $field = :value";
         $statement = $this->pdo->prepare($sql);
         $statement->execute(['value' => $value]);
-
-        return $statement->fetchAll();
+    
+        return $fetchAll ? $statement->fetchAll() : $statement->fetch();
     }
+    
 
     public function findByJoin($joinTable, $foreignKey, $localKey, $field, $value) {
         $sql = "SELECT t.* FROM $this->tableName t
