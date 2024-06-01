@@ -1,4 +1,4 @@
-<footer class="py-5 bg-primary">
+<footer class="py-5 bg-primary mt-5">
         <p class="m-0 text-center text-white">Copyright &copy; Softaball Shop 2024</p>
     </footer>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>

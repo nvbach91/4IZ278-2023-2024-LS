@@ -1,3 +1,4 @@
+<?php require __DIR__ . '/init.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,7 +18,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
             <img class="logo " src="./assets/img/logo.webp" alt="logo">
-            <a class="navbar-brand ml-2" href=".">Sofball shop</a>
+            <a class="navbar-brand ml-2" href=".">Softball shop</a>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
@@ -28,10 +29,22 @@
                     <li class="nav-item">
                         <a class="nav-link" href="./about.php">About</a>
                     </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Login</a>
-                    </li>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <?php echo htmlspecialchars($_SESSION['first_name']); ?>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="./profile.php">Profile</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="./logout.php">Logout</a>
+                            </div>
+                        </li>
+                    <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./login.php">Login</a>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>
