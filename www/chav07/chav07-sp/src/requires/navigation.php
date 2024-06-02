@@ -16,7 +16,7 @@ startSessionIfNone();
             <div class="collapse navbar-collapse" id="navbarTogglerDemo01"> 
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-brand">
-                        <a href="#" class="nav-link">BookBookGo</a>
+                        <a href="<?php echo BASE_URL; ?>/" class="nav-link">BookBookGo</a>
                     </li>
                     <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

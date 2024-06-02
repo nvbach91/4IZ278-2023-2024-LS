@@ -134,7 +134,6 @@ class BookRepository implements IBookRepository{
                         ORDER BY AUTHORS.NAME DESC
                         LIMIT :items OFFSET :page_number;");
                 }
-                
             }
             
 
@@ -144,24 +143,7 @@ class BookRepository implements IBookRepository{
 
             $statement->execute();
             $fetchedBooks = $statement->fetchAll();
-            $result = array();
-
-            foreach($fetchedBooks as $book){
-                array_push(
-                    $result, 
-                    new BookWithIdDTO(
-                        $book["ID_BOOK"],
-                        $book["AUTHOR_NAME"],
-                        $book["TITLE"],
-                        $book["DESCRIPTION"],
-                        $book["PRICE"],
-                        $book["STOCK"],
-                        $book["ISBN13"],
-                        $book["ISBN10"],
-                        $book["IMAGE_URL"]
-                        )
-                );
-            }
+            $result = $this->mapBooksWithIdDTOs($fetchedBooks);
             return $result;
 
         }
@@ -170,6 +152,68 @@ class BookRepository implements IBookRepository{
         }
         return array();
     }
+
+    public function getSearchBooksPage(string $query, int $page) : array{
+
+        try{
+            $pdo = DbConnection::getConnection();
+            $statement = $pdo->prepare("SELECT ID_BOOK, AUTHORS.NAME AS AUTHOR_NAME, TITLE, DESCRIPTION, PRICE, STOCK, ISBN13, ISBN10, IMAGE_URL
+                                        FROM BOOKS 
+                                        LEFT JOIN AUTHORS 
+                                            ON BOOKS.ID_AUTHOR = AUTHORS.ID_AUTHOR
+                                        WHERE BOOKS.TITLE LIKE :query1 OR AUTHORS.NAME LIKE :query2
+                                        LIMIT :item_count OFFSET :page_offset");
+
+            $statement->bindValue(":query1", "%" . $query . "%");
+            $statement->bindValue(":query2", "%" . $query . "%");
+            $statement->bindValue(":item_count", ITEMS_PER_PAGE);
+            $statement->bindValue(":page_offset", $page * ITEMS_PER_PAGE);
+
+            $statement->execute();
+
+            $fetchedBooks = $statement->fetchAll();
+            $result = $this->mapBooksWithIdDTOs($fetchedBooks);
+            return $result;
+
+        }
+        catch(PDOException $e){
+            exit("Error trying to access the database: " . $e->getMessage());
+        }
+
+        return array();
+    }
+    public function getSearchBooksCount(string $query) : int{
+    
+        try{
+
+            $pdo = DbConnection::getConnection();
+            $statement = $pdo->prepare("SELECT COUNT(BOOKS.ID_BOOK) AS BOOK_COUNT
+                                        FROM BOOKS 
+                                        LEFT JOIN AUTHORS 
+                                            ON BOOKS.ID_AUTHOR = AUTHORS.ID_AUTHOR
+                                        WHERE BOOKS.TITLE LIKE :query1 OR AUTHORS.NAME LIKE :query2");
+
+            $statement->bindValue(":query1", "%" . $query . "%");
+            $statement->bindValue(":query2", "%" . $query . "%");
+
+            $statement->execute();
+
+            $result = $statement->fetchAll()[0]["BOOK_COUNT"];
+            
+            return $result;
+
+        }
+        catch(PDOException $e){
+            exit("Error trying to access the database: " . $e->getMessage());
+        }
+
+        return 0;
+
+
+    }
+
+
+
 
     public function getBookByTitle(string $title) : ?BookWithIdDTO{
         return null;
@@ -198,6 +242,29 @@ class BookRepository implements IBookRepository{
     }
     public function deleteBook(int $id){
 
+    }
+
+    private function mapBooksWithIdDTOs($array) : array {
+        $result = array();
+
+        foreach($array as $book){
+            array_push(
+                $result, 
+                new BookWithIdDTO(
+                    $book["ID_BOOK"],
+                    $book["AUTHOR_NAME"],
+                    $book["TITLE"],
+                    $book["DESCRIPTION"],
+                    $book["PRICE"],
+                    $book["STOCK"],
+                    $book["ISBN13"],
+                    $book["ISBN10"],
+                    $book["IMAGE_URL"]
+                    )
+            );
+        }
+
+        return $result;
     }
 }
 

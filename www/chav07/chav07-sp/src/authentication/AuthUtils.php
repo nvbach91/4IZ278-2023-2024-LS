@@ -17,7 +17,7 @@ enum AuthRole: int{
 }
 
 function requireAuhtorization(AuthRole $level): bool{
-    if(isset($_SESSION["user_role"]) && $_SESSION["user_role"] == $level){
+    if(isset($_SESSION["user"]) && $_SESSION["user"]->role == $level){
         return true;
     }
     return false;

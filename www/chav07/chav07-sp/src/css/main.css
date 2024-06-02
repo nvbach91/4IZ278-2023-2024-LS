@@ -1,3 +1,7 @@
 .card-image{
     max-height: 200px;
 }
+
+.card-filler{
+    height: 100%;
+}

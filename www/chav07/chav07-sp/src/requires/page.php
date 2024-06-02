@@ -3,10 +3,21 @@
 require_once __DIR__ . "/../database/BookRepository.php";
 require_once __DIR__ . "/../config.php";
 
-function drawPage(int $pageNumber) {
+function drawPage(int $pageNumber, bool $isSearch, ?string $query = null) {
     $repo = new BookRepository();
-    $books = $repo->getBooksPage($pageNumber,BookRepository::TITLE, true);
-    $allBooksCount =  $repo->getBookCount();
+
+    $books = array();
+    $allBooksCount = 0;
+    if($isSearch && $query != null){
+        $books = $repo->getSearchBooksPage($query, $pageNumber);
+        $allBooksCount =  $repo->getSearchBooksCount($query);
+    }
+    else{
+        $books = $repo->getBooksPage($pageNumber,BookRepository::TITLE, true);
+        $allBooksCount =  $repo->getBookCount();
+    }
+
+
     $pagesCount =  intdiv($allBooksCount, ITEMS_PER_PAGE);
     if($allBooksCount % ITEMS_PER_PAGE > 0){
         $pagesCount++;
@@ -23,18 +34,22 @@ function drawPage(int $pageNumber) {
         }
 
         if($i % 4 == 0){
-            $result .='<div class="row mb-1" style="height: 430px; max-height: 430px;">';
+            $result .='<div class="row mb-1" >';
         }
 
         $result .='
-            <div class="col-3 card border-0" style="max-height: 430px;">
+            <div class="col-3 card border-0" >
                 <img class="card-image object-fit-contain" src="'. BASE_URL . $books[$i]->image_url . '" alt="">
-                <div class="card-body">
+                <div class="card-body d-flex flex-column">
                     <h5 class="card-title">'. $books[$i]->title .'</h5>
+                    <h6 class="card-text">'. $books[$i]->authorName .'</h6>
                     <p class="card-text">'. $desc .'</p>
+                    <div class="card-filler"></div>
                     <p class="card-text fw-bold fs-4">' . $books[$i]->price . ' CZK</p>
-                    <div style="height: auto;"></div>
-                    <a href="#" class="btn btn-primary">Add to cart</a>
+                    <div class="d-flex flex-xl-row flex-sm-column">
+                        <a href="#" class="btn btn-primary me-xl-1 mb-sm-1">Add to cart</a>
+                        <a href="#" class="btn btn-secondary mb-sm-1">Detail</a>
+                    </div> 
                 </div>
             </div>';
 
@@ -42,7 +57,7 @@ function drawPage(int $pageNumber) {
             $result .='</div>';
         }
     }
-
+    
     if(count($books) - 1 % 3 != 0){
         $result .='</div>';
     }
