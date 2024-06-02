@@ -1,0 +1,21 @@
+{
+    "name": "vilem/book-book-go",
+    "description": "Book eshop for 4iz278 course",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Vilem\\BookBookGo\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Vilém Charwot",
+            "email": "mrlogen1299@gmail.com"
+        }
+    ],
+    "require": {
+        "twbs/bootstrap": "5.3.3",
+        "league/oauth2-facebook": "^2.2"
+    }
+}
