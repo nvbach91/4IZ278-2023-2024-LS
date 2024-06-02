@@ -4,7 +4,6 @@ require_once __DIR__ . '/../config/global.php';
 ?>
 <?php
 
-
 $productsDB = new ProductsDB();
 $products = null;
 $product = null;
@@ -32,7 +31,14 @@ elseif (isset($_GET['product_id'])) {
         <p><strong>Availability:</strong> <?php echo $product['stock']; ?></p>
       </div>
       <div class="mt-4">
-        <button class="btn btn-primary">Add to Cart</button>
+        <form method="POST" action="scripts/add-to-cart">
+          <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($product['product_id']); ?>">
+          <div class="form-group">
+            <label for="quantity">Množství:</label>
+            <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1">
+          </div>
+          <button type="submit" class="btn btn-primary">Přidat do košíku</button>
+        </form>
       </div>
     </div>
   </div>

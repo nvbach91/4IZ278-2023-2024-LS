@@ -1,7 +1,7 @@
 <?php require __DIR__ . '/include/header.php'; ?>
 <?php
 
-require_once __DIR__ . '/components/UserValidator.php';
+require_once __DIR__ . '/validators/UserValidator.php';
 
 $errors = [];
 

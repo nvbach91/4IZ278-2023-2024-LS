@@ -2,7 +2,7 @@
 <?php
 
 require_once __DIR__ . '/db/UsersDB.php';
-require_once __DIR__ . '/components/UserValidator.php';
+require_once __DIR__ . '/validators/UserValidator.php';
 
 $errors = [];
 
@@ -22,7 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = $userDB->updateUser($userId, $first_name, $last_name, $email, $phone);
 
         if ($result) {
-            // Aktualizace session proměnných
             $_SESSION['first_name'] = $first_name;
             $_SESSION['last_name'] = $last_name;
             $_SESSION['email'] = $email;

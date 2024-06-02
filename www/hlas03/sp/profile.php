@@ -22,7 +22,7 @@
         <div class="d-flex">
             <a href="./profile-edit.php" class="btn btn-primary mr-2">Upravit profil</a>
             <a href="./change-password.php" class="btn btn-primary mr-2">Změnit heslo</a>
-            <form action="delete-profile.php" method="post" onsubmit="return confirm('Opravdu chcete smazat svůj profil?');">
+            <form action="scripts/delete-profile.php" method="post" onsubmit="return confirm('Opravdu chcete smazat svůj profil?');">
                 <button type="submit" class="btn btn-danger">Odstranit profil</button>
             </form>
         </div>

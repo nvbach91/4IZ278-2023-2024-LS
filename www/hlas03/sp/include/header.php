@@ -10,7 +10,7 @@
     <title>Softball shop</title>
     <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
-    <link rel="stylesheet" href="<?php echo isset($contextPath) ? $contextPath : '.'; ?>/css/styles.css">
+    <link rel="stylesheet" href="<?php echo isset($contextPath) ? $contextPath : '.'; ?>/assets/css/styles.css">
 </head>
 
 <body>
@@ -29,6 +29,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="./about.php">About</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./cart.php">
+                            <i class="fas fa-shopping-cart"></i> Košík
+                        </a>
+                    </li>
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -37,7 +42,7 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="./profile.php">Profile</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="./logout.php">Logout</a>
+                                <a class="dropdown-item" href="./scripts/logout.php">Logout</a>
                             </div>
                         </li>
                     <?php else: ?>

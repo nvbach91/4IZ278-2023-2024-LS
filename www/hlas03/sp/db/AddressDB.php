@@ -36,11 +36,6 @@ class AddressDB extends Database {
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function deleteByUserId($user_id) {
-        $sql = "DELETE FROM $this->tableName WHERE user_id = :user_id";
-        $statement = $this->pdo->prepare($sql);
-        return $statement->execute(['user_id' => $user_id]);
-    }
 }
 
 ?>

@@ -1,29 +1,26 @@
 <?php
 require __DIR__ . '/include/init.php';
-require_once __DIR__ . '/db/UsersDB.php';
+require_once __DIR__ . '/validators/UserValidator.php';
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $userDB = new UsersDB();
-    $user = $userDB->findByEmail($email);
+    $validator = new UserValidator();
+    $errors = $validator->validateLogin($email, $password);
 
-    if ($user) {
-        if (password_verify($password, $user['password_hash'])) {
-            $_SESSION['user_id'] = $user['user_id'];
-            $_SESSION['first_name'] = $user['first_name'];
-            $_SESSION['last_name'] = $user['last_name'];
-            $_SESSION['email'] = $user['email'];
-            $_SESSION['phone'] = $user['phone'];
-            header('Location: index.php');
-            exit;
-        } else {
-            $errors[] = "Incorrect password.";
-        }
-    } else {
-        $errors[] = "Email not found.";
+    if (empty($errors)) {
+        $userDB = new UsersDB();
+        $user = $userDB->findByEmail($email);
+        
+        $_SESSION['user_id'] = $user['user_id'];
+        $_SESSION['first_name'] = $user['first_name'];
+        $_SESSION['last_name'] = $user['last_name'];
+        $_SESSION['email'] = $user['email'];
+        $_SESSION['phone'] = $user['phone'];
+        header('Location: index.php');
+        exit;
     }
 }
 ?>

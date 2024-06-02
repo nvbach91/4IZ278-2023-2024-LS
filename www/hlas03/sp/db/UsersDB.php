@@ -50,8 +50,8 @@ class UsersDB extends Database {
         return $this->findBy('phone', $phone, false);
     }
 
-    public function delete($user_id) {
-        $sql = "DELETE FROM $this->tableName WHERE user_id = :user_id";
+    public function softDelete($user_id) {
+        $sql = "UPDATE $this->tableName SET is_active = 0 WHERE user_id = :user_id";
         $statement = $this->pdo->prepare($sql);
         return $statement->execute(['user_id' => $user_id]);
     }

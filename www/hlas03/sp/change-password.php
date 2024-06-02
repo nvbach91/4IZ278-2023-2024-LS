@@ -3,7 +3,7 @@
 <?php
 
 require_once __DIR__ . '/db/UsersDB.php';
-require_once __DIR__ . '/components/UserValidator.php';
+require_once __DIR__ . '/validators/UserValidator.php';
 
 $errors = [];
 
