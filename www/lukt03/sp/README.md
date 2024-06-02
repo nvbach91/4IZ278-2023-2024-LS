@@ -137,7 +137,7 @@ Table reviews {
 - **Back-end:** PHP 8+, Laravel framework
 - **Databáze:** MariaDB
 - **Návrhový vzor:** MVC
-- **Front-end:** HTML5, CSS, JavaScript, Bootstrap
+- **Front-end:** HTML5, CSS, JavaScript, Blade + Tailwind CSS
 - **Komunikace mezi databází a serverem:** SQL - Laravel DB Facade
 
 ### Checklist
@@ -210,7 +210,7 @@ Table reviews {
 |----------------------------|-------------------------------------------------|---------|--------------|----------|
 | Funkcionality              | Generování souborů PDF                          |         |              |          |
 |                            | Posílání e-mailů                                | x       |              |          |
-|                            | Oddělení ddministrační a uživatelské části      | x       |              |          |
+|                            | Oddělení administrační a uživatelské části      | x       |              |          |
 |----------------------------|-------------------------------------------------|---------|--------------|----------|
 | Testování                  | Testovací scénáře pro manuální testování        |         |              |          |
 |                            | Dostupnost aplikace na internetu                | x       |              |          |
