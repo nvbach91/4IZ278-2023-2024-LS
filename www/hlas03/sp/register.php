@@ -1,7 +1,7 @@
 <?php require __DIR__ . '/include/header.php'; ?>
 <?php
 
-require_once __DIR__ . '/db/UsersDB.php';
+require_once __DIR__ . '/components/UserValidator.php';
 
 $errors = [];
 
@@ -13,49 +13,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
-    // Kontrola shody hesel
-    if ($password !== $confirm_password) {
-        $errors[] = "Passwords do not match.";
-    }
+    $validator = new UserValidator();
+    $errors = $validator->validateRegistration($first_name, $last_name, $email, $phone, $password, $confirm_password);
 
-    // Kontrola minimální délky hesla
-    if (strlen($password) < 5) {
-        $errors[] = "Password must be at least 5 characters long.";
-    }
-
-    // Kontrola formátu telefonního čísla
-    if (!preg_match('/^\+?[1-9]\d{1,14}$/', $phone)) {
-        $errors[] = "Invalid phone number format.";
-    }
-
-    $user = new UsersDB();
-    
-    // Kontrola unikátnosti emailu
-    if ($user->findByEmail($email)) {
-        $errors[] = "Email already registered.";
-    }
-
-    // Kontrola unikátnosti telefonního čísla
-    if ($user->findByPhone($phone)) {
-        $errors[] = "Phone number already registered.";
-    }
-
-    // Pokud nejsou žádné chyby, vytvořte uživatele
     if (empty($errors)) {
-        $result = $user->create($first_name, $last_name, $email, $phone, $password);
+        $userDB = new UsersDB();
+        $result = $userDB->create($first_name, $last_name, $email, $phone, $password);
 
         if ($result) {
             header('Location: login.php');
             exit;
         } else {
-            $errors[] = "Registration failed.";
+            $errors[] = "Registrace selhala.";
         }
     }
 }
 ?>
 
 <div class="container">
-    <h2 class="mt-5">Registration</h2>
+    <h2 class="mt-5">Registrace</h2>
     <form method="post">
         <?php if (!empty($errors)): ?>
             <div class="alert alert-danger">
@@ -65,11 +41,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         <?php endif; ?>
         <div class="form-group">
-            <label for="first_name">First name:</label>
+            <label for="first_name">Jméno:</label>
             <input type="text" class="form-control" id="first_name" name="first_name" required>
         </div>
         <div class="form-group">
-            <label for="last_name">Last name:</label>
+            <label for="last_name">Příjmení:</label>
             <input type="text" class="form-control" id="last_name" name="last_name" required>
         </div>
         <div class="form-group">
@@ -77,18 +53,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="email" class="form-control" id="email" name="email" required>
         </div>
         <div class="form-group">
-            <label for="phone">Phone Number:</label>
+            <label for="phone">Telefonní číslo:</label>
             <input type="tel" class="form-control" id="phone" name="phone" required>
         </div>
         <div class="form-group">
-            <label for="password">Password:</label>
+            <label for="password">Heslo:</label>
             <input type="password" class="form-control" id="password" name="password" required>
         </div>
         <div class="form-group">
-            <label for="confirm_password">Confirm Password:</label>
+            <label for="confirm_password">Potvrzení hesla:</label>
             <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
         </div>
-        <button type="submit" class="btn btn-primary">Register</button>
+        <button type="submit" class="btn btn-primary">Registrovat</button>
     </form>
 </div>
 
