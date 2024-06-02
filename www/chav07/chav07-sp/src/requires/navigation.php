@@ -29,8 +29,9 @@ startSessionIfNone();
                     </ul>
                     </li>
                     <li class="nav-item">
-                        <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <form class="d-flex" role="search" action="<?php echo BASE_URL; ?>/search.php" method="GET">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                            <input style="display: none;" type="number" name="page" value="0">
                             <button class="btn btn-outline-success" type="submit">Search</button>
                         </form>
                     </li>

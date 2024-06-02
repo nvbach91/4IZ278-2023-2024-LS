@@ -5,21 +5,14 @@ require_once __DIR__. "/authentication/AuthUtils.php";
 require_once __DIR__ . "/requires/page.php";
 require_once __DIR__ . "/database/BookRepository.php";
 
+session_start();
 
 $pageNumber = 0;
-
-
 
 if(isset($_GET["page"])){
     $pageNumber = filter_var($_GET["page"], FILTER_SANITIZE_NUMBER_INT);;
 }
-// var_dump($pageNumber);
 
-session_start();
-
-
-$repo = new BookRepository();
-// $result = $repo->getBooksPage(0);
 ?>
 
 <!DOCTYPE html>

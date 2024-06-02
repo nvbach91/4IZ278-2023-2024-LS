@@ -5,21 +5,17 @@ require_once __DIR__. "/authentication/AuthUtils.php";
 require_once __DIR__ . "/requires/page.php";
 require_once __DIR__ . "/database/BookRepository.php";
 
-
-$pageNumber = 0;
-
-
-
-if(isset($_GET["page"])){
-    $pageNumber = filter_var($_GET["page"], FILTER_SANITIZE_NUMBER_INT);;
-}
-// var_dump($pageNumber);
-
 session_start();
 
+$pageNumber = 0;
+$query = "";
 
-$repo = new BookRepository();
-// $result = $repo->getBooksPage(0);
+if(isset($_GET["page"]) && isset($_GET["query"])){
+    $pageNumber = filter_var($_GET["page"], FILTER_SANITIZE_NUMBER_INT);
+    $rawQuery = $_GET["query"];
+    $query = htmlspecialchars(strip_tags(trim($rawQuery)));
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +25,7 @@ $repo = new BookRepository();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="./../vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="./css/main.css">
-    <title>BookBookGo - Home</title>
+    <title>BookBookGo - Search</title>
 </head>
 <body>
     <?php require './requires/navigation.php'; ?>
@@ -43,7 +39,7 @@ $repo = new BookRepository();
 
              <!-- content -->
 
-             <?php drawPage($pageNumber, false); ?>
+             <?php drawPage($pageNumber, true, $query); ?>
         </div>
     </div>
     

@@ -24,6 +24,9 @@ function drawPage(int $pageNumber, bool $isSearch, ?string $query = null) {
     }
 
     $result = '<main class="col-10 container">';
+    if($isSearch){
+        $result .='<h3 class="mb-2">Results for: ' . htmlspecialchars($query) . '</h3>';
+    }
 
     for ($i=0; $i < count($books); $i++) {
 
