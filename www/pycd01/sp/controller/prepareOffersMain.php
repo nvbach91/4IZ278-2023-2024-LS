@@ -8,23 +8,23 @@ const tagsdb = new TagsDB();
 $tags = tagsdb->readAll();
 
 $errors = [];
-if (!empty($_POST) && !empty($_POST['searchByText']))
+if (!empty($_GET) && !empty($_GET['searchByText']))
 {
-	$searchText = $_POST['searchByText'];
+	$searchText = strtolower($_GET['searchByText']);
 
-	$offers = array_filter($offers, function($o) use ($searchText) {return is_numeric(strpos($o['address'], $searchText));});
+	$offers = array_filter($offers, function($o) use ($searchText) {return is_numeric(strpos(strtolower($o['address']), $searchText));});
 
 }
-if (!empty($_POST) && !empty($_POST['homeType']))
+if (!empty($_GET) && !empty($_GET['homeType']))
 {
-	$homeType = $_POST['homeType'];
-	$offerType = $_POST['offerType'];
-	$minPrice = $_POST['minPrice'];
-	$maxPrice = $_POST['maxPrice'];
-	$minSize = $_POST['minSize'];
-	$maxSize = $_POST['maxSize'];
-	if (!empty($_POST['tag'])) {
-		$tag = $_POST['tag'];
+	$homeType = $_GET['homeType'];
+	$offerType = $_GET['offerType'];
+	$minPrice = $_GET['minPrice'];
+	$maxPrice = $_GET['maxPrice'];
+	$minSize = $_GET['minSize'];
+	$maxSize = $_GET['maxSize'];
+	if (!empty($_GET['tag'])) {
+		$tag = $_GET['tag'];
 	}
 
     	if(empty($homeType) || !($homeType == 'house' || $homeType == 'apartment')) {
