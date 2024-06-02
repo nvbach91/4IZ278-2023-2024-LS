@@ -14,29 +14,25 @@
 </head>
 
 <body class="d-flex flex-column min-vh-100">
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
             <img class="logo " src="./assets/img/logo.webp" alt="logo">
             <a class="navbar-brand ml-2" href=".">Softball shop</a>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="./index.php">Home
-                            <span class="sr-only">(current)</span>
-                        </a>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="./index.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./about.php">About</a>
+                        <a class="nav-link text-white" href="./about.php">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./cart.php">
-                            <i class="fas fa-shopping-cart"></i> Košík
-                        </a>
+                        <a class="nav-link text-white" href="./cart.php">
+                            <i class="fas fa-shopping-cart"></i> Košík</a>
                     </li>
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <?php echo htmlspecialchars($_SESSION['first_name']); ?>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -47,7 +43,7 @@
                         </li>
                     <?php else: ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="./login.php">Login</a>
+                            <a class="nav-link text-white" href="./login.php">Login</a>
                         </li>
                     <?php endif; ?>
                 </ul>

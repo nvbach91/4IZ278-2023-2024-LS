@@ -2,6 +2,12 @@
 session_start();
 require_once __DIR__ . '/db/ProductsDB.php';
 
+// Kontrola, zda jsou všechna potřebná data v session
+if (!isset($_SESSION['basic_info']) || !isset($_SESSION['selected_address']) || !isset($_SESSION['shipping_method']) || !isset($_SESSION['payment_method']) || !isset($_SESSION['cart'])) {
+    header('Location: .');
+    exit;
+}
+
 $checkoutData = [
     'basic_info' => $_SESSION['basic_info'],
     'address' => $_SESSION['selected_address'],
@@ -29,7 +35,7 @@ $totalPrice += $checkoutData['payment_method']['fee'];
 require __DIR__ . '/include/header.php';
 ?>
 
-<div class="container mt-5">
+<div class="container my-5">
     <h2>Kontrola objednávky</h2>
     <div class="card mb-3">
         <div class="card-header">
@@ -108,7 +114,7 @@ require __DIR__ . '/include/header.php';
             <h4><strong>Celková cena: <?php echo htmlspecialchars($totalPrice); ?> Kč</strong></h4>
         </div>
     </div>
-    <form action="create_order.php" method="post">
+    <form action="scripts/create-order" method="post">
         <button type="submit" class="btn btn-lg btn-primary">Potvrdit objednávku</button>
     </form>
 </div>

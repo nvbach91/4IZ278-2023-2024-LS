@@ -35,7 +35,7 @@ elseif (isset($_GET['product_id'])) {
           <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($product['product_id']); ?>">
           <div class="form-group">
             <label for="quantity">Množství:</label>
-            <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1">
+            <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1" max="<?php echo $product['stock']; ?>">
           </div>
           <button type="submit" class="btn btn-primary">Přidat do košíku</button>
         </form>
@@ -45,7 +45,7 @@ elseif (isset($_GET['product_id'])) {
 </div>
 
 <?php else: ?>
-<div class="container mt-5">
+<div class="container">
   <div class="row">
     <?php foreach($products as $product): ?>
     <div class="col-lg-4 col-md-6 mb-4">
