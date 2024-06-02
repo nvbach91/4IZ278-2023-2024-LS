@@ -10,6 +10,8 @@ if (!empty($_POST)) {
     $phone = htmlspecialchars(trim($_POST['phone'], TRIM_CHARS));
     $password = htmlspecialchars(trim($_POST['password'], TRIM_CHARS));
     $passwordC = htmlspecialchars(trim($_POST['passwordC'], TRIM_CHARS));
+
+    $phone = str_replace(' ', '', $phone);
 	
     $errors = validateUser($name, $email, $phone, $password, $passwordC);
 
@@ -32,11 +34,11 @@ function validateUser($name, $email, $phone, $password, $passwordC)
     if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         array_push($errors, 'Vyplňte email');
     }
-    if (empty($phone) || !preg_match('/^\d{3} \d{3} \d{3}$/', $phone)) {
+    if (empty($phone) || !preg_match('/^\d{9}$/', $phone)) {
     	array_push($errors, 'Vyplňte tel. č. ve tvaru "111 222 333"');
     }
-    if (empty($password)  || strlen($password) < 3 || strlen($password) > 30 || is_numeric($password)) {
-        array_push($errors, 'Vyplňte heslo');
+    if (empty($password)  || strlen($password) < 8 || strlen($password) > 30 || is_numeric($password)) {
+        array_push($errors, 'Vyplňte heslo. alespoň 8 znaků');
     } else {
         if ($password != $passwordC) {
             array_push($errors, 'Hesla se neshodují');

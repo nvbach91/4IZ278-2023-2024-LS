@@ -31,6 +31,13 @@ if($c['email'] == $email) {
     $customer = $c;
   }
 }
+require '../vendor/autoload.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+$mail = new PHPMailer(true);
 
 foreach ($offers as &$offer) {
     $splitPrice = strrev(chunk_split(strrev($offer['price']), 3, ' '));
@@ -63,8 +70,10 @@ foreach ($agencies as $a) {
 
 $isFollowing = false;
 foreach ($homeCustomers as $hc) {
+  if($customer != null) {
   if($hc['customer_id'] == $customer['id'] && $hc['home_id'] == $id) {
     $isFollowing = true;
+  }
   }
 }
 if(!empty($_POST) && !empty($_POST['follow'])) {
@@ -91,6 +100,32 @@ if (!empty($_POST) && !empty($_POST['message'])) {
         'Reply-To: ' . $sender,
         'X-Mailer: PHP/' . phpversion()
     ];
-    $messageHTML = '<h1>Nová zpráva od "'.$sender.'"</h1><p>'.$messageText.'</p>';
-    mail($recipient, 'DReality zpráva', $messageHTML, implode("\r\n", $headers));
+  $messageHTML = '
+    <h1>Nová zpráva od "'.$sender.'"</h1>
+    <p>'.$messageText.'</p>
+    <p>kontaktní údaje zájemce:</p>
+    <ul>
+    <li>email: '.$sender.'</li>
+    <li>tel.č.: '.$customer['phone'].'</li>
+    </ul>';
+   #var_dump($messageHTML);
+  #mail($recipient, 'DReality zpráva', $messageHTML, implode("\r\n", $headers));
+
+    try {
+    $mail->isSMTP();
+    $mail->Host = 'localhost';  
+    $mail->CharSet = 'UTF-8';
+    $mail->setLanguage('cs', '../vendor/phpmailer/phpmailer/language/');
+    $mail->setFrom($sender);
+    $mail->addAddress($recipient);
+
+    $mail->isHTML(true);
+    $mail->Subject = 'Nová zpráva od zájemce';
+    $mail->Body    = $messageHTML;
+
+    $mail->send();
+    #echo 'Message has been sent';
+} catch (Exception $e) {
+    #echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+}
 }
