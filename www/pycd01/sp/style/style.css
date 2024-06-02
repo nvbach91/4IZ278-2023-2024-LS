@@ -1,0 +1,306 @@
+:root {
+  --text: hsl(0, 0%, 12%);
+  --background: hsl(20, 100%, 95%);
+  --primary: hsl(240, 60%, 60%);
+  --secondary: hsl(205, 50%, 70%);
+
+  --allwaysBlack: hsl(0, 0%, 12%);
+  --allwaysWhite: hsl(20, 100%, 95%);
+  --allwaysPrimary: hsl(240, 60%, 60%);
+  --allwaysSecondary: hsl(205, 50%, 70%);
+}
+:root[data-theme="light"] {
+  --text: hsl(0, 0%, 12%);
+  --background: hsl(20, 100%, 95%);
+  --primary: hsl(240, 60%, 60%);
+  --secondary: hsl(205, 50%, 70%);
+}
+:root[data-theme="dark"] {
+  --text: hsl(20, 100%, 95%);
+  --background: hsl(0, 0%, 12%);
+  --primary: hsl(240, 90%, 75%);
+  --secondary: hsl(205, 70%, 30%);
+}
+#primary-button { 
+  background-color: var(--primary);
+  padding: 0px 20px;
+  color: var(--allwaysWhite);
+  border: none;
+  height: 2.5rem;
+  border-radius: 5px;
+}
+#secondary-button {
+  background-color: var(--secondary);
+  padding: 0px 20px;
+  color: var(--allwaysWhite);
+  border: none;
+  height: 2.5rem;
+  border-radius: 5px;
+}
+#filterModal-switch {
+  background-color: var(--secondary);
+  color: var(--allwaysWhite);
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 5px;
+  border: var(--allwaysBlack) 3px solid;
+}
+.space-nav {
+  width: 100%;
+}
+body {
+  font-family: "Golos Text", sans-serif;
+  color: var(--text);
+  background-color: var(--background);
+
+}
+nav.navbar .navbar-content {
+  min-width: 50%;
+  display: flex !important;
+  justify-content: flex-end;
+}
+nav.navbar .navbar-content .me-auto {
+  margin-right: 0px !important;
+}
+nav.navbar a.brand {
+  background-color: var(--primary);
+  color: var(--text);
+  box-shadow: var(--text) 6px 6px;
+  padding: 5px;
+  margin-inline: 5px;
+}
+nav.navbar a.brand:hover {
+  animation: brand-disappear 0.5s;
+  animation-fill-mode: both;
+}
+@keyframes brand-disappear {
+  from {box-shadow: var(--primary) 5px 5px;}
+  to {box-shadow: none;}
+}
+nav.navbar {
+  background-color: var(--background) !important;
+  border-bottom: var(--primary) 1px solid;
+}
+nav.navbar p,
+nav.navbar a,
+nav.navbar li {
+  color: var(--text);
+  text-decoration: none;
+}
+
+main {
+  margin: 0px 20%;
+  width: auto;
+  height: 100vh;
+}
+main .cards .card {
+  background-color: var(--secondary);
+  color: var(--text);
+  width: calc(95%/3);
+  min-width: 250px;
+  min-height: 550px;
+  border: var(--allwaysBlack) 3px solid;
+  border-radius: 0px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: left;
+}
+
+main .cards .card button {
+  width: 100%;
+}
+main .cards .card img {
+  border: var(--allwaysBlack) 2px solid;
+  border-radius: 10px;
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+main .cards .card .tags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+main .cards .card .tags .tag {
+  padding: 5px 15px;
+  font-size: 13px;
+  background-color: var(--primary);
+  color: var(--allwaysWhite);
+  border-radius: 15px;
+}
+main .cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+  gap: 30px 2.5%;
+}
+main .search-container {
+  padding: 20px 0px;
+  display: flex;
+  gap: 20px;
+}
+main .search-container form {
+  width: 100%;
+}
+main .search-container input {
+  font-size: 1.2rem;
+  height: 2.5rem;
+  width: 100%;
+  background-color: var(--background);
+  color: var(--text);
+  border: var(--allwaysBlack) 3px solid;
+  background-color: var(--secondary);
+}
+main .search-container img {
+  width: 100%;
+}
+
+.left-aligned-modal {
+  margin: 0;
+  transform: translateX(0);
+  transform: translateY(0);
+  
+  
+}
+.left-aligned-modal .modal-content {
+  border-radius: 0px;
+  min-height: 100vh;
+  border-right: var(--allwaysBlack) 3px solid;
+  background-color: var(--background);
+}
+#filterModal .tags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+#filterModal .tags .tag {
+  padding: 5px 15px;
+  font-size: 13px;
+  background-color: var(--secondary);
+  color: var(--allwaysWhite);
+  border-radius: 15px;
+}
+#filterModal .tags input {
+  display: none;
+}
+#filterModal .tags input:checked + label .tag {
+  padding: 5px 15px;
+  font-size: 13px;
+  background-color: var(--primary);
+  color: var(--allwaysWhite);
+  border-radius: 15px;
+}
+#filterModal .modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+#filterModal .homeTypeContainer {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+#filterModal .homeTypeContainer label {
+  width: 100%;
+  text-align: center;
+  
+}
+#filterModal .homeTypeContainer input {
+  display: none;
+}
+#filterModal .form-control {
+  background-color: var(--secondary);
+  color: var(--allwaysWhite);
+}
+#filterModal .homeTypeContainer label .homeTypeSelect {
+  background-color: var(--secondary);
+  color: var(--allwaysWhite);
+  padding: 5px 20px;
+  border-radius: 5px;
+}
+#filterModal .homeTypeContainer input:checked + label .homeTypeSelect {
+  background-color: var(--primary);
+}
+.offer {
+  margin: 0 30%;
+  width: auto;
+}
+.offer img {
+  width: 100%;
+  min-width: 400px;
+  height: 400px;
+  object-fit: cover;
+  margin-top: 20px;
+  border-radius: 20px;
+  border: var(--allwaysBlack) 3px solid;
+}
+.offer .info-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 20px;
+}
+.offer .info-container .offer-info,
+.offer .info-container .agency-info {
+  background-color: var(--secondary);
+  width: 50%;
+  padding: 20px;
+  border-radius: 20px;
+  border: var(--allwaysBlack) 3px solid;
+}
+.offer .tags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.offer .tags .tag {
+  padding: 5px 15px;
+  font-size: 13px;
+  background-color: var(--primary);
+  color: var(--allwaysWhite);
+  border-radius: 15px;
+}
+.login {
+  margin: 0px 40%;
+}
+.login form {
+ margin-top: 50%;
+}
+.login .login-content {
+   margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: 3px solid var(--allwaysBlack);
+  padding: 20px;
+}
+.register {
+  margin: 0px 40%;
+}
+.register form {
+ margin-top: 30%;
+}
+.register .register-content {
+   margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: 3px solid var(--allwaysBlack);
+  padding: 20px;
+}
+#messageModal .modal-content {
+  background-color: var(--background);
+  border: 3px solid var(--allwaysBlack);
+}
+#messageModal .modal-content textarea {
+  width: 100%;
+  min-height: 100px;
+  border: var(--allwaysBlack) 1px solid;
+} 
