@@ -35,7 +35,6 @@ class AddressDB extends Database {
         $statement->execute(['user_id' => $user_id]);
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
-
 }
 
 ?>

@@ -30,7 +30,8 @@ require __DIR__ . '/include/header.php';
                     <th>Název produktu</th>
                     <th>Cena</th>
                     <th>Množství</th>
-                    <th>Celková cena</th>
+                    <th>Celkem</th>
+                    <th>Akce</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,12 +41,18 @@ require __DIR__ . '/include/header.php';
                         <td><?php echo htmlspecialchars($product['price']); ?> Kč</td>
                         <td><?php echo htmlspecialchars($product['quantity']); ?></td>
                         <td><?php echo htmlspecialchars($product['price'] * $product['quantity']); ?> Kč</td>
+                        <td>
+                            <form method="post" action="scripts/remove-from-cart">
+                                <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($product['product_id']); ?>">
+                                <button type="submit" class="btn btn-danger btn-sm">Odebrat</button>
+                            </form>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <p>Celková cena: <?php echo htmlspecialchars($total_price); ?> Kč</p>
-        <a href="checkout.php" class="btn btn-primary">Pokračovat k pokladně</a>
+        <p><strong>Celková cena: <?php echo htmlspecialchars($total_price); ?> Kč</strong></p>
+        <a href="select-basic-info.php" class="btn btn-primary">Pokračovat k pokladně</a>
     <?php endif; ?>
 </div>
 

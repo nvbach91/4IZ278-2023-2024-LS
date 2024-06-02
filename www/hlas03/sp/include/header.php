@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="<?php echo isset($contextPath) ? $contextPath : '.'; ?>/assets/css/styles.css">
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">

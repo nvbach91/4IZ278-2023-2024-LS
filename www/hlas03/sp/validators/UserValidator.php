@@ -1,10 +1,10 @@
 <?php
 
+require_once __DIR__ . '/BaseValidator.php';
 require_once __DIR__ . '/../db/UsersDB.php';
 
-class UserValidator {
+class UserValidator extends BaseValidator {
     private $userDB;
-    private $errors = [];
 
     public function __construct() {
         $this->userDB = new UsersDB();
@@ -13,7 +13,12 @@ class UserValidator {
     public function validateRegistration($first_name, $last_name, $email, $phone, $password, $confirm_password) {
         $this->errors = [];
 
-        $this->validateRequiredFields($first_name, $last_name, $email, $phone);
+        $this->validateRequiredFields([
+            'Jméno' => $first_name,
+            'Příjmení' => $last_name,
+            'Email' => $email,
+            'Telefonní číslo' => $phone
+        ]);
         $this->validateEmailFormat($email);
         $this->validatePhoneFormat($phone);
         $this->validateUniqueEmail($email);
@@ -26,7 +31,12 @@ class UserValidator {
     public function validateProfileEdit($first_name, $last_name, $email, $phone, $userId, $current_password) {
         $this->errors = [];
 
-        $this->validateRequiredFields($first_name, $last_name, $email, $phone);
+        $this->validateRequiredFields([
+            'Jméno' => $first_name,
+            'Příjmení' => $last_name,
+            'Email' => $email,
+            'Telefonní číslo' => $phone
+        ]);
         $this->validateEmailFormat($email);
         $this->validatePhoneFormat($phone);
         $this->validateUniqueEmail($email, $userId);
@@ -62,24 +72,6 @@ class UserValidator {
         return $this->errors;
     }
 
-    private function validateRequiredFields($first_name, $last_name, $email, $phone) {
-        if (empty($first_name) || empty($last_name) || empty($email) || empty($phone)) {
-            $this->errors[] = "Všechny položky musí být vyplněny.";
-        }
-    }
-
-    private function validateEmailFormat($email) {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $this->errors[] = "Neplatný formát emailu.";
-        }
-    }
-
-    private function validatePhoneFormat($phone) {
-        if (!preg_match('/^\+?[1-9]\d{1,14}$/', $phone)) {
-            $this->errors[] = "Neplatný formát telefonního čísla.";
-        }
-    }
-
     private function validateUniqueEmail($email, $userId = null) {
         $existingUserByEmail = $this->userDB->findByEmail($email);
         if ($existingUserByEmail && $existingUserByEmail['user_id'] != $userId) {
@@ -111,5 +103,4 @@ class UserValidator {
         }
     }
 }
-
 ?>
