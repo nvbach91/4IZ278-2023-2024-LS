@@ -4,15 +4,10 @@ require '../Controller/registration.php';
 
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<?php include './includes/head.php'; ?>
 <body>
-    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+    <?php require './includes/navbar.php'; ?>
+    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="form">
         <div class="form-group">
             <label for="name">Enter name</label>
             <input type="text" class="form-control" name="name">
@@ -21,8 +16,8 @@ require '../Controller/registration.php';
             <label for="password">Enter password</label>
             <input type="password" class="form-control" name="password">
         </div>
-        <button type="submit" class="button">Register</button>
+        <button type="submit" class="register-button">Register</button>
     </form>
-    <a href="index.php">Home</a>
+    <?php include './includes/footer.php'; ?>
 </body>
 </html>

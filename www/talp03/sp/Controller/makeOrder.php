@@ -1,0 +1,48 @@
+<?php
+
+session_start();
+require '../Model/OrderDB.php';
+require '../Model/ProductDB.php';
+require '../Model/ProductOrderDB.php';
+require '../Model/UserDB.php';
+
+$priceSum = $_GET['price'];
+$usermMail = $_COOKIE['email'];
+
+
+if (!empty($_SESSION['cart'])) {
+    $userDB = new UserDB();
+    $userID = array_values($userDB->findUserIDByEmail($usermMail)[0])[0];
+    var_dump($userID);
+    $order = [
+        'total_price' => "$priceSum",
+        'user_id' => "$userID",
+    ];
+
+    $orderDB = new OrderDB();
+    $orderDB->createOrder($order);
+    $_SESSION['cart'] = [];
+    
+    $subject = 'the subject';
+    $message = 'hello';
+    $headers = 'From: webmaster@example.com' . "\r\n" .
+    'Reply-To: webmaster@example.com' . "\r\n" .
+    'X-Mailer: PHP/' . phpversion();
+
+    $success = mail('patrik.talkner@seznam.cz', $subject, $message, $headers);
+    if (!$success) {
+        $errorMessage = error_get_last()['message'];
+        var_dump($errorMessage);
+    }
+
+    //mail('patrik.talkner@seznam.cz', $subject, $message, $headers);
+
+    header('Location: ../View/index.php');
+    exit('Order succesful!');
+} else {
+    header('Location: ../View/cart.php');
+    exit('Nothing in cart!');
+}
+
+
+?>
