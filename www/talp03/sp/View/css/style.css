@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
 }
 
 body {
@@ -11,6 +12,7 @@ body {
     justify-content: center;
     min-height: 100%;
     box-sizing: border-box;
+    align-content: center;
 }
 
 main {
@@ -30,6 +32,21 @@ main {
 }
 
 .container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 70%;
+    align-items: center;
+}
+
+.product-container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+}
+
+.navbar-container {
     display: flex;
     height: 100%;
     width: 70%;
@@ -147,6 +164,12 @@ main {
     font-weight: bold;
 }
 
+.product-description {
+    word-wrap: break-word;
+    width: 90%;
+    align-self: center;
+}
+
 .product-button {
     color: white;
     background-color: black;
@@ -230,15 +253,42 @@ label {
     margin: 20px 20px 0px 5px;
 }
 
-.edit-button {
+.edit-button, .create-button {
     color: white;
     background-color: black;
     text-decoration: none;
     font-size: 25px;
-    width: 220px;
+    width: 200px;
     height: 40px;
     align-content: center;
     text-align: center;
-    margin: 25px 0px 0px 0px;
+    margin: 13px 0px 13px 0px;
     border-radius: 3px;
+    align-self: center;
+}
+
+.create-button {
+    align-self: flex-end;
+    width: 240px;
+    margin-right: 20px;
+}
+
+.user-container {
+    display: flex;
+    align-self: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.user {
+    display: flex;
+}
+
+.user-form-group {
+    display: flex;
+}
+
+.user-form {
+    display: flex;
+    flex-direction: row;
 }

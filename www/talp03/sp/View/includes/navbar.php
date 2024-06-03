@@ -5,7 +5,7 @@
 ?>
 
 <nav class="navbar">
-        <div class="container">
+        <div class="navbar-container">
             <img class="logo" src="./img/logo2.jpg" alt="logo">
             <a class="navbar-brand" href="index.php">Furniture</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,6 +24,13 @@
                         </li>
                         <li class="navbar-item">
                             <a class="nav-link" href="../Controller/logout.php">Logout</a>
+                        </li>
+                        <li class="navbar-item">
+                            <?php if (!isset($_COOKIE['email'])) { ?>
+                                <a href="profile.php" class="nav-link">Profile</a>
+                            <?php } else {?>
+                                <a href="admin-profile.php" class="nav-link">Profile</a>
+                            <?php } ?>
                         </li>
                     <?php } else { ?>
                         <li class="navbar-item">

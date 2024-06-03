@@ -1,5 +1,6 @@
 <?php
 
+require_once '../Controller/entryPrivilege.php';
 require '../Controller/editProductPage.php';
 
 ?>
@@ -9,6 +10,8 @@ require '../Controller/editProductPage.php';
     <?php require './includes/navbar.php'; ?>
     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="form">
         <div class="form-group">
+            <label for="product_id">Product ID</label>
+            <input type="number" class="form-control" name="product_id" value="<?php echo $product['product_id']; ?>" readonly>
             <label for="name">Name</label>
             <input type="name" class="form-control" name="name" value="<?php echo $product['name']; ?>">
             <label for="description">Description</label>
