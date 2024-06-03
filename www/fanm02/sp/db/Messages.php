@@ -1,11 +1,12 @@
 <?php
 
 require_once './utils/db.php';
+require_once './utils/helpers.php';
 
 class MessagesDB extends Database {
 
-    public function getAllMessages($senderId){
-        return ($this->runQuery('SELECT * FROM messages WHERE sender_id = ?', [$senderId]) ?? [])[0];
+    public function getMessages($meal){
+        return $this->runQuery('SELECT * FROM messages WHERE meal_id = ? ORDER BY sent_at ASC', [$meal]);
     }
 
     public function find(){
@@ -13,8 +14,8 @@ class MessagesDB extends Database {
     }
 
     public function create($data){
-        array_push($data, time());
-        return $this->runQuery('INSERT INTO messages (meal_id, sender_id, content, sent_at) VALUES (?, ?, ?, ?)', $data);
+        array_push($data, currentDate());
+        return $this->runQuery('INSERT INTO messages (meal_id, sender_id, receiver_id, content, sent_at) VALUES (?, ?, ?, ?, ?)', $data);
     }
 
     public function update($query, $data){

@@ -1,215 +1,84 @@
 <?php
+require __DIR__ . '/components/header.php';
+require __DIR__ . '/db/Meals.php';
+require __DIR__ . '/db/Dorms.php';
+require __DIR__ . '/db/Orders.php';
+require __DIR__ . '/db/Users.php';
+require __DIR__ . '/db/Messages.php';
 
-require_once 'db/Users.php';
-require_once 'db/Dorms.php';
+/*
+$productsCount = $db->query('SELECT COUNT(good_id) FROM cv08_goods')->fetchColumn();
+$productsCount = 4;
+$paginations = ceil($productsCount / $productsPerPage);
+$productsOnLastPagination = $productsCount % $productsPerPage;
 
-$usernameMessage = null;
-$usernameError = false;
-$passwordMessage = null;
-$passwordError = false;
-$dormMessage = null;
-$dormError = false;
-$imageMessage = null;
-$imageError = false;
-$usersDb = new UsersDB();
-$dormsDb = new DormsDB();
+$offset = 0;
 
-$dormitories = $dormsDb->find();
+if (isset($_GET['offset'])) {
+    $offset = $_GET['offset'];
+}
 
+$DBproducts = $db->prepare('SELECT * FROM cv08_goods ORDER BY good_id DESC LIMIT :limit OFFSET :offset');
+$DBproducts->bindValue(':limit', $productsPerPage, PDO::PARAM_INT);
+$DBproducts->bindValue(':offset', $offset, PDO::PARAM_INT);
+$DBproducts->execute();
+$products = $DBproducts->fetchAll();
+*/
 
-if(!isset($_COOKIE['display_name'])){
+if (!isset($_COOKIE['display_name'])) {
     header('Location: login.php');
     exit;
 }
 
+$ordersDb = new OrdersDB();
+$mealsDb = new MealsDB();
+$dormsDb = new DormsDB();
+$usersDb = new UsersDB();
+$messagesDb = new MessagesDB();
+
 $registeredUser = $usersDb->getUser($_COOKIE['display_name'], '');
 
-if($registeredUser == null){
+if ($registeredUser == null) {
     setcookie('display_name', '', -1, "/");
     header('Location: login.php');
     exit;
 }
 
+$boughtMeals = $ordersDb->getBoughtMeals($registeredUser['id']);
+$sellingMeals = $ordersDb->getSellingMeals($registeredUser['id']);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    if(password_verify($_POST['confirmpassword'], $registeredUser['passwordHash'])) {
-        do {
-            
-            if(!empty($_POST['username'])){
-                $username = $_POST['username'];
-                $registeredUser = $usersDb->getUser($username, '');
-
-                if($registeredUser != null){
-                    $usernameMessage = 'Username already taken';
-                    $usernameError = true;
-                    break;
-                }
-
-                if(strlen($username) < 3){
-                    $usernameMessage = 'Username is too short';
-                    $usernameError = true;
-                    break;
-                }
-
-                setcookie('display_name', $username, time() + 3600, "/");
-                $usersDb->updateUsername($username, $_COOKIE['display_name']);
-                $usernameMessage = 'Username changed';
-            }
-
-        } while(0);
-
-        do {
-            if(empty($_POST['password']) && empty($_POST['retypepassword'])){
-                break;
-            }
-
-            if ($_POST['password'] !== $_POST['retypepassword']) {
-                $passwordMessage = 'Passwords do not match';
-                $passwordError = true;
-                break;
-            }
-
-            $password = $_POST['password'];
-
-            if (strlen($password) < 3) {
-                $passwordMessage = 'Password is too short';
-                $passwordError = true;
-                break;
-            }
-
-            $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-
-            $usersDb->updatePassword($registeredUser['email'], $passwordHash);
-            $passwordMessage = 'Password changed';
-
-        } while(0);
-
-        do {
-            if(empty($_POST['dorm'])){
-                break;
-            }
-
-            $dorm = $dormsDb->getDormitory($_POST['dorm']);
-
-            if($dorm == null){
-                $dormMessage = 'Dormitory not found';
-                $dormError = true;
-                break;
-            }
-
-            $usersDb->updateDormitory($_COOKIE['display_name'], $dorm['id']);
-            $dormMessage = 'Default dormitory changed';
-            
-            
-        } while(0);
-
-        do {
-            if(empty($_FILES['photo']['name'])){
-
-                if(isset($_POST['deletephoto'])){
-                    if($registeredUser['photo_url'] != null && file_exists($registeredUser['photo_url'])){
-                        unlink($registeredUser['photo_url']);
-                        $usersDb->updatePhoto($_COOKIE['display_name'], null);
-                        setcookie('photo_url', '', -1, "/");
-                        $imageMessage = 'Profile picture deleted';
-                    }
-                }
-
-                break;
-            }
-
-            $target_dir = "uploads/profile/";
-            $target_file = $target_dir . basename($_FILES["photo"]["name"]);
-            
-            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-            $check = getimagesize($_FILES["photo"]["tmp_name"]);
-
-            if($check == false) {
-                $imageMessage = "File is not an image.";
-                $imageError = true;
-                break;
-            }
-
-            if(file_exists($target_file)) {
-                $imageMessage = "File already exists.";
-                $imageError = true;
-                break;
-            }
-
-            if ($_FILES["photo"]["size"] > 5 * 1024 * 1024) {
-                $imageMessage = "File is too large. Maximal size is 5MB.";
-                $imageError = true;
-                break;
-            }
-
-            if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-                $imageMessage = "Only JPG, JPEG, PNG files are allowed.";
-                $imageError = true;
-                break;
-            }
-
-            if(!move_uploaded_file($_FILES["photo"]["tmp_name"], $target_file)) {
-                $imageMessage = "Error uploading the file.";
-                $imageError = true;
-                break;
-            }
-
-            if($registeredUser['photo_url'] != null && file_exists($registeredUser['photo_url'])){
-                unlink($registeredUser['photo_url']);
-            }
-
-            $usersDb->updatePhoto($_COOKIE['display_name'], $target_file);
-            $imageMessage = 'Profile picture changed';
-            setcookie('photo_url', $target_file, time() + 3600, "/");
-
-        } while(0);
-
-    }
-    else {
-        $passwordMessage = 'Wrong current password';
-        $passwordError = true;
-    }
-
-}
+$paginations = 1;
 ?>
-<?php include __DIR__ . '/components/header.php' ?>
-<form method="post" action="profile.php" class="form" enctype="multipart/form-data">
-    <?php if($usernameMessage != null){
-            echo $usernameError == true ? '<div class="error">'.$usernameMessage.'</div>' : '<div class="correct">'.$usernameMessage.'</div>';
-        }
-    ?>
-    <?php if($passwordMessage != null){
-            echo $passwordError == true ? '<div class="error">'.$passwordMessage.'</div>' : '<div class="correct">'.$passwordMessage.'</div>';
-        }
-    ?>
-    <?php if($imageMessage != null){
-            echo $imageError == true ? '<div class="error">'.$imageMessage.'</div>' : '<div class="correct">'.$imageMessage.'</div>';
-        }
-    ?>
-    <?php if($dormMessage != null){
-            echo $dormError == true ? '<div class="error">'.$dormMessage.'</div>' : '<div class="correct">'.$dormMessage.'</div>';
-        }
-    ?>
-    <div class="form-container">
-        Change username: <input placeholder="<?php echo $_COOKIE['display_name'] ?>" type="text" name="username"><br>
-        Choose profile picture: <input type="file" name="photo" id="photo"><br>
-        <div>Delete current picture: <input type="checkbox" name="deletephoto"></div><br>
-        Default dormitory:
-        <select name="dorm">
-            <option value=""></option>
-            <?php foreach($dormitories as $key=>$value): ?>
-                <option value="<?= $value['id'] ?>"><?= $value['name']; ?></option>
-                <?php endforeach; ?>
-        </select><br>
-        Change password: <input type="password" name="password"><br>
-        Retype new password: <input type="password" name="retypepassword"><br>
-        <div class="divider"></div>
-        Confirm with current password: <input type="password" name="confirmpassword"><br>
-        <input type="submit" value="Save">
-    </div>
-    
-</a>
-</form>
+<script>
+    let registeredUserId = <?php echo json_encode($registeredUser['id']); ?>;
+</script>
 
+<main class='container' style='max-width: 90%;min-height: 100vh;'>
+    <div style='display: flex; flex-direction: column; justify-content: center; margin-top: 50px'>
+        <div style="display: flex; justify-content:center; align-items: center;">
+            <button class="tablinks tablink-left btn btn-primary" id="defaultOpen" onclick="openTab(event, 'bought')">Bought</button>
+            <button class="tablinks tablink-right btn btn-primary" onclick="openTab(event, 'selling')">Selling</button>
+        </div>
+
+        <div id="bought" class="tabcontent">
+            <hr>
+            <?php
+                include __DIR__ . '/components/bought-meals.php';
+            ?>
+        </div>
+
+        <div id="selling" class="tabcontent">
+            <div style='display: flex; justify-content: center; margin-top: 15px'>
+                <nav>
+                    <div style='display: flex; justify-content: center'> <a class='btn btn-primary' href='create-listing.php'>Vytvořit nabídku</a>
+                    </div>
+                    <hr>
+                </nav>
+            </div>
+            <?php
+                include __DIR__ . '/components/selling-meals.php';
+            ?>
+        </div>
+    </div>
+</main>
 <?php include __DIR__ . '/components/footer.php' ?>
