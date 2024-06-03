@@ -9,7 +9,7 @@ function drawPage(int $pageNumber, bool $isSearch, ?string $query = null) {
     $books = array();
     $allBooksCount = 0;
     if($isSearch && $query != null){
-        $books = $repo->getSearchBooksPage($query, $pageNumber);
+        $books = $repo->getSearchBooksPage($query, $pageNumber, BookRepository::TITLE, true);
         $allBooksCount =  $repo->getSearchBooksCount($query);
     }
     else{
@@ -56,7 +56,7 @@ function drawPage(int $pageNumber, bool $isSearch, ?string $query = null) {
                 </div>
             </div>';
 
-        if($i % 3 == 0 && $i > 0){
+        if($i % 4 == 0 && $i > 0){
             $result .='</div>';
         }
     }
@@ -65,38 +65,58 @@ function drawPage(int $pageNumber, bool $isSearch, ?string $query = null) {
         $result .='</div>';
     }
 
+    $currentUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    $parsedUrl = parse_url($currentUrl);
+    $actualPath = "http://" . $parsedUrl["host"] . $parsedUrl["path"];
+    if ($isSearch){
+        $actualPath .= "?query=" . urlencode($query);
+    }
+
+
     if($pageNumber > 0){
+
+        $actualPath .= ($isSearch ? "&page=" : "?page=") . urldecode($pageNumber - 1);
+
         $result .='<div class="row mb-1">
         <nav class="col-12" aria-label="Page navigation">
             <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="'. BASE_URL .'/index.php?page='. $pageNumber-1 .'">Previous</a></li>';
+                <li class="page-item"><a class="page-link" href="'. $actualPath . '">Previous</a></li>';
     }
     else{
+        $actualPath .= ($isSearch ? "&page=" : "?page=") . urldecode($pageNumber);
         $result .='<div class="row mb-1">
                     <nav class="col-12" aria-label="Page navigation">
                         <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="'. BASE_URL .'/index.php?page='. $pageNumber.'">Previous</a></li>';
+                            <li class="page-item"><a class="page-link" href="'. $actualPath .'">Previous</a></li>';
     }
 
-    
+    //path without parameters
+    $actualPath = "http://" . $parsedUrl["host"] . $parsedUrl["path"];
+    if ($isSearch){
+        $actualPath .= "?query=" . urlencode($query) . "&page=";
+    }
+    else{
+        $actualPath .= "?page=";
+    }
 
     for ($i=0; $i < $pagesCount; $i++) {
         if($i === $pageNumber){
-            $result .= '<li class="page-item active" aria-current="page"><a class="page-link" href="'. BASE_URL .'/index.php?page='. $i .'">'. $i+1 .'</a></li>';
+            $result .= '<li class="page-item active" aria-current="page"><a class="page-link" href="'. $actualPath . $i .'">'. $i+1 .'</a></li>';
         }
         else{
-            $result .= '<li class="page-item"><a class="page-link" href="'. BASE_URL .'/index.php?page='. $i .'">'. $i+1 .'</a></li>';
+            $result .= '<li class="page-item"><a class="page-link" href="'. $actualPath . $i .'">'. $i+1 .'</a></li>';
         }
     }
 
 
     
     if( $pageNumber < $pagesCount -1){
-        $result .= '<li class="page-item"><a class="page-link" href="'. BASE_URL .'/index.php?page='. $pageNumber+1 .'">Next</a></li>
+
+        $result .= '<li class="page-item"><a class="page-link" href="'. $actualPath . $pageNumber+1 . '">Next</a></li>
                     </ul></nav></div>';
     }
     else{
-        $result .= '<li class="page-item"><a class="page-link" href="'. BASE_URL .'/index.php?page='. $pageNumber .'">Next</a></li>
+        $result .= '<li class="page-item"><a class="page-link" href="'. $actualPath . $pageNumber.'">Next</a></li>
                     </ul></nav></div>';
     }
     

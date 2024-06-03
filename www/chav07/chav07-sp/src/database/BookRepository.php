@@ -26,115 +26,22 @@ class BookRepository implements IBookRepository{
         try{
             $pdo = DbConnection::getConnection();
             $statement = false;
-            if($asc){
-                if($orderby == 0){
-                    $statement = $pdo->prepare("SELECT 
-                            BOOKS.ID_BOOK,
-                            AUTHORS.NAME AS AUTHOR_NAME,
-                            BOOKS.TITLE,
-                            BOOKS.DESCRIPTION,
-                            BOOKS.PRICE,
-                            BOOKS.STOCK,
-                            BOOKS.ISBN13,
-                            BOOKS.ISBN10,
-                            BOOKS.IMAGE_URL
-                        FROM BOOKS
-                            LEFT JOIN AUTHORS
-                                ON BOOKS.ID_AUTHOR = AUTHORS.ID_AUTHOR
-                        ORDER BY BOOKS.TITLE ASC
-                        LIMIT :items OFFSET :page_number;");
-                }
-                elseif($orderby == 1){
-                    $statement = $pdo->prepare("SELECT 
-                            BOOKS.ID_BOOK,
-                            AUTHORS.NAME AS AUTHOR_NAME,
-                            BOOKS.TITLE,
-                            BOOKS.DESCRIPTION,
-                            BOOKS.PRICE,
-                            BOOKS.STOCK,
-                            BOOKS.ISBN13,
-                            BOOKS.ISBN10,
-                            BOOKS.IMAGE_URL
-                        FROM BOOKS
-                            LEFT JOIN AUTHORS
-                                ON BOOKS.ID_AUTHOR = AUTHORS.ID_AUTHOR
-                        ORDER BY BOOKS.PRICE ASC
-                        LIMIT :items OFFSET :page_number;");
-                }
-                else{
-                    $statement = $pdo->prepare("SELECT 
-                            BOOKS.ID_BOOK,
-                            AUTHORS.NAME AS AUTHOR_NAME,
-                            BOOKS.TITLE,
-                            BOOKS.DESCRIPTION,
-                            BOOKS.PRICE,
-                            BOOKS.STOCK,
-                            BOOKS.ISBN13,
-                            BOOKS.ISBN10,
-                            BOOKS.IMAGE_URL
-                        FROM BOOKS
-                            LEFT JOIN AUTHORS
-                                ON BOOKS.ID_AUTHOR = AUTHORS.ID_AUTHOR
-                        ORDER BY AUTHORS.NAME ASC
-                        LIMIT :items OFFSET :page_number;");
-                }
-
-                
-            }
-            else{
-
-                if($orderby == 0){
-                    $statement = $pdo->prepare("SELECT 
-                            BOOKS.ID_BOOK,
-                            AUTHORS.NAME AS AUTHOR_NAME,
-                            BOOKS.TITLE,
-                            BOOKS.DESCRIPTION,
-                            BOOKS.PRICE,
-                            BOOKS.STOCK,
-                            BOOKS.ISBN13,
-                            BOOKS.ISBN10,
-                            BOOKS.IMAGE_URL
-                        FROM BOOKS
-                            LEFT JOIN AUTHORS
-                                ON BOOKS.ID_AUTHOR = AUTHORS.ID_AUTHOR
-                        ORDER BY BOOKS.TITLE DESC
-                        LIMIT :items OFFSET :page_number;");
-                }
-                elseif($orderby == 1){
-                    $statement = $pdo->prepare("SELECT 
-                            BOOKS.ID_BOOK,
-                            AUTHORS.NAME AS AUTHOR_NAME,
-                            BOOKS.TITLE,
-                            BOOKS.DESCRIPTION,
-                            BOOKS.PRICE,
-                            BOOKS.STOCK,
-                            BOOKS.ISBN13,
-                            BOOKS.ISBN10,
-                            BOOKS.IMAGE_URL
-                        FROM BOOKS
-                            LEFT JOIN AUTHORS
-                                ON BOOKS.ID_AUTHOR = AUTHORS.ID_AUTHOR
-                        ORDER BY BOOKS.PRICE DESC
-                        LIMIT :items OFFSET :page_number;");
-                }
-                else{
-                    $statement = $pdo->prepare("SELECT 
-                            BOOKS.ID_BOOK,
-                            AUTHORS.NAME AS AUTHOR_NAME,
-                            BOOKS.TITLE,
-                            BOOKS.DESCRIPTION,
-                            BOOKS.PRICE,
-                            BOOKS.STOCK,
-                            BOOKS.ISBN13,
-                            BOOKS.ISBN10,
-                            BOOKS.IMAGE_URL
-                        FROM BOOKS
-                            LEFT JOIN AUTHORS
-                                ON BOOKS.ID_AUTHOR = AUTHORS.ID_AUTHOR
-                        ORDER BY AUTHORS.NAME DESC
-                        LIMIT :items OFFSET :page_number;");
-                }
-            }
+            $queryOrder = self::getSQLOrderByStatement($orderby, $asc);    
+            $statement = $pdo->prepare("SELECT 
+                                        BOOKS.ID_BOOK,
+                                        AUTHORS.NAME AS AUTHOR_NAME,
+                                        BOOKS.TITLE,
+                                        BOOKS.DESCRIPTION,
+                                        BOOKS.PRICE,
+                                        BOOKS.STOCK,
+                                        BOOKS.ISBN13,
+                                        BOOKS.ISBN10,
+                                        BOOKS.IMAGE_URL
+                                    FROM BOOKS
+                                        LEFT JOIN AUTHORS
+                                            ON BOOKS.ID_AUTHOR = AUTHORS.ID_AUTHOR "
+                                            . $queryOrder . "
+                                    LIMIT :items OFFSET :page_number;");
             
 
             $statement->bindValue(":items", ITEMS_PER_PAGE);
@@ -150,19 +57,21 @@ class BookRepository implements IBookRepository{
         catch(PDOException $e){
             exit("Error trying to access the database: " . $e->getMessage());
         }
-        return array();
     }
 
-    public function getSearchBooksPage(string $query, int $page) : array{
+    public function getSearchBooksPage(string $query, int $page, int $orderby = 0, bool $asc = true) : array{
 
         try{
             $pdo = DbConnection::getConnection();
+            $queryOrder = self::getSQLOrderByStatement($orderby, $asc);    
             $statement = $pdo->prepare("SELECT ID_BOOK, AUTHORS.NAME AS AUTHOR_NAME, TITLE, DESCRIPTION, PRICE, STOCK, ISBN13, ISBN10, IMAGE_URL
                                         FROM BOOKS 
                                         LEFT JOIN AUTHORS 
                                             ON BOOKS.ID_AUTHOR = AUTHORS.ID_AUTHOR
-                                        WHERE BOOKS.TITLE LIKE :query1 OR AUTHORS.NAME LIKE :query2
+                                        WHERE BOOKS.TITLE LIKE :query1 OR AUTHORS.NAME LIKE :query2 " 
+                                        . $queryOrder ."
                                         LIMIT :item_count OFFSET :page_offset");
+
 
             $statement->bindValue(":query1", "%" . $query . "%");
             $statement->bindValue(":query2", "%" . $query . "%");
@@ -179,8 +88,6 @@ class BookRepository implements IBookRepository{
         catch(PDOException $e){
             exit("Error trying to access the database: " . $e->getMessage());
         }
-
-        return array();
     }
     public function getSearchBooksCount(string $query) : int{
     
@@ -207,9 +114,6 @@ class BookRepository implements IBookRepository{
             exit("Error trying to access the database: " . $e->getMessage());
         }
 
-        return 0;
-
-
     }
 
 
@@ -230,8 +134,6 @@ class BookRepository implements IBookRepository{
         catch(PDOException $e){
             exit("Error trying to access the database: " . $e->getMessage());
         }
-
-        return 0;
     }
 
     public function createBook(BookDTO $book){
@@ -265,6 +167,38 @@ class BookRepository implements IBookRepository{
         }
 
         return $result;
+    }
+
+    private static function getSQLOrderByStatement(int $orderby, bool $asc) : string{
+            $orderByTitle = "ORDER BY BOOKS.TITLE ";
+            $orderByPrice = "ORDER BY BOOKS.PRICE ";
+            $orderByAuthor = "ORDER BY AUTHORS.NAME ";
+            $queryOrder = "";
+
+            switch ($orderby) {
+                case self::TITLE:
+                    $queryOrder = $orderByTitle;
+                    break;
+                case self::PRICE:
+                    $queryOrder = $orderByPrice;
+                    break;
+                case self::AUTHOR:
+                    $queryOrder = $orderByAuthor;
+                    break;
+                default:
+                    $queryOrder = $orderByTitle;
+                    break;
+            }
+
+            if($asc){
+                $queryOrder .= "ASC ";
+            }
+            else{
+                $queryOrder .= "DESC ";
+            }
+
+
+            return $queryOrder;
     }
 }
 
