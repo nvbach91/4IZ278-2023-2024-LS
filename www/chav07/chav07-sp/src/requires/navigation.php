@@ -15,19 +15,10 @@ startSessionIfNone();
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo01"> 
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-brand">
+                    <li class="nav-brand me-xl-2">
                         <a href="<?php echo BASE_URL; ?>/" class="nav-link">BookBookGo</a>
                     </li>
-                    <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Categories
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                    </li>
+
                     <li class="nav-item">
                         <form class="d-flex" role="search" action="<?php echo BASE_URL; ?>/search.php" method="GET">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query">

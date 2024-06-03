@@ -7,15 +7,56 @@ require_once __DIR__ . "/../authentication/AuthUtils.php";
 function drawPage(int $pageNumber, bool $isSearch, ?string $query = null) {
     session_start();
     $repo = new BookRepository();
+//
+    $currentUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    $urlComponents = parse_url($currentUrl);
+    if (isset($urlComponents['query'])) {
+        parse_str($urlComponents['query'], $params);
+    }
+    $asc = true;
+    $orderBy = 0;
+    if (isset($params['orderBy'])) {
+        $orderByQuery = $params['orderBy'];
+        switch ($orderByQuery) {
+            case 1:
+                $orderBy = $repo::TITLE;
+                $asc = true;
+                break;
+            case 2:
+                $orderBy = $repo::TITLE;
+                $asc = false;
+                break;
+            case 3:
+                $orderBy = $repo::PRICE;
+                $asc = true;
+                break;
+            case 4:
+                $orderBy = $repo::PRICE;
+                $asc = false;
+                break;
+            case 5:
+                $orderBy = $repo::AUTHOR;
+                $asc = true;
+                break;
+            case 6:
+                $orderBy = $repo::AUTHOR;
+                $asc = false;
+                break;
+            default:
+                $orderBy = $repo::TITLE;
+                $asc = true;
+                break;
+        }
+    }
 
     $books = array();
     $allBooksCount = 0;
     if($isSearch && $query != null){
-        $books = $repo->getSearchBooksPage($query, $pageNumber, BookRepository::TITLE, true);
+        $books = $repo->getSearchBooksPage($query, $pageNumber, $orderBy, $asc);
         $allBooksCount =  $repo->getSearchBooksCount($query);
     }
     else{
-        $books = $repo->getBooksPage($pageNumber,BookRepository::TITLE, true);
+        $books = $repo->getBooksPage($pageNumber,$orderBy, $asc);
         $allBooksCount =  $repo->getBookCount();
     }
 
@@ -55,7 +96,7 @@ function drawPage(int $pageNumber, bool $isSearch, ?string $query = null) {
                         <a href="#" class="btn btn-primary me-xl-1 mb-sm-1">Add to cart</a>
                         <a href="#" class="btn btn-secondary mb-sm-1 me-xl-1">Detail</a>'
                         . (isAuthorized(AuthRole::Admin) ? '<a href="#" class="btn btn-secondary mb-sm-1">Edit</a>' : '') .
-                    '</div> 
+                    '</div>
                 </div>
             </div>';
 
@@ -63,14 +104,19 @@ function drawPage(int $pageNumber, bool $isSearch, ?string $query = null) {
             $result .='</div>';
         }
     }
-    
+
     if(count($books) - 1 % 3 != 0){
         $result .='</div>';
     }
 
     $currentUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    $parsedUrl = parse_url($currentUrl);
-    $actualPath = "http://" . $parsedUrl["host"] . $parsedUrl["path"];
+    $urlComponents = parse_url($currentUrl);
+    if (isset($urlComponents['query'])) {
+        parse_str($urlComponents['query'], $params);
+    }
+
+
+    $actualPath = "http://" . $urlComponents["host"] . $urlComponents["path"];
     if ($isSearch){
         $actualPath .= "?query=" . urlencode($query);
     }
@@ -94,25 +140,36 @@ function drawPage(int $pageNumber, bool $isSearch, ?string $query = null) {
     }
 
     //path without parameters
-    $actualPath = "http://" . $parsedUrl["host"] . $parsedUrl["path"];
-    if ($isSearch){
-        $actualPath .= "?query=" . urlencode($query) . "&page=";
+    $actualPath = "http://" . $urlComponents["host"] . $urlComponents["path"];
+
+    $counter = 0;
+    foreach ($params as $key => $value) {
+        if ($key == "page") {
+            continue;
+        }
+        $actualPath .= ($counter == 0 ? "?" : "&") . $key . "=" . $value;
+        $counter++;
     }
-    else{
-        $actualPath .= "?page=";
-    }
+    $counter > 0 ? $actualPath .= "&page=" : $actualPath .= "?page=";
+
+//    if ($isSearch){
+//        $actualPath .= "?query=" . urlencode($query) . "&page=";
+//    }
+//    else{
+//        $actualPath .= "?page=";
+//    }
 
     for ($i=0; $i < $pagesCount; $i++) {
         if($i === $pageNumber){
             $result .= '<li class="page-item active" aria-current="page"><a class="page-link" href="'. $actualPath . $i .'">'. $i+1 .'</a></li>';
         }
         else{
-            $result .= '<li class="page-item"><a class="page-link" href="'. $actualPath . $i .'">'. $i+1 .'</a></li>';
+            $result .= '<li class="page-item"><a class="page-link" href="'. $actualPath .  "" . $i .'">'. $i+1 .'</a></li>';
         }
     }
 
 
-    
+
     if( $pageNumber < $pagesCount -1){
 
         $result .= '<li class="page-item"><a class="page-link" href="'. $actualPath . $pageNumber+1 . '">Next</a></li>
@@ -122,10 +179,10 @@ function drawPage(int $pageNumber, bool $isSearch, ?string $query = null) {
         $result .= '<li class="page-item"><a class="page-link" href="'. $actualPath . $pageNumber.'">Next</a></li>
                     </ul></nav></div>';
     }
-    
+
 
     $result .='</main>';
-    
+
 
     echo $result;
 

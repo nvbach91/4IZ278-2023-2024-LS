@@ -4,6 +4,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__. "/authentication/AuthUtils.php";
 require_once __DIR__ . "/requires/page.php";
 require_once __DIR__ . "/database/BookRepository.php";
+require_once __DIR__ . "/requires/filters.php";
 
 session_start();
 
@@ -34,7 +35,7 @@ if(isset($_GET["page"]) && isset($_GET["query"])){
         <div class="row">
             <!-- sidebar -->
              <aside class="col-2 container">
-                filters
+                <?php drawFilters(); ?>
              </aside>
 
              <!-- content -->
