@@ -4,7 +4,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . "/config.php";
 
-require_once __DIR__ . '/database/dbconnection.php';
+require_once __DIR__ . '/database/DbConnection.php';
 
 
 ?>

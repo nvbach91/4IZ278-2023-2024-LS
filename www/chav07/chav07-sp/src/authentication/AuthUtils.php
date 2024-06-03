@@ -1,7 +1,5 @@
 <?php
-
-// require_once __DIR__ . "/../database/dbconnection.php";
-
+require_once __DIR__ . "/../database/User.php";
 
 function isAuthenticated(): bool{
 
@@ -16,8 +14,12 @@ enum AuthRole: int{
     case Admin = 1;
 }
 
-function requireAuhtorization(AuthRole $level): bool{
-    if(isset($_SESSION["user"]) && $_SESSION["user"]->role == $level){
+function isAuthorized(AuthRole $level): bool{
+    if (!isset($_SESSION["user"])){
+        return false;
+    }
+    $user = $_SESSION["user"];
+    if($user->role == $level){
         return true;
     }
     return false;

@@ -1,7 +1,7 @@
 <?php 
 
 require_once __DIR__ . "/IUserRepository.php";
-require_once __DIR__ . "/dbconnection.php";
+require_once __DIR__ . "/DbConnection.php";
 
 
 class UserRepository implements IUserRepository {

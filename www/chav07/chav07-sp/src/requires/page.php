@@ -2,8 +2,10 @@
 
 require_once __DIR__ . "/../database/BookRepository.php";
 require_once __DIR__ . "/../config.php";
+require_once __DIR__ . "/../authentication/AuthUtils.php";
 
 function drawPage(int $pageNumber, bool $isSearch, ?string $query = null) {
+    session_start();
     $repo = new BookRepository();
 
     $books = array();
@@ -51,8 +53,9 @@ function drawPage(int $pageNumber, bool $isSearch, ?string $query = null) {
                     <p class="card-text fw-bold fs-4">' . $books[$i]->price . ' CZK</p>
                     <div class="d-flex flex-xl-row flex-sm-column">
                         <a href="#" class="btn btn-primary me-xl-1 mb-sm-1">Add to cart</a>
-                        <a href="#" class="btn btn-secondary mb-sm-1">Detail</a>
-                    </div> 
+                        <a href="#" class="btn btn-secondary mb-sm-1 me-xl-1">Detail</a>'
+                        . (isAuthorized(AuthRole::Admin) ? '<a href="#" class="btn btn-secondary mb-sm-1">Edit</a>' : '') .
+                    '</div> 
                 </div>
             </div>';
 

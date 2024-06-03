@@ -1,5 +1,5 @@
 <?php 
-require_once __DIR__ . "/../database/dbconnection.php";
+require_once __DIR__ . "/../database/DbConnection.php";
 require_once __DIR__ . "/IBookRepository.php";
 require_once __DIR__ . "/../config.php";
 

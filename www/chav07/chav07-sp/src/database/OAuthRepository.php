@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . "/../../vendor/autoload.php";
 require_once __DIR__ . "/IOAuthRepository.php";
-require_once __DIR__ . "/dbconnection.php";
+require_once __DIR__ . "/DbConnection.php";
 require_once __DIR__ . "/DTOs/OAuthInfoModelCreate.php";
 require_once __DIR__ . "/OAuthInfoModel.php";
 
