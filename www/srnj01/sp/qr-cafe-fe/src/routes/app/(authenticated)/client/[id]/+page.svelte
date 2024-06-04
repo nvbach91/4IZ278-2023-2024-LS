@@ -1,0 +1,499 @@
+<script lang="ts">
+	import FormBuilder from '$components/app/FormBuilder.svelte';
+	import FormItem from '$components/app/FormItem.svelte';
+	import { onMount } from 'svelte';
+	import { deleteClient, getClient, updateClient } from '$lib/api/clients';
+	import type {
+		Client as ClientType,
+		Seller as SellerType,
+		Sequence as SequenceType,
+		Account as AccountType,
+		ApiKey as ApiKeyType,
+		Generated
+	} from '$types/user';
+	import type { PageData } from './$types';
+	import { createSeller, getSellers } from '$lib/api/sellers';
+	import Seller from '$components/app/Seller.svelte';
+	import Adder from '$components/app/Adder.svelte';
+	import * as Breadcrumb from '$components/ui/breadcrumb';
+	import * as Dialog from '$components/ui/dialog';
+	import * as Tooltip from '$components/ui/tooltip';
+	import * as Select from '$components/ui/select';
+	import ActiveBadge from '$components/app/ActiveBadge.svelte';
+	import { Button } from '$components/ui/button';
+	import Label from '$components/ui/label/label.svelte';
+	import Input from '$components/ui/input/input.svelte';
+	import { user } from '$lib';
+	import { CircleHelp } from 'lucide-svelte';
+	import Checkbox from '$components/ui/checkbox/checkbox.svelte';
+	import { createHash } from '$lib/api';
+	import { goto } from '$app/navigation';
+	import { createSequence, getSequences } from '$lib/api/sequences';
+	import Sequence from '$components/app/Sequence.svelte';
+	import { createAccount, getAccounts } from '$lib/api/accounts';
+	import Account from '$components/app/Account.svelte';
+	import { getApiKeys } from '$lib/api/apiKeys';
+	import { getGenerated } from '$lib/api/generated';
+
+	export let data: PageData;
+
+	let client: ClientType | null = null;
+	let loadingClient = true;
+
+	let sellers: SellerType[] | null = [];
+	let loadingSellers = true;
+
+	let sequences: SequenceType[] | null = [];
+	let loadingSequences = true;
+
+	let accounts: AccountType[] | null = [];
+	let loadingAccounts = true;
+
+	let apiKeys: ApiKeyType[] | null = [];
+	let loadingApiKeys = true;
+
+	let payments: Generated[] = [];
+	let loadingPayments = true;
+
+	let name = '';
+	let fee = 0;
+	let active = false;
+
+	let newName = '';
+	let newActive = true;
+
+	let newGenerator = '';
+	let newLastUsed = '';
+
+	let newAccountName = '';
+	let newAccountNumber = '';
+	let newAccountSequence: number | null = null;
+
+	onMount(async () => {
+		client = await getClient(data.id);
+		loadingClient = false;
+		if (client) {
+			name = client.name;
+			fee = client.fee;
+			active = client.active;
+		}
+		sellers = await getSellers();
+		loadingSellers = false;
+		sequences = await getSequences();
+		loadingSequences = false;
+		accounts = await getAccounts();
+		loadingAccounts = false;
+		apiKeys = await getApiKeys();
+		loadingApiKeys = false;
+		payments = ((await getGenerated()) ?? []).filter((payment) =>
+			sellers
+				?.filter((seller) => seller.client_id.toString() == data.id)
+				?.map((seller) => seller.id)
+				.includes(payment.seller_id)
+		);
+		loadingPayments = false;
+	});
+
+	let editOpen = false;
+	let editMessage: string | undefined = undefined;
+
+	let createOpen = false;
+	let createMessage: string | undefined = undefined;
+
+	let sequenceOpen = false;
+	let sequenceMessage: string | undefined = undefined;
+
+	let accountOpen = false;
+	let accountMessage: string | undefined = undefined;
+
+	let deleteMessage: string | undefined = undefined;
+</script>
+
+<div class="container mb-16 mt-4">
+	{#if loadingClient}
+		<p>Loading client...</p>
+	{:else if client}
+		<Dialog.Root bind:open={editOpen}>
+			<Breadcrumb.Root>
+				<Breadcrumb.List>
+					<Breadcrumb.Item>
+						<Breadcrumb.Link href="/app">Home</Breadcrumb.Link>
+					</Breadcrumb.Item>
+					<Breadcrumb.Separator />
+					<Breadcrumb.Item>
+						<Breadcrumb.Page>{client.name}</Breadcrumb.Page>
+					</Breadcrumb.Item>
+				</Breadcrumb.List>
+			</Breadcrumb.Root>
+			<div class="mt-4 flex items-center gap-4">
+				<h2 class="text-2xl font-bold">{client.name}</h2>
+				<ActiveBadge active={client.active} />
+			</div>
+			<p>Your current fee is {client.fee}%</p>
+			{#if loadingPayments}
+				<p>Loading payments...</p>
+			{:else if !payments}
+				<p>Oops, something went wrong!</p>
+			{:else if payments.length === 0}
+				<p>You have not made any sales yet.</p>
+			{:else if client}
+				<p>
+					You have made {payments
+						.map(($) => $.amount)
+						.reduce((accumulator, value) => accumulator + value, 0)} CZK in total sales, with a total
+					fee of {payments
+						.map(($) => $.amount * ((client?.fee ?? 0) / 100))
+						.reduce((accumulator, value) => accumulator + value, 0)} CZK.
+				</p>
+			{/if}
+			<div class="mt-2 flex gap-2">
+				<Dialog.Trigger>
+					<Button variant="outline">Edit</Button>
+				</Dialog.Trigger>
+				<Dialog.Root>
+					<Dialog.Trigger>
+						<Button class="bg-red-800 text-white">Delete</Button>
+					</Dialog.Trigger>
+					<Dialog.Content>
+						<Dialog.Header>
+							<Dialog.Title>Delete client</Dialog.Title>
+							<Dialog.Description
+								>Are you sure you want to delete this client? This action is not reversible! If you
+								wish, you can just deactivate the client using the edit form.</Dialog.Description
+							>
+							<Dialog.Description>
+								{client.name} will be permanently deleted from the system. All sellers associated with
+								this client will also be deleted with all their data.
+							</Dialog.Description>
+							{#if deleteMessage}
+								<Dialog.Description class="text-red-800">{deleteMessage}</Dialog.Description>
+							{/if}
+						</Dialog.Header>
+						<FormBuilder message={deleteMessage}>
+							<Button
+								variant="outline"
+								class="bg-red-800 text-white"
+								on:click={async () => {
+									try {
+										await deleteClient(data.id);
+										goto('/app');
+									} catch (e) {
+										if (e instanceof Error) deleteMessage = e.message;
+									}
+								}}
+							>
+								Delete
+							</Button>
+						</FormBuilder>
+					</Dialog.Content>
+				</Dialog.Root>
+			</div>
+
+			{#if loadingSellers}
+				<p>Loading sellers...</p>
+			{:else if !sellers}
+				<p>Oops, something went wrong!</p>
+			{:else}
+				<h2 class="mt-4 text-2xl font-bold">Sellers</h2>
+				<div class="mt-4 grid max-w-full grid-cols-[repeat(auto-fill,_minmax(256px,_1fr))] gap-4">
+					{#each sellers.filter((seller) => seller.client_id.toString() === data.id) as seller}
+						<a href="/app/client/{data.id}/{seller.id}" class="min-w-64 max-w-96">
+							<Seller {seller} />
+						</a>
+					{/each}
+					<Dialog.Root bind:open={createOpen}>
+						<Dialog.Trigger>
+							<Adder />
+						</Dialog.Trigger>
+						<Dialog.Content>
+							<Dialog.Header>
+								<Dialog.Title>Add seller</Dialog.Title>
+								<Dialog.Description>Add a new seller to the client</Dialog.Description>
+							</Dialog.Header>
+							<FormBuilder message={createMessage}>
+								<FormItem>
+									<Label for="name">Name</Label>
+									<Input type="text" id="name" name="name" bind:value={newName} />
+								</FormItem>
+								<FormItem row>
+									<Checkbox bind:checked={newActive} id="active">Active</Checkbox>
+									<Label for="active" class="cursor-pointer">Active</Label>
+								</FormItem>
+								<Button
+									on:click={async () => {
+										try {
+											await createSeller({
+												name: newName,
+												active: newActive,
+												client_id: data.id,
+												hash: createHash()
+											});
+											sellers = await getSellers();
+											createOpen = false;
+											newName = '';
+											active = true;
+										} catch (e) {
+											if (e instanceof Error) createMessage = e.message;
+										}
+									}}
+								>
+									Add
+								</Button>
+							</FormBuilder>
+						</Dialog.Content>
+					</Dialog.Root>
+				</div>
+			{/if}
+
+			{#if loadingSequences}
+				<p>Loading sequences...</p>
+			{:else if !sequences}
+				<p>Oops, something went wrong!</p>
+			{:else}
+				<h2 class="mt-4 text-2xl font-bold">Sequences</h2>
+				<div class="mt-4 grid max-w-full grid-cols-[repeat(auto-fill,_minmax(256px,_1fr))] gap-4">
+					{#each sequences.filter((sequence) => sequence.client_id.toString() === data.id) as sequence}
+						<Sequence {sequence} />
+					{/each}
+					<Dialog.Root bind:open={sequenceOpen}>
+						<Dialog.Trigger>
+							<Adder />
+						</Dialog.Trigger>
+						<Dialog.Content>
+							<Dialog.Header>
+								<Dialog.Title>Add sequence</Dialog.Title>
+								<Dialog.Description>Add a new sequence to the client</Dialog.Description>
+								<Dialog.Description>
+									Sequence is a way to auto generate variable symbols. You can associate a sequence
+									with one or more accounts and thus this sequence will be used with all od those.
+								</Dialog.Description>
+								<Dialog.Description>
+									You can use several variables in the sequence:
+									<ul>
+										<li>
+											<code>YYYY</code> - the current year, e.g. 2024
+										</li>
+										<li>
+											<code>YY</code> - the current year, e.g. 24
+										</li>
+										<li>
+											<code>MM</code> - the current month, e.g. 01
+										</li>
+										<li>
+											<code>DD</code> - the current day, e.g. 01
+										</li>
+										<li>
+											<code>S</code> - the current number in the sequence, this can be repeated until
+											the sequence is 10 characters long.
+										</li>
+									</ul>
+								</Dialog.Description>
+								<Dialog.Description>
+									The recommended sequence is&nbsp;<code>YYMMSSSSSS</code>.
+								</Dialog.Description>
+								{#if sequenceMessage}
+									<Dialog.Description class="text-red-800">{sequenceMessage}</Dialog.Description>
+								{/if}
+							</Dialog.Header>
+							<FormBuilder message={createMessage}>
+								<FormItem>
+									<Label for="generator">Sequence generator</Label>
+									<Input
+										type="text"
+										id="generator"
+										name="generator"
+										bind:value={newGenerator}
+										placeholder="YYMMSSSSSS"
+									/>
+								</FormItem>
+								<FormItem>
+									<Label for="lastUsed">Last Used</Label>
+									<Input type="text" id="lastUsed" name="lastUsed" bind:value={newLastUsed} />
+								</FormItem>
+								<Button
+									on:click={async () => {
+										try {
+											await createSequence({
+												generator: newGenerator,
+												last_used: newLastUsed,
+												client_id: parseInt(data.id)
+											});
+											sellers = await getSellers();
+											createOpen = false;
+											newName = '';
+											active = true;
+										} catch (e) {
+											if (e instanceof Error) sequenceMessage = e.message;
+										}
+									}}
+								>
+									Add
+								</Button>
+							</FormBuilder>
+						</Dialog.Content>
+					</Dialog.Root>
+				</div>
+			{/if}
+
+			{#if loadingAccounts}
+				<p>Loading accounts...</p>
+			{:else if !accounts}
+				<p>Oops, something went wrong!</p>
+			{:else}
+				<h2 class="mt-4 text-2xl font-bold">Accounts</h2>
+				<div class="mt-4 grid max-w-full grid-cols-[repeat(auto-fill,_minmax(256px,_1fr))] gap-4">
+					{#each accounts.filter((account) => account.client_id.toString() === data.id) as account}
+						<Account
+							{account}
+							sequences={sequences
+								? sequences.filter((sequence) => sequence.client_id.toString() === data.id)
+								: []}
+							apiKeys={(apiKeys ?? []).filter((apiKey) => apiKey.account_id === account.id)}
+						/>
+					{/each}
+					<Dialog.Root bind:open={accountOpen}>
+						<Dialog.Trigger>
+							<Adder />
+						</Dialog.Trigger>
+						<Dialog.Content>
+							<Dialog.Header>
+								<Dialog.Title>Add account</Dialog.Title>
+								{#if accountMessage}
+									<Dialog.Description class="text-red-800">{accountMessage}</Dialog.Description>
+								{/if}
+							</Dialog.Header>
+							<FormBuilder message={createMessage}>
+								<FormItem>
+									<Label for="newAccountName">Account name</Label>
+									<Input
+										type="text"
+										id="newAccountName"
+										name="newAccountName"
+										bind:value={newAccountName}
+									/>
+								</FormItem>
+								<FormItem>
+									<Label for="newAccountNumber">Account number</Label>
+									<Input
+										type="text"
+										id="newAccountNumber"
+										name="newAccountNumber"
+										bind:value={newAccountNumber}
+										placeholder="123456789/1234"
+									/>
+								</FormItem>
+								<FormItem>
+									<Label for="newAccountSequence" class="flex items-center gap-2">Sequence</Label>
+									<Select.Root
+										onSelectedChange={(v) => {
+											v && (newAccountSequence = v.value);
+										}}
+										selected={{
+											value: newAccountSequence,
+											label: sequences?.find((s) => s.id == newAccountSequence)?.generator ?? 'None'
+										}}
+									>
+										<Select.Trigger name="account" id="account">
+											<Select.Value placeholder="Sequence" />
+										</Select.Trigger>
+										<Select.Content>
+											<Select.Item value={undefined}>None</Select.Item>
+											{#each (sequences ?? []).filter((sequence) => sequence.client_id.toString() === data.id) as sequence}
+												<Select.Item value={sequence.id}>{sequence.generator}</Select.Item>
+											{/each}
+										</Select.Content>
+									</Select.Root>
+								</FormItem>
+								<Button
+									on:click={async () => {
+										try {
+											if (!newAccountName || !newAccountNumber)
+												throw new Error('Account name and number fields are required');
+
+											await createAccount({
+												name: newAccountName,
+												number: newAccountNumber,
+												sequence: newAccountSequence,
+												client_id: parseInt(data.id)
+											});
+											accounts = await getAccounts();
+											accountOpen = false;
+											newAccountName = '';
+											newAccountNumber = '';
+											newAccountSequence = null;
+											createMessage = undefined;
+										} catch (e) {
+											if (e instanceof Error) createMessage = e.message;
+										}
+									}}
+								>
+									Add
+								</Button>
+							</FormBuilder>
+						</Dialog.Content>
+					</Dialog.Root>
+				</div>
+			{/if}
+
+			<Dialog.Content>
+				<Dialog.Header>
+					<Dialog.Title>Edit client</Dialog.Title>
+					<Dialog.Description>Edit the client's details</Dialog.Description>
+				</Dialog.Header>
+				<FormBuilder message={editMessage}>
+					<FormItem>
+						<Label for="name">Name</Label>
+						<Input type="text" id="name" name="name" bind:value={name} />
+					</FormItem>
+					<FormItem>
+						<Label for="fee" class="flex items-center gap-2">
+							Fee
+							<Tooltip.Root>
+								<Tooltip.Trigger>
+									<CircleHelp size={16} />
+								</Tooltip.Trigger>
+								<Tooltip.Content>
+									The fee is the percentage of the total sale that the client will pay to QR Café.
+									If you wish to change the fee, please contact an administrator.
+								</Tooltip.Content>
+							</Tooltip.Root>
+						</Label>
+						<Input
+							type="number"
+							id="fee"
+							name="fee"
+							bind:value={fee}
+							disabled={$user?.role !== 'admin'}
+						/>
+					</FormItem>
+					<Button
+						variant="outline"
+						class="mt-2 {active ? 'bg-lime-600' : 'bg-red-800'} text-white"
+						on:click={() => (active = !active)}
+					>
+						{active ? 'Activated' : 'Deactivated'}
+					</Button>
+					<Button
+						variant="outline"
+						on:click={async () => {
+							try {
+								await updateClient(data.id, {
+									name,
+									fee: $user?.role === 'admin' ? fee : null,
+									active
+								});
+								client = await getClient(data.id);
+								editOpen = false;
+								editMessage = undefined;
+							} catch (e) {
+								if (e instanceof Error) editMessage = e.message;
+							}
+						}}>Save</Button
+					>
+				</FormBuilder>
+			</Dialog.Content>
+		</Dialog.Root>
+	{:else}
+		<p>404: Not found</p>
+	{/if}
+</div>
