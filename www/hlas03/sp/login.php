@@ -4,8 +4,8 @@ require_once __DIR__ . '/validators/UserValidator.php';
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
+    $password = isset($_POST['password']) ? htmlspecialchars(trim($_POST['password'])) : '';
 
     $validator = new UserValidator();
     $errors = $validator->validateLogin($email, $password);
@@ -14,12 +14,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $userDB = new UsersDB();
         $user = $userDB->findByEmail($email);
         
+        session_start();
         $_SESSION['user_id'] = $user['user_id'];
-        $_SESSION['first_name'] = $user['first_name'];
-        $_SESSION['last_name'] = $user['last_name'];
-        $_SESSION['email'] = $user['email'];
-        $_SESSION['phone'] = $user['phone'];
-        $_SESSION['user_role'] = $user['role'];
+        $_SESSION['first_name'] = htmlspecialchars($user['first_name'], ENT_QUOTES, 'UTF-8');
+        $_SESSION['last_name'] = htmlspecialchars($user['last_name'], ENT_QUOTES, 'UTF-8');
+        $_SESSION['email'] = htmlspecialchars($user['email'], ENT_QUOTES, 'UTF-8');
+        $_SESSION['phone'] = htmlspecialchars($user['phone'], ENT_QUOTES, 'UTF-8');
+        $_SESSION['role_id'] = $user['role_id'];
         header('Location: index.php');
         exit;
     }
@@ -34,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php if (!empty($errors)): ?>
             <div class="alert alert-danger">
                 <?php foreach ($errors as $error): ?>
-                    <p><?php echo htmlspecialchars($error); ?></p>
+                    <p><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></p>
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>

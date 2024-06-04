@@ -7,7 +7,7 @@ $shippingMethods = $shippingMethodsDB->findAll();
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $selected_shipping_method = $_POST['shipping_method'] ?? null;
+    $selected_shipping_method = filter_input(INPUT_POST, 'shipping_method', FILTER_SANITIZE_NUMBER_INT);
 
     if ($selected_shipping_method) {
         $selected_method = null;
@@ -51,7 +51,7 @@ require __DIR__ . '/include/header.php';
                             <input class="form-check-input ml-2" type="radio" name="shipping_method" id="shipping_method_<?php echo htmlspecialchars($method['shipping_methods_id']); ?>" value="<?php echo htmlspecialchars($method['shipping_methods_id']); ?>" required>
                             <div class="ml-4 w-100 d-flex justify-content-between align-items-center">
                                 <span><?php echo htmlspecialchars($method['name']); ?></span>
-                                <span><?php echo htmlspecialchars($method['price'] . ' Kč'); ?></span>
+                                <span><?php echo htmlspecialchars($method['price']) . ' Kč'; ?></span>
                             </div>
                         </label>
                     </div>

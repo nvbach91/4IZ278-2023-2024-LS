@@ -1,8 +1,7 @@
 <?php 
 require_once __DIR__ . '/../db/ProductsDB.php'; 
 require_once __DIR__ . '/../config/global.php'; 
-?>
-<?php
+
 
 $productsDB = new ProductsDB();
 $products = null;
@@ -15,8 +14,8 @@ elseif (isset($_GET['product_id'])) {
 } else {
   $products = $productsDB->find();
 }
-
 ?>
+
 <?php if($product): ?>
 <div class="container mt-5">
   <div class="row">
@@ -45,6 +44,16 @@ elseif (isset($_GET['product_id'])) {
 </div>
 
 <?php else: ?>
+<?php if (isset($_SESSION['role_id']) && $_SESSION['role_id'] == 2): ?>
+<div class="container">
+  <div class="row mb-3">
+    <div class="col-12 text-right">
+      <a href="add-product" class="btn btn-primary">Přidat produkt</a>
+    </div>
+  </div>
+</div>
+<?php endif; ?>
+
 <div class="container">
   <div class="row">
     <?php foreach($products as $product): ?>

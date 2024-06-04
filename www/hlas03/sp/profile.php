@@ -7,15 +7,15 @@
             <tbody>
                 <tr>
                     <th scope="row">Jméno</th>
-                    <td><?php echo htmlspecialchars($_SESSION['first_name'] . ' ' . $_SESSION['last_name']); ?></td>
+                    <td><?php echo htmlspecialchars($_SESSION['first_name'] . ' ' . $_SESSION['last_name'], ENT_QUOTES, 'UTF-8'); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Email</th>
-                    <td><?php echo htmlspecialchars($_SESSION['email']); ?></td>
+                    <td><?php echo htmlspecialchars($_SESSION['email'], ENT_QUOTES, 'UTF-8'); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Telefon</th>
-                    <td><?php echo htmlspecialchars($_SESSION['phone']); ?></td>
+                    <td><?php echo htmlspecialchars($_SESSION['phone'], ENT_QUOTES, 'UTF-8'); ?></td>
                 </tr>
             </tbody>
         </table>

@@ -7,9 +7,11 @@ $productsDB = new ProductsDB();
 $products = [];
 
 foreach ($cart as $product_id => $quantity) {
-    $product = $productsDB->findByProductId($product_id);
-    $product['quantity'] = $quantity;
-    $products[] = $product;
+    $product = $productsDB->findByProductId((int)$product_id);
+    if ($product) {
+        $product['quantity'] = (int)$quantity;
+        $products[] = $product;
+    }
 }
 
 $total_price = array_sum(array_map(function ($product) {
@@ -37,13 +39,13 @@ require __DIR__ . '/include/header.php';
             <tbody>
                 <?php foreach ($products as $product): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($product['name']); ?></td>
-                        <td><?php echo htmlspecialchars($product['price']); ?> Kč</td>
-                        <td><?php echo htmlspecialchars($product['quantity']); ?></td>
-                        <td><?php echo htmlspecialchars($product['price'] * $product['quantity']); ?> Kč</td>
+                        <td><?php echo htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8'); ?></td>
+                        <td><?php echo htmlspecialchars($product['price'], ENT_QUOTES, 'UTF-8'); ?> Kč</td>
+                        <td><?php echo htmlspecialchars($product['quantity'], ENT_QUOTES, 'UTF-8'); ?></td>
+                        <td><?php echo htmlspecialchars($product['price'] * $product['quantity'], ENT_QUOTES, 'UTF-8'); ?> Kč</td>
                         <td>
                             <form method="post" action="scripts/remove-from-cart">
-                                <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($product['product_id']); ?>">
+                                <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($product['product_id'], ENT_QUOTES, 'UTF-8'); ?>">
                                 <button type="submit" class="btn btn-danger btn-sm">Odebrat</button>
                             </form>
                         </td>
@@ -51,7 +53,7 @@ require __DIR__ . '/include/header.php';
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <p><strong>Celková cena: <?php echo htmlspecialchars($total_price); ?> Kč</strong></p>
+        <p><strong>Celková cena: <?php echo htmlspecialchars($total_price, ENT_QUOTES, 'UTF-8'); ?> Kč</strong></p>
         <a href="select-basic-info.php" class="btn btn-primary">Pokračovat k pokladně</a>
     <?php endif; ?>
 </div>

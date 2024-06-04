@@ -4,7 +4,7 @@
 require_once __DIR__ . '/db/AddressDB.php';
 
 $addressDB = new AddressDB();
-$address = $addressDB->findByUserId($_SESSION['user_id']);
+$address = $addressDB->findByUserId((int)$_SESSION['user_id']);
 ?>
 
 <div class="container mt-5">
@@ -15,19 +15,19 @@ $address = $addressDB->findByUserId($_SESSION['user_id']);
                 <tbody>
                     <tr>
                         <th scope="row">Ulice</th>
-                        <td><?php echo htmlspecialchars($address['street']); ?></td>
+                        <td><?php echo htmlspecialchars($address['street'], ENT_QUOTES, 'UTF-8'); ?></td>
                     </tr>
                     <tr>
                         <th scope="row">Město</th>
-                        <td><?php echo htmlspecialchars($address['city']); ?></td>
+                        <td><?php echo htmlspecialchars($address['city'], ENT_QUOTES, 'UTF-8'); ?></td>
                     </tr>
                     <tr>
                         <th scope="row">PSČ</th>
-                        <td><?php echo htmlspecialchars($address['zip_code']); ?></td>
+                        <td><?php echo htmlspecialchars($address['zip_code'], ENT_QUOTES, 'UTF-8'); ?></td>
                     </tr>
                     <tr>
                         <th scope="row">Země</th>
-                        <td><?php echo htmlspecialchars($address['country']); ?></td>
+                        <td><?php echo htmlspecialchars($address['country'], ENT_QUOTES, 'UTF-8'); ?></td>
                     </tr>
                 </tbody>
             </table>

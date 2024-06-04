@@ -8,9 +8,9 @@ require_once __DIR__ . '/validators/UserValidator.php';
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $current_password = $_POST['current_password'];
-    $new_password = $_POST['new_password'];
-    $confirm_password = $_POST['confirm_password'];
+    $current_password = htmlspecialchars(trim($_POST['current_password']));
+    $new_password = htmlspecialchars(trim($_POST['new_password']));
+    $confirm_password = htmlspecialchars(trim($_POST['confirm_password']));
     $userId = $_SESSION['user_id'];
 
     $validator = new UserValidator();
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php if (!empty($errors)): ?>
             <div class="alert alert-danger">
                 <?php foreach ($errors as $error): ?>
-                    <p><?php echo htmlspecialchars($error); ?></p>
+                    <p><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></p>
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>

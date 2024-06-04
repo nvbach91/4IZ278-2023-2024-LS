@@ -35,6 +35,12 @@ class AddressDB extends Database {
         $statement->execute(['user_id' => $user_id]);
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
-}
 
+    public function findById($address_id) {
+        $sql = "SELECT * FROM $this->tableName WHERE address_id = :address_id";
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute(['address_id' => $address_id]);
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+}
 ?>

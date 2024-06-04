@@ -11,6 +11,12 @@ class PaymentMethodsDB extends Database {
         $statement->execute();
         return $statement->fetchAll();
     }
-}
 
+    public function findById($payment_method_id) {
+        $sql = "SELECT * FROM $this->tableName WHERE payment_method_id = :payment_method_id";
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute(['payment_method_id' => $payment_method_id]);
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+}
 ?>

@@ -19,15 +19,19 @@ if ($user_id) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($user_id && isset($_POST['address'])) {
-        // Uložení vybrané adresy do session
-        $_SESSION['selected_address'] = $addresses[$_POST['address']];
-        header('Location: select-shipping');
-        exit;
+        $selected_address_index = filter_input(INPUT_POST, 'address', FILTER_VALIDATE_INT);
+        if ($selected_address_index !== false && isset($addresses[$selected_address_index])) {
+            $_SESSION['selected_address'] = $addresses[$selected_address_index];
+            header('Location: select-shipping');
+            exit;
+        } else {
+            $errors[] = "Neplatná adresa.";
+        }
     } else {
-        $street = $_POST['street'];
-        $city = $_POST['city'];
-        $zip_code = $_POST['zip_code'];
-        $country = $_POST['country'];
+        $street = htmlspecialchars(trim($_POST['street']));
+        $city = htmlspecialchars(trim($_POST['city']));
+        $zip_code = htmlspecialchars(trim($_POST['zip_code']));
+        $country = htmlspecialchars(trim($_POST['country']));
 
         $validator = new AddressValidator();
         $errors = $validator->validate($street, $city, $zip_code, $country);
@@ -40,7 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'country' => $country,
             ];
 
-            // Přidáme novou adresu do session
             $_SESSION['addresses'][] = $new_address;
             $_SESSION['selected_address'] = $new_address;
             header('Location: select-shipping');

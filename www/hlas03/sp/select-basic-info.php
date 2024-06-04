@@ -4,13 +4,12 @@ session_start();
 require __DIR__ . '/include/header.php';
 require_once __DIR__ . '/validators/HostValidator.php';
 
-// Zkontrolujeme, zda je uživatel přihlášen
 if (isset($_SESSION['user_id'])) {
     $_SESSION['basic_info'] = [
-        'first_name' => $_SESSION['first_name'],
-        'last_name' => $_SESSION['last_name'],
-        'email' => $_SESSION['email'],
-        'phone' => $_SESSION['phone'],
+        'first_name' => htmlspecialchars($_SESSION['first_name']),
+        'last_name' => htmlspecialchars($_SESSION['last_name']),
+        'email' => htmlspecialchars($_SESSION['email']),
+        'phone' => htmlspecialchars($_SESSION['phone']),
     ];
     header('Location: select-address');
     exit;
@@ -18,12 +17,11 @@ if (isset($_SESSION['user_id'])) {
 
 $errors = [];
 
-// Zpracování formuláře
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $first_name = $_POST['first_name'];
-    $last_name = $_POST['last_name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
+    $first_name = htmlspecialchars(trim($_POST['first_name']));
+    $last_name = htmlspecialchars(trim($_POST['last_name']));
+    $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
+    $phone = htmlspecialchars(trim($_POST['phone']));
  
     $validator = new HostValidator();
     $errors = $validator->validateHost($first_name, $last_name, $email, $phone);

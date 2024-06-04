@@ -1,5 +1,5 @@
-<?php require_once __DIR__ . '/Database.php'; ?>
 <?php
+require_once __DIR__ . '/Database.php';
 
 class ProductsDB extends Database {
     protected $tableName = 'products';
@@ -17,6 +17,26 @@ class ProductsDB extends Database {
         $statement = $this->pdo->prepare($sql);
         $statement->execute(['stock' => $new_stock, 'product_id' => $product_id]);
     }
-}
 
+    public function create($name, $price, $description, $stock, $img_format) {
+        $sql = "INSERT INTO $this->tableName (name, price, description, stock, img_format) 
+                VALUES (:name, :price, :description, :stock, :img_format)";
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute([
+            'name' => $name,
+            'price' => $price,
+            'description' => $description,
+            'stock' => $stock,
+            'img_format' => $img_format
+        ]);
+
+        return $this->pdo->lastInsertId();
+    }
+
+    public function assignCategory($product_id, $category_id) {
+        $sql = "INSERT INTO product_categories (product_id, category_id) VALUES (:product_id, :category_id)";
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute(['product_id' => $product_id, 'category_id' => $category_id]);
+    }
+}
 ?>

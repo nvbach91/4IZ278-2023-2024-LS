@@ -11,6 +11,12 @@ class ShippingMethodsDB extends Database {
         $statement->execute();
         return $statement->fetchAll();
     }
-}
 
+    public function findById($shipping_method_id) {
+        $sql = "SELECT * FROM $this->tableName WHERE shipping_methods_id = :shipping_methods_id";
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute(['shipping_methods_id' => $shipping_method_id]);
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+}
 ?>

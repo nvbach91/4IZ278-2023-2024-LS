@@ -7,7 +7,7 @@ $paymentMethods = $paymentMethodsDB->findAll();
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $selected_payment_method = $_POST['payment_method'] ?? null;
+    $selected_payment_method = filter_input(INPUT_POST, 'payment_method', FILTER_SANITIZE_NUMBER_INT);
 
     if ($selected_payment_method) {
         $selected_method = null;
@@ -51,7 +51,7 @@ require __DIR__ . '/include/header.php';
                             <input class="form-check-input ml-2" type="radio" name="payment_method" id="payment_method_<?php echo htmlspecialchars($method['payment_method_id']); ?>" value="<?php echo htmlspecialchars($method['payment_method_id']); ?>" required>
                             <div class="ml-4 w-100 d-flex justify-content-between align-items-center">
                                 <span><?php echo htmlspecialchars($method['name']); ?></span>
-                                <span><?php echo htmlspecialchars($method['fee'] . ' Kč'); ?></span>
+                                <span><?php echo htmlspecialchars($method['fee']) . ' Kč'; ?></span>
                             </div>
                         </label>
                     </div>
