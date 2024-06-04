@@ -34,7 +34,7 @@ require_once __DIR__ . '/database/DbConnection.php';
                 <div class="row mb-3">
                     <div class="col-6 mx-auto">
                         <label for="registerEmail" class="form-label">E-mail</label>
-                        <input name="registerEmail" type="email" id="registerEmail" class="form-control" required aria-required="true" placeholder="user@example.com" onchange="">
+                        <input name="registerEmail" type="email" id="registerEmail" class="form-control" required aria-required="true" placeholder="user@example.com">
                     </div>
 
                 </div>

@@ -22,7 +22,7 @@ require_once __DIR__ . '/config.php';
         <?php require './requires/navigation.php'; ?>
 
         <div class="container-sm pt-3 navbar-spacing">
-            <form action="./authentication/login.php" method="post">
+            <form action="./authentication/login.php" method="post" class="was-validated">
                 <div class="row mb-3">
                     <div class="col-6 mx-auto">
                         <h1>Log in</h1>
@@ -41,9 +41,18 @@ require_once __DIR__ . '/config.php';
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <div class="col-6 mx-auto">
+                    <div class="col-3"></div>
+                    <div class="col-3">
                         <button class="btn btn-primary" type="submit">Log in</button>
                     </div>
+                    <?php if (isset($_GET['status']) && $_GET['status'] == 'invalid') : ?>
+                        <p class="form-text col-3 text-danger text-end">Invalid email or password!</p>
+                        <div class="col-3"></div>
+                    <?php else: ?>
+                        <div class="col-6"></div>
+                    <?php endif; ?>
+
+                </div>
                 </div>
             </form>
             <div class="row mb-3">

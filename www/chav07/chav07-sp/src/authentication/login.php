@@ -8,6 +8,7 @@ require_once __DIR__ . "/../config.php";
 
 
 if(!isset($_POST["loginEmail"]) || !isset($_POST["loginPassword"])){
+    header("Location: " . BASE_URL . "/login.php?status=invalid");
     exit("Invalid email or password");
 }
 
@@ -15,11 +16,13 @@ $sanitizedEmail = filter_input(INPUT_POST, "loginEmail", FILTER_SANITIZE_EMAIL);
 $password = htmlspecialchars($_POST["loginPassword"]);
 
 if(filter_var($sanitizedEmail, FILTER_VALIDATE_EMAIL) === false){
+    header("Location: " . BASE_URL . "/login.php?status=invalid");
     exit("Invalid email address");
 }
 $password_regex =  "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*_-]).{8,}$/";
 
 if(!preg_match($password_regex, $password)){
+    header("Location: " . BASE_URL . "/login.php?status=invalid");
     exit("Invalid email or password");
 }
 
@@ -32,7 +35,8 @@ $user = $repository->getUserByEmail($sanitizedEmail);
 password_hash($user->password, PASSWORD_DEFAULT);
 
 if($user == null){
-    exit("User doesn't exist!");
+    header("Location: " . BASE_URL . "/login.php?status=invalid");
+    exit("Invalid email or password!");
 }
 
 if($user->password && password_verify($password, $user->password)){
@@ -41,7 +45,10 @@ if($user->password && password_verify($password, $user->password)){
     $_SESSION["user"] = $user;
     header("Location: " . BASE_URL . "/" );
 }
-// header("Location: " . BASE_URL . "/login.php" );
+else{
+    header("Location: " . BASE_URL . "/login.php?status=invalid" );
+    exit("Invalid email or password!");
+}
 
 
 
