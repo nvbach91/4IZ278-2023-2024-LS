@@ -1,5 +1,7 @@
 <?php
 
+require_once './config/config.php';
+
 interface IDatabaseOperations {
     public function runQuery($query, $data);
     public function prepare($sql);
