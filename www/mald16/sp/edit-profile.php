@@ -1,14 +1,15 @@
 <?php session_status() === PHP_SESSION_NONE ? session_start() : null; ?>
+<?php require "./logic/display-errors.php" ?>
 
-<?php require_once "./logic/allowed-users.php"; ?>
-<?php require_once "./db/User.php"; ?>
-<?php require_once "./logic/display-errors.php"; ?>
+<?php $pageName = "Úprava profilu" ?>
+
+
 <?php
-
-if (!isset($_SESSION["user-email"]) || empty($_SESSION["user-email"])) {
-    header('Location: ' . "login.php");
-    exit();
-}
+require_once "./logic/allowed-users.php";
+allowedUsers(["logged-in"]);
+?>
+<?php require_once "./db/User.php"; ?>
+<?php
 
 $User = new User($_SESSION["user-email"]);
 
@@ -16,10 +17,10 @@ $existingUser = $User->getUser();
 
 
 if (isset($_POST) && !empty($_POST)) {
-    $name = $_POST["name"];
+    $name = htmlspecialchars(trim($_POST["name"]));
     $notifOptIn = isset($_POST["notif-opt-in"]) ? 1 : 0;
 
-    $success = $User->updateUser($notifOptIn);
+    $success = $User->updateUser($name, $notifOptIn);
 
     if ($success) {
         $_SESSION["sm"] = 20;
@@ -50,6 +51,7 @@ if (isset($_POST) && !empty($_POST)) {
                 Chci odebírat e-mailové notifikace
             </label>
         </div>
+        <div class="form-text">Dostávej notifikace pokaždé, když nastane změna u tvého účtu.</div>
     </div>
     <button type="submit" class="btn btn-primary">Upravit profil</button>
 </form>

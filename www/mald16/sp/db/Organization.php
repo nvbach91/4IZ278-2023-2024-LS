@@ -55,10 +55,38 @@ class Organization {
 
     public function getSongs() {
         global $db;
-        $stmt = $db->prepare("SELECT * FROM songs WHERE org_id = :oid");
+        $stmt = $db->prepare("
+            SELECT 
+                s.*, 
+                u1.name AS producer_name, 
+                u2.name AS client_name
+            FROM songs s
+            LEFT JOIN org_users ou1 ON s.producer = ou1.org_user_id
+            LEFT JOIN users u1 ON ou1.email = u1.email
+            LEFT JOIN org_users ou2 ON s.client = ou2.org_user_id
+            LEFT JOIN users u2 ON ou2.email = u2.email
+            WHERE s.org_id = :oid
+        ");
         $stmt->bindValue(":oid", $this->orgId, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll();
+    }
+
+    public static function getUserName($ouid) {
+        global $db;
+        $stmt = $db->prepare("
+            SELECT users.name 
+            FROM org_users 
+            INNER JOIN users ON org_users.email = users.email 
+            WHERE org_users.org_user_id = :ouid
+        ");
+        $stmt->bindValue(":ouid", $ouid, PDO::PARAM_INT);
+        $stmt->execute();
+        if ($stmt->rowCount() == 0) {
+            return null;
+        } else {
+            return $stmt->fetch()["name"];
+        }
     }
 
     public function getServices() {
@@ -71,11 +99,16 @@ class Organization {
 
     public function getUsers($role = null) {
         global $db;
-        $baseQuery = "SELECT org_users.org_user_id, org_users.email, org_users.role, users.name FROM org_users JOIN users ON org_users.email = users.email WHERE org_users.org_id = :oid";
+        $baseQuery = "SELECT org_users.org_user_id, org_users.email, org_users.role, users.name 
+                      FROM org_users 
+                      JOIN users ON org_users.email = users.email 
+                      WHERE org_users.org_id = :oid";
 
         if ($role !== null) {
             $baseQuery .= " AND org_users.role = :role";
         }
+
+        $baseQuery .= " ORDER BY org_users.role DESC";
 
         $stmt = $db->prepare($baseQuery);
         $stmt->bindValue(":oid", $this->orgId, PDO::PARAM_INT);
@@ -85,8 +118,9 @@ class Organization {
         }
 
         $stmt->execute();
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     public function addService($servName) {
         global $db;
@@ -109,5 +143,44 @@ class Organization {
         $deleteService->execute();
 
         return $db->commit();
+    }
+
+    public function deleteOrg() {
+        global $db;
+        $db->beginTransaction();
+
+        try {
+            $deleteSongServices = $db->prepare("
+                DELETE FROM song_services 
+                WHERE song_id IN (
+                    SELECT song_id 
+                    FROM songs 
+                    WHERE org_id = :oid
+                )
+            ");
+            $deleteSongServices->bindValue(':oid', $this->orgId, PDO::PARAM_INT);
+            $deleteSongServices->execute();
+
+            $deleteSongs = $db->prepare("DELETE FROM songs WHERE org_id = :oid");
+            $deleteSongs->bindValue(':oid', $this->orgId, PDO::PARAM_INT);
+            $deleteSongs->execute();
+
+            $deleteOrgServices = $db->prepare("DELETE FROM org_services WHERE org_id = :oid");
+            $deleteOrgServices->bindValue(':oid', $this->orgId, PDO::PARAM_INT);
+            $deleteOrgServices->execute();
+
+            $deleteOrgUsers = $db->prepare("DELETE FROM org_users WHERE org_id = :oid");
+            $deleteOrgUsers->bindValue(':oid', $this->orgId, PDO::PARAM_INT);
+            $deleteOrgUsers->execute();
+
+            $deleteOrg = $db->prepare("DELETE FROM organizations WHERE org_id = :oid");
+            $deleteOrg->bindValue(':oid', $this->orgId, PDO::PARAM_INT);
+            $deleteOrg->execute();
+
+            return $db->commit();
+        } catch (Exception $e) {
+            $db->rollBack();
+            throw $e;
+        }
     }
 }

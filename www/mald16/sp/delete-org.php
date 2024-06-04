@@ -17,9 +17,10 @@ if ($AccessUser->getUserInOrg() == false) {
 }
 
 $Organization = new Organization($_GET["oid"]);
+$existingOrganization = $Organization->getOrganization();
 
-if (!isset($_GET["sid"]) || empty($_GET["sid"]) || !isset($_GET["oid"]) || empty($_GET["oid"]) || !$Organization->getService($_GET["sid"])) {
-    $_SESSION["em"] = 3;
+if (!isset($_GET["oid"]) || empty($_GET["oid"]) || !$existingOrganization) {
+    $_SESSION["em"] = 24;
     header('Location: ' . "./index.php");
     exit();
 } else if ($AccessUser->getRole() == 1) {
@@ -27,12 +28,7 @@ if (!isset($_GET["sid"]) || empty($_GET["sid"]) || !isset($_GET["oid"]) || empty
     header('Location: ' . "./index.php");
     exit();
 } else {
-    try {
-        $Organization->deleteService($_GET["sid"]);
-    } catch (Exception $e) {
-        $_SESSION["em"] = 7;
-    }
-
-    header('Location: ' . "./edit-org.php?oid=" . $_GET["oid"]);
+    $Organization->deleteOrg($_GET["oid"]);
+    header('Location: ' . "./index.php");
     exit();
 }

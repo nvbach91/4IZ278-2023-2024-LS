@@ -1,5 +1,4 @@
 window.onload = function () {
-	console.log("ahoj");
 	var selects = document.querySelectorAll(".form-select");
 	selects.forEach(function (select) {
 		select.addEventListener("change", function () {

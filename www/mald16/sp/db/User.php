@@ -1,6 +1,7 @@
 <?php
 
-require_once "./db/db.php";
+require_once __DIR__ . "/db.php";
+require_once dirname(__DIR__) . "/logic/email.php";
 
 class User {
     public $name;
@@ -13,7 +14,7 @@ class User {
         $this->email = $email;
         $this->org_id = $org_id == null ? null : $org_id;
         $this->name = $this->getUser() != false ? $this->getUser()["name"] : null;
-        $this->role = $org_id == null ? null : $this->getUserInOrg()["role"];
+        $this->role = $org_id == null ? null : ($this->getUserInOrg() == false ? null : $this->getUserInOrg()["role"]);
         $this->notifOptIn = $this->getUser() != false ? $this->getUser()["notif_opt_in"] : null;
     }
 
@@ -59,6 +60,27 @@ class User {
         return $this->getUserInOrg($this->email, $this->org_id)["role"];
     }
 
+    public function getNewOrders() {
+        global $db;
+        $stmt = $db->prepare("
+            SELECT s.song_id, s.name, o.org_name, u_client.name as client_name
+            FROM songs s
+            JOIN organizations o ON s.org_id = o.org_id
+            JOIN org_users ou ON o.org_id = ou.org_id
+            JOIN users u ON ou.email = u.email
+            LEFT JOIN org_users ou_client ON s.client = ou_client.org_user_id
+            LEFT JOIN users u_client ON ou_client.email = u_client.email
+            WHERE u.email = :email
+              AND (ou.role = 2 OR ou.role = 3)
+              AND s.producer IS NULL;
+        ");
+        $stmt->bindParam(":email", $this->email, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+
     public function getSongs() {
         global $db;
         // Vrací i jména producentů a klientů, jméno organizace
@@ -92,11 +114,25 @@ class User {
         return $stmt->fetchAll();
     }
 
-
-    public function addUser($email) {
+    public static function getNotifOptIn($email) {
         global $db;
-        $stmt = $db->prepare("INSERT INTO users (email) VALUES (:email)");
-        $stmt->bindValue(":email", $email, PDO::PARAM_STR);
+        $stmt = $db->prepare("SELECT notif_opt_in FROM users WHERE email = :email");
+        $stmt->bindParam(":email", $email, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetch()["notif_opt_in"];
+    }
+
+    public function addUser($email, $name = null) {
+        global $db;
+        if ($name == null) {
+            $stmt = $db->prepare("INSERT INTO users (email) VALUES (:email)");
+            $stmt->bindValue(":email", $email, PDO::PARAM_STR);
+        } else {
+            $stmt = $db->prepare("INSERT INTO users (email, name) VALUES (:email, :name)");
+            $stmt->bindValue(":email", $email, PDO::PARAM_STR);
+            $stmt->bindValue(":name", $name, PDO::PARAM_STR);
+        }
+        sendMail($email, "accountCreate");
         return $stmt->execute();
     }
 
@@ -106,6 +142,7 @@ class User {
         $stmt->bindValue(":email", $email, PDO::PARAM_STR);
         $stmt->bindValue(":oid", $this->org_id, PDO::PARAM_INT);
         $stmt->bindValue(":role", 1, PDO::PARAM_INT);
+        sendMail($email, "invite");
         return $stmt->execute();
     }
 
@@ -134,14 +171,15 @@ class User {
         $stmt = $db->prepare("DELETE FROM org_users WHERE email = :email AND org_id = :oid");
         $stmt->bindValue(":email", $this->email, PDO::PARAM_STR);
         $stmt->bindValue(":oid", $this->org_id, PDO::PARAM_INT);
+        sendMail($this->email, "deleteUserFromOrg");
         return $stmt->execute();
     }
 
-    public function updateUser($notifOptIn) {
+    public function updateUser($name, $notifOptIn) {
         global $db;
 
         $stmt = $db->prepare("UPDATE users SET name = :name, notif_opt_in = :noi WHERE email = :email");
-        $stmt->bindValue(":name", $this->name, PDO::PARAM_STR);
+        $stmt->bindValue(":name", $name, PDO::PARAM_STR);
         $stmt->bindValue(":noi", $notifOptIn, PDO::PARAM_INT);
         $stmt->bindValue(":email", $this->email, PDO::PARAM_STR);
         return $stmt->execute();

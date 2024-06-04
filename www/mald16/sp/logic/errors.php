@@ -1,3 +1,6 @@
+<?php session_status() === PHP_SESSION_NONE ? session_start() : null; ?>
+
+
 <?php if (!empty($errors)) : ?>
 
     <div class="alert alert-danger" role="alert">

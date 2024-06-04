@@ -10,7 +10,7 @@ $messages = [
     5 => "Nepodařilo se načíst organizaci.",
     6 => "Nepodařilo se načíst službu organizace.",
     7 => "Při odebírání služby organizace nastala chyba v komunikaci s databází.",
-    8 => "Skladba byla úspěšně vytvořena.",
+    8 => "Skladba byla úspěšně objednána/vytvořena.",
     9 => "Skladba byla úspěšně upravena.",
     10 => "Nepodařilo se upravit roli uživatele.",
     11 => "Při úpravě role uživatele nastala chyba v komunikaci s databází.",
@@ -23,6 +23,11 @@ $messages = [
     19 => "Organizace byla úspěšně vytvořena.",
     20 => "Nastavení profilu úspěšně změněno.",
     21 => "Při úpravě nastavení profilu došlo k chybě.",
+    22 => "Přihlášení přes Google proběhlo úspěšně.",
+    23 => "Při přihlašování přes Google došlo k chybě.",
+    24 => "Při výmazu organizace došlo k chybě.",
+    25 => "K této stránce nemáš přístup.", // Defaultní chybová hláška pro nedostatečná práva uživatele
+    26 => "Při odesílání e-mailu došlo k chybě.",
 
 
 ];

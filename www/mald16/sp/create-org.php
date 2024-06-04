@@ -1,14 +1,15 @@
 <?php session_status() === PHP_SESSION_NONE ? session_start() : null; ?>
-
-<?php require_once "./logic/allowed-users.php"; ?>
+<?php require "./logic/display-errors.php" ?>
+<?php $pageName = "Vytvořit organizaci" ?>
+<?php
+require_once "./logic/allowed-users.php";
+allowedUsers(["logged-in"]);
+?>
 <?php require_once "./logic/validate.php"; ?>
 <?php require_once "./db/Organization.php"; ?>
 <?php require_once "./db/Song.php"; ?>
 
 <?php
-
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
 
 if (isset($_POST) && !empty($_POST)) {
     $orgName = htmlspecialchars(trim($_POST["org-name"]));

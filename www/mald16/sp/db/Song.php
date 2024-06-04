@@ -3,10 +3,6 @@
 require_once "./db/db.php";
 session_status() === PHP_SESSION_NONE ? session_start() : null;
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
-
 class Song {
     public $songId;
     public $name;
@@ -32,36 +28,74 @@ class Song {
         $this->date = $song ? $song["date"] : null;
     }
 
+    public function getSong() {
+        global $db;
+
+        $stmt = $db->prepare("SELECT * FROM songs WHERE song_id = :song_id");
+        $stmt->bindValue(":song_id", $this->songId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
+    public function getOwnerEmail() {
+        global $db;
+
+        $stmt = $db->prepare("
+            SELECT u.email 
+            FROM songs s
+            JOIN org_users ou ON s.client = ou.org_user_id
+            JOIN users u ON ou.email = u.email
+            WHERE s.song_id = :song_id
+        ");
+        $stmt->bindValue(":song_id", $this->songId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch()["email"];
+    }
+
+
+
     public function getServices() {
         global $db;
 
-        $stmt = $db->prepare("SELECT * FROM song_services WHERE song_id = :song_id");
+        $stmt = $db->prepare("
+            SELECT ss.*, os.service_name 
+            FROM song_services ss
+            JOIN org_services os ON ss.org_service_id = os.service_id
+            WHERE ss.song_id = :song_id
+        ");
         $stmt->bindValue(":song_id", $this->songId, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetchAll();
     }
 
-    public static function createSong($name, $producer, $client, $services, $orgId) {
+
+    public static function createSong($name, $producer = null, $client, $services, $orgId) {
         global $db;
 
         try {
             $db->beginTransaction();
 
-            $stmt = $db->prepare("INSERT INTO songs (name, producer, org_id, client, date) VALUES (:name, :producer, :org_id, :client, :date)");
+            if ($producer != null) {
+                $stmt = $db->prepare("INSERT INTO songs (name, producer, org_id, client, date) VALUES (:name, :producer, :org_id, :client, :date)");
+                $stmt->bindValue(":producer", $producer, PDO::PARAM_INT);
+            } else {
+                $stmt = $db->prepare("INSERT INTO songs (name, org_id, client, date) VALUES (:name, :org_id, :client, :date)");
+            }
             $stmt->bindValue(":name", $name, PDO::PARAM_STR);
-            $stmt->bindValue(":producer", $producer, PDO::PARAM_INT);
             $stmt->bindValue(":org_id", $orgId, PDO::PARAM_INT);
-            $stmt->bindValue(":client", $client, is_null($client) ? PDO::PARAM_NULL : PDO::PARAM_INT);
+            $stmt->bindValue(":client", $client, PDO::PARAM_INT);
             $stmt->bindValue(":date", date("Y-m-d H:i:s"), PDO::PARAM_STR);
             $stmt->execute();
 
             $songId = $db->lastInsertId();
 
             foreach ($services as $serv) {
+                $cleanServ = htmlspecialchars(trim($serv));
                 $stmt = $db->prepare("INSERT INTO song_services (song_id, org_service_id, state) VALUES (:song_id, :org_service_id, :state)");
                 $stmt->bindValue(":song_id", $songId, PDO::PARAM_INT);
-                $stmt->bindValue(":org_service_id", $serv, PDO::PARAM_INT);
+                $stmt->bindValue(":org_service_id", $cleanServ, PDO::PARAM_INT);
                 $stmt->bindValue(":state", 0, PDO::PARAM_INT);
                 $stmt->execute();
             }
@@ -78,7 +112,7 @@ class Song {
         exit();
     }
 
-    public static function editSong($name, $producer, $client, $services, $sid) {
+    public static function editSong($name, $producer, $client, $servicesStatuses, $sid) {
         global $db;
 
         $stmt = $db->prepare("UPDATE songs SET name = :name, producer = :producer, client = :client WHERE song_id = :sid");
@@ -88,24 +122,28 @@ class Song {
         $stmt->bindValue(":sid", $sid, PDO::PARAM_INT);
         $songSuccess = $stmt->execute();
 
-        $stmt = $db->prepare("DELETE FROM song_services WHERE song_id = :sid"); // vymazání všech služeb u skladby
-        $stmt->bindValue(":sid", $_GET["sid"], PDO::PARAM_INT);
+        $stmt = $db->prepare("DELETE FROM song_services WHERE song_id = :sid");
+        $stmt->bindValue(":sid", $sid, PDO::PARAM_INT);
         $stmt->execute();
 
-        foreach ($services as $serv) {
-            //  přidání služeb znovu
-            $stmt = $db->prepare("INSERT INTO song_services (song_id, org_service_id, state) VALUES (:sid, :org_service_id, :state)");
-            $stmt->bindValue(":sid", $_GET["sid"], PDO::PARAM_INT);
-            $stmt->bindValue(":org_service_id", $serv, PDO::PARAM_INT);
-            $stmt->bindValue(":state", 0, PDO::PARAM_INT);
+        foreach ($servicesStatuses as $serviceId => $status) {
+            $finishDate = date('Y-m-d');
+            $stmt = $db->prepare("INSERT INTO song_services (song_id, org_service_id, state, finish_date) VALUES (:sid, :org_service_id, :state, :finish_date)");
+            $stmt->bindValue(":sid", $sid, PDO::PARAM_INT);
+            $stmt->bindValue(":org_service_id", $serviceId, PDO::PARAM_INT);
+            $stmt->bindValue(":state", $status, PDO::PARAM_INT);
+            $stmt->bindValue(":finish_date", $finishDate, PDO::PARAM_STR);
             $songServSuccess = $stmt->execute();
         }
 
         if ($songSuccess && $songServSuccess) {
             $_SESSION["sm"] = 9;
-            header('Location: ' . "./index.php");
+            header('Location: ' . $_SERVER['REQUEST_URI']);
+            exit();
         }
     }
+
+
 
     public function deleteSong($sid) {
         global $db;

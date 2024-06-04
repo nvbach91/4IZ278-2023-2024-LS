@@ -7,10 +7,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSP sanitize -->
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self';
+        script-src 'self' https://cdn.jsdelivr.net;
+        style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;
+        img-src 'self' data:;
+        font-src 'self' https://cdn.jsdelivr.net;
+        connect-src 'self';
+        frame-src 'self';
+    ">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./styles/general.css">
-    <title>Document</title>
+    <title><?php echo $pageName ?></title>
 </head>
 
 <body>
@@ -46,11 +56,3 @@
         </div>
     </nav>
     <div class="container" style="width: 50%; margin-top:100px; margin-bottom: 100px">
-        <div style="position: fixed; width: fit-content; height: fit-content; bottom: 0; left: 0; background-color:bisque; padding: 10px">
-            <strong>DevInfo</strong>
-            <div>Logged in: <i><?php echo isset($_SESSION["logged-in"]) && $_SESSION["logged-in"] ? "true" : "false" ?></i></div>
-            <div>E-mail: <i><?php echo isset($_SESSION["user-email"]) ? $_SESSION["user-email"] : "empty" ?></i></div>
-            <div>SM: <i><?php echo isset($_SESSION["sm"]) && !empty($_SESSION["sm"]) ? $_SESSION["sm"] :  "empty" ?></i></div>
-            <div>IM: <i><?php echo isset($_SESSION["im"]) && !empty($_SESSION["im"]) ? $_SESSION["im"] :  "empty" ?></i></div>
-            <div>EM: <i><?php echo isset($_SESSION["em"]) && !empty($_SESSION["em"]) ? $_SESSION["em"] : "empty"  ?></i></div>
-        </div>

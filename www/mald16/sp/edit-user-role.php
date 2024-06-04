@@ -1,19 +1,23 @@
 <?php session_status() === PHP_SESSION_NONE ? session_start() : null; ?>
+<?php require "./logic/display-errors.php" ?>
 
-<?php require_once "./logic/allowed-users.php"; ?>
+<?php
+require_once "./logic/allowed-users.php";
+allowedUsers(["logged-in"]);
+?>
 <?php require_once "./db/User.php"; ?>
-<?php require_once "./db/Organizations.php"; ?>
-
-<!-- TODO: doesn't work -->
+<?php require_once "./db/Organization.php"; ?>
 
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 $User = new User($_GET["uid"], $_GET["oid"]);
 $existingUser = $User->getUser();
+$AccessUser = new User($_SESSION["user-email"], $_GET["oid"]); // an user, who is trying to make this change
+if ($AccessUser->getUserInOrg() == false) {
+    $_SESSION["em"] = 25;
+    header('Location: ' . "./index.php");
+    exit();
+}
 
 $Organization = new Organization($_GET["oid"]);
 $existingOrg = $Organization->getOrganization();
@@ -27,6 +31,10 @@ if (
 ) {
     $_SESSION["em"] = 10;
     header('Location: ' . "./edit-org.php");
+} else if ($AccessUser->getRole() == 1) {
+    $_SESSION["em"] = 25;
+    header('Location: ' . "./index.php");
+    exit();
 } else {
     $success = $User->updateUserRole($_GET["target"]);
 

@@ -94,3 +94,8 @@ th > a:hover {
 	display: flex;
 	flex-wrap: wrap;
 }
+
+.service-card {
+	width: 18rem;
+	margin: 0 10px 10px 0;
+}
