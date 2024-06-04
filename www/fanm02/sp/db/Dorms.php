@@ -5,28 +5,28 @@ require_once './utils/db.php';
 class DormsDB extends Database {
 
     public function find(){
-        return $this->runQuery('SELECT * FROM dorms', []);
+        return $this->runQuery('SELECT * FROM sp_dorms', []);
     }
 
     public function create($data){
-        return $this->runQuery('INSERT INTO dorms (name, school, address) VALUES (?, ?, ?)', $data);
+        return $this->runQuery('INSERT INTO sp_dorms (name, school, address) VALUES (?, ?, ?)', $data);
     }
 
     public function update($query, $data){
-        return $this->runQuery('UPDATE dorms WHERE ' . $query, $data);
+        return $this->runQuery('UPDATE sp_dorms WHERE ' . $query, $data);
     }
 
     public function delete($query){
-        return $this->runQuery('DELETE FROM dorms WHERE ' . $query, []);
+        return $this->runQuery('DELETE FROM sp_dorms WHERE ' . $query, []);
     }
 
     public function getDormitory($id){
-        $result =  ($this->runQuery('SELECT * FROM dorms WHERE id = ?', [$id]));
+        $result =  ($this->runQuery('SELECT * FROM sp_dorms WHERE id = ?', [$id]));
         return ($result ? $result[0] : null);
     }
 
     public function findAll(){
-        return $this->runQuery('SELECT * FROM dorms', []);
+        return $this->runQuery('SELECT * FROM sp_dorms', []);
     }
 
     public function fetch($result, $fetchStyle = PDO::FETCH_BOTH){

@@ -9,7 +9,7 @@
 
 <div class='col-md-4'>
     <div class='card' style='width: 350px; height: min-content;'>
-        <img class='card-img-top' style='width: 100%; height: 150px; object-fit: cover;' src='<?php echo $meal['photo_url']; ?>' alt='<?php echo $meal['title']; ?> photo'>
+        <img class='card-img-top' style='width: 100%; height: 150px; object-fit: cover;' src='<?php echo ($meal["photo_url"] ?? "https://marie-sklodowska-curie-actions.ec.europa.eu/sites/default/files/styles/eac_ratio_16_9_xl/public/2021-11/foodtests.jpg?h=8f5db356&itok=Ycsgu1ew"); ?>' alt='<?php echo $meal['title']; ?> photo'>
         <div class='card-body'>
             <h5 class='card-title'><?php echo $meal['title']; ?></h5>
             <h6 class='card-subtitle mb-2 text-muted'><?php echo $meal['price']; ?>$</h6>

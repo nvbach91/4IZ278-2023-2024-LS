@@ -1,9 +1,10 @@
 <?php
 
 define('DB_HOSTNAME', 'localhost');
-define('DB_NAME', 'sp');
-define('DB_USER', 'root');
-define('DB_PASSWORD', 'mypass');
+define('DB_NAME', 'fanm02');
+define('DB_USER', 'fanm02');
+define('DB_PASSWORD', '');
+
 
 interface IDatabaseOperations {
     public function runQuery($query, $data);

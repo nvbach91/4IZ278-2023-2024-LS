@@ -9,7 +9,7 @@ session_start();
 // Update the following variables
 $google_oauth_client_id = '';
 $google_oauth_client_secret = '';
-$google_oauth_redirect_uri = 'http://localhost/4IZ278-2023-2024-LS/www/fanm02/sp/google-oauth.php';
+$google_oauth_redirect_uri = 'https://eso.vse.cz/~fanm02/sp/google-oauth.php';
 $google_oauth_version = 'v3';
 // If the captured code param exists and is valid
 if (isset($_GET['code']) && !empty($_GET['code'])) {

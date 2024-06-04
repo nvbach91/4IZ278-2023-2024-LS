@@ -70,46 +70,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $description = htmlspecialchars($_POST['description']);
         $price = htmlspecialchars($_POST['price']);
 
-        if (empty($_FILES['picture']['name'])) {
-            $message = 'Please upload an image';
-            $error = true;
-            break;
-        }
+        $targetFile = null;
 
-        $targetDir = "uploads/listing/";
-        $targetFile = $targetDir . basename($_FILES["picture"]["name"]);
+        if (!empty($_FILES['picture']['name'])) {
+            $targetDir = "uploads/listing/";
+            $targetFile = $targetDir . basename($_FILES["picture"]["name"]);
 
-        $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-        $check = getimagesize($_FILES["picture"]["tmp_name"]);
+            $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+            $check = getimagesize($_FILES["picture"]["tmp_name"]);
 
-        if ($check == false) {
-            $message = "File is not an image.";
-            $error = true;
-            break;
-        }
+            if ($check == false) {
+                $message = "File is not an image.";
+                $error = true;
+                break;
+            }
 
-        if (file_exists($targetFile)) {
-            $message = "File already exists.";
-            $error = true;
-            break;
-        }
+            if (file_exists($targetFile)) {
+                $message = "File already exists.";
+                $error = true;
+                break;
+            }
 
-        if ($_FILES["picture"]["size"] > 5 * 1024 * 1024) {
-            $message = "File is too large. Maximal size is 5MB.";
-            $error = true;
-            break;
-        }
+            if ($_FILES["picture"]["size"] > 5 * 1024 * 1024) {
+                $message = "File is too large. Maximal size is 5MB.";
+                $error = true;
+                break;
+            }
 
-        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-            $message = "Only JPG, JPEG, PNG files are allowed.";
-            $error = true;
-            break;
-        }
+            if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+                $message = "Only JPG, JPEG, PNG files are allowed.";
+                $error = true;
+                break;
+            }
 
-        if (!move_uploaded_file($_FILES["picture"]["tmp_name"], $targetFile)) {
-            $message = "Error uploading the file.";
-            $error = true;
-            break;
+            if (!move_uploaded_file($_FILES["picture"]["tmp_name"], $targetFile)) {
+                $message = "Error uploading the file.";
+                $error = true;
+                break;
+            }   
         }
 
         $mealsDb->create([$registeredUser['id'], $title, $description, $targetFile, $_POST['dormitory'], $_POST['room'], $_POST['time'], $price]);
