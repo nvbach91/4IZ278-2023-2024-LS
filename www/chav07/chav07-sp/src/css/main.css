@@ -29,3 +29,9 @@ html, body{
 .plus-round{
     border-radius: 300px;
 }
+.cart-item{
+    max-height: 120px;
+}
+.cart-item-col-height{
+    max-height: 100px;
+}

@@ -38,7 +38,6 @@ if(isset($_GET["page"])){
              </aside>
 
              <!-- content -->
-
              <?php drawPage($pageNumber, false); ?>
         </div>
 

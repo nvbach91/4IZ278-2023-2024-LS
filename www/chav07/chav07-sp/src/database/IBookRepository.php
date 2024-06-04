@@ -6,7 +6,7 @@ require_once __DIR__ . "/DTOs/BookWithIdDTO.php";
 
 interface IBookRepository{
 
-    public function getAllBooks() : array;
+    public function getAllBooks(?array $ids) : array;
     public function getBookById($id) : ?BookWithIdDTO;
     public function getBookByTitle(string $title) : ?BookWithIdDTO;
     

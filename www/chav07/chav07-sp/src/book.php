@@ -64,10 +64,9 @@ if ($book === null) {
             <div class="row mt-2">
                 <div class="col-lg-3 col-1"></div>
                 <div class="col-lg-6  col-10 d-flex flex-column flex-lg-row book-detail-buttons justify-content-center">
-                    <a class="btn btn-primary" href="#" aria-label="Add to cart">Add to cart</a>
+                    <a class="btn btn-primary" href="<?php echo htmlspecialchars(BASE_URL . "/cart/add.php?id=" . $book->id); ?>" aria-label="Add to cart">Add to cart</a>
                     <?php if(isAuthorized(AuthRole::Admin)):?>
-                        <a class="btn btn-secondary" href="#" aria-label="Edit">Edit</a>
-                        <a class="btn btn-danger" href="#" aria-label="Remove">Remove</a>
+                        <a class="btn btn-secondary" href="<?php echo htmlspecialchars(BASE_URL . "/edit.php?id=" . $book->id); ?>" aria-label="Edit">Edit</a>
                     <?php endif; ?>
                 </div>
                 <div class="col-lg-3 col-1"></div>

@@ -41,7 +41,7 @@ startSessionIfNone();
                         </li>
                     <?php endif; ?>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Cart</a>
+                        <a href="<?php echo htmlspecialchars(BASE_URL . "/cart.php");?>" class="nav-link">Cart</a>
                     </li>
                 </ul>
             </div>

@@ -5,8 +5,61 @@ require_once __DIR__ . "/../config.php";
 
 class BookRepository implements IBookRepository{
     
-    public function getAllBooks() : array{
+    public function getAllBooks(?array $ids) : array{
 
+        try {
+            $pdo = DbConnection::getConnection();
+            $queryBase = "SELECT 
+                            BOOKS.ID_BOOK,
+                            AUTHORS.NAME AS AUTHOR_NAME,
+                            BOOKS.TITLE, BOOKS.DESCRIPTION,
+                            BOOKS.PRICE, BOOKS.STOCK,
+                            BOOKS.ISBN13, BOOKS.ISBN10,
+                            BOOKS.IMAGE_URL
+                        FROM BOOKS 
+                        JOIN AUTHORS 
+                            ON BOOKS.ID_AUTHOR = AUTHORS.ID_AUTHOR 
+                         ";
+
+            $selection = "";
+            if (!empty($ids)) {
+                $selection .= "WHERE";
+                for ($i = 0; $i < count($ids); $i++) {
+
+                    $selection .= " BOOKS.ID_BOOK = :id".$i;
+                    if ($i != count($ids) - 1) {
+                        $selection .= " OR ";
+                    }
+                }
+            }
+            $params = array();
+            for($i = 0; $i < count($ids); $i++){
+                $params[":id".$i] = $ids[$i];
+            }
+
+            $statement = $pdo->prepare($queryBase . $selection);
+            $statement->execute($params);
+            $result = $statement->fetchAll();
+            $mappedBooks = array_map(function ($book){
+                return new BookWithIdDTO(
+                    $book["ID_BOOK"],
+                    $book["AUTHOR_NAME"],
+                    $book["TITLE"],
+                    $book["DESCRIPTION"],
+                    $book["PRICE"],
+                    $book["STOCK"],
+                    $book["ISBN13"],
+                    $book["ISBN10"],
+                    $book["IMAGE_URL"]
+                );
+            }, $result);
+
+            return $mappedBooks;
+
+        }
+        catch (PDOException $e){
+            exit("Error trying to access the database: " . $e->getMessage());
+        }
         return array();
 
     }

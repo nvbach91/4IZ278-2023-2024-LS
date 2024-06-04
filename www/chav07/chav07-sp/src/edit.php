@@ -20,9 +20,11 @@ if (!isset($_GET["id"])) {
     exit(404);
 }
 
+
 $sanitizedId = filter_var($_GET["id"], FILTER_SANITIZE_NUMBER_INT);
 $id = htmlspecialchars($sanitizedId);
 $repo = new BookRepository();
+
 $book = $repo->getBookById($id);
 if ($book === null) {
     header("HTTP/1.1 404 Not Found");
@@ -97,7 +99,6 @@ if ($book === null) {
             <div class="row g-2 mt-2">
                 <button class="btn btn-primary col-3" type="submit">Update</button>
             </div>
-
         </form>
     </main>
 
