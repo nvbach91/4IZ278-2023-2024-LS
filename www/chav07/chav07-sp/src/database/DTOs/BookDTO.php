@@ -1,6 +1,6 @@
 <?php 
 class BookDTO{
-    public string $authorName;
+    public int $authorId;
     public string $title;
     public string $description;
     public float $price;
@@ -11,7 +11,7 @@ class BookDTO{
 
 
     public function __construct(
-        string $authorName,
+        int $authorId,
         string $title,
         string $description,
         float $price,
@@ -21,7 +21,7 @@ class BookDTO{
         ?string $image_url
         )
     {
-        $this->authorName = $authorName;
+        $this->authorId = $authorId;
         $this->title = $title;
         $this->description = $description;
         $this->price = $price;

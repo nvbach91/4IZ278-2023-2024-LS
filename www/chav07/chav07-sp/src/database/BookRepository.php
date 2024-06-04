@@ -173,7 +173,33 @@ class BookRepository implements IBookRepository{
 
     }
     public function updateBook(int $id, BookDTO $book){
-
+        try{
+            $pdo = DbConnection::getConnection();
+            $statement = $pdo->prepare("UPDATE BOOKS 
+                SET BOOKS.ID_AUTHOR = :authorId,
+                    BOOKS.TITLE = :title,
+                    BOOKS.DESCRIPTION = :description,
+                    BOOKS.PRICE = :price,
+                    BOOKS.STOCK = :stock,
+                    BOOKS.ISBN13 = :isbn13,
+                    BOOKS.ISBN10 = :isbn10,
+                    BOOKS.IMAGE_URL = :image_url
+                    WHERE BOOKS.ID_BOOK = :bookId");
+            $statement->execute([
+                "bookId" => $id,
+                "authorId" => $book->authorId,
+                "title" => $book->title,
+                "description" => $book->description,
+                "price" => $book->price,
+                "stock" => $book->stock,
+                "isbn13" => $book->isbn13,
+                "isbn10" => $book->isbn10,
+                "image_url" => $book->image_url
+            ]);
+        }
+        catch(PDOException $e){
+            exit("Error trying to access the database: " . $e->getMessage());
+        }
     }
     public function deleteBook(int $id){
 

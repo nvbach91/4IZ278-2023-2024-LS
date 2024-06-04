@@ -46,7 +46,7 @@ if ($book === null) {
 
     <main class="container navbar-spacing">
         <h1 class="fs-2">Book editor</h1>
-        <form class="" action="" method="post" enctype="multipart/form-data">
+        <form class="" action="./edit/update.php" method="post" enctype="multipart/form-data">
             <div class="row g-2">
                 <div class="col-2">
                     <label for="bookId" class="form-label">Book ID</label>
@@ -91,7 +91,7 @@ if ($book === null) {
                 <div class="col-12">
                     <label for="bookImage" class="form-label">Image</label>
                     <input name="bookImage"id="bookImage" class="form-control" type="file" accept="image/jpeg, image/png" maxlength="17" value="<?php echo htmlspecialchars($book->isbn13)?>">
-                    <div class="form-text">File must be on of these types: .jpeg, .jpg or .png</div>
+                    <div class="form-text">File must be on of these types: .jpg or .png</div>
                 </div>
             </div>
             <div class="row g-2 mt-2">
