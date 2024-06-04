@@ -95,7 +95,7 @@ function drawPage(int $pageNumber, bool $isSearch, ?string $query = null) {
                     <div class="d-flex flex-xl-row flex-sm-column">
                         <a href="#" class="btn btn-primary me-xl-1 mb-sm-1">Add to cart</a>
                         <a href="'. BASE_URL . htmlspecialchars("/book.php?id=") . htmlspecialchars($books[$i]->id) .'" class="btn btn-secondary mb-sm-1 me-xl-1">Detail</a>'
-                        . (isAuthorized(AuthRole::Admin) ? '<a href="#" class="btn btn-secondary mb-sm-1">Edit</a>' : '') .
+                        . (isAuthorized(AuthRole::Admin) ? '<a href="'. BASE_URL . htmlspecialchars("/edit.php?id=") . htmlspecialchars($books[$i]->id) .'" class="btn btn-secondary mb-sm-1">Edit</a>' : '') .
                     '</div>
                 </div>
             </div>';
