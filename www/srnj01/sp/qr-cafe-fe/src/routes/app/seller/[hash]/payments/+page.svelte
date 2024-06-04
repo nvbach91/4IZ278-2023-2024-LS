@@ -53,6 +53,7 @@
 										month: 'long',
 										day: 'numeric'
 									})}
+									{new Date(payment.created_at).toLocaleTimeString('cs-CZ')}
 								</p>
 							{/if}
 						</div>
