@@ -26,3 +26,6 @@ html, body{
 .full-height{
     min-height: 100vh;
 }
+.plus-round{
+    border-radius: 300px;
+}

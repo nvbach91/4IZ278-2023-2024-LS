@@ -1,12 +1,15 @@
 <?php
+
+
 require_once __DIR__ . "/../../vendor/autoload.php";
 require_once __DIR__ . "/../config.php";
 require_once __DIR__ . "/fileUploadUtils.php";
 require_once __DIR__ . "/../database/BookRepository.php";
-require_once __DIR__ . "/../database/AuthorRepository.php.php";
+require_once __DIR__ . "/../database/AuthorRepository.php";
 require_once __DIR__ . "/../authentication/AuthUtils.php";
 
 use Vilem\BookBookGo\database\AuthorRepository;
+
 session_start();
 if (!isAuthenticated()){
     header("HTTP/1.1 401 Unauthorized");
@@ -20,7 +23,6 @@ if (!isAuthorized(AuthRole::Admin)){
 }
 
 if(
-    isset($_POST["bookId"]) &&
     isset($_POST["bookTitle"]) &&
     isset($_POST["bookAuthor"]) &&
     isset($_POST["bookDescription"]) &&
@@ -28,9 +30,8 @@ if(
     isset($_POST["bookStock"]) &&
     isset($_POST["bookIsbn13"]) &&
     isset($_POST["bookIsbn10"])
-    ){
+){
 
-    $bookId = filter_var($_POST["bookId"],FILTER_SANITIZE_NUMBER_INT);
     $bookTitle = htmlspecialchars(trim($_POST["bookTitle"]));
     $bookAuthor = htmlspecialchars(trim($_POST["bookAuthor"]));
     $bookDescription = htmlspecialchars(trim($_POST["bookDescription"]));
@@ -43,21 +44,18 @@ if(
     $bookRepo = new BookRepository();
     $authorRepository = new AuthorRepository();
 
-    $currentBook = $bookRepo->getBookById($bookId);
-    if($currentBook == null){
-        header("location:" . BASE_URL . "/");
-        exit(404);
-    }
+
 
     if ($bookPrice < 1 || $bookStock < 0){
-        header("location:" . BASE_URL . "/edit.php?id=" . $bookId);
+        header("location:" . BASE_URL . htmlspecialchars("/add.php"));
         exit(400);
     }
 
 
     $url = handleFileUpload();
     if ($url === null){
-        $url = $currentBook->image_url;
+        header("location:" . BASE_URL . htmlspecialchars("/add.php"));
+        exit(400);
     }
 
     $author = $authorRepository->getAuthorByName($bookAuthor);
@@ -66,7 +64,7 @@ if(
         $author = $authorRepository->getAuthorByName($bookAuthor);
     }
 
-    $updatedBook = new BookDTO(
+    $newBook = new BookDTO(
         $author->id,
         $bookTitle,
         $bookDescription,
@@ -77,14 +75,14 @@ if(
         $url
     );
 
-    $bookRepo->updateBook($bookId ,$updatedBook);
-    header("location:" . BASE_URL . htmlspecialchars("/edit.php?id=" . $bookId));
+    $bookRepo->createBook($newBook);
+    header("location:" . BASE_URL . htmlspecialchars("/add.php"));
     exit(200);
 
 }
 else{
     echo "Missing parameters";
-    header("location:" . BASE_URL . "/");
+    header("location:" . BASE_URL . htmlspecialchars("/add.php"));
     exit(404);
 }
 

@@ -42,6 +42,11 @@ if(isset($_GET["page"]) && isset($_GET["query"])){
 
                  <?php drawPage($pageNumber, true, $query); ?>
             </div>
+            <?php
+                if (isAuthorized(AuthRole::Admin)){
+                    require __DIR__ . "/requires/addButton.php";
+                }
+            ?>
         </div>
 
         <?php include __DIR__ . "/includes/footer.php";?>

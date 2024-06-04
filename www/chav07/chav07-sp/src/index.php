@@ -41,11 +41,15 @@ if(isset($_GET["page"])){
 
              <?php drawPage($pageNumber, false); ?>
         </div>
+
+        <?php
+            if (isAuthorized(AuthRole::Admin)){
+                require __DIR__ . "/requires/addButton.php";
+            }
+        ?>
+
     </div>
-
-
     <?php include __DIR__ . "/includes/footer.php";?>
-</div>
     <script src="./../vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
