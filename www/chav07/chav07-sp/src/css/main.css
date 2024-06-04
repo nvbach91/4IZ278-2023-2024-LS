@@ -5,3 +5,24 @@
 .card-filler{
     height: 100%;
 }
+
+.book-detail-image{
+    object-fit: contain;
+    max-height: 450px;
+}
+.book-detail-buttons{
+    gap: 0.25rem;
+}
+
+.my-card{
+    max-width: 360px;
+}
+.navbar-spacing{
+    margin-top: 57px;
+}
+html, body{
+    height: 100%;
+}
+.full-height{
+    min-height: 100vh;
+}

@@ -11,9 +11,42 @@ class BookRepository implements IBookRepository{
 
     }
     public function getBookById($id) : ?BookWithIdDTO{
+        try {
+            $pdo = DbConnection::getConnection();
+            $statement = $pdo->prepare("SELECT 
+                                                BOOKS.ID_BOOK,
+                                                AUTHORS.NAME AS AUTHOR_NAME,
+                                                BOOKS.TITLE, BOOKS.DESCRIPTION,
+                                                BOOKS.PRICE, BOOKS.STOCK,
+                                                BOOKS.ISBN13, BOOKS.ISBN10,
+                                                BOOKS.IMAGE_URL
+                                            FROM BOOKS
+                                            JOIN AUTHORS
+                                                ON BOOKS.ID_AUTHOR = AUTHORS.ID_AUTHOR
+                                            WHERE BOOKS.ID_BOOK = :id LIMIT 1");
+            $statement->bindParam(":id", $id);
+            $statement->execute();
+            $result = $statement->fetchAll();
+            if (empty($result)) {
+                return null;
+            }
+            $book = new BookWithIdDTO(
+                $result[0]["ID_BOOK"],
+                $result[0]["AUTHOR_NAME"],
+                $result[0]["TITLE"],
+                $result[0]["DESCRIPTION"],
+                $result[0]["PRICE"],
+                $result[0]["STOCK"],
+                $result[0]["ISBN13"],
+                $result[0]["ISBN10"],
+                $result[0]["IMAGE_URL"],
+            );
+            return $book;
 
-
-        return null;
+        }
+        catch (PDOException $e){
+            exit("Error trying to access the database: " . $e->getMessage());
+        }
     }
     public const TITLE = 0;
     public const PRICE = 1;

@@ -26,9 +26,11 @@ if(isset($_GET["page"])){
     <title>BookBookGo - Home</title>
 </head>
 <body>
+
+<div class="d-flex flex-column full-height">
     <?php require './requires/navigation.php'; ?>
 
-    <div class="contrainer px-4">
+    <div class="px-4 container-fluid navbar-spacing">
         <div class="row">
             <!-- sidebar -->
              <aside class="col-2 container border-end border-1">
@@ -40,12 +42,10 @@ if(isset($_GET["page"])){
              <?php drawPage($pageNumber, false); ?>
         </div>
     </div>
-    
-
-    
-    
 
 
+    <?php include __DIR__ . "/includes/footer.php";?>
+</div>
     <script src="./../vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

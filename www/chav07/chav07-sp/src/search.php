@@ -29,26 +29,23 @@ if(isset($_GET["page"]) && isset($_GET["query"])){
     <title>BookBookGo - Search</title>
 </head>
 <body>
-    <?php require './requires/navigation.php'; ?>
+    <div class="d-flex flex-column full-height">
+        <?php require './requires/navigation.php'; ?>
+        <div class="container-fluid px-4">
+            <div class="row">
+                <!-- sidebar -->
+                 <aside class="col-2 container navbar-spacing">
+                    <?php drawFilters(); ?>
+                 </aside>
 
-    <div class="contrainer px-4">
-        <div class="row">
-            <!-- sidebar -->
-             <aside class="col-2 container">
-                <?php drawFilters(); ?>
-             </aside>
+                 <!-- content -->
 
-             <!-- content -->
-
-             <?php drawPage($pageNumber, true, $query); ?>
+                 <?php drawPage($pageNumber, true, $query); ?>
+            </div>
         </div>
+
+        <?php include __DIR__ . "/includes/footer.php";?>
     </div>
-    
-
-    
-    
-
-
     <script src="./../vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -66,7 +66,7 @@ function drawPage(int $pageNumber, bool $isSearch, ?string $query = null) {
         $pagesCount++;
     }
 
-    $result = '<main class="col-10 container">';
+    $result = '<main class="col-10 container navbar-spacing">';
     if($isSearch){
         $result .='<h3 class="mb-2">Results for: ' . htmlspecialchars($query) . '</h3>';
     }
@@ -94,13 +94,13 @@ function drawPage(int $pageNumber, bool $isSearch, ?string $query = null) {
                     <p class="card-text fw-bold fs-4">' . $books[$i]->price . ' CZK</p>
                     <div class="d-flex flex-xl-row flex-sm-column">
                         <a href="#" class="btn btn-primary me-xl-1 mb-sm-1">Add to cart</a>
-                        <a href="#" class="btn btn-secondary mb-sm-1 me-xl-1">Detail</a>'
+                        <a href="'. BASE_URL . htmlspecialchars("/book.php?id=") . htmlspecialchars($books[$i]->id) .'" class="btn btn-secondary mb-sm-1 me-xl-1">Detail</a>'
                         . (isAuthorized(AuthRole::Admin) ? '<a href="#" class="btn btn-secondary mb-sm-1">Edit</a>' : '') .
                     '</div>
                 </div>
             </div>';
 
-        if($i % 4 == 0 && $i > 0){
+        if($i+1 % 4 == 0 && $i > 0){
             $result .='</div>';
         }
     }
