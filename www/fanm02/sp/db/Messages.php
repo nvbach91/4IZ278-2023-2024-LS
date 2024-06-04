@@ -6,28 +6,54 @@ require_once './utils/helpers.php';
 class MessagesDB extends Database {
 
     public function getMessages($meal){
-        return $this->runQuery('SELECT * FROM sp_messages WHERE meal_id = ? ORDER BY sent_at ASC', [$meal]);
+        $sql = 'SELECT * FROM sp_messages WHERE meal_id = :meal ORDER BY sent_at ASC';
+        $statement = $this->prepare($sql);
+        $statement->bindParam(':meal', $meal);
+        $statement->execute();
+
+        return $statement->fetchAll();
     }
 
     public function find(){
-        return $this->runQuery('SELECT * FROM sp_messages', []);
+        $sql = 'SELECT * FROM sp_messages';
+        $statement = $this->prepare($sql);
+        $statement->execute();
+
+        return $statement->fetchAll();
     }
 
     public function create($data){
         array_push($data, currentDate());
-        return $this->runQuery('INSERT INTO sp_messages (meal_id, sender_id, receiver_id, content, sent_at) VALUES (?, ?, ?, ?, ?)', $data);
+
+        $sql = 'INSERT INTO sp_messages (meal_id, sender_id, receiver_id, content, sent_at) VALUES (?, ?, ?, ?, ?)';
+        $statement = $this->prepare($sql);
+        $statement->execute($data);
+
+        return $statement->rowCount() > 0;
     }
 
     public function update($query, $data){
-        return $this->runQuery('UPDATE sp_messages WHERE ' . $query, $data);
+        $sql = 'UPDATE sp_messages SET ' . $query;
+        $statement = $this->prepare($sql);
+        $statement->execute($data);
+
+        return $statement->rowCount() > 0;
     }
 
     public function delete($query){
-        return $this->runQuery('DELETE FROM sp_messages WHERE ' . $query, []);
+        $sql = 'DELETE FROM sp_messages WHERE ' . $query;
+        $statement = $this->prepare($sql);
+        $statement->execute();
+
+        return $statement->rowCount() > 0;
     }
 
     public function findAll(){
-        return $this->runQuery('SELECT * FROM sp_messages', []);
+        $sql = 'SELECT * FROM sp_messages';
+        $statement = $this->prepare($sql);
+        $statement->execute();
+
+        return $statement->fetchAll();
     }
 
     public function fetch($result, $fetchStyle = PDO::FETCH_BOTH){

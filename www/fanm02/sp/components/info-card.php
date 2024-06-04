@@ -2,6 +2,10 @@
     require_once 'utils/helpers.php';
     require_once 'db/Users.php';
 
+    if(!isset($_COOKIE['display_name'])) {
+        header('Location: login.php');
+    }
+
     $usersDb = new UsersDB();
     
     $user = $usersDb->getUserByMeal($meal['id']);

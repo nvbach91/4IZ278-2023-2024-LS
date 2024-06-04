@@ -6,41 +6,82 @@ require_once './utils/helpers.php';
 class OrdersDB extends Database {
 
     public function getSellingMeals($seller){
-        return $this->runQuery('SELECT *, id AS meal_id FROM sp_meals WHERE chef_id = ?', [$seller]);
+        $sql = 'SELECT *, id AS meal_id FROM sp_meals WHERE chef_id = :seller';
+        $statement = $this->prepare($sql);
+        $statement->bindParam(':seller', $seller);
+        $statement->execute();
+
+        return $statement->fetchAll();
     }
 
     public function getBoughtMeals($seller){
-        return $this->runQuery('SELECT * FROM sp_meals JOIN (SELECT * FROM sp_orders WHERE buyer_id = ?) a ON sp_meals.id = a.meal_id', [$seller]);
+        $sql = 'SELECT * FROM sp_meals JOIN (SELECT * FROM sp_orders WHERE buyer_id = :seller) a ON sp_meals.id = a.meal_id';
+        $statement = $this->prepare($sql);
+        $statement->bindParam(':seller', $seller);
+        $statement->execute();
+
+        return $statement->fetchAll();
     }
 
 
     public function getOrdersByBuyer($buyer){
-        return $this->runQuery('SELECT * FROM sp_orders WHERE buyer_id = ?', [$buyer]);
+        $sql = 'SELECT * FROM sp_orders WHERE buyer_id = :buyer';
+        $statement = $this->prepare($sql);
+        $statement->bindParam(':buyer', $buyer);
+        $statement->execute();
+
+        return $statement->fetchAll();
     }
 
     public function getOrdersBySeller($seller){
-        return $this->runQuery('SELECT * FROM sp_orders WHERE seller_id = ?', [$seller]);
+        $sql = 'SELECT * FROM sp_orders WHERE seller_id = :seller';
+        $statement = $this->prepare($sql);
+        $statement->bindParam(':seller', $seller);
+        $statement->execute();
+
+        return $statement->fetchAll();
     }
 
     public function find(){
-        return $this->runQuery('SELECT * FROM sp_orders', []);
+        $sql = 'SELECT * FROM sp_orders';
+        $statement = $this->prepare($sql);
+        $statement->execute();
+
+        return $statement->fetchAll();
     }
 
     public function create($data){
         array_push($data, currentDate());
-        return $this->runQuery('INSERT INTO sp_orders (buyer_id, seller_id, meal_id, filled_at) VALUES (?, ?, ?, ?)', $data);
+
+        $sql = 'INSERT INTO sp_orders (buyer_id, seller_id, meal_id, filled_at) VALUES (?, ?, ?, ?)';
+        $statement = $this->prepare($sql);
+        $statement->execute($data);
+
+        return $statement->rowCount() > 0;
     }
 
     public function update($query, $data){
-        return $this->runQuery('UPDATE sp_orders WHERE ' . $query, $data);
+        $sql = 'UPDATE sp_orders SET ' . $query;
+        $statement = $this->prepare($sql);
+        $statement->execute($data);
+
+        return $statement->rowCount() > 0;
     }
 
     public function delete($query){
-        return $this->runQuery('DELETE FROM sp_orders WHERE ' . $query, []);
+        $sql = 'DELETE FROM sp_orders WHERE ' . $query;
+        $statement = $this->prepare($sql);
+        $statement->execute();
+
+        return $statement->rowCount() > 0;
     }
 
     public function findAll(){
-        return $this->runQuery('SELECT * FROM sp_orders', []);
+        $sql = 'SELECT * FROM sp_orders';
+        $statement = $this->prepare($sql);
+        $statement->execute();
+
+        return $statement->fetchAll();
     }
 
     public function fetch($result, $fetchStyle = PDO::FETCH_BOTH){

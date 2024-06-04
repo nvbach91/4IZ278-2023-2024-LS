@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $tokensDb->create([$email, $token, currentDate('+15 minutes')]);
 
-        $resetLink = "http://localhost/4IZ278-2023-2024-LS/www/fanm02/sp/new-password.php?token=$token";
+        $resetLink = "https://eso.vse.cz/~fanm02/sp/new-password.php?token=$token";
         $emailContent = "Click the following link to reset your password: $resetLink. The link is valid for 15 minutes.\n\nIf you did not request a password reset, please ignore this email.";
 
         mail($email, "Password Reset", $emailContent);

@@ -8,45 +8,96 @@ class MealsDB extends Database {
     public function getAvailableMeals($sort, $dir){
         if(!in_array($sort, ['pickup_time', 'price'])) $sort = 'pickup_time';
         if(!in_array($dir, ['asc', 'desc'])) $dir = 'asc';
-        return  $this->runQuery("SELECT *, id AS meal_id FROM sp_meals WHERE status = 1 ORDER BY $sort $dir", []);
+
+        $sql = "SELECT *, id AS meal_id FROM sp_meals WHERE status = 1 ORDER BY $sort $dir";
+
+        return $this->runQuery($sql, []);
     }
 
     public function getMeal($id){
-        return ($this->runQuery('SELECT * FROM sp_meals WHERE id = ?', [$id]) ?? [])[0];
+        $sql = 'SELECT * FROM sp_meals WHERE id = :id';
+        $statement = $this->prepare($sql);
+        $statement->bindParam(':id', $id);
+        $statement->execute();
+
+        return $statement->fetch();
     }
 
     public function deleteMeal($id){
-        return $this->runQuery('DELETE FROM sp_meals WHERE id = ?', [$id]);
+        $sql = 'DELETE FROM sp_meals WHERE id = :id';
+        $statement = $this->prepare($sql);
+        $statement->bindParam(':id', $id);
+        $statement->execute();
+
+        return $statement->rowCount() > 0;
     }
 
     public function updateMealStatus($id, $status){
-        return $this->runQuery('UPDATE sp_meals SET status = ? WHERE id = ?', [$status, $id]);
+        $sql = 'UPDATE sp_meals SET status = :status WHERE id = :id';
+        $statement = $this->prepare($sql);
+        $statement->bindParam(':status', $status);
+        $statement->bindParam(':id', $id);
+        $statement->execute();
+
+        return $statement->rowCount() > 0;
     }
 
     public function updateMealInfo($id, $title, $description, $pickupTime, $pickupDorm, $pickupRoom, $price){
-        return $this->runQuery('UPDATE sp_meals SET title = ?, description = ?, pickup_time = ?, pickup_dorm = ?, pickup_room = ?, price = ? WHERE id = ?', [$title, $description, $pickupTime, $pickupDorm, $pickupRoom, $price, $id]);
+        $sql = 'UPDATE sp_meals SET title = :title, description = :description, pickup_time = :pickup_time, pickup_dorm = :pickup_dorm, pickup_room = :pickup_room, price = :price WHERE id = :id';
+        $statement = $this->prepare($sql);
+        $statement->bindParam(':title', $title);
+        $statement->bindParam(':description', $description);
+        $statement->bindParam(':pickup_time', $pickupTime);
+        $statement->bindParam(':pickup_dorm', $pickupDorm);
+        $statement->bindParam(':pickup_room', $pickupRoom);
+        $statement->bindParam(':price', $price);
+        $statement->bindParam(':id', $id);
+        $statement->execute();
+
+        return $statement->rowCount() > 0;
     }
 
     public function find(){
-        return $this->runQuery('SELECT * FROM sp_meals', []);
+        $sql = 'SELECT * FROM sp_meals';
+        $statement = $this->prepare($sql);
+        $statement->execute();
+
+        return $statement->fetchAll();
     }
 
     public function create($data){
         array_push($data, currentDate());
         array_push($data, currentDate());
-        return $this->runQuery('INSERT INTO sp_meals (chef_id, title, description, photo_url, pickup_dorm, pickup_room, pickup_time, price, updated_at, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', $data);
+
+        $sql = 'INSERT INTO sp_meals (chef_id, title, description, photo_url, pickup_dorm, pickup_room, pickup_time, price, updated_at, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        $statement = $this->prepare($sql);
+        $statement->execute($data);
+
+        return $statement->rowCount() > 0;
     }
 
     public function update($query, $data){
-        return $this->runQuery('UPDATE sp_meals WHERE ' . $query, $data);
+        $sql = 'UPDATE sp_meals SET ' . $query;
+        $statement = $this->prepare($sql);
+        $statement->execute($data);
+
+        return $statement->rowCount() > 0;
     }
 
     public function delete($query){
-        return $this->runQuery('DELETE FROM sp_meals WHERE ' . $query, []);
+        $sql = 'DELETE FROM sp_meals WHERE ' . $query;
+        $statement = $this->prepare($sql);
+        $statement->execute();
+
+        return $statement->rowCount() > 0;
     }
 
     public function findAll(){
-        return $this->runQuery('SELECT * FROM sp_meals', []);
+        $sql = 'SELECT * FROM sp_meals';
+        $statement = $this->prepare($sql);
+        $statement->execute();
+
+        return $statement->fetchAll();
     }
 
     public function fetch($result, $fetchStyle = PDO::FETCH_BOTH){

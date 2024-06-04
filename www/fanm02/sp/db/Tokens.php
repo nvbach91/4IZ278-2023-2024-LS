@@ -6,28 +6,53 @@ require_once './utils/helpers.php';
 class TokensDB extends Database {
 
     public function getToken($token){
-        return ($this->runQuery('SELECT * FROM sp_tokens WHERE token = ?', [$token]) ?? [])[0];
+        $sql = 'SELECT * FROM sp_tokens WHERE token = :token';
+        $statement = $this->prepare($sql);
+        $statement->bindParam(':token', $token);
+        $statement->execute();
+
+        return $statement->fetch();
     }
 
     public function find(){
-        return $this->runQuery('SELECT * FROM sp_tokens', []);
+        $sql = 'SELECT * FROM sp_tokens';
+        $statement = $this->prepare($sql);
+        $statement->execute();
+
+        return $statement->fetchAll();
     }
 
     public function create($data){
         array_push($data, currentDate());
-        return $this->runQuery('INSERT INTO sp_tokens (email, token, expires_at, created_at) VALUES (?, ?, ?, ?)', $data);
+        $sql = 'INSERT INTO sp_tokens (email, token, expires_at, created_at) VALUES (?, ?, ?, ?)';
+        $statement = $this->prepare($sql);
+        $statement->execute($data);
+        
+        return $statement->rowCount() > 0;
     }
 
     public function update($query, $data){
-        return $this->runQuery('UPDATE sp_tokens WHERE ' . $query, $data);
+        $sql = 'UPDATE sp_tokens SET ' . $query;
+        $statement = $this->prepare($sql);
+        $statement->execute($data);
+
+        return $statement->rowCount() > 0;
     }
 
     public function deleteToken($query, $data){
-        return $this->runQuery('DELETE FROM sp_tokens WHERE ' . $query, $data);
+        $sql = 'DELETE FROM sp_tokens WHERE ' . $query;
+        $statement = $this->prepare($sql);
+        $statement->execute($data);
+
+        return $statement->rowCount() > 0;
     }
 
     public function findAll(){
-        return $this->runQuery('SELECT * FROM sp_tokens', []);
+        $sql = 'SELECT * FROM sp_tokens';
+        $statement = $this->prepare($sql);
+        $statement->execute();
+
+        return $statement->fetchAll();
     }
 
     public function fetch($result, $fetchStyle = PDO::FETCH_BOTH){

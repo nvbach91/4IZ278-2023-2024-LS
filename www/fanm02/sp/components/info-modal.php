@@ -1,9 +1,3 @@
-<?php
-    if(!isset($_COOKIE['display_name'])) {
-        header('Location: login.php');
-    }
-?>
-
 <div class='modal fade' id='bmealModal<?php echo $meal['meal_id']; ?>' tabindex='-1' role='dialog' aria-labelledby='bmealModalLabel<?php echo $meal['meal_id']; ?>' aria-hidden='true'>
     <div class='modal-dialog' role='document'>
         <div class='modal-content'>

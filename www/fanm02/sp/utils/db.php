@@ -1,13 +1,8 @@
 <?php
 
-define('DB_HOSTNAME', 'localhost');
-define('DB_NAME', 'fanm02');
-define('DB_USER', 'fanm02');
-define('DB_PASSWORD', '');
-
-
 interface IDatabaseOperations {
     public function runQuery($query, $data);
+    public function prepare($sql);
 }
 
 abstract class Database implements IDatabaseOperations {
@@ -26,6 +21,10 @@ abstract class Database implements IDatabaseOperations {
         $statement->execute($data);
         return $statement->fetchAll();
     } 
+
+    public function prepare($sql){
+        return $this->pdo->prepare($sql);
+    }
 }
 
 class DatabaseConnection {
