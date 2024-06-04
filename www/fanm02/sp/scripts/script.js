@@ -22,7 +22,9 @@ function openTab(evt, tabName) {
 let interval;
 
 $(document).ready(function () {
-  document.getElementById("defaultOpen").click();
+  if($("#defaultOpen").length){
+    document.getElementById("defaultOpen").click();
+  }
 })
 
 function sendMessage(element, mealId, sender, receiver) {

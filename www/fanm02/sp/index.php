@@ -32,8 +32,6 @@ $meals = $mealsDb->getAvailableMeals($sort, $dir);
 
 $paginations = ceil(count($meals) / $productsPerPage);
 
-echo "<script>console.log(". json_encode($meals) .");</script>";
-
 $visibleMeals = array_slice($meals, $offset, $productsPerPage);
 ?>
 
