@@ -24,6 +24,17 @@ class DormsDB extends Database {
         $result =  ($this->runQuery('SELECT * FROM dorms WHERE id = ?', [$id]));
         return ($result ? $result[0] : null);
     }
+
+    public function findAll(){
+        return $this->runQuery('SELECT * FROM dorms', []);
+    }
+
+    public function fetch($result, $fetchStyle = PDO::FETCH_BOTH){
+        return $result->fetch($fetchStyle);
+    }
+
+    public function save(){
+    }
 }
 
 ?>

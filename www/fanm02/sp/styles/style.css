@@ -86,6 +86,43 @@
   border-bottom-right-radius: .25rem !important;
 }
 
+.image-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px; /* Adjust as needed */
+}
+
+.image-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.overlay-text {
+  position: absolute;
+  top: 90%;
+  left: 90%;
+  transform: translate(-50%, -50%);
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 1px;
+  border-radius: .25rem;
+}
+
+.selling-label {
+  background-color: green;
+  color: white;
+}
+
+.sold-label {
+  background-color: #0069d9;
+  color: white;
+}
+
+.space {
+  height: 10px;
+}
+
 /* Style the tab content */
 .tabcontent {
   display: none;
@@ -111,4 +148,47 @@
 .chat-messages {
   height: 300px ;
   overflow: auto;
+}
+
+.row {
+  row-gap: 20px;
+}
+
+.sort-container {
+  width: 95%;
+  display: flex;  
+  justify-content: right;
+}
+
+.sort-options {
+  margin-right: 10px;
+}
+
+#ascBtn {
+  border-radius: 0px;
+  border-top-left-radius: .25rem;
+  border-bottom-left-radius: .25rem;
+  margin-right: -10px;
+}
+
+#descBtn {
+  border-radius: 0px;
+  border-top-right-radius: .25rem;
+  border-bottom-right-radius: .25rem;
+}
+
+.card-profile-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.card-profile {
+  display: flex;
+  flex-direction: row;
+  margin-top: 5px;
+}
+
+.card-avatar {
+  margin-right: 10px;
 }

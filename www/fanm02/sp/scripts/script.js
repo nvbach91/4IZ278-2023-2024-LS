@@ -31,7 +31,7 @@ function sendMessage(element, mealId, sender, receiver) {
     type: 'POST',
     url: 'send-message.php',
     data: {
-      content: element.value,
+      content: escapeHtml(element.value),
       meal_id: mealId,
       sender_id: sender,
       receiver_id: receiver
@@ -43,7 +43,7 @@ function sendMessage(element, mealId, sender, receiver) {
   });
 }
 
-function updateMessages(element, mealId) {
+function updateMessages(element, mealId, boughtChat) {
   $.ajax({
     type: 'POST',
     url: 'get-messages.php',
@@ -65,7 +65,7 @@ function updateMessages(element, mealId) {
         } else {
           element.innerHTML += `
                             <div class='message'>
-                                <div class='message-sender'>Seller:&nbsp;</div>
+                                <div class='message-sender'>${boughtChat ? 'Seller' : 'Buyer'}:&nbsp;</div>
                                 <div class='message-content'>${message['content']}</div>
                             </div>
                         `;
@@ -73,4 +73,16 @@ function updateMessages(element, mealId) {
       }
     }
   });
+}
+
+function escapeHtml(text) {
+  var map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  
+  return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }

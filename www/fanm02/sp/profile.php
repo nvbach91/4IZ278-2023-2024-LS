@@ -6,25 +6,6 @@ require __DIR__ . '/db/Orders.php';
 require __DIR__ . '/db/Users.php';
 require __DIR__ . '/db/Messages.php';
 
-/*
-$productsCount = $db->query('SELECT COUNT(good_id) FROM cv08_goods')->fetchColumn();
-$productsCount = 4;
-$paginations = ceil($productsCount / $productsPerPage);
-$productsOnLastPagination = $productsCount % $productsPerPage;
-
-$offset = 0;
-
-if (isset($_GET['offset'])) {
-    $offset = $_GET['offset'];
-}
-
-$DBproducts = $db->prepare('SELECT * FROM cv08_goods ORDER BY good_id DESC LIMIT :limit OFFSET :offset');
-$DBproducts->bindValue(':limit', $productsPerPage, PDO::PARAM_INT);
-$DBproducts->bindValue(':offset', $offset, PDO::PARAM_INT);
-$DBproducts->execute();
-$products = $DBproducts->fetchAll();
-*/
-
 if (!isset($_COOKIE['display_name'])) {
     header('Location: login.php');
     exit;
@@ -42,6 +23,23 @@ if ($registeredUser == null) {
     setcookie('display_name', '', -1, "/");
     header('Location: login.php');
     exit;
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    do {
+        if(!isset($_POST['mealId'])){
+            break;
+        }
+
+        $mealId = $_POST['mealId'];
+
+        if (empty($_POST['title']) || empty($_POST['description']) || empty($_POST['pickup_time']) || empty($_POST['pickup_dorm']) || empty($_POST['pickup_room']) || empty($_POST['price'])) {
+            break;
+        }
+
+        $mealsDb->updateMealInfo($mealId, $_POST['title'], $_POST['description'], $_POST['pickup_time'], $_POST['pickup_dorm'], $_POST['pickup_room'], $_POST['price']);
+    } while(0);
+
 }
 
 $boughtMeals = $ordersDb->getBoughtMeals($registeredUser['id']);

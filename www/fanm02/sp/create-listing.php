@@ -15,7 +15,7 @@ if (!isset($_COOKIE['display_name'])) {
     exit;
 }
 
-$registeredUser = $usersDb->getUser($_COOKIE['display_name'], '');
+$registeredUser = $usersDb->getUser(htmlspecialchars($_COOKIE['display_name']), '');
 
 if ($registeredUser == null) {
     setcookie('display_name', '', -1, "/");
@@ -66,9 +66,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             break;
         }
 
-        $title = $_POST['title'];
-        $description = $_POST['description'];
-        $price = $_POST['price'];
+        $title = htmlspecialchars($_POST['title']);
+        $description = htmlspecialchars($_POST['description']);
+        $price = htmlspecialchars($_POST['price']);
 
         if (empty($_FILES['picture']['name'])) {
             $message = 'Please upload an image';

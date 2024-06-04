@@ -10,6 +10,11 @@ class UsersDB extends Database {
         return ($result ? $result[0] : null);
     }
 
+    public function getUserByMeal($meal){
+        $result = $this->runQuery('SELECT * FROM users WHERE id = (SELECT chef_id FROM meals WHERE id = ?)', [$meal]);
+        return ($result ? $result[0] : null);
+    }
+
     public function find(){
         return $this->runQuery('SELECT * FROM users', []);
     }
@@ -46,6 +51,17 @@ class UsersDB extends Database {
 
     public function updateDormitory($username, $dorm){
         return $this->runQuery('UPDATE users SET dorm_id = ? WHERE username = ?', [$dorm, $username]);
+    }
+
+    public function findAll(){
+        return $this->runQuery('SELECT * FROM users', []);
+    }
+
+    public function fetch($result, $fetchStyle = PDO::FETCH_BOTH){
+        return $result->fetch($fetchStyle);
+    }
+
+    public function save(){
     }
 }
 

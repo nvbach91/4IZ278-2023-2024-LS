@@ -22,7 +22,7 @@ if(!isset($_COOKIE['display_name'])){
     exit;
 }
 
-$registeredUser = $usersDb->getUser($_COOKIE['display_name'], '');
+$registeredUser = $usersDb->getUser(htmlspecialchars($_COOKIE['display_name']), '');
 
 if($registeredUser == null){
     setcookie('display_name', '', -1, "/");
@@ -33,11 +33,11 @@ if($registeredUser == null){
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    if(password_verify($_POST['confirmpassword'], $registeredUser['passwordHash'])) {
+    if(password_verify(htmlspecialchars($_POST['confirmpassword']), htmlspecialchars($registeredUser['passwordHash']))) {
         do {
             
             if(!empty($_POST['username'])){
-                $username = $_POST['username'];
+                $username = htmlspecialchars($_POST['username']);
                 $registeredUser = $usersDb->getUser($username, '');
 
                 if($registeredUser != null){
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 break;
             }
 
-            $password = $_POST['password'];
+            $password = htmlspecialchars($_POST['password']);
 
             if (strlen($password) < 3) {
                 $passwordMessage = 'Password is too short';
@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 break;
             }
 
-            $dorm = $dormsDb->getDormitory($_POST['dorm']);
+            $dorm = $dormsDb->getDormitory(htmlspecialchars($_POST['dorm']));
 
             if($dorm == null){
                 $dormMessage = 'Dormitory not found';

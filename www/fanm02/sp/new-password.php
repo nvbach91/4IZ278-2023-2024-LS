@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $passwordHash = password_hash($password, PASSWORD_DEFAULT);
         
         $usersDb->updatePassword($_SESSION['reset_email'], $passwordHash);
-        $tokensDb->delete('email = ?', [$_SESSION['reset_email']]);
+        $tokensDb->deleteToken('email = ?', [$_SESSION['reset_email']]);
 
         $message = 'Password updated successfully. You can now log in with your new password';
 

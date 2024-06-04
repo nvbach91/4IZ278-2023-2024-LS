@@ -3,8 +3,8 @@
     require_once 'db/Users.php';
 
     $usersDb = new UsersDB();
-
-    $user = $usersDb->getUserByMeal($meal['meal_id']);
+    
+    $user = $usersDb->getUserByMeal($meal['id']);
 ?>
 
 <div class='col-md-4'>
@@ -16,10 +16,7 @@
             <p class='card-text'><?php echo $meal['description']; ?></p>
             <p class='card-time'><b><?php echo formatDate($meal['pickup_time']); ?></b></p>
             <div class="card-profile-container">
-                <div>
-                    <button type='button' class='btn btn-primary' data-toggle='modal' data-target='#bmealModal<?php echo $meal['meal_id']; ?>'>View Details</button>
-                    <button type='button' class='btn btn-secondary' data-toggle='modal' data-target='#bchatModal<?php echo $meal['meal_id']; ?>'>Chat</button>
-                </div>
+                <button type='button' class='btn btn-primary' data-toggle='modal' data-target='#bmealModal<?php echo $meal['id']; ?>'>View Details</button>
                 <div class="card-profile">
                     <div class="card-avatar">
                         <?php

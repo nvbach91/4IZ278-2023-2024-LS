@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class='modal-footer'>
-                <input type='text' class='form-control' placeholder='Type your message...'>
+                <input type='text' class='form-control chat-input' placeholder='Type your message...'>
                 <button type='button' onclick="sendMessage(
                                             document.querySelector('#schatModal<?php echo $meal['meal_id']; ?> input'),
                                             <?php echo $meal['meal_id']; ?>,
@@ -28,11 +28,21 @@
 <script>
     $('#schatModal<?php echo $meal['meal_id']; ?>').on('shown.bs.modal', function() {
         interval = setInterval(function() {
-            updateMessages(document.querySelector('#schatModal<?php echo $meal['meal_id']; ?> .chat-messages'), <?php echo $meal['meal_id']; ?>, <?php echo $registeredUser['id']; ?>, <?php echo $meal['chef_id']; ?>);
+            updateMessages(
+                document.querySelector('#schatModal<?php echo $meal['meal_id']; ?> .chat-messages'),
+                <?php echo $meal['meal_id']; ?>,
+                false);
         }, 1000);
     });
 
     $('#schatModal<?php echo $meal['meal_id']; ?>').on('hidden.bs.modal', function() {
         clearInterval(interval);
+    });
+
+    $('#schatModal<?php echo $meal['meal_id']; ?> .chat-input').on('keypress', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            document.querySelector('#schatModal<?php echo $meal['meal_id']; ?> .button-send').click(); 
+        }
     });
 </script>

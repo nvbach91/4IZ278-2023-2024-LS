@@ -8,14 +8,13 @@ $usersDb = new UsersDB();
 $registeredUser = $usersDb->getUser($_COOKIE['display_name'], '');
 
 $boughtMeals = $ordersDb->getBoughtMeals($registeredUser['id']);
-
-$productsPerPage = 6;
-$paginations = 1
-
 ?>
 
 <div class='products-wrapper'>
     <div class='row'>
+        <?php if (count($boughtMeals) == 0): ?>
+            No bought meals yet.
+        <?php endif; ?>
         <?php foreach ($boughtMeals as $meal) : ?>
             <?php
                 include './components/bought-card.php';
@@ -31,12 +30,4 @@ $paginations = 1
         <?php endforeach; ?>
     </div>
     <hr>
-
-    <div class="pagination-container">
-        <ul class='pagination'>
-            <?php for ($i = 0; $i < $paginations; $i++) : ?>
-                <li class='page-item <?php echo isset($_GET['offset']) && ($_GET['offset'] / $productsPerPage) == $i ? 'active' : '' ?><?php echo !isset($_GET['offset']) && $i == 0 ? 'active' : '' ?>'><a class='page-link' href='?offset=<?php echo $i * $productsPerPage ?>'><?php echo $i + 1 ?></a></li>
-            <?php endfor; ?>
-        </ul>
-    </div>
 </div>

@@ -1,4 +1,5 @@
 <?php
+
 require __DIR__ . '/components/header.php';
 
 require_once 'db/Meals.php';
@@ -9,54 +10,59 @@ $mealsDb = new MealsDB();
 $dormsDb = new DormsDB();
 $usersDb = new UsersDB();
 
-$meals = $mealsDb->find();
+$productsPerPage = 6;
 
-$paginations = 1;
+$offset = 0;
+$sort = 'pickup_time';
+$dir = 'asc';
 
+if (isset($_GET['offset'])) {
+    $offset = $_GET['offset'];
+}
+
+if (isset($_GET['sort'])) {
+    $sort = $_GET['sort'];
+}
+
+if (isset($_GET['dir'])) {
+    $dir = $_GET['dir'];
+}
+
+$meals = $mealsDb->getAvailableMeals($sort, $dir);
+
+$paginations = ceil(count($meals) / $productsPerPage);
+
+echo "<script>console.log(". json_encode($meals) .");</script>";
+
+$visibleMeals = array_slice($meals, $offset, $productsPerPage);
 ?>
 
 <main class='container' style='max-width: 90%; min-height: 80vh;'>
-    <hr>
+    <div class="space"></div>
+    <div class="space"></div>
+    <div class="sort-container">
+        <div class='sort-options'>
+            <select id='sort' name='sort' class='form-control' onchange="location = this.value;">
+                <option <?php if($sort == 'pickup_time'){echo "selected";} ?> value='index.php?offset=<?php echo $offset; ?>&sort=pickup_time&dir=<?php echo $dir; ?>'>Date</option>
+                <option <?php if($sort == 'price'){echo "selected";} ?> value='index.php?offset=<?php echo $offset; ?>&sort=price&dir=<?php echo $dir; ?>'>Price</option>
+            </select>
+        </div>
+        <div class='sort-options'>
+            <a href="index.php?offset=<?php echo $offset; ?>&sort=<?php echo $sort; ?>&dir=asc" class='btn <?php if($dir == 'asc'){echo "btn-primary";}else{echo "btn-secondary";} ?>' id='ascBtn'>ASC</a>
+            <a href="index.php?offset=<?php echo $offset; ?>&sort=<?php echo $sort; ?>&dir=desc" class='btn <?php if($dir == 'desc'){echo "btn-primary";}else{echo "btn-secondary";} ?>' id='descBtn'>DESC</a>
+        </div>
+    </div>
     <div class='products-wrapper'>
+        <hr>
         <div class='row'>
-            <?php foreach ($meals as $meal) : ?>
-                <div class='col-md-4'>
-                    <div class='card' style='width: 350px; height: min-content;'>
-                        <img class='card-img-top' style='width: 100%; height: 150px; object-fit: cover;' src='<?php echo $meal['photo_url']; ?>' alt='<?php echo $meal['title']; ?> photo'>
-                        <div class='card-body'>
-                            <h5 class='card-title'><?php echo $meal['title']; ?></h5>
-                            <h6 class='card-subtitle mb-2 text-muted'><?php echo $meal['price']; ?>$</h6>
-                            <p class='card-text'><?php echo $meal['description']; ?></p>
-                            <button type='button' class='btn btn-primary' data-toggle='modal' data-target='#bmealModal<?php echo $meal['id']; ?>'>View Details</button>
-                        </div>
-                    </div>
-                </div>
+            <?php foreach ($visibleMeals as $meal) : ?>
+                <?php
+                include __DIR__ . '/components/info-card.php'
+                ?>
 
-                <div class='modal fade' id='bmealModal<?php echo $meal['id']; ?>' tabindex='-1' role='dialog' aria-labelledby='bmealModalLabel<?php echo $meal['id']; ?>' aria-hidden='true'>
-                    <div class='modal-dialog' role='document'>
-                        <div class='modal-content'>
-                            <div class='modal-header'>
-                                <h5 class='modal-title' id='bmealModalLabel<?php echo $meal['id']; ?>'><?php echo $meal['title']; ?></h5>
-                                <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
-                                    <span aria-hidden='true'>&times;</span>
-                                </button>
-                            </div>
-                            <div class='modal-body'>
-                                <p><?php echo $meal['description']; ?></p>
-                                <p><b><?php echo date_format(date_create($meal['pickup_time']), 'Y/m/d H:i'); ?></b></p>
-                                <p><?php echo $dormsDb->getDormitory($meal['pickup_dorm'])['name'];
-                                    if ($meal['pickup_room'] != null) {
-                                        echo ' (' . $meal['pickup_room'] . ')';
-                                    } ?></p>
-                                <p>Price: <?php echo $meal['price']; ?>$</p>
-                            </div>
-                            <div class='modal-footer'>
-                                <button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>
-                                <a href='paywall.php?meal_id=<?php echo $meal['id'] ?>' class='btn btn-primary'>Purchase</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php
+                include __DIR__ . '/components/info-modal.php';
+                ?>
             <?php endforeach; ?>
         </div>
         <hr>
@@ -64,7 +70,7 @@ $paginations = 1;
         <div class="pagination-container">
             <ul class='pagination'>
                 <?php for ($i = 0; $i < $paginations; $i++) : ?>
-                    <li class='page-item <?php echo isset($_GET['offset']) && ($_GET['offset'] / $productsPerPage) == $i ? 'active' : '' ?><?php echo !isset($_GET['offset']) && $i == 0 ? 'active' : '' ?>'><a class='page-link' href='?offset=<?php echo $i * $productsPerPage ?>'><?php echo $i + 1 ?></a></li>
+                    <li class='page-item <?php echo isset($_GET['offset']) && ($_GET['offset'] / $productsPerPage) == $i ? 'active' : '' ?><?php echo !isset($_GET['offset']) && $i == 0 ? 'active' : '' ?>'><a class='page-link' href='?offset=<?php echo $i * $productsPerPage ?>&sort=<?php echo $sort; ?>&dir=<?php echo $dir;?>'><?php echo $i + 1 ?></a></li>
                 <?php endfor; ?>
             </ul>
         </div>

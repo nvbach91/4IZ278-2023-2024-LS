@@ -7,4 +7,8 @@ function currentDate($offset=null){
     return date('Y-m-d H:i:s', time());
 }
 
+function formatDate($date){
+    return date('Y/m/d H:i', strtotime($date));
+}
+
 ?>

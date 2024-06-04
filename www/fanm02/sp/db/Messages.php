@@ -25,6 +25,17 @@ class MessagesDB extends Database {
     public function delete($query){
         return $this->runQuery('DELETE FROM messages WHERE ' . $query, []);
     }
+
+    public function findAll(){
+        return $this->runQuery('SELECT * FROM messages', []);
+    }
+
+    public function fetch($result, $fetchStyle = PDO::FETCH_BOTH){
+        return $result->fetch($fetchStyle);
+    }
+
+    public function save(){
+    }
 }
 
 ?>

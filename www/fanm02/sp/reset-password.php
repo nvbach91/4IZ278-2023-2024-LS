@@ -41,15 +41,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <?php include __DIR__ . '/components/header.php' ?>
+
+
 <form method="post" action="reset-password.php" class="form">
     <?php if($message != null){
             echo $error == true ? '<div class="error">'.$message.'</div>' : '<div class="correct">'.$message.'</div>';
         }
     ?>
     <div class="form-container">
-    Email: <input type="email" name="email"><br>
-    <input type="submit" value="Reset password">
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" class="form-control" id="email" name="email" required>
     </div>
+    <button type="submit" class="btn btn-primary">Reset Password</button>
+</div>
 </form>
 
 <?php include __DIR__ . '/components/footer.php' ?>

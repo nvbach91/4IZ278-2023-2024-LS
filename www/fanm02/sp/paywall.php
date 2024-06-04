@@ -17,6 +17,13 @@ if(!isset($_GET['meal_id'])){
     exit();
 }
 
+$meal = $mealsDb->getMeal($_GET['meal_id']);
+
+if($meal['status'] != 1){
+    header('Location: index.php');
+    exit();
+}
+
 $registeredUser = $usersDb->getUser($_COOKIE['display_name'], '');
 
 if($registeredUser == null){
@@ -25,9 +32,13 @@ if($registeredUser == null){
     exit();
 }
 
+if($registeredUser['id'] == $meal['chef_id']){
+    header('Location: index.php');
+    exit();
+}
 
-$meal = $mealsDb->getMeal($_GET['meal_id']);
 $ordersDb->create([$registeredUser['id'], $meal['chef_id'], $meal['id']]);
+$mealsDb->updateMealStatus($meal['id'], 2);
 
 header('Refresh: 3; url=profile.php');
 ?>

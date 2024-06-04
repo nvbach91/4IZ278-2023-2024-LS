@@ -22,8 +22,19 @@ class TokensDB extends Database {
         return $this->runQuery('UPDATE tokens WHERE ' . $query, $data);
     }
 
-    public function delete($query, $data){
+    public function deleteToken($query, $data){
         return $this->runQuery('DELETE FROM tokens WHERE ' . $query, $data);
+    }
+
+    public function findAll(){
+        return $this->runQuery('SELECT * FROM tokens', []);
+    }
+
+    public function fetch($result, $fetchStyle = PDO::FETCH_BOTH){
+        return $result->fetch($fetchStyle);
+    }
+
+    public function save(){
     }
 }
 
