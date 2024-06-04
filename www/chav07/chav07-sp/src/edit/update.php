@@ -25,6 +25,7 @@ if(
     $bookStock = filter_var($_POST["bookStock"],FILTER_SANITIZE_NUMBER_INT);
     $bookIsbn13 = htmlspecialchars(trim($_POST["bookIsbn13"]));
     $bookIsbn10 = htmlspecialchars(trim($_POST["bookIsbn10"]));
+
 //
     $bookRepo = new BookRepository();
     $authorRepository = new AuthorRepository();
@@ -34,6 +35,13 @@ if(
         header("location:" . BASE_URL . "/");
         exit(404);
     }
+
+    if ($bookPrice < 1 || $bookStock < 0){
+        header("location:" . BASE_URL . "/edit.php?id=" . $bookId);
+        exit(400);
+    }
+
+
     $url = handleFileUpload();
     if ($url === null){
         $url = $currentBook->image_url;
