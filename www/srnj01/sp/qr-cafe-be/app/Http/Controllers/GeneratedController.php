@@ -110,8 +110,9 @@ class GeneratedController extends Controller
         foreach ($generatedEntries as $generated) {
             foreach ($transactions as $transaction) {
                 $variableSymbol = $transaction['column5']['value'] ?? null;
+                $amount = $transaction['column1']['value'] ?? null;
 
-                if ($variableSymbol == $generated->variable_symbol) {
+                if ($variableSymbol == $generated->variable_symbol && $amount == $generated->amount && !$generated->success) {
                     $generated->success = true;
                     $generated->save();
 
