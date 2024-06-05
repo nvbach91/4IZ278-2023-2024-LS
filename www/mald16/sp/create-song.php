@@ -25,6 +25,7 @@ if ($User->getUserInOrg() == false) {
     exit();
 }
 
+
 $existingOrganization = $Organization->getOrganization();
 
 if (!isset($_GET["oid"]) || empty($_GET["oid"]) || !$existingOrganization) {
@@ -41,6 +42,7 @@ $orgServices = $Organization->getServices();
 
 $clients = $Organization->getUsers(1);
 $clientEmails = array_column($clients, 'email');
+var_dump($clients);
 
 $producers = $Organization->getUsers(2);
 
@@ -118,7 +120,7 @@ if (isset($_POST) && !empty($_POST)) {
         <select class="form-select" name="client" <?php echo count($clients) == 0 ? "disabled" : "" ?>>
             <?php foreach ($clients as $cli) : ?>
                 <option value="<?php echo $cli["org_user_id"] ?>">
-                    <?php echo $cli["name"] ?>
+                    <?php echo strlen($cli["name"]) == 0 ? $cli["email"] : $cli["name"] ?>
                 </option>
             <?php endforeach; ?>
         </select>
