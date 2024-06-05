@@ -40,8 +40,8 @@ if($user == null){
 }
 
 if($user->password && password_verify($password, $user->password)){
-    // startSessionIfNone();
-    session_start();
+     startSessionIfNone();
+//    session_start();
     $_SESSION["user"] = $user;
     header("Location: " . BASE_URL . "/" );
 }

@@ -6,7 +6,8 @@ require_once __DIR__ . "/requires/page.php";
 require_once __DIR__ . "/database/BookRepository.php";
 require_once __DIR__ . "/requires/filters.php";
 
-session_start();
+//session_start();
+startSessionIfNone();
 
 $pageNumber = 0;
 

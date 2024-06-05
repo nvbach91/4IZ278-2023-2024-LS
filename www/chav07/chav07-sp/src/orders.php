@@ -6,7 +6,8 @@ require_once __DIR__ . "/../vendor/autoload.php";
 require_once __DIR__ . "/authentication/AuthUtils.php";
 require_once __DIR__ . "/database/OrderRepository.php";
 require_once __DIR__ . "/config.php";
-session_start();
+//session_start();
+startSessionIfNone();
 
 if (!isAuthenticated()){
     header("HTTP/1.1 401 Unauthorized");

@@ -7,7 +7,7 @@ require_once __DIR__ . "/../config.php";
 
 function ordersCommon() : int  {
 
-    session_start();
+    startSessionIfNone();
 
     if (!isAuthenticated()){
         header("HTTP/1.1 401 Unauthorized");

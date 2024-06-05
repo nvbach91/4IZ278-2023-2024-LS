@@ -5,16 +5,19 @@ require_once __DIR__ . "/../config.php";
 require_once __DIR__ . "/../authentication/AuthUtils.php";
 
 function drawPage(int $pageNumber, bool $isSearch, ?string $query = null) {
-    session_start();
+//    session_start();
+    startSessionIfNone();
     $repo = new BookRepository();
 //
     $currentUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     $urlComponents = parse_url($currentUrl);
+    $params = [];
     if (isset($urlComponents['query'])) {
-        parse_str($urlComponents['query'], $params);
+        parse_str($urlComponents['query'], $params1);
+        $params = $params1;
     }
     $asc = true;
-    $orderBy = 0;
+    $orderBy = $repo::TITLE;
     if (isset($params['orderBy'])) {
         $orderByQuery = $params['orderBy'];
         switch ($orderByQuery) {
@@ -111,8 +114,10 @@ function drawPage(int $pageNumber, bool $isSearch, ?string $query = null) {
 
     $currentUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     $urlComponents = parse_url($currentUrl);
+    $params = [];
     if (isset($urlComponents['query'])) {
-        parse_str($urlComponents['query'], $params);
+        parse_str($urlComponents['query'], $params1);
+        $params = $params1;
     }
 
 

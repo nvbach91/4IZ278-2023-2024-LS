@@ -18,5 +18,4 @@ define("APP_REDIRECT", "http://localhost". BASE_URL. "/authentication/oauth.php"
 define("GRAPH_API_VERSION","v20.0");
 
 
-
 ?>

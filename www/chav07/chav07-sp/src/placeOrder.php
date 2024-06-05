@@ -10,11 +10,12 @@ require_once __DIR__ . "/database/User.php";
 require_once __DIR__ . "/database/Order.php";
 require_once __DIR__ . "/database/BookRepository.php";
 require_once __DIR__ . "/database/AuthorRepository.php";
+require_once __DIR__ . "/database/OrderRepository.php";
 
 
 
-session_start();
-
+//session_start();
+startSessionIfNone();
 if (!isAuthenticated()){
     header("HTTP/1.1 401 Unauthorized");
     header("Location: " . htmlspecialchars(BASE_URL . "/login.php"));

@@ -49,7 +49,8 @@ $user = new UserCreateDTO($sanitizedEmail, $name, $password_hash, AuthRole::User
 $repository->createUser($user);
 $loged_user = $repository->getUserByEmail($sanitizedEmail);
 
-session_start();
+//session_start();
+startSessionIfNone();
 
 $_SESSION["user"] = $loged_user;
 //login

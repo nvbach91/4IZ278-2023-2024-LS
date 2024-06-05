@@ -6,8 +6,10 @@ function drawFilters()
 
         $currentUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         $urlComponents = parse_url($currentUrl);
+        $params = [];
         if (isset($urlComponents['query'])) {
-            parse_str($urlComponents['query'], $params);
+            parse_str($urlComponents['query'], $params1);
+            $params = $params1;
         }
 
 

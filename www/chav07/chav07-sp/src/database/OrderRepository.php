@@ -9,6 +9,11 @@ use Vilem\BookBookGo\database\IOrderRepository;
 
 require_once __DIR__ . "/DbConnection.php";
 require_once __DIR__ . "/../config.php";
+require_once __DIR__ . "/IOrderRepository.php";
+require_once __DIR__ . "/Order.php";
+require_once __DIR__ . "/DTOs/OrderCreateDTO.php";
+
+
 class OrderRepository implements IOrderRepository
 {
 

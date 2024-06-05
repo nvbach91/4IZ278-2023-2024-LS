@@ -4,6 +4,9 @@ namespace Vilem\BookBookGo\database;
 
 use DbConnection;
 require_once __DIR__ . "/DbConnection.php";
+require_once __DIR__ . "/IAuthorRepository.php";
+require_once __DIR__ . "/Author.php";
+
 class AuthorRepository implements IAuthorRepository
 {
     function __construct()

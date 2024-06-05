@@ -24,8 +24,8 @@ function plusMinus(bool $plus)
 }
 function cartItemValidityCheck() : int
 {
-    session_start();
-
+//    session_start();
+    startSessionIfNone();
     if(!isAuthenticated()){
         header("HTTP/1.1 401 Unauthorized");
         header("location:" . BASE_URL ."/login.php");
@@ -49,7 +49,8 @@ function cartItemValidityCheck() : int
 }
 
 function revalidateCart(): bool {
-    session_start();
+//    session_start();
+    startSessionIfNone();
     if(!isset($_SESSION["cart"])){
         return false;
     }

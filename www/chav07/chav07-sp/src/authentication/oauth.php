@@ -4,9 +4,12 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . "/../config.php";
 require_once __DIR__ . "/../database/UserRepository.php";
 require_once __DIR__ . "/../database/OAuthRepository.php";
+require_once __DIR__ . "/AuthUtils.php";
 
 
-session_start();
+
+//session_start();
+startSessionIfNone();
 $provider = new \League\OAuth2\Client\Provider\Facebook([
     "clientId" => APP_ID,
     "clientSecret" => APP_SECRET,
