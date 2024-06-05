@@ -65,8 +65,23 @@ function confirmInventoryAction(itemName) {
 
     sellButton.onclick = function() {
         dialog.className = 'action-dialog-hidden';
-        // Add code here to sell the item
-    };
+
+    fetch('../store_item_to_sell_in_session.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'item_name=' + encodeURIComponent(itemName),
+    })
+    .then(response => response.text())
+    .then(data => {
+        console.log(data);
+        window.location.href = '../components/BlacksmithDisplay.php'; // Redirect to buy_item.php
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+};
 
     cancelButton.onclick = function() {
         dialog.className = 'action-dialog-hidden';

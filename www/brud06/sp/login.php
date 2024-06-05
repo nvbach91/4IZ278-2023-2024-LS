@@ -21,8 +21,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['privilege'] = $user['privilege'];
         $_SESSION['user_id'] = $user['user_id'];
         setcookie('name', $email, time() + (86400 * 30), "/");
-        header('Location: character_selection.php');
-        exit;
+        
+         // Check user privilege and redirect accordingly
+         if ($user['privilege'] == 2) {
+            header('Location: ./admin/admin_interface.php');
+        } else {
+            header('Location: character_selection.php');
+        }
+        
+        
     } else {
         $messageForUser = "Incorrect password!";
     }

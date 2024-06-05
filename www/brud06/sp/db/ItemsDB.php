@@ -2,16 +2,22 @@
 require_once 'database.php';
 class ItemsDB extends Database
 {
-    public function create($data)
-    {
-        $sql = "INSERT INTO sp_items (name, price, img) VALUES (:name, :price, :description, :img)";
-        $this->runQuery($sql, [
-            'name' => $data['name'],
-            'price' => $data['price'],
-            'description' => $data['description'],
-            'img' => $data['img']
-        ]);
-    }
+
+public function create($data)
+{
+    $sql = "INSERT INTO sp_items (name, image, strength, dexterity, hitpoints, luck, equipment_type, price_to_buy, price_to_sell) VALUES (:name, :image, :strength, :dexterity, :hitpoints, :luck, :equipment_type, :price_to_buy, :price_to_sell)";
+    $this->runQuery($sql, [
+        'name' => $data['name'],
+        'image' => $data['image'],
+        'strength' => $data['strength'],
+        'dexterity' => $data['dexterity'],
+        'hitpoints' => $data['hitpoints'],
+        'luck' => $data['luck'],
+        'equipment_type' => $data['equipment_type'],
+        'price_to_buy' => $data['price_to_buy'],
+        'price_to_sell' => $data['price_to_sell']
+    ]);
+}
 
 
     public function getRandomItems($limit = 6)

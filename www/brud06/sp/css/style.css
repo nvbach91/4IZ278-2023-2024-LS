@@ -442,3 +442,65 @@ form input, form textarea {
     border-radius: 5px;
     text-align: center;
 }
+.item-form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: auto;
+}
+
+.item-form input[type="text"] {
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.item-form input[type="submit"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+.item-form input[type="submit"]:hover {
+    background-color: #45a049;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.back-button {
+    display: block;
+    width: 100px;
+    height: 30px;
+    margin: 20px auto;
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    background-color: #45a049;
+}

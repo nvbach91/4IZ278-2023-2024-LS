@@ -1,6 +1,6 @@
 <?php
-//session_start();
-require_once '../restrictions/user_required.php';
+session_start();
+//require_once '../restrictions/user_required.php';
 require_once '../db/CharactersDB.php';
 require_once '../db/QuestsDB.php';
 

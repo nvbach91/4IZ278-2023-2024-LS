@@ -1,6 +1,6 @@
 <?php
 
-//session_start();
+session_start();
 require_once '../restrictions/user_required.php';
 require_once '../db/CharactersDB.php';
 require_once '../db/ItemsDB.php';
@@ -116,7 +116,7 @@ $luck = $character['luck'];
                             <!-- Ring goes here -->
                             <?php if ($equippedItems['Trinket'] !== null) : ?>
                                 <?php $trinket = $itemsDB->getItemDetails($equippedItems['Trinket']['item_id']); ?>
-                                <img src="../<?php echo $ring['image']; ?>" alt="Ring Image" id="ringImage">
+                                <img class = "item-img" src="../<?php echo $trinket['image']; ?>" alt="Ring Image" id="ringImage">
                                 <h3 class="item-name"><?php echo $trinket['name']; ?></h3>
                             <?php endif; ?>
                         </div>
@@ -124,7 +124,7 @@ $luck = $character['luck'];
                             <!-- Boots go here -->
                             <?php if ($equippedItems['Legs'] !== null) : ?>
                                 <?php $boots = $itemsDB->getItemDetails($equippedItems['Legs']['item_id']); ?>
-                                <img src="../<?php echo $boots['image']; ?>" alt="Boots Image" id="bootsImage">
+                                <img class = "item-img" src="../<?php echo $boots['image']; ?>" alt="Boots Image" id="bootsImage">
                                 <h3 class="item-name"><?php echo $boots['name']; ?></h3>
                             <?php endif; ?>
                         </div>
