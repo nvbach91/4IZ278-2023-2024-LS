@@ -13,19 +13,19 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" enctype="multipart/form-data" class="mt-6 space-y-6">
         @csrf
         @method('patch')
 
         <div>
             <x-input-label for="name" :value="__('Jméno')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
+            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" maxlength="255" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
         <div>
             <x-input-label for="email" :value="__('E-mail')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
+            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" maxlength="255" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
@@ -45,6 +45,25 @@
                     @endif
                 </div>
             @endif
+        </div>
+
+        <div>
+            <x-input-label for="location" :value="__('Lokalita')" />
+            <x-text-input id="location" name="location" type="text" class="mt-1 block w-full" :value="old('location', $user->location)" maxlength="255" autocomplete="address-level2" />
+            <x-input-error class="mt-2" :messages="$errors->get('location')" />
+        </div>
+
+        <div>
+            <x-input-label for="photo" :value="__('Fotografie')" />
+            <input id="photo" name="photo" type="file" accept="image/*" class="form-control @error('photo') is-invalid @enderror" :value="old('photo')" autocomplete="photo">
+            <x-input-error class="mt-2" :messages="$errors->get('photo')" />
+            <img src="{{ $photo_url }}" class="rounded w-32 mt-2">
+        </div>
+
+        <div>
+            <x-checkbox id="is_sitter" name="is_sitter" :checked="$user->role == 1" :disabled="$user->role > 1">
+                {{ __('Chci zveřejnit svůj profil a stát se kočičí chůvou') }}
+            </x-checkbox>
         </div>
 
         <div class="flex items-center gap-4">

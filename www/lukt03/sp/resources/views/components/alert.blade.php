@@ -30,7 +30,7 @@
 					<x-entypo-info />
 				@endif
 			</div>
-			<div>
+			<div class="flex flex-col justify-center">
 				{{ $slot }}
 			</div>
 		</div>

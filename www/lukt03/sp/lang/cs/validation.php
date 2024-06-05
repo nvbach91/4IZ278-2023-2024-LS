@@ -269,4 +269,9 @@ return [
         'value'                    => 'hodnota',
         'year'                     => 'rok',
     ],
+    'custom' => [
+        'location' => [
+            'required_if_accepted' => 'Pokud chcete hlídat, vyplňte lokalitu',
+        ],
+    ],
 ];
