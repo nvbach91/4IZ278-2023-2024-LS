@@ -1,85 +1,436 @@
 body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    /* padding because of ther header */
+    padding-top: 60px; 
+}
+
+/* MENU */
+
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #333;
+    color: white;
+    z-index: 1000;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 1em 2em;
+}
+
+.logo a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.menu {
+    list-style: none;
+    margin: 0;
+    padding: 0 2em;
+    display: flex;
+    gap: 2em;
+    justify-content: left; 
+    align-items: center;
+    flex: 1;
+}
+
+.menu li {
+    display: inline;
+}
+
+.logout {
+    display: flex;
+    justify-content: right; 
     align-items: center;
 }
 
-.form-signup {
-    border-radius: 5px;
-    background-color: #f2f2f2;
-    padding: 20px;
-}
-
-.headline {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
+.menu a, .logout a {
+    text-decoration: none;
+    color: white;
     font-weight: bold;
 }
 
-.form-success {
+.menu a:hover, .logo a:hover, .logout a:hover {
+    color: #ff6347;
+}
+
+/* PROFILE */
+
+.profile-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-header h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.profile-details {
+    list-style: none;
+    padding: 0;
+}
+
+.profile-details li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.profile-details li:last-child {
+    border-bottom: none;
+}
+
+.profile-details label {
+    display: inline-block;
+    width: 150px;
+    font-weight: bold;
+}
+
+/* EVALUATION TABLE */
+
+.container {
+    width: 80%;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.evaluation-table {
     width: 100%;
-    border-radius: 4px;
-    background-color: #4CAF50;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.evaluation-table th, .evaluation-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.evaluation-table th {
+    background-color: #f4f4f4;
+}
+
+.evaluation-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.evaluation-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* ASSIGNMENTS TABLE */
+
+.assignment-card {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.assignment-card:hover {
+    background-color: #f1f1f1;
+}
+
+.assignment-content {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.assignment-left, .assignment-center, .assignment-right {
+    flex: 1;
+}
+
+.assignment-left {
+    text-align: left;
+}
+
+.assignment-center {
+    text-align: center;
+}
+
+.assignment-right {
+    text-align: right;
+    font-style: italic;
+}
+
+.assignment-course {
+    font-weight: bold;
+}
+
+.assignment-description-teacher {
+    margin-top: 5px;
+}
+
+.assignment-student {
+    font-weight: bold;
+}
+
+.no-assignments-message {
+    text-align: center;
+    margin: 20px 0;
+    color: #555;
+    font-size: 16px;
+}
+
+.create-assignment-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 20px 0;
+    background-color: #28a745;
     color: white;
-    padding: 1px 20px;
-    margin-top: 20px; 
-    box-sizing: border-box;
-}
-
-.avatar {
-    width: 100px;
-    height: 100px;
-    overflow: hidden;
-    margin-bottom: 20px; 
-}
-
-.avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.form-errors {
-    width: 100%;
+    border: none;
     border-radius: 4px;
-    background-color: #ff3a3a;
-    color: white;
-    padding: 1px 20px;
-    margin-top: 20px; 
-    box-sizing: border-box;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+}
+
+.create-assignment-button:hover {
+    background-color: #218838;
+}
+
+/* NEW ASSIGNMENT FORM */
+
+.form-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+.form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .form-group {
-    width: 400px;
-    height: 50px;
-    padding: 12px 20px;
-    margin: 8px 0;
-
     display: flex;
     flex-direction: column;
 }
 
-.form-control, .form-select {
-    
-    padding: 12px 20px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group select,
+.form-group textarea {
+    padding: 10px;
     border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 100%;
     box-sizing: border-box;
 }
 
-.btn-primary {
-    font-size: 0.8em;
-    width: 100%;
-    background-color: #4CAF50;
+button.create-assignment-button {
+    padding: 10px 20px;
+    background-color: #28a745;
     color: white;
-    padding: 1px 20px;
-    margin-top: 20px; 
-    box-sizing: border-box;
-    cursor: pointer;
-    border-radius: 4px;
     border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: flex-start;
+}
+
+button.create-assignment-button:hover {
+    background-color: #218838;
+}
+
+/* HOMEWORK */
+
+.homework-container {
+    width: 80%;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.homework-detail {
+    margin: 20px 0;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.homework-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.homework-course {
+    flex: 1;
+    text-align: left;
+    font-weight: bold;
+}
+
+.homework-short-description {
+    flex: 2;
+    text-align: center;
+    font-weight: bold;
+}
+
+.homework-date {
+    flex: 1;
+    text-align: right;
+    font-style: italic;
+}
+
+.homework-status, .homework-grade, .homework-long-description {
+    margin-bottom: 10px;
+}
+
+.homework-form {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 20px 20px 0;
+    gap: 10px;
+}
+
+.homework-form textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical;
+}
+
+.homework-form button {
+    align-self: flex-end;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.homework-form button:hover {
+    background-color: #555;
+}
+
+.homework-submitted-content {
+    margin: 20px 0;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+/* LOGIN */
+
+.login-container {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.login-container h1 {
+    margin-bottom: 20px;
+}
+
+.login-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.login-container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box; 
+}
+
+.login-container button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.login-container button:hover {
+    background-color: #555;
+}
+
+.error-banner, .success-banner {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.error-banner {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
+}
+
+.success-banner {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
 }

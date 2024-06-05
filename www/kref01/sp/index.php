@@ -1,5 +1,5 @@
-<?php include './includes/head.php';?>
+<?php include './includes/guestHead.php';?>
 
-<?php require './components/login.php'; ?>
+<?php require './login.php'; ?>
 
 <?php include './includes/foot.php'; ?>

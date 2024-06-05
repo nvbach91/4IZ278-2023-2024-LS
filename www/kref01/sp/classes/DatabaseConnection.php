@@ -4,10 +4,15 @@ class DatabaseConnection {
     private static $instance = null;
     private $pdo;
     
+    // private const DB_HOSTNAME = 'localhost';
+    // private const DB_DATABASE = 'Eschool';
+    // private const DB_USERNAME = 'root';
+    // private const DB_PASSWORD = '';
+
     private const DB_HOSTNAME = 'localhost';
-    private const DB_DATABASE = 'Eschool';
-    private const DB_USERNAME = 'root';
-    private const DB_PASSWORD = '';
+    private const DB_DATABASE = 'kref01';
+    private const DB_USERNAME = 'kref01';
+    private const DB_PASSWORD = 'aithoteiFiejoo3Ahf';
     
     private function __construct() {
         try {
@@ -16,17 +21,10 @@ class DatabaseConnection {
                 self::DB_USERNAME,
                 self::DB_PASSWORD
             );
-            
-            // $statement = $this->pdo->prepare("SELECT * FROM Users;");
-            // $statement->execute();
-            // $users = $statement->fetchAll(PDO::FETCH_ASSOC);
-            // foreach($users as $value):
-            //     echo $value['user_id'];
-            //     echo $value['first_name'];
-            // endforeach;
         }
-        catch(PDOException) {
-            // TODO
+        catch (PDOException $e) {
+            error_log('Database connection error: ' . $e->getMessage());
+            die('Could not connect to the database. Please try again later.');
         }
     }
 
@@ -41,9 +39,6 @@ class DatabaseConnection {
         return $this->pdo;
     }
 
-    public function printConnectionCredentials() {
-        echo "database config: host: " . self::DB_HOSTNAME . ", dbname: " . self::DB_DATABASE . ", username: " . self::DB_USERNAME;
-    }
 }
 
 ?>

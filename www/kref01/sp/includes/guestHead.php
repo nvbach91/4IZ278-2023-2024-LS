@@ -13,15 +13,10 @@
     <header>
         <nav>
             <div class="logo">
-                <a href="./profile.php">Eschool</a>
+                <a>Eschool</a>
             </div>
-            <ul class="menu">
-                <li><a href="./assignments.php">Assignments</a></li>
-                <li><a href="./evaluation.php">Evaluation</a></li>
-                <li><a href="./profile.php">Profile</a></li>
-            </ul>
             <div class="logout">
-                <a href="./index.php">Sign Out</a>
+                <a href="./index.php">Sign In</a>
             </div>
         </nav>
     </header>
