@@ -1,9 +1,9 @@
 <?php
 
-require_once __DIR__ . '/BaseValidator.php';
+require_once __DIR__ . '/BaseUserValidator.php';
 require_once __DIR__ . '/../db/UsersDB.php';
 
-class UserValidator extends BaseValidator {
+class UserValidator extends BaseUserValidator {
     private $userDB;
 
     public function __construct() {
@@ -54,24 +54,23 @@ class UserValidator extends BaseValidator {
 
         return $this->errors;
     }
-
     public function validateLogin($email, $password) {
         $this->errors = [];
-
+    
         $user = $this->userDB->findByEmail($email);
         if ($user) {
             if (!password_verify($password, $user['password_hash'])) {
-                $this->errors[] = "Incorrect password.";
+                $this->errors[] = "Nesprávné heslo.";
             } elseif (!$user['is_active']) {
-                $this->errors[] = "This account is inactive. Please contact support.";
+                $this->errors[] = "Tento účet je neaktivní. Prosím, kontaktujte podporu.";
             }
         } else {
-            $this->errors[] = "Email not found.";
+            $this->errors[] = "E-mail nenalezen.";
         }
-
+    
         return $this->errors;
     }
-
+    
     private function validateUniqueEmail($email, $userId = null) {
         $existingUserByEmail = $this->userDB->findByEmail($email);
         if ($existingUserByEmail && $existingUserByEmail['user_id'] != $userId) {

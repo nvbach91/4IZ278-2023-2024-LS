@@ -1,9 +1,9 @@
 <?php
 
-require_once __DIR__ . '/BaseValidator.php';
+require_once __DIR__ . '/BaseUserValidator.php';
 require_once __DIR__ . '/../db/UsersDB.php';
 
-class HostValidator extends BaseValidator {
+class HostValidator extends BaseUserValidator {
     private $userDB;
 
     public function __construct() {

@@ -48,7 +48,7 @@ elseif (isset($_GET['product_id'])) {
 <div class="container">
   <div class="row mb-3">
     <div class="col-12 text-right">
-      <a href="add-product" class="btn btn-primary">Přidat produkt</a>
+      <a href="manage-products" class="btn btn-primary">Spravovat produkty</a>
     </div>
   </div>
 </div>
