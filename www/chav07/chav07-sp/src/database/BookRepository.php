@@ -132,7 +132,6 @@ class BookRepository implements IBookRepository{
 
             $statement->bindValue(":items", ITEMS_PER_PAGE);
             $statement->bindValue(":page_number", $pageNumber * ITEMS_PER_PAGE);
-            // $statement->bindValue(":orby", $orderby);
 
             $statement->execute();
             $fetchedBooks = $statement->fetchAll();
@@ -149,12 +148,12 @@ class BookRepository implements IBookRepository{
 
         try{
             $pdo = DbConnection::getConnection();
-            $queryOrder = self::getSQLOrderByStatement($orderby, $asc);    
+            $queryOrder = self::getSQLOrderByStatement($orderby, $asc);
             $statement = $pdo->prepare("SELECT ID_BOOK, AUTHORS.NAME AS AUTHOR_NAME, TITLE, DESCRIPTION, PRICE, STOCK, ISBN13, ISBN10, IMAGE_URL
-                                        FROM BOOKS 
-                                        LEFT JOIN AUTHORS 
+                                        FROM BOOKS
+                                        LEFT JOIN AUTHORS
                                             ON BOOKS.ID_AUTHOR = AUTHORS.ID_AUTHOR
-                                        WHERE BOOKS.TITLE LIKE :query1 OR AUTHORS.NAME LIKE :query2 " 
+                                        WHERE BOOKS.TITLE LIKE :query1 OR AUTHORS.NAME LIKE :query2 "
                                         . $queryOrder ."
                                         LIMIT :item_count OFFSET :page_offset");
 
@@ -205,9 +204,6 @@ class BookRepository implements IBookRepository{
 
 
 
-    public function getBookByTitle(string $title) : ?BookWithIdDTO{
-        return null;
-    }
     
     public function getBookCount() : int{
         try{
@@ -271,9 +267,6 @@ class BookRepository implements IBookRepository{
         catch(PDOException $e){
             exit("Error trying to access the database: " . $e->getMessage());
         }
-    }
-    public function deleteBook(int $id){
-
     }
 
     private function mapBooksWithIdDTOs($array) : array {

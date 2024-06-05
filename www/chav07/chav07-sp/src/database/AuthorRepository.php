@@ -35,7 +35,7 @@ class AuthorRepository implements IAuthorRepository
     {
         try {
             $pdo = DbConnection::getConnection();
-            $statement = $pdo->prepare("SELECT * FROM AUTHORS WHERE AUTHORS.NAME = :name LIMIT 1");
+            $statement = $pdo->prepare("SELECT * FROM AUTHORS WHERE AUTHORS.NAME LIKE :name LIMIT 1");
             $statement->execute(["name" => $name]);
             $queryResult = $statement->fetchAll();
             if (empty($queryResult)) {
@@ -45,6 +45,7 @@ class AuthorRepository implements IAuthorRepository
                 $queryResult[0]["ID_AUTHOR"],
                 $queryResult[0]["NAME"],
             );
+
             return $author;
         }
         catch (PDOException $e) {

@@ -25,7 +25,6 @@ class UserRepository implements IUserRepository {
                 AuthRole::class::from($response[0]["ROLE"])
             );
 
-            // var_dump($resultUser);
             return $resultUser;
             
         }
@@ -68,13 +67,6 @@ class UserRepository implements IUserRepository {
         catch(Exception $e){
             exit("Error trying to access the database: " . $e->getMessage());
         }
-
-    }
-    public function updateUserById(int $id, UserUpdateDTO $user){
-
-
-    }
-    public function deleteUserById(int $id){
 
     }
 

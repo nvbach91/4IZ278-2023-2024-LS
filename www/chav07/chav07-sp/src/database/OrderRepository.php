@@ -3,21 +3,75 @@
 namespace Vilem\BookBookGo\database;
 
 use DbConnection;
+use PDO;
 use Vilem\BookBookGo\database\DTOs\OrderCreateDTO;
 use Vilem\BookBookGo\database\IOrderRepository;
 
 require_once __DIR__ . "/DbConnection.php";
+require_once __DIR__ . "/../config.php";
 class OrderRepository implements IOrderRepository
 {
 
     public function getOrders($page) : array
     {
+        try {
+            $pdo = DbConnection::getConnection();
+            $statement = $pdo->prepare("SELECT * FROM ORDERS 
+                                                        LIMIT :limit OFFSET :offset");
+            $statement->execute([
+                "limit" => ITEMS_PER_PAGE,
+                "offset" => ITEMS_PER_PAGE * $page
+            ]);
+            $orders = $statement->fetchAll();
+            $result = array();
+            foreach ($orders as $order) {
+                array_push($result, new Order(
+                    $order["ID_ORDER"],
+                    $order["USER_ID"],
+                    $order["PAID"],
+                    $order["DELIVERED"],
+                    $order["STREET"],
+                    $order["CITY"],
+                    $order["POST_CODE"],
+                    $order["PHONE"],
+                ));
+            }
+            return $result;
 
+
+        }
+        catch (PDOException $e) {
+
+        }
     }
 
     public function getOrder($id) : ?Order
     {
+        try {
+            $pdo = DbConnection::getConnection();
+            $statement = $pdo->prepare("SELECT * FROM ORDERS WHERE ID_ORDER = :id LIMIT 1");
+            $statement->execute([
+                "id" => $id
+            ]);
+            $result = $statement->fetchAll()[0];
+            if ($result == null) {
+                return null;
+            }
 
+            return new Order(
+                $result["ID_ORDER"],
+                $result["USER_ID"],
+                $result["PAID"],
+                $result["DELIVERED"],
+                $result["STREET"],
+                $result["CITY"],
+                $result["POST_CODE"],
+                $result["PHONE"],
+            );
+        }
+        catch (PDOException $e) {
+            exit("Error while connecting to the database: " . $e->getMessage());
+        }
     }
 
 
@@ -88,5 +142,38 @@ class OrderRepository implements IOrderRepository
         }
 
 
+    }
+
+    public function getOrderCount(): int
+    {
+        try {
+            $pdo = DbConnection::getConnection();
+            $statement = $pdo->prepare("SELECT COUNT(*) AS ORDER_COUNT FROM ORDERS");
+            $statement->execute();
+            return $statement->fetchAll()[0]["ORDER_COUNT"];
+
+        }
+        catch (PDOException $e) {
+            exit("Error while connecting to the database: " . $e->getMessage());
+        }
+    }
+
+    public function updateOrder(Order $order)
+    {
+        try {
+            $pdo = DbConnection::getConnection();
+            $statement = $pdo->prepare("UPDATE ORDERS SET
+                                                    PAID = :paid,
+                                                    DELIVERED = :delivered
+                                                WHERE ID_ORDER = :id");
+            $statement->execute([
+                "paid" => (int)$order->paid,
+                "delivered" => (int)$order->delivered,
+                "id" => $order->id
+            ]);
+        }
+        catch (PDOException $e) {
+            exit("Error while connecting to the database: " . $e->getMessage());
+        }
     }
 }

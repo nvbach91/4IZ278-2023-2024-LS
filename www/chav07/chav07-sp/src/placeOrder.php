@@ -1,5 +1,6 @@
 <?php
 
+use Vilem\BookBookGo\database\AuthorRepository;
 use Vilem\BookBookGo\database\OrderRepository;
 
 require_once __DIR__ . "/../vendor/autoload.php";
@@ -8,6 +9,7 @@ require_once __DIR__ . "/cart/plusMinus.php";
 require_once __DIR__ . "/database/User.php";
 require_once __DIR__ . "/database/Order.php";
 require_once __DIR__ . "/database/BookRepository.php";
+require_once __DIR__ . "/database/AuthorRepository.php";
 
 
 
@@ -54,24 +56,26 @@ $tel = htmlspecialchars(strip_tags(trim($_POST["tel"])));
 $street  = htmlspecialchars(strip_tags(trim($_POST["street"])));
 $city = htmlspecialchars(strip_tags(trim($_POST["city"])));
 $zip = htmlspecialchars(strip_tags(trim($_POST["zip"])));
-//$paymentMethod = htmlspecialchars(strip_tags(trim($_POST["paymentMethod"])));
-//
-//
+
 $orderRepo = new OrderRepository();
 $bookRepo = new BookRepository();
+$authorRepo = new AuthorRepository();
+
 $newOrder = new \Vilem\BookBookGo\database\DTOs\OrderCreateDTO($user->id, false, false, $street, $city, $zip, $tel);
 $orderRepo->createOrder($newOrder);
 $latestOrder = $orderRepo->getUsersLatestOrder($user->id);
 
 foreach($cart as $item){
     $orderRepo->addBookIntoOrder($latestOrder->id, $item->book->id, $item->quantity, $item->book->price);
-    //update book quantity
+    $author = $authorRepo->getAuthorByName($item->book->authorName);
+
+//    update book quantity
     $updatedBook = new BookDTO(
-        $item->book->id,
+        $author->id,
         $item->book->title,
         $item->book->description,
         $item->book->price,
-        $item->book->stock - $item->quantity,
+        ($item->book->stock - $item->quantity),
         $item->book->isbn13,
         $item->book->isbn10,
         $item->book->image_url,
@@ -90,6 +94,7 @@ unset($_SESSION["cart"]);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./favicon.ico">
     <link rel="stylesheet" type="text/css" href="./../vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="./css/main.css">
     <title>BookBookGo - Order Complete</title>

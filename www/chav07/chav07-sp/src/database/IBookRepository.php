@@ -8,8 +8,7 @@ interface IBookRepository{
 
     public function getAllBooks(?array $ids) : array;
     public function getBookById($id) : ?BookWithIdDTO;
-    public function getBookByTitle(string $title) : ?BookWithIdDTO;
-    
+
     public function getBooksPage(int $pageNumber, int $orderby = 0, bool $asc = true) : array;
     public function getBookCount() : int;
 
@@ -19,6 +18,5 @@ interface IBookRepository{
 
     public function createBook(BookDTO $book);
     public function updateBook(int $id, BookDTO $book);
-    public function deleteBook(int $id);
 }
 ?>
