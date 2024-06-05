@@ -8,20 +8,17 @@ let user_username = null;
 
 fetch("./main-download.php")
     .then((response) => {
-        if (!response.ok) { // Before parsing (i.e. decoding) the JSON data,
-            // check for any errors.
-            // In case of an error, throw.
+        if (!response.ok) {
             throw new Error("Something went wrong!");
         }
-
         return response.json(); // Parse the JSON data.
     })
     .then((data) => {
         // This is where you handle what to do with the response.
-        likedSpots = data[0]; // Will alert: 42
-        allLikes = data[1]; // Will alert: 42
-        allComments = data[2]; // Will alert: 42
-        //allUsers = data[3]; // Will alert: 42
+        likedSpots = data[0]; 
+        allLikes = data[1];
+        allComments = data[2];
+
         user_id = data[3];
         user_username = data[4];
         console.log('alllikes: '+allLikes);
@@ -50,7 +47,6 @@ function checkSpot(Sid) {
             document.querySelector(`#unlike-${spot_id}`).style.display = 'block';
             console.log('spot liked');
         }
-        //$('#'+spot_id).find('.like-false').hide();
     }
 
     /*CHECK COMMENTS*/

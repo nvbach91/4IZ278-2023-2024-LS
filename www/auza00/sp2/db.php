@@ -1,8 +1,8 @@
 <?php
-const DB_HOST = 'localhost';
-const DB_DATABASE = 'i_know_a_spot';
-const DB_USERNAME = 'root';
-const DB_PASSWORD = '';
+const DB_HOST = 'md405.wedos.net';
+const DB_DATABASE = 'd341941_spot';
+const DB_USERNAME = 'a341941_spot';
+const DB_PASSWORD = 'rcMcSkEs';
 
 //pripojeni do db na serveru eso.vse.cz
 // nenahravat username a password, ani dbname na git!

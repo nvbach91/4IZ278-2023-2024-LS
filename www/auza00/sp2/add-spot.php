@@ -2,8 +2,10 @@
 session_start();
 require 'db.php';
 require 'image-upload.php';
+ob_start();
 ?>
 <?php
+
 //image specs
 $target_dir = "spot-img/";
 $fileName = $_FILES['fotka']['name'];
@@ -12,7 +14,7 @@ $fileExtension = strtolower(end($fileNameCmps));
 $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
 $target_file = $target_dir . $newFileName;
 $uploadOk = 1;
-
+$image_id = null;
 
 if ('POST' == $_SERVER['REQUEST_METHOD']) {
 
@@ -21,29 +23,36 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
     foreach ($categories as $c) {
         if (isset($c)) {
             array_push($category, $c);
-        }
-        else{
+        } else {
             array_push($category, null);
         }
     }
 
-    uploadImage($target_file);
+    if ($fileName != null){
+        uploadImage($target_file);     
+        $image_id = $newFileName;   
+    }
+
+
     $user_id = $_SESSION['user_id'];
     $user_username = $_SESSION['user_username'];
+
     $title = trim($_POST['nazev']);
     $description = $_POST['popis'];
+    $title = stripcslashes($title);
+    $description = stripcslashes($description);
+
     $coordinatesX = $_COOKIE["longitude-for-form"];
     $coordinatesY = $_COOKIE["latitude-for-form"];
     setcookie("longitude", $coordinatesX, time() + (86400), "/");
     setcookie("latitude", $coordinatesY, time() + (86400), "/");
-    $image_id = $newFileName;
     $created_at = date('Y-m-d H:i:s');
 
     //vlozime usera do databaze
     $stmt = $db->prepare('INSERT INTO spots(user_id, username, title, description, coordinatesX, coordinatesY, category, image_id, created_at) VALUES (:user_id, :username, :title, :description, :coordinatesX, :coordinatesY, :category, :image_id, :created_at)');
     $stmt->execute([
         'user_id' => $user_id,
-        'username'=> $user_username,
+        'username' => $user_username,
         'title' => $title,
         'description' => $description,
         'coordinatesX' => $coordinatesX,
@@ -52,7 +61,8 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
         'image_id' => $image_id,
         'created_at' => $created_at
     ]);
-}
 
-header('Location: index.php');
+    header('Location: index.php');
+    exit();
+}
 ?>

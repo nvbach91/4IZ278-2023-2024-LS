@@ -1,6 +1,11 @@
 <?php
 session_start();
 require 'db.php';
+
+if (!isset($_SESSION['nick-taken'])) {
+    $_SESSION['nick-taken'] = "already-taken-not";
+}
+
 ?>
 <!DOCTYPE html>
 <html lang='cs'>
@@ -169,7 +174,7 @@ require 'db.php';
             <li><b style="color: #b9ee87;">4.</b> Celý to potvrď tlačítkem "Přidat spot"</li>
         </ul>-->
         <h3><i class="fa-solid fa-cannabis"></i> TIP <i class="fa-solid fa-cannabis"></i></h3>
-        <p class="popup4-p">Pokud jsi na mobilu, tak si můžeš přidat stránku na plochu. Tím pádem až někdy narazíšna
+        <p class="popup4-p">Pokud jsi na mobilu, tak si můžeš přidat stránku na plochu. Tím pádem až někdy narazíš na
             novej super spot, nemusíš hledat stránku ve vyhledávači a stačí kliknout na ikonu aplikace na mobilu.</p>
         <h3><i class="fa-solid fa-cannabis"></i> Nejde ti přidat spot? <i class="fa-solid fa-cannabis"></i></h3>
         <p class="popup4-p">
@@ -191,13 +196,13 @@ require 'db.php';
         </div>
     </div>
     <div id='popup6' class='popup'>
-        <form id='nick-form'>
+        <form id='nick-form' method="POST" action="signup-oauth.php" enctype="multipart/form-data">
             <p class="nick-h">
                 Zvol si svoji přezdívku
             </p>
             <input type='text' id='nick' name='nick' class='input-text' placeholder='např. Ema Smotaná' required>
 
-            <p id="already-taken">Takhle se tu už někdo jmenuje</p>
+            <p id="<?= $_SESSION['nick-taken'] ?>">Takhle se tu už někdo jmenuje</p>
 
             <input id='nick-submit' type='submit' value='Budiž'>
         </form>
@@ -272,6 +277,10 @@ require 'db.php';
     <script src='js/map.js'></script>
     <script src='js/liking-system.js'></script>
     <script src="js/jquery-image-upload-resizer.js"></script>
+    <script src='js/google-login.js'></script>
+    <script>
+
+    </script>
     <script>
         $(document).ready(function () {
             // bind 'myForm' (is an id of form) and provide a simple callback function 
@@ -300,9 +309,10 @@ require 'db.php';
     </script>
 
     <script>
-        /*if signed in show buttons*/
-        let isLogged = false;
-        <?php if (isset($_SESSION['user_id'])) { ?>
+        function showButtons() {
+            /*if signed in show buttons*/
+            let isLogged = false;
+            <?php if (isset($_SESSION['user_id'])) { ?>
 
                 buttonMySpots.style.visibility = 'visible';
                 buttonLogout.style.visibility = 'visible';
@@ -310,17 +320,10 @@ require 'db.php';
                 buttonAddLogin.style.display = 'none';
                 isLogged = true;
                 console.log('logged in');
-            /*}
-            else {
-                buttonMySpots.style.visibility = 'hidden';
-                buttonLogout.style.visibility = 'hidden';
-                buttonAddAdd.style.display = 'none';
-                buttonAddLogin.style.display = 'inline-block';
-                console.log('logged out');
-            }*/
 
-        <?php } ?>
-
+            <?php } ?>                     
+        }
+        showButtons();
     </script>
 </body>
 

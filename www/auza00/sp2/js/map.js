@@ -73,6 +73,7 @@ fetch("./download-spot.php")
     })
     .catch((error) => {
         // This is where you handle errors.
+        console.log(error);
     });
 
 
@@ -396,18 +397,23 @@ map.on('click', 'unclustered-points', (e) => {
 });
 let liked = false;
 function like(spot_id, likes_count) {
-    $.get("./like-spot.php?like_spot_id=" + spot_id);
-    document.querySelector(`#like-${spot_id}`).style.display = 'none';
-    document.querySelector(`#unlike-${spot_id}`).style.display = 'block';
-    if (liked == false){
-        document.querySelector(`#number-likes-${spot_id}`).innerHTML = likes_count+1;        
-        liked = true;
+    if(user_id != null){
+        $.get("./like-spot.php?like_spot_id=" + spot_id);
+        document.querySelector(`#like-${spot_id}`).style.display = 'none';
+        document.querySelector(`#unlike-${spot_id}`).style.display = 'block';
+        if (liked == false){
+            document.querySelector(`#number-likes-${spot_id}`).innerHTML = likes_count+1;        
+            liked = true;
+        }
+        else{
+            document.querySelector(`#number-likes-${spot_id}`).innerHTML = likes_count;   
+            liked = false;
+        }
+        console.log('liked');        
     }
     else{
-        document.querySelector(`#number-likes-${spot_id}`).innerHTML = likes_count;   
-        liked = false;
+        window.location.href = "signup.php"; //uživatel se musí nejprve přihlásit
     }
-    console.log('liked');
 }
 
 function unlike(spot_id, likes_count) {

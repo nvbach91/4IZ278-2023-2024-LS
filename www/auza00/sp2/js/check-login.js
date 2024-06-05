@@ -37,11 +37,6 @@ $('#button-logout').on('click', function () { //transfer to signup
     popupLogoutAll.style.display = 'block';
 });
 
-/*$("#main-button-signout").on('click', function () {
-    $.ajax({url: "logout.php"});
-    location.reload();
-});*/
-
 $('#button-add-first').on('click', function () { //show spot point on map
     addPoint();
 });
@@ -75,6 +70,7 @@ $('#button-list').on('click', function () { //show mySpots
 });
 
 $('#main-button-signout').on('click', function () { //logout -> clear
+    localStorage.removeItem("signinGoogle");
     myPoints = [];
 });
 

@@ -10,13 +10,18 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
     $password = $_POST['password'];
     $confirm = $_POST['confirm'];
 
+    $username = stripcslashes($username);
+    $email = stripcslashes($email);
+    $password = stripcslashes($password);
+    $confirm = stripcslashes($confirm);
+
     //check for used username
     $stmt = $db->prepare('SELECT * FROM users WHERE username LIKE BINARY :username LIMIT 1'); //LIMIT 1 jen jako vykonnostni optimalizace, 2 stejne maily se v db nepotkaji
     $stmt->execute([
         'username' => $username
     ]);
     $existing_user = @$stmt->fetchAll();
-    
+
     if ($existing_user != null) {
         $errors['username'] = 'Takhle se tu už někdo jmenuje';
     }
@@ -57,27 +62,28 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
      * By allowing your storage to expand past 60 characters (255 would be product)
      */
     // dalsi moznosti je vynutit bcrypt: PASSWORD_BCRYPT
-    if(empty($errors)){
+    if (empty($errors)) {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         //vlozime usera do databaze
         $stmt = $db->prepare('INSERT INTO users(username, email, password) VALUES (:username, :email, :password)');
         $stmt->execute([
-            'username' => $username, 
-            'email' => $email, 
+            'username' => $username,
+            'email' => $email,
             'password' => $hashedPassword
-        ]);      
-        
+        ]);
+
         //ted je uzivatel ulozen, bud muzeme vzit id posledniho zaznamu pres last insert id (co kdyz se to potka s vice requesty = nebezpecne),
         // nebo nacist uzivatele podle mailove adresy (ok, bezpecne)
 
-        $stmt = $db->prepare('SELECT user_id FROM users WHERE email = :email LIMIT 1'); //limit 1 jen jako vykonnostni optimalizace, 2 stejne maily se v db nepotkaji
+        $stmt = $db->prepare('SELECT * FROM users WHERE email = :email LIMIT 1'); //limit 1 jen jako vykonnostni optimalizace, 2 stejne maily se v db nepotkaji
         $stmt->execute([
             'email' => $email
         ]);
-        $user_id = (int) $stmt->fetchColumn();
+        $user_id = @$stmt->fetchAll()[0];
 
-        $_SESSION['user_id'] = $user_id;
+        $_SESSION['user_id'] = $user_id['user_id'];
+        $_SESSION['user_username'] = $user_id['username'];
         $_SESSION['user_email'] = $email;
 
         header('Location: index.php');
@@ -98,7 +104,7 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
         <input type="email" name="email" class="input-text" placeholder="Email" required>
         <?php if (!empty($errors['email'])): ?>
             <small>
-            <i><b><?php echo $email ?></b></i> tu už někdo používá
+                <i><b><?php echo $email ?></b></i> tu už někdo používá
             </small>
         <?php endif; ?>
         <input type="password" name="password" id="password" class="input-text" placeholder="Heslo" required>
@@ -114,19 +120,22 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
                 <?php echo array_key_exists('confirm', $errors) ? 'Hesla se neshodují' : ''; ?>
             </small>
         <?php endif; ?>
-        
+
         <button id="form-submit" type="submit">Registrovat</button>
     </form>
     <a href="signin.php" class='signin-already'>Máš už účet? Přihlaš se!</a>
 
-    <p class='signin-or'><p class='signin-or-longer'>----</p>------------------------ nebo ------------------------<p class='signin-or-longer'>----</p></p>
+    <p class='signin-or'>
+    <p class='signin-or-longer'>----</p>------------------------ nebo ------------------------<p
+        class='signin-or-longer'>----</p>
+    </p>
     <button class="button-login" id="main-button-login">
-        <i class="fa-brands fa-google google-icon"></i>
-        Registrovat přes Facebook
+        <i class="fa-brands fa-facebook-f"></i>
+        <p>Registrovat přes Facebook</p>
     </button>
-    <button class="button-login" id="main-button-login2">
+    <button class="button-login" id="main-button-login2" onclick="oauth2SignIn();">
         <i class="fa-brands fa-google google-icon"></i>
-        Registrovat přes Google
+        <p>Registrovat přes Google</p>
     </button>
 </main>
 <?php require __DIR__ . '/preset/footer.php' ?>

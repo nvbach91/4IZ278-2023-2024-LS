@@ -565,7 +565,7 @@ button {
     margin-left: 30px;
     margin-top: -300px;
     z-index: 10;
-    padding: 15px 10px 10px 20px;
+    padding: 20px 10px 10px 25px;
     background-color: #152b00;
     border-radius: 20px;
     border: 3px solid #8abd5b;
@@ -590,8 +590,7 @@ button {
 .information-all-L .like {
     position: absolute;
     float: right;
-    margin: 5px auto 0 auto;
-    right: 245px;
+    margin: 0px auto 0 auto;
     cursor: pointer;
     font-size: 30px;
 }
@@ -621,7 +620,7 @@ button {
     font-weight: 800;
     text-align: center;
     top: 35px;
-    right: 235px;
+    left: 61px;
     cursor: default;
 }
 
@@ -764,6 +763,7 @@ button {
 
 .comment{
     max-width: 97%;
+    display: inline-block;
 }
 
 .comment p{
@@ -771,12 +771,16 @@ button {
     display:inline-block;
 }
 
+.comment-text{
+    overflow-wrap: anywhere;
+}
+
 .comment-bubble{
     background-color: #8abd5b;
     color: #152b00;
     padding: 10px 15px;
     border-radius: 20px;
-    display: inline-block;
+    /*display: inline-block;*/
     margin: 5px 0;
 }
 
@@ -790,11 +794,13 @@ button {
 }
 
 .comments-form{
-    display: flex;
+    display: block;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    margin-top: 5px;
+    width: 80%;
+    min-width: 270px;
+    margin: 10px auto 0 auto;
 }
 
 .comment-form-text {
@@ -806,13 +812,16 @@ button {
     font-family: 'Roboto', sans-serif;
     margin: 7px auto 7px auto;
     position: relative;
-    display: block;
+    display: inline-block;
     color: #afda88;
     background-color: #0b160062;
     flex-grow: 1;
     height: 60px;
     resize: none;
     padding: 4px 6px;
+    vertical-align: middle;
+    width: calc(100% - 120px);
+    min-width: 180px;
 }
 
 .button-send-comment {
@@ -822,10 +831,13 @@ button {
     border: none;
     flex-grow: 1;
     height: 60px;
+    width: 60px;
+    display: inline-block;
     padding: auto;
     margin: 0 10px;
     background-color: #8abd5b;
     transition: 0.2s ease-in-out;
+    vertical-align: middle;
 }
 
 .button-send-comment:hover{
@@ -1121,13 +1133,23 @@ button {
     background-color: #8abd5b;
     color: #152b00;
     border-radius: 5px;
-    padding: 14px 18px;
+    padding: 14px 14px;
     margin: 15px auto;
     display: block;
     font-size: 15px;
     cursor: pointer;
     line-height: 20px;
     font-weight: 600;
+    width: 248px;
+}
+
+.button-login p{
+    display: inline-block;
+}
+
+.button-login p{
+    margin: 0 0 0 5px;
+    display: inline-block;
 }
 
 .fotka_label {
@@ -1468,10 +1490,16 @@ button {
     margin-bottom: 10px;
 }
 
-#already-taken {
-    margin: 0px auto;
-    font-size: 11px;
+#already-taken-not {
+    margin: 7px auto 0px auto;
+    font-size: 12px;
     display: none;
+}
+
+#already-taken-yes {
+    margin: 7px auto 0px auto;
+    font-size: 12px;
+    display: block;
 }
 
 /*------------------*/
@@ -1626,8 +1654,16 @@ button {
 }
 
 .signin-or {
-    margin: 20px auto;
+    margin: 20px auto 0px auto;
     display: block;
+}
+
+.signin-or-longer{
+    display: none;
+}
+
+#main-button-login{
+    margin-top: 25px;
 }
 
 

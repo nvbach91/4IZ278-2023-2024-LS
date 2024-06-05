@@ -58,12 +58,12 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
 
     <p class='signin-or'><p class='signin-or-longer'>----</p>------------------------ nebo ------------------------<p class='signin-or-longer'>----</p></p>
     <button class="button-login" id="main-button-login">
-        <i class="fa-brands fa-google google-icon"></i>
-        Registrovat přes Facebook
+        <i class="fa-brands fa-facebook-f"></i>
+        <p>Přihlásit přes Facebook</p>
     </button>
-    <button class="button-login" id="main-button-login2">
+    <button class="button-login" id="main-button-login2" onclick="oauth2SignIn();">
         <i class="fa-brands fa-google google-icon"></i>
-        Registrovat přes Google
+        <p>Přihlásit přes Google</p>
     </button>
 </main>
 

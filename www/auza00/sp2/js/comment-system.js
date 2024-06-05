@@ -12,11 +12,12 @@ fetch("./comment-system.php")
     })
     .then((data) => {
         // This is where you handle what to do with the response.
-        allComments = data; // Will alert: 42
+        allComments = data; 
         console.log(allComments);
     })
     .catch((error) => {
         // This is where you handle errors.
+        console.log(error);
     });
 
 function commentsOnSpot(Sid) {
