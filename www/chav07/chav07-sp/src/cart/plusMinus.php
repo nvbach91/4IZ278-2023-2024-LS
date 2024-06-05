@@ -3,6 +3,7 @@
 require_once __DIR__ . "/../database/CartObject.php";
 require_once __DIR__ . "/../authentication/AuthUtils.php";
 require_once __DIR__ . "/../config.php";
+require_once __DIR__ . "/../database/BookRepository.php";
 function plusMinus(bool $plus)
 {
     $id = cartItemValidityCheck();
@@ -45,6 +46,30 @@ function cartItemValidityCheck() : int
         exit(404);
     }
     return $id;
+}
+
+function revalidateCart(): bool {
+    session_start();
+    if(!isset($_SESSION["cart"])){
+        return false;
+    }
+
+    $ids = array_keys($_SESSION["cart"]);
+    $repo = new BookRepository();
+    $currentBooks = $repo->getAllBooks($ids);
+
+    $valid = true;
+    foreach ($currentBooks as $book){
+        $cartObj = $_SESSION["cart"][$book->id];
+//        var_dump($cartObj->quantity);
+        if ($cartObj->quantity > $book->stock || $cartObj->book->price !== $book->price){
+            $valid = false;
+            $_SESSION["cart"][$book->id]->book = $book;
+        }
+    }
+
+    return $valid;
+
 }
 
 ?>

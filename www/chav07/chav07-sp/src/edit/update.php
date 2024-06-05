@@ -3,10 +3,11 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 require_once __DIR__ . "/../config.php";
 require_once __DIR__ . "/fileUploadUtils.php";
 require_once __DIR__ . "/../database/BookRepository.php";
-require_once __DIR__ . "/../database/AuthorRepository.php.php";
+require_once __DIR__ . "/../database/AuthorRepository.php";
 require_once __DIR__ . "/../authentication/AuthUtils.php";
 
 use Vilem\BookBookGo\database\AuthorRepository;
+
 session_start();
 if (!isAuthenticated()){
     header("HTTP/1.1 401 Unauthorized");

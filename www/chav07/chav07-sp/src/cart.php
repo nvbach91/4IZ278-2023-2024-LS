@@ -12,6 +12,7 @@ session_start();
 
 if (!isAuthenticated()){
     header("HTTP/1.1 401 Unauthorized");
+    header("Location: " . htmlspecialchars(BASE_URL . "/login.php"));
     exit(401);
 }
 $cart = array();
@@ -22,6 +23,7 @@ $totalPrice = 0;
 foreach ($cart as $item){
     $totalPrice += $item->quantity * $item->book->price;
 }
+$valid = false;
 
 ?>
 
@@ -93,7 +95,7 @@ foreach ($cart as $item){
             <div class="col-8"></div>
             <div class="fs-5 col-2 text-end d-flex flex-column justify-content-center align-items-end">Total: <?php echo htmlspecialchars($totalPrice);?> CZK</div>
             <div class="col-2 text-end d-flex flex-column justify-content-center align-items-end">
-                <a class="btn btn-primary" href="#">
+                <a class="btn btn-primary" href="<?php echo htmlspecialchars(BASE_URL . "/deliveryInfo.php");?>">
                     Continue
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8"/>

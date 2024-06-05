@@ -7,7 +7,7 @@ session_start();
 
 if (!isAuthenticated()){
     header("HTTP/1.1 401 Unauthorized");
-    header("Location: " . BASE_URL . "/");
+    header("Location: " . htmlspecialchars(BASE_URL . "/login.php"));
     exit(401);
 }
 
