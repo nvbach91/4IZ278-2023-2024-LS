@@ -16,6 +16,10 @@ $dormsDb = new DormsDB();
 
 $dormitories = $dormsDb->find();
 
+$username = '';
+$password = '';
+$defaultDorm = null;
+
 
 if(!isset($_COOKIE['display_name'])){
     header('Location: login.php');
@@ -30,10 +34,15 @@ if($registeredUser == null){
     exit;
 }
 
+$hasPassword = $registeredUser['passwordHash'] != null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    if(password_verify(htmlspecialchars($_POST['confirmpassword']), htmlspecialchars($registeredUser['passwordHash']))) {
+    $username = $_POST['username'] ?? '';
+    $password = $_POST['password'] ?? '';
+    $defaultDorm = $_POST['dorm'] ?? null;
+
+    if(password_verify(htmlspecialchars($_POST['confirmpassword'] ?? '' ), htmlspecialchars($registeredUser['passwordHash'] ?? '')) || !$hasPassword) {
         do {
             
             if(!empty($_POST['username'])){
@@ -55,6 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 setcookie('display_name', $username, time() + 3600, "/");
                 $usersDb->updateUsername($username, $_COOKIE['display_name']);
                 $usernameMessage = 'Username changed';
+                $username = '';
             }
 
         } while(0);
@@ -79,7 +89,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-
             $usersDb->updatePassword($registeredUser['email'], $passwordHash);
             $passwordMessage = 'Password changed';
 
@@ -90,7 +99,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 break;
             }
 
-            $dorm = $dormsDb->getDormitory(htmlspecialchars($_POST['dorm']));
+            $defaultDorm = $_POST['dorm'];
+            $dorm = $dormsDb->getDormitory(htmlspecialchars($defaultDorm));
 
             if($dorm == null){
                 $dormMessage = 'Dormitory not found';
@@ -100,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $usersDb->updateDormitory($_COOKIE['display_name'], $dorm['id']);
             $dormMessage = 'Default dormitory changed';
-            
+            $defaultDorm = null;
             
         } while(0);
 
@@ -194,7 +204,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="form-container">
     <div class="form-group">
         <label for="username">Change username:</label>
-        <input class="form-control" placeholder="<?php echo $_COOKIE['display_name'] ?>" type="text" name="username" id="username">
+        <input class="form-control" value="<?php echo $username; ?>" placeholder="<?php echo $_COOKIE['display_name'] ?>" type="text" name="username" id="username">
     </div>
     <div class="form-group">
         <label for="photo">Choose profile picture:</label>
@@ -209,22 +219,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <select class="form-control" name="dorm" id="dorm">
             <option value=""></option>
             <?php foreach($dormitories as $key=>$value): ?>
-                <option value="<?= $value['id'] ?>"><?= $value['name']; ?></option>
+                <option <?php if($defaultDorm == $value['id']) echo 'selected'; ?> value="<?= $value['id'] ?>"><?= $value['name']; ?></option>
             <?php endforeach; ?>
         </select>
     </div>
     <div class="form-group">
         <label for="password">Change password:</label>
-        <input class="form-control" type="password" name="password" id="password">
+        <input class="form-control" value="<?php echo $password; ?>" type="password" name="password" id="password">
     </div>
     <div class="form-group">
         <label for="retypepassword">Retype new password:</label>
         <input class="form-control" type="password" name="retypepassword" id="retypepassword">
     </div>
-    <div class="form-group">
-        <label for="confirmpassword">Confirm with current password:</label>
-        <input class="form-control" type="password" name="confirmpassword" id="confirmpassword">
-    </div>
+    <?php if($hasPassword): ?>
+        <div class="form-group">
+            <label for="confirmpassword">Confirm with current password:</label>
+            <input class="form-control" type="password" name="confirmpassword" id="confirmpassword">
+        </div>
+    <?php endif; ?>
     <input class="btn btn-primary" type="submit" value="Save">
 </div>
 </form>

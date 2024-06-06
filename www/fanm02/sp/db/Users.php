@@ -59,7 +59,7 @@ class UsersDB extends Database {
     }
 
     public function createOAuth($data){
-        array_push($data, time());
+        array_push($data, currentDate());
 
         $sql = 'INSERT INTO sp_users (username, email, created_at) VALUES (?, ?, ?)';
         $statement = $this->prepare($sql);

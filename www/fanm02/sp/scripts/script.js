@@ -28,7 +28,6 @@ $(document).ready(function () {
 })
 
 function sendMessage(element, mealId, sender, receiver) {
-  console.log(element.value, mealId, sender, receiver);
   $.ajax({
     type: 'POST',
     url: 'send-message.php',

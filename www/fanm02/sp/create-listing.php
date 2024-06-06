@@ -26,6 +26,12 @@ if ($registeredUser == null) {
 $dormitories = $dormsDb->find();
 $defaultDorm = $registeredUser['dorm_id'];
 
+$title = $_POST['title'] ?? '';
+$description = $_POST['description'] ?? '';
+$room = $_POST['room'] ?? '';
+$time = $_POST['time'] ?? '';
+$price = $_POST['price'] ?? '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     do {
@@ -112,6 +118,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $mealsDb->create([$registeredUser['id'], $title, $description, $targetFile, $_POST['dormitory'], $_POST['room'], $_POST['time'], $price]);
         $message = 'Listing successfuly created';
+
+        $title = '';
+        $description = '';
+        $room = '';
+        $time = '';
+        $price = '';
+
     } while (0);
 }
 
@@ -127,11 +140,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="form-group">
             <h3>Create Food-Sharing Listing</h3>
             <label for="title">Title*:</label>
-            <input type="text" class="form-control" minlength="3" maxlength="255" placeholder="Lemon-Dill Grilled Salmon with Garlic Mashed Potatoes" name="title">
+            <input type="text" value="<?php echo $title; ?>" class="form-control" minlength="3" maxlength="255" placeholder="Lemon-Dill Grilled Salmon with Garlic Mashed Potatoes" name="title">
         </div>
         <div class="form-group">
             <label for="description">Description*:</label>
-            <textarea class="form-control" name="description" form="myform" maxlength="300" onkeyup="textCounter(this,'counter',300);" placeholder="Savor the flavors of a perfectly grilled salmon fillet, marinated in a zesty lemon-dill sauce..." form="usrform"></textarea>
+            <textarea class="form-control" name="description" form="myform" maxlength="300" onkeyup="textCounter(this,'counter',300);" placeholder="Savor the flavors of a perfectly grilled salmon fillet, marinated in a zesty lemon-dill sauce..." form="usrform"><?php echo $description; ?></textarea>
             <div id="counter">300</div>
         </div>
         <div class="form-group">
@@ -152,15 +165,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div class="form-group">
             <label for="room">Room*:</label>
-            <input type="text" class="form-control" minlength="3" maxlength="255" placeholder="221b" name="room">
+            <input type="text" class="form-control" value="<?php echo $room; ?>" minlength="3" maxlength="255" placeholder="221b" name="room">
         </div>
         <div class="form-group">
             <label for="time">Time*:</label>
-            <input type="datetime-local" class="form-control" name="time">
+            <input type="datetime-local" value="<?php echo $time; ?>" class="form-control" name="time">
         </div>
         <div class="form-group">
             <label for="price">Price*:</label>
-            <input type="number" class="form-control" min="0" step="0.01" placeholder="5.99" name="price">
+            <input type="number" value="<?php echo $price; ?>" class="form-control" min="0" step="0.01" placeholder="5.99" name="price">
         </div>
         <input type="submit" class="btn btn-primary" value="Create">
         <!--

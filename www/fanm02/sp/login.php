@@ -6,15 +6,19 @@ $message = null;
 $error = true;
 $usersDb = new UsersDB();
 
+$username = '';
+$password = '';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     do {
+        
+        $username = htmlspecialchars($_POST['username'] ?? '');
+        $password = htmlspecialchars($_POST['password'] ?? '');
+
         if (empty($_POST['username']) || empty($_POST['password'])) {
             $message = 'Please fill in both fields';
             break;
         }
-
-        $username = htmlspecialchars($_POST['username']);
-        $password = htmlspecialchars($_POST['password']);
 
         $registeredUser = $usersDb->getUser($username, $username);
 
@@ -48,11 +52,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ?>
     <div class="form-group">
         <label for="username">Username (email):</label>
-        <input type="text" class="form-control" id="username" name="username">
+        <input type="text" value="<?php echo $username; ?>" class="form-control" id="username" name="username">
     </div>
     <div class="form-group">
         <label for="password">Password:</label>
-        <input type="password" class="form-control" id="password" name="password">
+        <input type="password" value="<?php echo $password; ?>" class="form-control" id="password" name="password">
     </div>
     <a href="reset-password.php">Forgot password</a>
     <div class="space"></div>

@@ -6,6 +6,10 @@ $message = null;
 $error = true;
 $usersDb = new UsersDB();
 
+$username = $_POST['username'] ?? '';
+$password = $_POST['password'] ?? '';
+$email = $_POST['email'] ?? '';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     do {
@@ -71,15 +75,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="form-container">
         <div class="form-group">
             <label for="username">Username:</label>
-            <input type="text" class="form-control" id="username" name="username">
+            <input type="text" value="<?php echo $username; ?>" class="form-control" id="username" name="username">
         </div>
         <div class="form-group">
             <label for="email">Email:</label>
-            <input type="email" class="form-control" id="email" name="email">
+            <input type="email" value="<?php echo $email; ?>" class="form-control" id="email" name="email">
         </div>
         <div class="form-group">
             <label for="password">Password:</label>
-            <input type="password" class="form-control" id="password" name="password">
+            <input type="password" value="<?php echo $password; ?>" class="form-control" id="password" name="password">
         </div>
         <div class="form-group">
             <label for="retypepassword">Retype Password:</label>
