@@ -34,6 +34,6 @@ if (!isset($_GET["uid"]) || empty($_GET["uid"]) || !isset($_GET["oid"]) || empty
         $_SESSION["em"] = 15;
     }
 
-    header('Location: ' . "./edit-org.php?oid=" . $_GET["oid"]);
+    header('Location: ' . "./edit-org-users.php?oid=" . $_GET["oid"]);
     exit();
 }

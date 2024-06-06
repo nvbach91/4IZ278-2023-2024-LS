@@ -1,7 +1,7 @@
 <?php session_status() === PHP_SESSION_NONE ? session_start() : null; ?>
 <?php require "./logic/display-errors.php" ?>
 
-<?php $pageName = "Vytvořit skladbu" ?>
+<?php $pageName = "Nová skladba" ?>
 
 
 <?php
@@ -42,7 +42,6 @@ $orgServices = $Organization->getServices();
 
 $clients = $Organization->getUsers(1);
 $clientEmails = array_column($clients, 'email');
-var_dump($clients);
 
 $producers = $Organization->getUsers(2);
 
@@ -84,6 +83,14 @@ if (isset($_POST) && !empty($_POST)) {
 <h1>Přidání nové skladby</h1>
 <h6 class="text-muted"><?php echo $existingOrganization["org_name"] ?></h6>
 <hr>
+<div class="btn-group">
+    <a href="edit-org.php?oid=<?php echo $existingOrganization["org_id"] ?>" class="btn btn-outline-primary">Úprava organizace 🏢</a>
+    <a href="create-song.php?oid=<?php echo $existingOrganization["org_id"] ?>" class="btn btn-outline-primary active">Nová skladba 🎸</a>
+    <a href="view-org-songs.php?oid=<?php echo $existingOrganization["org_id"] ?>" class="btn btn-outline-primary">Skladby v organizaci 🎶</a>
+    <a href="edit-org-users.php?oid=<?php echo $existingOrganization["org_id"] ?>" class="btn btn-outline-primary">Členové organizace 👥 <?php if (count($clients + $producers) == 0) : ?><span class="badge bg-danger">!</span><?php endif ?></a>
+</div>
+<br>
+<br>
 <?php require __DIR__ . "/logic/errors.php" ?>
 <?php require "./logic/messages.php"; ?>
 <form method="POST" action="<?php $_SERVER['PHP_SELF'] ?>">
@@ -99,14 +106,14 @@ if (isset($_POST) && !empty($_POST)) {
             <?php endforeach ?>
         </select>
         <?php if (count($producers) == 0) : ?>
-            <p class="text-muted form-text">Tato organizace nemá žádné producenty. Přidej alespoň jednoho <a href="edit-org.php?oid=<?php echo $existingOrganization["org_id"] ?>">zde</a>.</p>
+            <p class="form-text text-danger">Tato organizace nemá žádné producenty. Přidej alespoň jednoho <a href="edit-org.php?oid=<?php echo $existingOrganization["org_id"] ?>">zde</a>.</p>
         <?php endif ?>
     </div>
     <div class="mb-3">
         <label class="form-label">Služby <span class="form-required">*</span></label>
         <br>
         <?php if (count($orgServices) == 0) : ?>
-            <p class="text-muted form-text">Tato organizace nemá žádné služby. Přidej alespoň jednu <a href="edit-org.php?oid=<?php echo $existingOrganization["org_id"] ?>">zde</a>.</p>
+            <p class="form-text text-danger">Tato organizace nemá žádné služby. Přidej alespoň jednu <a href="edit-org.php?oid=<?php echo $existingOrganization["org_id"] ?>">zde</a>.</p>
         <?php endif ?>
         <?php foreach ($orgServices as $orgServ) : ?>
             <div class="form-check form-check-inline">

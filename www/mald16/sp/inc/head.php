@@ -2,7 +2,7 @@
 
 <?php require_once "./logic/allowed-users.php" ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 
 <head>
     <meta charset="UTF-8">
@@ -55,4 +55,4 @@
             </div>
         </div>
     </nav>
-    <div class="container" style="width: 50%; margin-top:100px; margin-bottom: 100px">
+    <div class="container" style="width: 55%; margin-top:100px; margin-bottom: 100px">

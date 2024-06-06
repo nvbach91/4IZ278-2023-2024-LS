@@ -2,10 +2,7 @@
 <?php
 
 require_once dirname(__DIR__) . "/db/User.php";
-
-$headers  = "From: mald16-sp <mald16-sp@eso.vse.cz>\r\n";
-$headers .= "MIME-Version: 1.0\r\n";
-$headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+require "email-config.php";
 
 function sendMail($to, $type) {
     global $headers;
@@ -64,7 +61,6 @@ function sendMail($to, $type) {
     if ($notifOptIn == 1) {
         try {
             mail($to, $subject, $message, $headers);
-            mail("mald16@vse.cz", $subject, $message, $headers);
         } catch (Exception $e) {
             return false;
         }
