@@ -337,12 +337,11 @@ button {
         width: 250px;
     }
 
-    .google-icon {
-        visibility: hidden;
+    /*.google-icon {
         height: 0;
         width: 0;
         visibility: hidden
-    }
+    }*/
 }
 
 #main-button-signout {
@@ -487,8 +486,8 @@ button {
     height: auto;
     width: auto;
     display: block;
-    min-width: 260px;
-    padding: 12px;
+    min-width: 330px;
+    padding: 12px 12px 6px 12px;
     background-color: #152b00;
     border-radius: 20px;
     border: 3px solid #8abd5b;
@@ -511,19 +510,20 @@ button {
     display: block;
     margin: 14px auto 0px auto;
     border-radius: 10px;
+    max-height: 160px;
 }
 
 .information-M h2 {
     padding: 0;
-    margin: 0px auto 2px auto;
+    margin: 0px 0 0 20px;
     font-weight: 500;
-    text-align: center;
+    text-align: left;
 }
 
 .information-M .author {
     padding: 0;
-    margin: 0px auto 15px 3px;
-    text-align: center;
+    margin: 0px auto 15px 21px;
+    text-align: left;
     font-weight: 700;
     opacity: 0.8;
     font-size: 16px;
@@ -535,8 +535,8 @@ button {
     font-size: 14px;
     line-height: 1.4;
     background: none;
-    height: 120px;
-    width: 100%;
+    height: 100px;
+    width: 95%;
     border: none;
     display: block;
     margin: 0 auto;
@@ -597,8 +597,8 @@ button {
 
 .information-allM-L .like {
     position: absolute;
-    right: 35px;
-    top: 15px;
+    right: 55px;
+    top: 20px;
     cursor: pointer;
     font-size: 35px;
     display: block;
@@ -870,6 +870,52 @@ button {
 .comment-delete:active {
     text-decoration: none;
     color: rgba(99, 0, 0, 0.6);
+}
+
+@media only screen and (max-width: 499px) {
+
+    .spot-like-text{
+        text-align: left;
+        top: 38px;
+        right: 45px;
+        left: auto;
+        font-size: 15px;
+    }
+
+
+
+    .comments-all h3 {
+        margin: 10px auto 8px auto;
+        font-size: 110%;
+    }
+    .comments{
+        max-height: 190px;
+    }
+    .comment{
+        max-width: 99%;
+    }
+    .comment-bubble{
+        font-size: 87%;
+    }
+    .comment-delete{
+        font-size: 14px;
+        line-height: 25px;
+    }
+    .comment p{
+        margin: 4px auto 2px auto;
+    }
+    .comments-form{
+        margin: 5px auto 0 auto;
+        width: 100%;
+    }
+    .comment-form-text {
+        width: calc(100% - 80px);
+        font-size: 14px;
+        padding: 6px 10px;
+    }
+    .button-send-comment{
+        margin: 0 0 0 10px;
+    }
 }
 
 /*LOADER*/
@@ -1255,7 +1301,7 @@ button {
 
     .button-login {
         padding: 12px 0;
-        width: 220px;
+        width: 240px;
         box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.6);
     }
 
@@ -1710,6 +1756,9 @@ button {
 
     #main-button-login{
         margin-top: 25px;
+    }
+    #main-button-signout {
+        padding: 12px 14px;
     }
     .signin-or-longer{
         display: none;

@@ -10,10 +10,10 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
     $password = $_POST['password'];
     $confirm = $_POST['confirm'];
 
-    /*$username = stripcslashes($username);
+    $username = stripcslashes($username);
     $email = stripcslashes($email);
     $password = stripcslashes($password);
-    $confirm = stripcslashes($confirm);*/
+    $confirm = stripcslashes($confirm);
 
     //check for used username
     $stmt = $db->prepare('SELECT * FROM users WHERE username LIKE BINARY :username LIMIT 1'); //LIMIT 1 jen jako vykonnostni optimalizace, 2 stejne maily se v db nepotkaji
@@ -45,23 +45,6 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
         $errors['confirm'] = 'Hesla se neshodují';
     }
 
-    // TODO PRO STUDENTY osetrit vstupy, email a heslo jsou povinne, atd.
-    // TODO PRO STUDENTY jde se prihlasit prazdnym heslem, jen prototyp, pouzit filtry
-    // $password = md5($_POST['password']); #chybi salt
-
-    // $password = hash("sha256" , $password); #chybi salt
-
-    // viz http://php.net/manual/en/function.password-hash.php
-    // salt lze generovat rucne (nedoporuceno), nebo to nechat na php, ktere salt rovnou pridat do hashovaneho hesla
-
-    /**
-     * We just want to hash our password using the current DEFAULT algorithm.
-     * This is presently BCRYPT, and will produce a 60 character result.
-     *
-     * Beware that DEFAULT may change over time, so you would want to prepare
-     * By allowing your storage to expand past 60 characters (255 would be product)
-     */
-    // dalsi moznosti je vynutit bcrypt: PASSWORD_BCRYPT
     if (empty($errors)) {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
@@ -72,9 +55,6 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
             'email' => $email,
             'password' => $hashedPassword
         ]);
-
-        //ted je uzivatel ulozen, bud muzeme vzit id posledniho zaznamu pres last insert id (co kdyz se to potka s vice requesty = nebezpecne),
-        // nebo nacist uzivatele podle mailove adresy (ok, bezpecne)
 
         $stmt = $db->prepare('SELECT * FROM users WHERE email = :email LIMIT 1'); //limit 1 jen jako vykonnostni optimalizace, 2 stejne maily se v db nepotkaji
         $stmt->execute([
@@ -133,9 +113,6 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
         <i class="fa-brands fa-facebook-f"></i>
         <p>Registrovat přes Facebook</p>
     </button>
-
-    <!--<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-    </fb:login-button>-->
 
     <button class="button-login" id="main-button-login2" onclick="oauth2SignIn();">
         <i class="fa-brands fa-google google-icon"></i>

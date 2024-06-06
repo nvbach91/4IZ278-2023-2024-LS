@@ -18,13 +18,6 @@ let markerAddedToMap;
 /*my spots vars*/
 let myPoints = [];
 
-/*
-We create a map with initial coordinates zoom, a raster tile source and a layer using that source.
-See https://maplibre.org/maplibre-gl-js-docs/example/map-tiles/
-See https://maplibre.org/maplibre-gl-js-docs/style-spec/sources/#raster
-See https://maplibre.org/maplibre-gl-js-docs/style-spec/layers/
-*/
-
 const map = new maplibregl.Map({
     container: 'map',
     center: [latitude, longitude],
@@ -43,12 +36,6 @@ const map = new maplibregl.Map({
             'id': 'tiles',
             'type': 'raster',
             'source': 'basic-tiles',
-            /*'paint':{
-                'background-color': 'white'  
-            },
-            'layout':{
-                'visibility': 'visible'
-            }*/
         }],
     },
 });
@@ -331,10 +318,11 @@ map.on('click', 'unclustered-points', (e) => {
     mobileDiv.innerHTML =
         `
         <div class='information-M'>
-            <div class="information-allM-L" id="${spot_id}">
+            <div class="information-allM-L" id="spot-${spot_id}">
+                <span class='spot-like-text' id="number-likesM-${spot_id}">${likes}</span>
+                <a href='#' onclick="like(${spot_id}, ${likes});" id="likeM-${spot_id}"><i class="fa-regular fa-heart like-false like "></i></a>
+                <a href='#' onclick="unlike(${spot_id}, ${likes});" id="unlikeM-${spot_id}"><i class="fa-solid fa-heart like-true like"></i></a>
 
-                <i class="fa-regular fa-heart like-false like "></i>
-                <i class="fa-solid fa-heart like-true like"></i>
                 <h2>${name}</h2>
                 <p class='author author-${author}'>${author}</p>
                 <div class='icons'>
@@ -344,11 +332,23 @@ map.on('click', 'unclustered-points', (e) => {
                     <i class='fa-solid fa-chess-rook icon-${zricenina}' title='Zřícenina'></i>
                     <i class='fa-solid fa-umbrella icon-${pristresek}' title='Přístřešek'></i>
                 </div>      
-                <textarea class='description description-${description}' readonly>${description}</textarea>      
+                <textarea class='description description-${description}_' readonly>${description}</textarea>      
             </div>
             <div class="information-allM-R">
                 <img class='spot-image' src='${imageSRC}' alt></img>
             </div>
+            <div class="comments-all">
+                <h3>
+                    Komentáře
+                </h3>
+                <div class="comments" id="commentsM-${spot_id}">
+                </div>
+            </div>
+            <form class="comments-form" method="POST" action="./comment-spot.php" enctype="multipart/form-data">
+                <input type="hidden" name="comment_spot_id" value="${spot_id}">
+                <textarea id='koment' name='koment' class='comment-form-text' placeholder='' required></textarea>
+                <button type='submit' class="button-send-comment"><i class="fa-solid fa-paper-plane comment-send"></i></button>
+            </form>
         </div>
         `;
 
@@ -397,40 +397,70 @@ map.on('click', 'unclustered-points', (e) => {
     checkSpot(spot_id);
 });
 let liked = false;
+
 function like(spot_id, likes_count) {
-    if(user_id != null){
+    if (user_id != null) {
         $.get("./like-spot.php?like_spot_id=" + spot_id);
-        document.querySelector(`#like-${spot_id}`).style.display = 'none';
-        document.querySelector(`#unlike-${spot_id}`).style.display = 'block';
-        if (liked == false){
-            document.querySelector(`#number-likes-${spot_id}`).innerHTML = likes_count+1;        
+        let numberLikesContainer = document.querySelectorAll(`#number-likes-${spot_id}, #number-likesM-${spot_id}`);
+        let likeContainer = document.querySelectorAll(`#like-${spot_id}, #likeM-${spot_id}`);
+        let unlikeContainer = document.querySelectorAll(`#unlike-${spot_id}, #unlikeM-${spot_id}`);
+
+        for (let b = 0; b < likeContainer.length; b++) {
+            likeContainer[b].style.display = 'none';
+        }
+        for (let b = 0; b < unlikeContainer.length; b++) {
+            unlikeContainer[b].style.display = 'block';
+        }
+        if (liked == false) {
+            for (let b = 0; b < numberLikesContainer.length; b++) {
+                numberLikesContainer[b].innerHTML = likes_count + 1;
+            }
             liked = true;
         }
-        else{
-            document.querySelector(`#number-likes-${spot_id}`).innerHTML = likes_count;   
+        else {
+            for (let b = 0; b < numberLikesContainer.length; b++) {
+                numberLikesContainer[b].innerHTML = likes_count;
+            }
             liked = false;
         }
-        console.log('liked');        
+        console.log('liked');
     }
-    else{
+    else {
         window.location.href = "signup.php"; //uživatel se musí nejprve přihlásit
     }
 }
 
 function unlike(spot_id, likes_count) {
-    $.get("./unlike-spot.php?unlike_spot_id=" + spot_id);
-    document.querySelector(`#like-${spot_id}`).style.display = 'block';
-    document.querySelector(`#unlike-${spot_id}`).style.display = 'none';
+    if (user_id != null) {
+        $.get("./unlike-spot.php?unlike_spot_id=" + spot_id);
+        let numberLikesContainer = document.querySelectorAll(`#number-likes-${spot_id}, #number-likesM-${spot_id}`);
+        let likeContainer = document.querySelectorAll(`#like-${spot_id}, #likeM-${spot_id}`);
+        let unlikeContainer = document.querySelectorAll(`#unlike-${spot_id}, #unlikeM-${spot_id}`);
 
-    if (liked == false){
-        document.querySelector(`#number-likes-${spot_id}`).innerHTML = likes_count-1;    
-        liked = true;    
+        for (let b = 0; b < likeContainer.length; b++) {
+            likeContainer[b].style.display = 'block';
+        }
+        for (let b = 0; b < unlikeContainer.length; b++) {
+            unlikeContainer[b].style.display = 'none';
+        }
+
+        if (liked == false) {
+            for (let b = 0; b < numberLikesContainer.length; b++) {
+                numberLikesContainer[b].innerHTML = likes_count - 1;
+            }
+            liked = true;
+        }
+        else {
+            for (let b = 0; b < numberLikesContainer.length; b++) {
+                numberLikesContainer[b].innerHTML = likes_count;
+            }
+            liked = false;
+        }
+        console.log('unliked');
     }
-    else{
-        document.querySelector(`#number-likes-${spot_id}`).innerHTML = likes_count;   
-        liked = false;
+    else {
+        window.location.href = "signup.php"; //uživatel se musí nejprve přihlásit
     }
-    console.log('unliked');
 }
 
 // Change the cursor to a pointer when the mouse is over the places layer.
@@ -474,7 +504,7 @@ function onDragEnd() {
 }
 
 $(document).ready(function () { // move to spot if user has recently added or commented
-    if ((getCookie("longitude") != 'null' && getCookie("latitude") != 'null')&&(getCookie("longitude") != undefined && getCookie("latitude") != undefined)){
+    if ((getCookie("longitude") != 'null' && getCookie("latitude") != 'null') && (getCookie("longitude") != undefined && getCookie("latitude") != undefined)) {
         map.flyTo({
             center: [getCookie("longitude"), getCookie("latitude")],
             zoom: 16

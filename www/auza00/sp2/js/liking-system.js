@@ -15,14 +15,14 @@ fetch("./main-download.php")
     })
     .then((data) => {
         // This is where you handle what to do with the response.
-        likedSpots = data[0]; 
+        likedSpots = data[0];
         allLikes = data[1];
         allComments = data[2];
 
         user_id = data[3];
         user_username = data[4];
-        console.log('alllikes: '+allLikes);
-        console.log('allComments: '+allComments);
+        console.log('alllikes: ' + allLikes);
+        console.log('allComments: ' + allComments);
     })
     .catch((error) => {
         // This is where you handle errors.
@@ -34,8 +34,14 @@ function checkSpot(Sid) {
     spot_id = parseInt(Sid);
 
     /*CHECK LIKES*/
-    document.querySelector(`#like-${spot_id}`).style.display = 'block';
-    document.querySelector(`#unlike-${spot_id}`).style.display = 'none';
+    let likeContainer = document.querySelectorAll(`#like-${spot_id}, #likeM-${spot_id}`);
+    for (let b = 0; b < likeContainer.length; b++) {
+        likeContainer[b].style.display = 'block';
+    }
+    let unlikeContainer = document.querySelectorAll(`#unlike-${spot_id}, #unlikeM-${spot_id}`);
+    for (let b = 0; b < unlikeContainer.length; b++) {
+        unlikeContainer[b].style.display = 'none';
+    }
 
     likedSpots.forEach(showLikes);
 
@@ -43,34 +49,42 @@ function checkSpot(Sid) {
         like_id = parseInt(Lid);
 
         if (spot_id == like_id) {
-            document.querySelector(`#like-${spot_id}`).style.display = 'none';
-            document.querySelector(`#unlike-${spot_id}`).style.display = 'block';
+            for (let b = 0; b < likeContainer.length; b++) {
+                likeContainer[b].style.display = 'none';
+            }
+            for (let b = 0; b < unlikeContainer.length; b++) {
+                unlikeContainer[b].style.display = 'block';
+            }
             console.log('spot liked');
         }
     }
 
     /*CHECK COMMENTS*/
     let commentsOnSpot = [];
-    let commentContainer = document.querySelector(`#comments-${spot_id}`)
-    for (let i = 0; i < allComments.length; i++) {
-        if (allComments[i][0]['spot_id'] == spot_id) {
-            commentsOnSpot.push(allComments[i]);
+    let commentContainer = document.querySelectorAll(`#comments-${spot_id}, #commentsM-${spot_id}`);
+
+    for (let b = 0; b < commentContainer.length; b++) {
+
+
+        for (let i = 0; i < allComments.length; i++) {
+            if (allComments[i][0]['spot_id'] == spot_id) {
+                commentsOnSpot.push(allComments[i]);
+            }
         }
-    }
-    console.log("comments on spot " + spot_id + " " + commentsOnSpot);
-    if(commentsOnSpot.length == 0){
-        commentContainer.innerHTML +=
-        `
+        console.log("comments on spot " + spot_id + " " + commentsOnSpot);
+        if (commentsOnSpot.length == 0) {
+            commentContainer[b].innerHTML +=
+                `
             <p style="width: 100%;text-align:center;">
                 Zatím žádné komentáře
             </p>
             `;
-    }
-    else{
-        for (let i = 0; i < commentsOnSpot.length; i++) {
-            if(commentsOnSpot[i][0]['user_id']==user_id){
-                commentContainer.innerHTML +=
-                `
+        }
+        else {
+            for (let i = 0; i < commentsOnSpot.length; i++) {
+                if (commentsOnSpot[i][0]['user_id'] == user_id) {
+                    commentContainer[b].innerHTML +=
+                        `
                 <div class="comment">
                     <div class="comment-bubble">
                         <p class="comment-author">${commentsOnSpot[i][0]['username']}</p><p class="comment-date">${commentsOnSpot[i][0]['date']}</p><br>
@@ -79,19 +93,20 @@ function checkSpot(Sid) {
                     </div>
                 </div>
                     `;
-            }
-            else{
-                commentContainer.innerHTML +=
-                    `
+                }
+                else {
+                    commentContainer[b].innerHTML +=
+                        `
                     <div class="comment">
                         <div class="comment-bubble">
                             <p class="comment-author">${commentsOnSpot[i][0]['username']}</p><p class="comment-date">${commentsOnSpot[i][0]['date']}</p><br>
                             <p class="comment-text">${commentsOnSpot[i][0]['text']}</p>
                         </div>
                     </div>
-                        `;            
+                        `;
+                }
             }
-        }        
+        }
     }
 
 }

@@ -13,7 +13,5 @@ foreach ($comments as $comment) {
     $nextComment = array($comment);
     array_push($allComments, $nextComment);
 }
-
 echo json_encode($allComments);
-
 ?>

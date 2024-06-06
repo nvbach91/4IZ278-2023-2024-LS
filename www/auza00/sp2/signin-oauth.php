@@ -13,5 +13,4 @@ $user_id = @$stmt->fetchAll()[0];
 $_SESSION['user_id'] = $user_id['user_id'];
 $_SESSION['user_username'] = $user_id['username'];
 $_SESSION['user_email'] = $email;
-
 ?>

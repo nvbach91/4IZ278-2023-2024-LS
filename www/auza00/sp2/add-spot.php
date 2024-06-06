@@ -28,9 +28,9 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
         }
     }
 
-    if ($fileName != null){
-        uploadImage($target_file);     
-        $image_id = $newFileName;   
+    if ($fileName != null) {
+        uploadImage($target_file);
+        $image_id = $newFileName;
     }
 
 

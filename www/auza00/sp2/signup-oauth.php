@@ -28,9 +28,6 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
             'email' => $email
         ]);
     
-        //ted je uzivatel ulozen, bud muzeme vzit id posledniho zaznamu pres last insert id (co kdyz se to potka s vice requesty = nebezpecne),
-        // nebo nacist uzivatele podle mailove adresy (ok, bezpecne)
-    
         $stmt = $db->prepare('SELECT * FROM users WHERE email = :email LIMIT 1'); //limit 1 jen jako vykonnostni optimalizace, 2 stejne maily se v db nepotkaji
         $stmt->execute([
             'email' => $email

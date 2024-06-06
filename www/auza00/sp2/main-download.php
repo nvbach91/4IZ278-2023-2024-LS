@@ -38,16 +38,5 @@ foreach ($comments as $comment) {
     array_push($allComments, $nextComment);
 }
 
-/*$stmt = $db->prepare('SELECT user_id, username FROM users');
-$stmt->execute();
-$users = $stmt->fetchAll();
-
-$allUsers = []; //all users
-foreach ($users as $user) {
-    $nextUser = array($user);
-    array_push($allUsers, $nextUser);
-}*/
-
-
 echo json_encode([$likedSpots, $allLikes, $allComments, $user_id, $username]);
 ?>

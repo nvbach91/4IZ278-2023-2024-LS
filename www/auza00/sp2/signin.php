@@ -8,9 +8,6 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // zajimavost: mysql porovnani retezcu je case insensitive, pokud dame select na NECO@DOMENA.COM, najde to i zaznam neco@domena.com
-    // viz http://dev.mysql.com/doc/refman/5.0/en/case-sensitivity.html
-
     $stmt = $db->prepare('SELECT * FROM users WHERE username LIKE BINARY :username LIMIT 1'); //LIMIT 1 jen jako vykonnostni optimalizace, 2 stejne maily se v db nepotkaji
     $stmt->execute([
         'username' => $username
@@ -25,14 +22,13 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
         $_SESSION['user_id'] = $existing_user['user_id'];
         $_SESSION['user_username'] = $existing_user['username'];
 
-        //header('Location: index.php');
-        //exit;
+        header('Location: index.php');
+        exit;
     } else {
         $errors['password'] = 'Špatné heslo';
     }
 }
 ?>
-
 
 <?php require __DIR__ . '/preset/header.php' ?>
 <main class="signin-container popup">
@@ -59,11 +55,11 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
     <p class='signin-or'><p class='signin-or-longer'>----</p>------------------------ nebo ------------------------<p class='signin-or-longer'>----</p></p>
     <button class="button-login" id="main-button-login" onclick="fb_login();">
         <i class="fa-brands fa-facebook-f"></i>
-        <p>Přihlásit přes Facebook</p>
+        <p>Přihlásit se přes Facebook</p>
     </button>
     <button class="button-login" id="main-button-login2" onclick="oauth2SignIn();">
         <i class="fa-brands fa-google google-icon"></i>
-        <p>Přihlásit přes Google</p>
+        <p>Přihlásit se přes Google</p>
     </button>
 </main>
 

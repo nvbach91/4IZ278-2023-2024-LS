@@ -3,8 +3,8 @@ session_start();
 require 'db.php';
 ?>
 <?php
-if(isset($_SESSION['user_id'])){
-    if ('POST' == $_SERVER['REQUEST_METHOD']){
+if (isset($_SESSION['user_id'])) {
+    if ('POST' == $_SERVER['REQUEST_METHOD']) {
         $user_id = $_SESSION['user_id'];
         $username = $_SESSION['user_username'];
         $comment_spot_id = $_POST['comment_spot_id'];
@@ -27,9 +27,8 @@ if(isset($_SESSION['user_id'])){
             'text' => $comment
         ]);
     }
-    header('Location: index.php');    
-}
-else{
+    header('Location: index.php');
+} else {
     header('Location: signup.php'); //uživatel se musí nejprve přihlásit
 }
 ?>

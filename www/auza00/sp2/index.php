@@ -112,32 +112,6 @@ if (!isset($_SESSION['nick-taken'])) {
         </form>
     </div>
 
-    <div id='popup2' class='popup'>
-        <p>
-            Pro tohle potřebuju aby ses přihlásil přes Google
-        </p>
-        <button class="button-login" id="main-button-login">
-            <i class="fa-brands fa-google google-icon"></i>
-            Přihlásit se přes Google
-        </button>
-    </div>
-    <div id='popup8' class='popup'>
-        <p>
-            Ke správnýmu fungování stránky po tobě bohužel potřebuju zaškrtnout políčko <i
-                style="color: #ace677; font-weight: 500;">Čtení, úpravy, vytváření a mazání vašich souborů na Disku
-                Google</i>.
-            <br><br>
-            Já ti do disku nelezu, ale bez toho se bohužel nedostanu ke svýmu souboru, kde mám nahraný všechny spoty a
-            fotky. Kdybys mi přece jen nevěřil, tak si můžeš pro tyhle účely založit novej účet, nebo použít nějakej,
-            kde nemáš žádný data na disku.
-            <br><br>
-            Zkusíme to znovu? :3
-        </p>
-        <button class="button-login" id="main-button-login2">
-            <i class="fa-brands fa-google google-icon"></i>
-            Přihlásit se přes Google
-        </button>
-    </div>
     <div id='popup3' class='popup'>
         <p>
             Opravdu se chceš odhlásit?
@@ -166,13 +140,6 @@ if (!isset($_SESSION['nick-taken'])) {
         <p class="popup4-p2">
             Kdybys mi chtěl přispět na chod webu nebo na špeka, tak můžeš sem 1850160013/3030 děkuju posílám lásku:3
         </p>
-        <!--<h3><i class="fa-solid fa-cannabis"></i> Jak přidat novej spot? <i class="fa-solid fa-cannabis"></i></h3>
-        <ul>
-            <li><b style="color: #b9ee87;">1.</b> Klikni na plus</li>
-            <li><b style="color: #b9ee87;">2.</b> Najeď pointerem na konkrétní místo a to potvrď fajfkou</li>
-            <li><b style="color: #b9ee87;">3.</b> Vyplň formulář (fotka spotu, název spotu, ...)</li>
-            <li><b style="color: #b9ee87;">4.</b> Celý to potvrď tlačítkem "Přidat spot"</li>
-        </ul>-->
         <h3><i class="fa-solid fa-cannabis"></i> TIP <i class="fa-solid fa-cannabis"></i></h3>
         <p class="popup4-p">Pokud jsi na mobilu, tak si můžeš přidat stránku na plochu. Tím pádem až někdy narazíš na
             novej super spot, nemusíš hledat stránku ve vyhledávači a stačí kliknout na ikonu aplikace na mobilu.</p>
@@ -214,62 +181,8 @@ if (!isset($_SESSION['nick-taken'])) {
         <div id='loader'></div>
     </div>
     <div id='information-allM'>
-        <!--<div class='information-M'>
-            <div class="information-allM-L">
-                <i class="fa-regular fa-heart like-false like "></i>
-                <i class="fa-solid fa-heart like-true like"></i>
-                <h2>${name2}</h2>
-                <p class='author author-${author}'>${author}</p>
-                <div class='icons'>
-                    <i class='fa-solid fa-mountain icon-${vyhlidka}'></i>
-                    <i class='fa-solid fa-water icon-${rybnik}'></i>
-                    <i class='fa-solid fa-fire icon-${ohniste}'></i>
-                    <i class='fa-solid fa-chess-rook icon-${zricenina}'></i>
-                    <i class='fa-solid fa-umbrella icon-${pristresek}'></i>
-                </div>      
-                <textarea class='description description-${description}' readonly>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae nam unde repudiandae at! Dignissimos fuga, adipisci odio cupiditate sed debitis, quod accusamus repudiandae animi enim ab culpa laborum? Obcaecati, repellendus. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Exercitationem minima, temporibus obcaecati fugiat sint vel tempora dolore voluptate commodi numquam porro nesciunt odit reiciendis rem? Saepe iure asperiores quae dolorum.</textarea>      
-            </div>
-            <div class="information-allM-R">
-                <img src=''></img>
-            </div>
-        </div>-->
     </div>
-    <!--<div class='information-all'>
-            <div class='information-al'>
-                <div class="information-all-L" id="spot-${spot_id}">
-                    <a href='#' onclick="like(${spot_id});" id="like-${spot_id}"><i class="fa-regular fa-heart like-false like "></i></a>
-                    <a href='#' onclick="unlike(${spot_id});" id="unlike-${spot_id}"><i class="fa-solid fa-heart like-true like"></i></a>
-                    <h2>${name}</h2>
-                    <p class='author author-${author}'>${author}</p>
-                    <div class='icons'>
-                        <i class='fa-solid fa-mountain icon-${vyhlidka}' title='Vyhlídka'></i>
-                        <i class='fa-solid fa-water icon-${rybnik}' title='U vody'></i>
-                        <i class='fa-solid fa-fire icon-${ohniste}' title='Ohniště'></i>
-                        <i class='fa-solid fa-chess-rook icon-${zricenina}' title='Zřícenina'></i>
-                        <i class='fa-solid fa-umbrella icon-${pristresek}' title='Přístřešek'></i>
-                    </div>      
-                    <textarea class='description description-${description}_' readonly>${description}</textarea>      
-                </div>
-                <div class="information-all-R">
-                    <img class='spot-image' src='${imageSRC}' alt></img>
-                </div>
-            </div>
-            <div class="comments-all">
-                <h3>
-                    Komentáře
-                </h3>
-                <div>
-                    <p class="comments-author">Admin</p>
-                    <p class="comments-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore magnam corporis nesciunt accusantium unde doloribus consectetur quod fugiat numquam aliquid, id suscipit excepturi non sapiente impedit exercitationem iure atque repellat!</p>
-                    <p class="comments-date">Admin</p>
-                </div>
-                <div>
-                    <p class="comments-author">Admin</p>
-                    <p class="comments-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore magnam corporis nesciunt accusantium unde doloribus consectetur quod fugiat numquam aliquid, id suscipit excepturi non sapiente impedit exercitationem iure atque repellat!</p>
-                    <p class="comments-date">Admin</p>
-                </div>
-            </div>
-        </div>-->
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <script src='js/functions.js'></script>
@@ -311,21 +224,19 @@ if (!isset($_SESSION['nick-taken'])) {
     </script>
 
     <script>
-        function showButtons() {
-            /*if signed in show buttons*/
-            let isLogged = false;
-            <?php if (isset($_SESSION['user_id'])) { ?>
+        /*if signed in show buttons*/
+        let isLogged = false;
+        <?php if (isset($_SESSION['user_id'])) { ?>
 
-                buttonMySpots.style.visibility = 'visible';
-                buttonLogout.style.visibility = 'visible';
-                buttonAddAdd.style.display = 'inline-block';
-                buttonAddLogin.style.display = 'none';
-                isLogged = true;
-                console.log('logged in');
+            buttonMySpots.style.visibility = 'visible';
+            buttonLogout.style.visibility = 'visible';
+            buttonAddAdd.style.display = 'inline-block';
+            buttonAddLogin.style.display = 'none';
+            isLogged = true;
+            console.log('logged in');
 
-            <?php } ?>                     
-        }
-        showButtons();
+        <?php } ?>                     
+
     </script>
 </body>
 
