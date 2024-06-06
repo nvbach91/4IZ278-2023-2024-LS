@@ -1,0 +1,28 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Vytvořit novou značku
+{% endblock %}
+
+{% block body %}
+	<div class="bg-white shadow-md rounded-lg p-6">
+		<h1 class="text-3xl font-bold mb-4">Vytvořit novou značku</h1>
+		<div class="mb-6">
+
+			{{ form_start(form) }}
+			<div class="mb-4 lg:w-96">
+
+				<label class="input input-bordered flex input-accent items-center gap-2">
+					{{ form_label(form.name) }}
+					{{ form_widget(form.name) }}
+					{{ form_errors(form.name) }}
+				</label>
+			</div>
+			<button type="submit" class="btn btn-primary">Vytvořit</button>
+			{{ form_end(form) }}
+
+		</div>
+		<div class="flex justify-end">
+			<a href="{{ path('app_brands') }}" class="btn btn-secondary">Zpět na značky</a>
+		</div>
+	</div>
+{% endblock %}

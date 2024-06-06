@@ -1,0 +1,43 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Detail Karty
+{% endblock %}
+
+{% block body %}
+	<div class="bg-white shadow-md rounded-lg p-6">
+		<h1 class="text-3xl font-bold mb-4">Detail Karty</h1>
+		<div class="overflow-x-auto">
+			<table class="table">
+				<tr>
+					<th>Značka</th>
+					<td>{{ loyaltyCard.getBrand() ? loyaltyCard.getBrand().getName() : "Neznámá značka" }}</td>
+				</tr>
+				<tr>
+					<th>Jméno zákazníka</th>
+					<td>{{ loyaltyCard.customerName }}</td>
+				</tr>
+				<tr>
+					<th>Email</th>
+					<td>{{ loyaltyCard.email }}</td>
+				</tr>
+				<tr>
+					<th>Telefonní číslo</th>
+					<td>{{ loyaltyCard.phoneNumber }}</td>
+				</tr>
+				<tr>
+					<th>ID karty</th>
+					<td>{{ loyaltyCard.cardIdentifier }}</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="my-4">
+			<h2 class="text-2xl font-bold mb-2">QR</h2>
+			<img src="{{ path('app_customer_loyalty_card_qr', {id: loyaltyCard.cardIdentifier}) }}" alt="QR Code">
+		</div>
+
+		<div class="flex justify-end">
+			<a href="{{ path('app_customer_loyalty_cards') }}" class="btn btn-secondary">Zpět</a>
+		</div>
+	</div>
+{% endblock %}

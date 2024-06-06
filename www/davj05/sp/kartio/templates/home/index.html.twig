@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Kartio
+{% endblock %}
+
+{% block body %}
+	<div class="bg-white shadow-md rounded-lg p-6">
+		<h1 class="text-3xl font-bold mb-4">Vítejte v Kartio</h1>
+		<p class="mb-6">
+			Zde můžete spravovat vaše karty.
+		</p>
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+			{% if is_granted("ROLE_ADMIN") %}
+				<div class="card bg-blue-50 border border-blue-200 rounded-lg p-4">
+					<div class="card-body">
+						<h2 class="card-title">Spravovat Značky</h2>
+						<p class="mb-4">Zde můžete spravovat vaše značky.</p>
+						<a href="{{ path('app_brands') }}" class="link link-primary">Přejít na správu značek</a>
+					</div>
+				</div>
+			{% else %}
+				<div class="card bg-green-50 border border-green-200 rounded-lg p-4">
+					<div class="card-body">
+						<h2 class="card-title">Spravovat Karty</h2>
+						<p class="mb-4">Zde zjistíte, jaké karty jsou vydány na vaše jméno.</p>
+						<a href="{{ path('app_customer_loyalty_cards') }}" class="link link-success">Přejít na správu karet</a>
+					</div>
+				</div>
+			{% endif %}
+
+		</div>
+	</div>
+{% endblock %}

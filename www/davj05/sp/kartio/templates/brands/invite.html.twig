@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Sdílet přístup ke značce
+{% endblock %}
+
+{% block body %}
+	<div class="bg-white shadow-md rounded-lg p-6">
+		<h1 class="text-3xl font-bold mb-4">Sdílet přístup ke značce</h1>
+
+		<div class="mb-6">
+
+			<form method="post">
+				<div class="mb-4 lg:w-96">
+					<label class="input input-bordered flex input-accent items-center gap-2">Email
+						<input type="email" id="email" name="email" class="grow">
+					</label>
+				</div>
+
+				<button type="submit" class="btn btn-primary">Sdílet</button>
+			</form>
+
+			<div class="flex justify-end">
+				<a href="{{ path('app_brand', {'id': brand.id}) }}" class="btn btn-secondary">Zpět</a>
+			</div>
+
+		</div>
+
+	</div>
+{% endblock %}
