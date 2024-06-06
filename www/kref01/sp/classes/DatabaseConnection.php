@@ -12,7 +12,7 @@ class DatabaseConnection {
     private const DB_HOSTNAME = 'localhost';
     private const DB_DATABASE = 'kref01';
     private const DB_USERNAME = 'kref01';
-    private const DB_PASSWORD = '********'; // TODO replace with real password
+    private const DB_PASSWORD = '*****';
     
     private function __construct() {
         try {

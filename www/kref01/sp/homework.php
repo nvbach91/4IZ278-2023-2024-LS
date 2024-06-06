@@ -1,16 +1,10 @@
 <?php include './includes/head.php'; ?>
 
 <?php
-include './includes/session.php';
-include './includes/lastVisitedCookie.php';
 require_once './utils/dateFormat.php';
 require_once './utils/CSRFToken.php';
 require_once './classes/HomeworksDB.php';
 require_once './classes/UsersDB.php';
-
-function validateCsrfToken($token) {
-    return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
-}
 
 CSRFToken::generateCSRFToken();
 
@@ -22,6 +16,7 @@ if (!isset($_GET['id'])) {
 $homework_id = intval($_GET['id']);
 $homeworksDB = new HomeworksDB();
 $homework = null;
+$error_message = null;
 if ($role === 'student') {
     $homework = $homeworksDB->getHomeworkByHomeworkIdAndStudentId($homework_id, $user_id);
 } else if ($role === 'teacher') {
@@ -32,13 +27,20 @@ if ($role === 'student') {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['action']) && $_POST['action'] == 'submit_homework') {
-        if (!validateCsrfToken($_POST['csrf_token'])) {
-            die("CSRF token validation failed");
+        if (!CSRFToken::validateCsrfToken($_POST['csrf_token'])) {
+            echo "<div class='container'><div class='error-banner'>CSRF token validation failed.</div></div>";
+            include './includes/foot.php';
+            exit;
         }
         $content = htmlspecialchars($_POST['content'], ENT_QUOTES, 'UTF-8');
-        $homeworksDB->updateHomeworkContent($homework_id, $user_id, $content);
-        header("Location: ./assignments.php");
-        exit;
+        if (empty($content)) {
+            $error_message = "You cannot submit empty homework.";
+        } else {
+            $submitted_at = date('Y-m-d H:i:s');
+            $homeworksDB->updateHomeworkContent($homework_id, $user_id, $content, $submitted_at);
+            header("Location: ./assignments.php");
+            exit;
+        }
     } elseif (isset($_POST['action']) && $_POST['action'] == 'evaluate_homework') {
         $grade = intval($_POST['grade']);
         $student_id = $homework['student_id'];
@@ -84,6 +86,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php if (!$homework): ?>
         <div class="error-banner">Homework not found!</div>
     <?php else: ?>
+        <?php if (isset($error_message)): ?>
+            <p class="error-banner"><?php echo htmlspecialchars($error_message); ?></p>
+        <?php endif; ?>
         <div class="homework-detail">
             <div class="homework-header">
                 <div class="homework-course"><?php echo htmlspecialchars($homework['course_name']); ?></div>
@@ -94,7 +99,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <strong>Status:</strong> <?php echo htmlspecialchars($homework['status']); ?>
             </div>
             <div class="homework-grade">
-                <strong>Grade:</strong> <?php echo htmlspecialchars($homework['grade'] ?? 'Not evaluated yet'); ?>
+                <?php if (empty($homework['submitted_at'])): ?>
+                    <strong>Submitted at:</strong> <?php echo htmlspecialchars("N/A"); ?>
+                    <?php else: ?>
+                        <strong>Submitted at:</strong> <?php echo htmlspecialchars(DateFormat::readableDateTime($homework['submitted_at'])); ?>
+                <?php endif; ?>
+            </div>
+            <div class="homework-grade">
+                <strong>Grade:</strong> <?php echo htmlspecialchars($homework['grade'] ?? 'N/A'); ?>
             </div>
             <div class="homework-long-description">
                 <strong>Description:</strong> <?php echo htmlspecialchars($homework['long_description']); ?>

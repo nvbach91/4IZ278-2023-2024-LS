@@ -1,3 +1,5 @@
+<?php include './includes/session.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,6 +21,9 @@
                 <li><a href="./assignments.php">Assignments</a></li>
                 <li><a href="./evaluation.php">Evaluation</a></li>
                 <li><a href="./profile.php">Profile</a></li>
+                <?php if ($role === 'admin'): ?>
+                    <li><a href="./adminDashboard.php">Admin Dashboard</a></li>
+                <?php endif; ?>
             </ul>
             <div class="logout">
                 <a href="./index.php">Sign Out</a>

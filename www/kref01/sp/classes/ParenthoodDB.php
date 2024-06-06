@@ -21,6 +21,14 @@ class ParenthoodDB extends Database {
         $statement->execute();
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
+    
+    public function findByParentAndStudent($parent_id, $student_id) {
+        $statement = $this->pdo->prepare("SELECT parenthood_id FROM Parenthood WHERE parent_id = :parent_id AND student_id = :student_id");
+        $statement->bindParam(':parent_id', $parent_id, PDO::PARAM_INT);
+        $statement->bindParam(':student_id', $student_id, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
 
     public function update($data) {
         $statement = $this->pdo->prepare(
@@ -35,15 +43,33 @@ class ParenthoodDB extends Database {
         $statement->bindParam(':parenthood_id', $data['parenthood_id'], PDO::PARAM_INT);
     
         $statement->execute();
-        echo "Parenthood record updated: " . $data['parenthood_id'] . "<br>";
     }
 
     public function delete($parenthood_id) {
         $statement = $this->pdo->prepare("DELETE FROM Parenthood WHERE parenthood_id = :parenthood_id;");
         $statement->bindParam(':parenthood_id', $parenthood_id, PDO::PARAM_INT);
-    
         $statement->execute();
-        echo "Parenthood record deleted: " . $parenthood_id . "<br>";
+    }
+
+    public function deleteByParentAndStudent($parent_id, $student_id) {
+        $statement = $this->pdo->prepare("DELETE FROM Parenthood WHERE parent_id = :parent_id AND student_id = :student_id");
+        $statement->bindParam(':parent_id', $parent_id, PDO::PARAM_INT);
+        $statement->bindParam(':student_id', $student_id, PDO::PARAM_INT);
+        return $statement->execute();
+    }
+
+    public function deleteByStudent($student_id) {
+        $statement = "DELETE FROM Parenthood WHERE student_id = :student_id";
+        $statement = $this->pdo->prepare($statement);
+        $statement->bindParam(':student_id', $student_id, PDO::PARAM_INT);
+        return $statement->execute();
+    }
+
+    public function deleteByParent($parent_id) {
+        $statement = "DELETE FROM Parenthood WHERE parent_id = :parent_id";
+        $statement = $this->pdo->prepare($statement);
+        $statement->bindParam(':parent_id', $parent_id, PDO::PARAM_INT);
+        return $statement->execute();
     }
 
     public function getAllParenthoods() {

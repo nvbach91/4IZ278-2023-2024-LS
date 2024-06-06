@@ -8,5 +8,8 @@ class CSRFToken {
     public static function getCSRFToken() {
         return $_SESSION['csrf_token'];
     }
+    public static function validateCsrfToken($token) {
+        return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
+    }
 }
 ?>

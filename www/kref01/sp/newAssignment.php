@@ -1,14 +1,10 @@
 <?php
 include './includes/head.php';
-include './includes/session.php';
 require_once './utils/CSRFToken.php';
 require_once './classes/AssignmentsDB.php';
 require_once './classes/UsersDB.php';
 require_once './classes/CoursesDB.php';
 
-function validateCsrfToken($token) {
-    return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
-}
 CSRFToken::generateCSRFToken();
 
 if ($role !== 'teacher' && $role !== 'admin') {
@@ -21,6 +17,11 @@ $coursesDB = new CoursesDB();
 $courses = $coursesDB->getCoursesByTeacherId($user_id);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (!CSRFToken::validateCsrfToken($_POST['csrf_token'])) {
+        echo "<div class='container'><div class='error-banner'>CSRF token validation failed.</div></div>";
+        include './includes/foot.php';
+        exit;
+    }
     $data = [
         'course_id' => intval($_POST['course_id']),
         'teacher_id' => $user_id,
@@ -28,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'long_description' => htmlspecialchars($_POST['long_description'], ENT_QUOTES, 'UTF-8'),
         'date_assigned' => date('Y-m-d')
     ];
-
 
     if ($data['course_id'] > 0 && !empty($data['short_description']) && !empty($data['long_description'])) {
         $assignment_id = $assignmentsDB->create($data);

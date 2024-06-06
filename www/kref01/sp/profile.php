@@ -1,7 +1,6 @@
 <?php include './includes/head.php'; ?>
 
 <?php
-include './includes/session.php';
 include './includes/lastVisitedCookie.php';
 require_once './utils/dateFormat.php';
 require_once './classes/Database.php';

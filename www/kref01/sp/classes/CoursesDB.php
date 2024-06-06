@@ -55,5 +55,29 @@ class CoursesDB extends Database implements DatabaseOperations {
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getTeachersByCourseId($course_id) {
+        $statement = $this->pdo->prepare("
+            SELECT u.user_id, u.first_name, u.last_name 
+            FROM Users u 
+            JOIN CourseTeachers ct ON u.user_id = ct.teacher_id 
+            WHERE ct.course_id = :course_id
+        ");
+        $statement->bindParam(':course_id', $course_id, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getStudentsByCourseId($course_id) {
+        $statement = $this->pdo->prepare("
+            SELECT u.user_id, u.first_name, u.last_name 
+            FROM Users u 
+            JOIN Enrollments e ON u.user_id = e.student_id 
+            WHERE e.course_id = :course_id
+        ");
+        $statement->bindParam(':course_id', $course_id, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>

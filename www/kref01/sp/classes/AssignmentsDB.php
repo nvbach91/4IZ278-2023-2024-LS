@@ -73,12 +73,9 @@ class AssignmentsDB extends Database {
     }
 
     public function delete($assignment_id) {
-        echo "delete - assignment ID: " . $assignment_id . " [AssignmentsDB] <br>";
         $statement = $this->pdo->prepare("DELETE FROM Assignments WHERE assignment_id = :assignment_id;");
         $statement->bindParam(':assignment_id', $assignment_id, PDO::PARAM_INT);
-    
         $statement->execute();
-        echo "Assignment deleted: " . $assignment_id . "<br>";
     }
 
     public function getGradesByStudentId($student_id) {
@@ -129,6 +126,15 @@ class AssignmentsDB extends Database {
             JOIN Assignments a ON a.assignment_id = h.assignment_id
             JOIN Users u ON u.user_id = h.student_id;
         ");
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function deleteByTeacherId($teacher_id) {
+        $statement = $this->pdo->prepare("
+        DELETE FROM Assignments
+        WHERE teacher_id = :teacher_id;");
+        $statement->bindParam(':teacher_id', $teacher_id, PDO::PARAM_INT);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }

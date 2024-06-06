@@ -70,7 +70,7 @@ class HomeworksDB extends Database {
 
     public function getHomeworkByHomeworkIdAndStudentId($homework_id, $student_id) {
         $statement = $this->pdo->prepare("
-            SELECT h.assignment_id, h.content, h.status, h.grade, a.short_description, a.long_description, a.date_assigned, c.course_name 
+            SELECT h.assignment_id, h.content, h.status, h.submitted_at, h.grade, a.short_description, a.long_description, a.date_assigned, c.course_name 
             FROM Homeworks h 
             JOIN Assignments a ON a.assignment_id = h.assignment_id
             JOIN Courses c ON c.course_id = a.course_id
@@ -84,7 +84,7 @@ class HomeworksDB extends Database {
 
     public function getHomeworkByHomeworkIdAndTeacherId($homework_id, $teacher_id) {
         $statement = $this->pdo->prepare("
-            SELECT h.homework_id, h.content, h.status, h.grade, h.student_id, a.short_description, a.long_description, a.date_assigned, c.course_name 
+            SELECT h.homework_id, h.content, h.status, h.submitted_at, h.grade, h.student_id, a.short_description, a.long_description, a.date_assigned, c.course_name 
             FROM Homeworks h 
             JOIN Assignments a ON a.assignment_id = h.assignment_id
             JOIN Courses c ON c.course_id = a.course_id
@@ -98,7 +98,7 @@ class HomeworksDB extends Database {
 
     public function getHomeworkByHomeworkId($homework_id) {
         $statement = $this->pdo->prepare("
-            SELECT h.homework_id, h.content, h.status, h.grade, h.student_id, a.short_description, a.long_description, a.date_assigned, c.course_name 
+            SELECT h.homework_id, h.content, h.status, h.submitted_at, h.grade, h.student_id, a.short_description, a.long_description, a.date_assigned, c.course_name 
             FROM Homeworks h 
             JOIN Assignments a ON a.assignment_id = h.assignment_id
             JOIN Courses c ON c.course_id = a.course_id
@@ -133,13 +133,14 @@ class HomeworksDB extends Database {
         echo "Homework updated: " . $data['homework_id'] . "<br>";
     }
 
-    public function updateHomeworkContent($homework_id, $student_id, $content) {
+    public function updateHomeworkContent($homework_id, $student_id, $content, $submitted_at) {
         $statement = $this->pdo->prepare("
             UPDATE Homeworks 
-            SET content = :content, status = 'submitted' 
+            SET content = :content, status = 'submitted', submitted_at = :submitted_at
             WHERE homework_id = :homework_id AND student_id = :student_id
         ");
         $statement->bindParam(':content', $content, PDO::PARAM_STR);
+        $statement->bindParam(':submitted_at', $submitted_at, PDO::PARAM_STR);
         $statement->bindParam(':homework_id', $homework_id, PDO::PARAM_INT);
         $statement->bindParam(':student_id', $student_id, PDO::PARAM_INT);
         $statement->execute();
@@ -160,9 +161,24 @@ class HomeworksDB extends Database {
     public function delete($homework_id) {
         $statement = $this->pdo->prepare("DELETE FROM Homeworks WHERE homework_id = :homework_id;");
         $statement->bindParam(':homework_id', $homework_id, PDO::PARAM_INT);
-    
         $statement->execute();
-        echo "Homework deleted: " . $homework_id . "<br>";
+    }
+
+    public function deleteByStudentId($student_id) {
+        $statement = $this->pdo->prepare("DELETE FROM Homeworks WHERE student_id = :student_id;");
+        $statement->bindParam(':student_id', $student_id, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function deleteByTeacherId($teacher_id) {
+        $statement = $this->pdo->prepare("
+        DELETE h FROM Homeworks h
+        JOIN Assignments a ON a.assignment_id = h.assignment_id
+        WHERE a.teacher_id = :teacher_id;");
+        $statement->bindParam(':teacher_id', $teacher_id, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 ?>

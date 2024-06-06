@@ -394,12 +394,12 @@ button.create-assignment-button:hover {
 }
 
 .login-container input {
-    width: 100%;
+    width: calc(100% - 22px);
     padding: 10px;
     margin-bottom: 20px;
     border-radius: 4px;
     border: 1px solid #ccc;
-    box-sizing: border-box; 
+    box-sizing: border-box;
 }
 
 .login-container button {
@@ -414,6 +414,7 @@ button.create-assignment-button:hover {
 .login-container button:hover {
     background-color: #555;
 }
+
 
 .error-banner, .success-banner {
     padding: 10px;
@@ -433,4 +434,162 @@ button.create-assignment-button:hover {
     background-color: #d4edda;
     color: #155724;
     border-color: #c3e6cb;
+}
+
+/* ADMIN DASHBOARD */
+
+.admin-dashboard table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.admin-dashboard th, .admin-dashboard td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.admin-dashboard th {
+    background-color: #f4f4f4;
+}
+
+.admin-dashboard tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.admin-dashboard tr:hover {
+    background-color: #f1f1f1;
+}
+
+.admin-dashboard form {
+    margin-bottom: 20px;
+}
+
+.admin-dashboard form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.admin-dashboard form input[type="text"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.admin-dashboard form button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.admin-dashboard form button:hover {
+    background-color: #555;
+}
+
+.course-container {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.course-container h2 {
+    margin-top: 0;
+}
+
+.course-container p {
+    margin: 0 0 10px;
+}
+
+.course-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.course-container th, .course-container td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.course-container th {
+    background-color: #f4f4f4;
+}
+
+.course-container tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.course-container tr:hover {
+    background-color: #f1f1f1;
+}
+
+.users-container {
+    margin-top: 30px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.users-container h2 {
+    margin-top: 0;
+}
+
+.users-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.users-container th, .users-container td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.users-container th {
+    background-color: #f4f4f4;
+}
+
+.users-container tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.users-container tr:hover {
+    background-color: #f1f1f1;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input[type="text"], form select {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #555;
 }
