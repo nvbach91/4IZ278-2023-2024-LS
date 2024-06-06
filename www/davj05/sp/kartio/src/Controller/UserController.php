@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Writer\PngWriter;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 # This controller is responsible for handling user-related actions
@@ -139,17 +140,11 @@ class UserController extends AbstractController
             $loyaltyCard->getCardIdentifier()
         );
 
-        $result = Builder::create()
-            ->writer(new PngWriter())
-            ->data($qrContent)
-            ->build();
+        $qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" . urlencode($qrContent);
 
-        $response = new StreamedResponse(function () use ($result) {
-            echo $result->getString();
-        });
+        $httpClient = HttpClient::create();
+        $response = $httpClient->request("GET", $qrUrl);
 
-        $response->headers->set("Content-Type", "image/png");
-
-        return $response;
+        return new Response($response->getContent(), 200, ["Content-Type" => "image/png"]);
     }
 }
