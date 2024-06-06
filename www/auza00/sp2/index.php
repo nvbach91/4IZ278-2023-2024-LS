@@ -278,6 +278,8 @@ if (!isset($_SESSION['nick-taken'])) {
     <script src='js/liking-system.js'></script>
     <script src="js/jquery-image-upload-resizer.js"></script>
     <script src='js/google-login.js'></script>
+    <script src="js/fb-login.js"></script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
     <script>
 
     </script>

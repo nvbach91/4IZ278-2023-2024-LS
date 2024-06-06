@@ -71,6 +71,11 @@ $('#button-list').on('click', function () { //show mySpots
 
 $('#main-button-signout').on('click', function () { //logout -> clear
     localStorage.removeItem("signinGoogle");
+    FB.logout(function(response) {
+        // Person is now logged out
+     });
+    createCookie("oAuthEmail", null, "2");
+    localStorage.setItem("facebookLoggedIn", false);
     myPoints = [];
 });
 

@@ -19,7 +19,7 @@ if (Object.keys(params).length > 0 && params['state']) {
     }
 }
 
-window.history.pushState({}, document.title, "/");
+//window.history.pushState({}, document.title, "/");
 let infoGoogle = JSON.parse(localStorage.getItem('oauth2-test-params'));
 console.log(JSON.parse(localStorage.getItem('oauth2-test-params')));
 console.log(infoGoogle['access_token']);
@@ -32,12 +32,15 @@ function checkEmailExists(googleEmail, userEmails) {
     if (typeof googleEmail !== "undefined") {
         if (userEmails.includes(googleEmail)) {
             console.log('email already in use');
-            createCookie("googleEmail", googleEmail, "2");
-            location.href = './signin-oauth.php';
+            createCookie("oAuthEmail", googleEmail, "2");
+            localStorage.setItem("facebookLoggedIn", true);
+            fetch("./signin-oauth.php")
+            .then(location.reload());
+            //location.href = './signin-oauth.php';
         }
         else {
             console.log('email not in use');
-            createCookie("googleEmail", googleEmail, "2");
+            createCookie("oAuthEmail", googleEmail, "2");
             document.getElementById('popup6').style.display = 'block';
             document.getElementById('popup-all7').style.display = 'block';
         }
@@ -120,6 +123,7 @@ if (localStorage.getItem('signinGoogle') == 'signing_in') {
 
     Promise.all([promise1, promise2])
         .then(([data1, data2]) => {
+            window.history.pushState({}, document.title, "/");
             checkEmailExists(data1.email, data2);
         })
         .catch(error => {

@@ -10,10 +10,10 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
     $password = $_POST['password'];
     $confirm = $_POST['confirm'];
 
-    $username = stripcslashes($username);
+    /*$username = stripcslashes($username);
     $email = stripcslashes($email);
     $password = stripcslashes($password);
-    $confirm = stripcslashes($confirm);
+    $confirm = stripcslashes($confirm);*/
 
     //check for used username
     $stmt = $db->prepare('SELECT * FROM users WHERE username LIKE BINARY :username LIMIT 1'); //LIMIT 1 jen jako vykonnostni optimalizace, 2 stejne maily se v db nepotkaji
@@ -129,10 +129,14 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
     <p class='signin-or-longer'>----</p>------------------------ nebo ------------------------<p
         class='signin-or-longer'>----</p>
     </p>
-    <button class="button-login" id="main-button-login">
+    <button class="button-login" id="main-button-login" onclick="fb_login();">
         <i class="fa-brands fa-facebook-f"></i>
         <p>Registrovat přes Facebook</p>
     </button>
+
+    <!--<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+    </fb:login-button>-->
+
     <button class="button-login" id="main-button-login2" onclick="oauth2SignIn();">
         <i class="fa-brands fa-google google-icon"></i>
         <p>Registrovat přes Google</p>

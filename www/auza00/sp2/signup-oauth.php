@@ -7,7 +7,7 @@ $errors = [];
 if ('POST' == $_SERVER['REQUEST_METHOD']) {
     $username = trim($_POST['nick']);
     $username = stripcslashes($username);
-    $email = $_COOKIE["googleEmail"]; 
+    $email = $_COOKIE["oAuthEmail"]; 
 
     //check for used username
     $stmt = $db->prepare('SELECT * FROM users WHERE username LIKE BINARY :username LIMIT 1'); //LIMIT 1 jen jako vykonnostni optimalizace, 2 stejne maily se v db nepotkaji

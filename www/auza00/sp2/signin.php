@@ -25,8 +25,8 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
         $_SESSION['user_id'] = $existing_user['user_id'];
         $_SESSION['user_username'] = $existing_user['username'];
 
-        header('Location: index.php');
-        exit;
+        //header('Location: index.php');
+        //exit;
     } else {
         $errors['password'] = 'Špatné heslo';
     }
@@ -57,7 +57,7 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
     <a href="signup.php" class='signin-already'>Nemáš účet? Založ si ho!</a>
 
     <p class='signin-or'><p class='signin-or-longer'>----</p>------------------------ nebo ------------------------<p class='signin-or-longer'>----</p></p>
-    <button class="button-login" id="main-button-login">
+    <button class="button-login" id="main-button-login" onclick="fb_login();">
         <i class="fa-brands fa-facebook-f"></i>
         <p>Přihlásit přes Facebook</p>
     </button>

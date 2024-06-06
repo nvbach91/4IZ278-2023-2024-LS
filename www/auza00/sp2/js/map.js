@@ -69,6 +69,7 @@ fetch("./download-spot.php")
         spotsFinal = data; // Will alert: 42
         console.log(spotsFinal);
         numRows = spotsFinal.length;
+        document.getElementById("spots-number").innerHTML = numRows;
         console.log(numRows);
     })
     .catch((error) => {
