@@ -82,12 +82,13 @@ function checkSpot(Sid) {
         }
         else {
             for (let i = 0; i < commentsOnSpot.length; i++) {
+                date = commentsOnSpot[i][0]['date'];
                 if (commentsOnSpot[i][0]['user_id'] == user_id) {
                     commentContainer[b].innerHTML +=
                         `
                 <div class="comment">
                     <div class="comment-bubble">
-                        <p class="comment-author">${commentsOnSpot[i][0]['username']}</p><p class="comment-date">${commentsOnSpot[i][0]['date']}</p><br>
+                        <p class="comment-author">${commentsOnSpot[i][0]['username']}</p><p class="comment-date">${date}</p><br>
                         <p class="comment-text">${commentsOnSpot[i][0]['text']}</p><br>
                         <a class="comment-delete" href='./delete-comment.php?delete_comment_id=${commentsOnSpot[i][0]['comment_id']}\'>Odstranit komentář</a>
                     </div>
@@ -107,6 +108,8 @@ function checkSpot(Sid) {
                 }
             }
         }
+
+        commentContainer[b].scrollTop = commentContainer[b].scrollHeight;
     }
 
 }

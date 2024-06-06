@@ -8,6 +8,14 @@ if (isset($_SESSION['user_id'])) {
         $user_id = $_SESSION['user_id'];
         $username = $_SESSION['user_username'];
         $comment_spot_id = $_POST['comment_spot_id'];
+
+        /*// Nastavení časové zóny na Evropu/Prague
+        date_default_timezone_set('Europe/Prague');
+
+        // Získání aktuálního data a času ve formátu "den.měsíc.rok hodiny:minuty"
+        $date = date('d.m.Y H:i');
+        //$date = date_format($old_date, 'd. m. Y');*/
+
         $date = date('Y-m-d H:i:s');
 
         $comment = $_POST['koment'];

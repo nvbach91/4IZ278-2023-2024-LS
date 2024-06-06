@@ -197,6 +197,9 @@ if (!isset($_SESSION['nick-taken'])) {
 
     </script>
     <script>
+        var commentHistory = document.getElementsByClassName("comments");
+        commentHistory.scrollTop = commentHistory.scrollHeight;
+
         $(document).ready(function () {
             // bind 'myForm' (is an id of form) and provide a simple callback function 
             $("form-submit").click(function () {
