@@ -1,0 +1,101 @@
+/* .btn-edit {
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background-color: #ffbd44;
+	border: 1px solid #000;
+	cursor: pointer;
+}
+*/
+.btn-delete {
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background-color: #ff0000;
+	border: 1px solid #000;
+	cursor: pointer;
+	flex-shrink: 0;
+	flex-grow: 0;
+}
+
+.btn-delete.disabled {
+	background-color: #ff8787;
+	cursor: not-allowed;
+}
+
+td > a,
+th > a {
+	color: rgb(33, 37, 41);
+	text-decoration: none;
+}
+
+td > a:hover,
+th > a:hover {
+	color: rgb(33, 37, 41);
+	text-decoration: underline;
+}
+
+.service {
+	border: 1px solid #ced4da;
+	border-radius: 0.375rem;
+	padding: 0.375rem 0.75rem;
+	width: fit-content;
+	margin: 5px 0;
+	margin-right: 5px;
+	position: relative;
+}
+
+.service-input {
+	width: fit-content;
+	width: 200px;
+	height: 100%;
+	margin: 5px;
+	margin-left: 0;
+}
+
+.service:first-of-type {
+	margin-left: 0px;
+}
+
+.service:last-of-type {
+	cursor: pointer;
+}
+
+.service > .btn-delete {
+	position: absolute;
+	right: -0.375rem;
+	top: -0.375rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.btn-delete-cross {
+	width: 2px;
+	height: 10px;
+	rotate: 45deg;
+	background-color: #fff;
+	position: absolute;
+}
+
+.btn-delete > .btn-delete-cross:nth-of-type(2) {
+	rotate: -45deg;
+}
+
+.form-required {
+	color: red;
+}
+
+.form-check-input {
+	cursor: pointer;
+}
+
+.services-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.service-card {
+	width: 18rem;
+	margin: 0 10px 10px 0;
+}
