@@ -215,51 +215,6 @@ $users = $usersDB->getAllUsers();
                 <?php unset($_SESSION['errorMessages']); ?>
             <?php endif; ?>
 
-            <?php foreach ($courses as $course): ?>
-                <?php
-                $teachers = $courseTeachersDB->getTeachersByCourseId($course['course_id']);
-                $students = $enrollmentsDB->getStudentsByCourseId($course['course_id']);
-                ?>
-                <div class="course-container">
-                    <h2>Course: <?php echo htmlspecialchars($course['course_name']); ?></h2>
-                    <p>Course ID: <?php echo htmlspecialchars($course['course_id']); ?></p>
-                    <?php if (empty($teachers)): ?>
-                        <p class="error-banner">No teachers assigned to this course.</p>
-                    <?php endif; ?>
-                    <?php if (empty($students)): ?>
-                        <p class="error-banner">No students assigned to this course.</p>
-                    <?php endif; ?>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Role</th>
-                                <th>User ID</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($teachers as $teacher): ?>
-                                <tr>
-                                    <td>Teacher</td>
-                                    <td><?php echo htmlspecialchars($teacher['user_id']); ?></td>
-                                    <td><?php echo htmlspecialchars($teacher['first_name']); ?></td>
-                                    <td><?php echo htmlspecialchars($teacher['last_name']); ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                            <?php foreach ($students as $student): ?>
-                                <tr>
-                                    <td>Student</td>
-                                    <td><?php echo htmlspecialchars($student['user_id']); ?></td>
-                                    <td><?php echo htmlspecialchars($student['first_name']); ?></td>
-                                    <td><?php echo htmlspecialchars($student['last_name']); ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            <?php endforeach; ?>
-
             <!-- Create a Course -->
             <h2>Create a Course</h2>
             <form method="POST">
@@ -449,33 +404,6 @@ $users = $usersDB->getAllUsers();
                 </select>
                 <button type="submit">Delete User</button>
             </form>
-
-            <!-- All Users -->
-            <div class="users-container">
-                <h2>All Users</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>User ID</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($users as $user): ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($user['user_id']); ?></td>
-                                <td><?php echo htmlspecialchars($user['first_name']); ?></td>
-                                <td><?php echo htmlspecialchars($user['last_name']); ?></td>
-                                <td><?php echo htmlspecialchars($user['email']); ?></td>
-                                <td><?php echo htmlspecialchars($user['role']); ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
         </div>
     </div>
 <?php endif; ?>

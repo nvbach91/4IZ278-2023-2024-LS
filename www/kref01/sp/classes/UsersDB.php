@@ -59,6 +59,20 @@ class UsersDB extends Database {
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getAllStudentsforEnrollment($course_id) {
+        $statement = $this->pdo->prepare("
+        SELECT * FROM Users
+        WHERE role = 'student'
+        AND user_id NOT IN (
+            SELECT student_id
+            FROM Enrollments
+            WHERE course_id = :course_id
+        );");
+        $statement->bindParam(':course_id', $course_id, PDO::PARAM_STR);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getCoursesByTeacherId($teacher_id) {
         $statement = $this->pdo->prepare("
             SELECT c.course_id, c.course_name

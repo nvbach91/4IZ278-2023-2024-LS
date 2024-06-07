@@ -17,14 +17,60 @@ if ($role === 'student') {
 } else if ($role === 'admin') {
     $assignments = $assignmentsDB->getAllGrades();
 }
-
 ?>
 
 <div class="container">
     <h1>Student Evaluations</h1>
     <?php if (empty($assignments)): ?>
         <p class="no-assignments-message">There are no evaluations yet.</p>
-    <?php else: ?>
+    <?php endif; ?>
+    <?php if ($role === 'student'): ?>
+        <table class="evaluation-table">
+            <thead>
+                <tr>
+                    <th>Assignment Description</th>
+                    <th>Grade</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($assignments as $assignment): ?>
+                    <?php if ($assignment['status'] == 'graded'): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($assignment['short_description']); ?></td>
+                        <td><?php echo htmlspecialchars($assignment['grade']); ?></td>
+                    </tr>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php endif; ?>
+    <?php if (($role === 'parent') || ($role === 'teacher')): ?>
+        <table class="evaluation-table">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Submitted at</th>
+                    <th>Assignment Description</th>
+                    <th>Grade</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($assignments as $assignment): ?>
+                    <?php if ($assignment['status'] == 'graded'): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($assignment['first_name']); ?></td>
+                        <td><?php echo htmlspecialchars($assignment['last_name']); ?></td>
+                        <td><?php echo htmlspecialchars($assignment['submitted_at']); ?></td>
+                        <td><?php echo htmlspecialchars($assignment['short_description']); ?></td>
+                        <td><?php echo htmlspecialchars($assignment['grade']); ?></td>
+                    </tr>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php endif; ?>
+    <?php if ($role === 'admin'): ?>
         <table class="evaluation-table">
             <thead>
                 <tr>

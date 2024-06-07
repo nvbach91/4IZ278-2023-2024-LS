@@ -22,6 +22,8 @@
                 <li><a href="./evaluation.php">Evaluation</a></li>
                 <li><a href="./profile.php">Profile</a></li>
                 <?php if ($role === 'admin'): ?>
+                    <li><a href="./users.php">Users</a></li>
+                    <li><a href="./courses.php">Courses</a></li>
                     <li><a href="./adminDashboard.php">Admin Dashboard</a></li>
                 <?php endif; ?>
             </ul>

@@ -80,11 +80,12 @@ class AssignmentsDB extends Database {
 
     public function getGradesByStudentId($student_id) {
         $statement = $this->pdo->prepare("
-            SELECT u.user_id, u.first_name, u.last_name, a.assignment_id, h.grade, h.status
+            SELECT a.short_description, h.grade, h.status
             FROM Homeworks h 
             JOIN Assignments a ON a.assignment_id = h.assignment_id
             JOIN Users u ON u.user_id = h.student_id
-            WHERE h.student_id = :student_id;
+            WHERE h.student_id = :student_id
+            ORDER BY h.submitted_at DESC;
         ");
         $statement->bindParam(':student_id', $student_id, PDO::PARAM_INT);
         $statement->execute();
@@ -93,12 +94,13 @@ class AssignmentsDB extends Database {
 
     public function getGradesByParentId($parent_id) {
         $statement = $this->pdo->prepare("
-            SELECT u.user_id, u.first_name, u.last_name, a.assignment_id, h.grade, h.status
+            SELECT u.user_id, u.first_name, u.last_name, a.short_description, h.grade, h.status, h.submitted_at
             FROM Homeworks h 
             JOIN Assignments a ON a.assignment_id = h.assignment_id
             JOIN Users u ON u.user_id = h.student_id
             JOIN Parenthood p ON p.student_id = u.user_id
-            WHERE p.parent_id = :parent_id;
+            WHERE p.parent_id = :parent_id
+            ORDER BY h.submitted_at DESC;
         ");
         $statement->bindParam(':parent_id', $parent_id, PDO::PARAM_INT);
         $statement->execute();
@@ -107,12 +109,13 @@ class AssignmentsDB extends Database {
 
     public function getGradesByTeacherId($teacher_id) {
         $statement = $this->pdo->prepare("
-            SELECT DISTINCT u.user_id, u.first_name, u.last_name, a.assignment_id, h.grade, h.status
+            SELECT DISTINCT u.user_id, u.first_name, u.last_name, a.assignment_id, h.grade, h.status, h.submitted_at
             FROM Homeworks h 
             JOIN Assignments a ON a.assignment_id = h.assignment_id
             JOIN Users u ON u.user_id = h.student_id
             JOIN CourseTeachers ct ON ct.course_id = a.course_id
-            WHERE a.teacher_id = :teacher_id;
+            WHERE a.teacher_id = :teacher_id
+            ORDER BY u.last_name, u.first_name ASC;
         ");
         $statement->bindParam(':teacher_id', $teacher_id, PDO::PARAM_INT);
         $statement->execute();

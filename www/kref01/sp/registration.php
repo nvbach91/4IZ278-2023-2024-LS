@@ -33,7 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $error = "You cannot register as admin.";
     } else {
         $hashed_password = hash('sha256', $password);
-
+        // password_hash
+        
         $user_id = $usersDB->create([
             'first_name' => $first_name,
             'middle_name' => $middle_name,
