@@ -13,6 +13,7 @@
         "owenvoke/blade-entypo": "^2.2"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.13",
         "fakerphp/faker": "^1.9.1",
         "laravel-lang/common": "^6.2",
         "laravel-lang/lang": "^14.0",

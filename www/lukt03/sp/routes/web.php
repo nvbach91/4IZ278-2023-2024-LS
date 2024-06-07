@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CatController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Cat;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -18,21 +20,31 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 Route::get('/', function () {
     return view('home');
-})->name('home');
+})->name('index');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profil', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profil', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profil', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profil', [ProfileController::class, 'show'])
+        ->name('profil.show');
+    Route::get('/profil/edit', [ProfileController::class, 'edit'])
+        ->name('profil.edit');
+    Route::patch('/profil', [ProfileController::class, 'update'])
+        ->name('profil.update');
+    Route::delete('/profil', [ProfileController::class, 'destroy'])
+        ->name('profil.destroy');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/profil/{id}', [ProfileController::class, 'show'])->whereNumber('id')->name('profile.show');
+    Route::resource('profily', ProfileController::class)
+        ->only(['index', 'show', 'edit', 'update', 'destroy'])
+        ->parameter('profily', 'user')
+        ->missing(fn () => throw new NotFoundHttpException('Účet neexistuje'));
+
+    Route::resource('kocky', CatController::class)
+        ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
+        ->parameters(['kocky' => 'cat'])
+        ->missing(fn () => throw new NotFoundHttpException('Kočka neexistuje'));
 });
 
-
-Route::fallback(function(){
-    throw new NotFoundHttpException('Tato cesta neexistuje');
-});
+Route::fallback(fn () => throw new NotFoundHttpException('Stránka nenalezena'));
 
 require __DIR__.'/auth.php';

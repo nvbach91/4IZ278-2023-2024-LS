@@ -2,6 +2,12 @@
 
 namespace App\Providers;
 
+use App\Events\CatDeleted;
+use App\Events\CatUpdating;
+use App\Events\UserDeleted;
+use App\Events\UserUpdating;
+use App\Listeners\DeleteOldAvatar;
+use App\Listeners\DeleteOldCatPhoto;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -18,6 +24,18 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        UserUpdating::class => [
+            DeleteOldAvatar::class,
+        ],
+        UserDeleted::class => [
+            DeleteOldAvatar::class,
+        ],
+        CatUpdating::class => [
+            DeleteOldCatPhoto::class,
+        ],
+        CatDeleted::class => [
+            DeleteOldCatPhoto::class,
+        ]
     ];
 
     /**

@@ -4,104 +4,109 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\User;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
     /**
-     * Display the user's profile form.
+     * Display a listing of the resource.
      */
-    public function edit(Request $request): View
+    public function index(): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-            'photo_url' => $this->getUserAvatarUrl($request->user()),
-        ]);
+        $this->authorize('viewAny', User::class);
+
+        return view('profile.index')
+            ->with('users', User::all());
     }
 
     /**
-     * Show other user's profile
+     * Display the specified resource.
      */
-    public function show(Request $request, int $id): View
+    public function show(?User $user = null): View
     {
-        $user = User::find($id);
+        $user = $user ?? auth()->user();
+        $this->authorize('view', $user);
 
-        if (is_null($user)) {
-            throw new ModelNotFoundException('Uživatelský účet neexistuje');
-        }
-        if ($user->role !== 1 && $request->user()->id !== $id && $request->user()->role < 2) {
-            throw new AuthorizationException('Tento profil nelze zobrazit');
-        }
+        return view('profile.show')
+            ->with('user', $user);
+    }
 
-        return view('profile.show', [
-            'name' => $user->name,
-            'hidden' => $user->role !== 1,
-            'location' => $user->location,
-            'photo_url' => $this->getUserAvatarUrl($user),
-            'joined' => $user->created_at->format('Y-m-d'),
-        ]);
+    /**
+     * Display the user's profile form.
+     */
+    public function edit(?User $user = null): View
+    {
+        $user = $user ?? auth()->user();
+        $this->authorize('update', $user);
+
+        return view('profile.edit')
+            ->with('user', $user);
     }
 
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request, ?User $user = null): RedirectResponse
     {
-        $user = $request->user();
+        /** @var User */
+        $user = $user ?? auth()->user();
+        $this->authorize('update', $user);
+
 
         $user->fill($request->validated());
 
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
+            $user->role = 0;
         }
 
-        if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('public/avatars');
-            if ($user->photo_url !== null) {
-                Storage::delete($user->photo_url);
+        if ($request->hasFile('avatar')) {
+            if ($path = $request->file('avatar')->store('public/avatars')) {
+                $user->avatar_path = $path;
             }
-            $user->photo_url = $path;
+        } else if ($request->boolean('delete_avatar')) {
+            $user->avatar_path = null;
         }
 
-        if ($user->role < 2) {
+        if ($user->hasVerifiedEmail() && !$user->isAdmin()) {
             $user->role = $request->boolean('is_sitter');
         }
 
         $user->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return back()->with('status', 'profile-updated');
     }
 
     /**
      * Delete the user's account.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request, ?User $user = null): RedirectResponse
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
+        /** @var User */
+        $user = $user ?? auth()->user();
+        $this->authorize('delete', $user);
 
-        $user = $request->user();
+        if (auth()->user()->id === $user->id) {
+            $request->validateWithBag('userDeletion', [
+                'password' => ['required', 'current_password'],
+            ]);
 
-        Auth::logout();
+            auth()->logout();
 
-        $user->delete();
+            $user->delete();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
 
-        return Redirect::to('/');
-    }
+            return redirect()->route('index');
+        } else {
+            $email = $user->email;
+            $user->delete();
 
-    private function getUserAvatarUrl(User $user)
-    {
-        return Storage::url($user->photo_url ?? 'avatars/placeholder.png');
+            return to_route('profily.index')
+                ->with(['status' => 'profile-deleted', 'email' => $email]);
+        }
     }
 }

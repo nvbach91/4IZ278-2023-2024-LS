@@ -22,7 +22,7 @@
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
             <div>
-                <a href="{{ route('home') }}">
+                <a href="{{ route('index') }}">
                     <x-application-logo class="h-16 fill-current text-gray-500" />
                 </a>
             </div>

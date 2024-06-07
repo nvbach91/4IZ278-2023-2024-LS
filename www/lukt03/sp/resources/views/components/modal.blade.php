@@ -17,6 +17,8 @@ $maxWidth = [
 <div
     x-data="{
         show: @js($show),
+        action: '',
+        title: '',
         focusables() {
             // All focusable element types...
             let selector = 'a, button, input:not([type=\'hidden\']), textarea, select, details, [tabindex]:not([tabindex=\'-1\'])'
@@ -39,8 +41,8 @@ $maxWidth = [
             document.body.classList.remove('overflow-y-hidden');
         }
     })"
-    x-on:open-modal.window="$event.detail == '{{ $name }}' ? show = true : null"
-    x-on:close-modal.window="$event.detail == '{{ $name }}' ? show = false : null"
+    x-on:open-modal.window="$event.detail.name == '{{ $name }}' ? (show = true, action = $event.detail.action, title = $event.detail.title) : null"
+    x-on:close-modal.window="$event.detail.name == '{{ $name }}' ? show = false : null"
     x-on:close.stop="show = false"
     x-on:keydown.escape.window="show = false"
     x-on:keydown.tab.prevent="$event.shiftKey || nextFocusable().focus()"

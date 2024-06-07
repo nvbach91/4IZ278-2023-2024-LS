@@ -5,5 +5,13 @@
         </h2>
     </header>
 
-	Tady bude seznam
+    <div class="space-y-1">
+        @forelse ($user->cats as $cat)
+            <div class="p-4 sm:p-8">
+                @include('cat.partials.cat-card')
+            </div>
+        @empty
+            <div class="text-center">{{ __('Zatím žádné nemám.') }}</div>
+        @endforelse
+    </div>
 </section>

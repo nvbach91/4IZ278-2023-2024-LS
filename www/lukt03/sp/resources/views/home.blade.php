@@ -6,7 +6,7 @@
     </x-slot>
 
     @auth
-        @if (!auth()->user()->hasVerifiedEmail())
+        @if (! auth()->user()->hasVerifiedEmail())
             <x-alert type="info">
                 <p class="font-bold">
                     {{ __('Váš účet je téměř připravený') }}
@@ -28,7 +28,7 @@
     @endauth
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     {{ __('Tady něco bude') }}

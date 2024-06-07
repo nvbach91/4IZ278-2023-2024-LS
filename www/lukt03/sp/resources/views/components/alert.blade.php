@@ -7,7 +7,7 @@
 	$info = !($success | $warning | $danger);
 @endphp
 
-<div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+<div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
 	<div {{ $attributes
 		->class([
 			'border-t-4 rounded-b-lg px-6 py-3 shadow-md',
