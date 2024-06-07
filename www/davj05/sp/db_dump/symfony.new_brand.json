@@ -1,0 +1,60 @@
+[{
+  "_id": {
+    "$oid": "6662cc8e53d0300bfc01e256"
+  },
+  "name": "Nike",
+  "users": [
+    {
+      "$ref": "new_users",
+      "$id": {
+        "$oid": "6662cbcb53d0300bfc01e255"
+      }
+    }
+  ],
+  "picturePath": "kartio-6662cc8e1aca6.png"
+},
+{
+  "_id": {
+    "$oid": "6662ccf453d0300bfc01e259"
+  },
+  "name": "Praha",
+  "users": [
+    {
+      "$ref": "new_users",
+      "$id": {
+        "$oid": "6662cbcb53d0300bfc01e255"
+      }
+    }
+  ],
+  "picturePath": "logo_praha_svg-6662ccf4cf527.png"
+},
+{
+  "_id": {
+    "$oid": "6662cd5853d0300bfc01e25b"
+  },
+  "name": "Dice",
+  "users": [
+    {
+      "$ref": "new_users",
+      "$id": {
+        "$oid": "6662cbcb53d0300bfc01e255"
+      }
+    }
+  ],
+  "picturePath": "png_transparency_demonstration_1-6662cd58d018b.png"
+},
+{
+  "_id": {
+    "$oid": "6662cdc653d0300bfc01e25c"
+  },
+  "name": "Adidas",
+  "users": [
+    {
+      "$ref": "new_users",
+      "$id": {
+        "$oid": "6662cbcb53d0300bfc01e255"
+      }
+    }
+  ],
+  "picturePath": "png_transparency_demonstration_1-6662cdc6b0146.png"
+}]

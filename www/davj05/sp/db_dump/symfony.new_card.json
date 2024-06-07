@@ -1,0 +1,45 @@
+[{
+  "_id": {
+    "$oid": "6662ccaf53d0300bfc01e258"
+  },
+  "customerName": "Jakub",
+  "email": "test@email.cz",
+  "phoneNumber": "6778998755",
+  "cardIdentifier": "73ef48d4e185fb76",
+  "brand": {
+    "$ref": "new_brand",
+    "$id": {
+      "$oid": "6662cc8e53d0300bfc01e256"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "6662cd0e53d0300bfc01e25a"
+  },
+  "customerName": "Jakub",
+  "email": "test@email.cz",
+  "phoneNumber": "335467890",
+  "cardIdentifier": "b6e34d56774a4b1c",
+  "brand": {
+    "$ref": "new_brand",
+    "$id": {
+      "$oid": "6662ccf453d0300bfc01e259"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "6662cde553d0300bfc01e25d"
+  },
+  "customerName": "Jakub",
+  "email": "test@email.cz",
+  "phoneNumber": "456789999",
+  "cardIdentifier": "a3e533208cda0bf4",
+  "brand": {
+    "$ref": "new_brand",
+    "$id": {
+      "$oid": "6662cdc653d0300bfc01e25c"
+    }
+  }
+}]
