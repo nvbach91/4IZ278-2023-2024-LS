@@ -97,8 +97,8 @@ class UserValidator extends BaseUserValidator {
             $this->errors[] = "Hesla se neshodují.";
         }
 
-        if (strlen($password) < 5) {
-            $this->errors[] = "Heslo musí být dlouhé alespoň 5 znaků.";
+        if (strlen($password) < 9) {
+            $this->errors[] = "Heslo musí být dlouhé alespoň 9 znaků.";
         }
     }
 }

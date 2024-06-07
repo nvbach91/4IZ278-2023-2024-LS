@@ -13,10 +13,18 @@ class OrdersDB extends Database {
         return $this->pdo->lastInsertId();
     }
 
-    public function findByIdAndUserId($order_id, $user_id) {
-        $sql = "SELECT * FROM $this->tableName WHERE order_id = :order_id AND user_id = :user_id";
+    public function findByUserId($user_id) {
+        $sql = "SELECT * FROM $this->tableName WHERE user_id = :user_id";
         $statement = $this->pdo->prepare($sql);
-        $statement->execute(['order_id' => $order_id, 'user_id' => $user_id]);
-        return $statement->fetch(PDO::FETCH_ASSOC);
+        $statement->execute(['user_id' => $user_id]);
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function findOrderItems($order_id) {
+        $sql = "SELECT oi.*, p.name FROM order_items oi JOIN products p ON oi.product_id = p.product_id WHERE oi.order_id = :order_id";
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute(['order_id' => $order_id]);
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 }
+?>

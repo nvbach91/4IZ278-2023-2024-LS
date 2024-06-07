@@ -27,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = $validator->validateHost($first_name, $last_name, $email, $phone);
 
     if (empty($errors)) {
+        $phone = $validator->validateAndFormatPhone($phone);
         $_SESSION['basic_info'] = [
             'first_name' => $first_name,
             'last_name' => $last_name,

@@ -18,13 +18,23 @@ class BaseUserValidator {
     }
 
     protected function validatePhoneFormat($phone) {
-        if (!preg_match('/^\+?[1-9]\d{1,14}$/', $phone)) {
+        if (!preg_match('/^(\+420\s?)?(\d{3}\s?\d{3}\s?\d{3})$/', $phone)) {
             $this->errors[] = "Neplatný formát telefonního čísla.";
         }
     }
 
     public function getErrors() {
         return $this->errors;
+    }
+
+    public function validateAndFormatPhone($phone) {
+        // Odstranit mezery
+        $phone = preg_replace('/\s+/', '', $phone);
+        // Přidat předvolbu +420, pokud není uvedena
+        if (strpos($phone, '+420') !== 0) {
+            $phone = '+420' . $phone;
+        }
+        return $phone;
     }
 }
 ?>

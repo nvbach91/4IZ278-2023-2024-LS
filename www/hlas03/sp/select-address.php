@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $city = htmlspecialchars(trim($_POST['city']));
         $zip_code = htmlspecialchars(trim($_POST['zip_code']));
         $country = htmlspecialchars(trim($_POST['country']));
-
+        
         $validator = new AddressValidator();
         $errors = $validator->validate($street, $city, $zip_code, $country);
 

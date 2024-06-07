@@ -8,13 +8,17 @@ class AddressDB extends Database {
     public function create($street, $city, $zip_code, $country, $user_id) {
         $sql = "INSERT INTO $this->tableName (street, city, zip_code, country, user_id) VALUES (:street, :city, :zip_code, :country, :user_id)";
         $statement = $this->pdo->prepare($sql);
-        return $statement->execute([
+        $result = $statement->execute([
             'street' => $street,
             'city' => $city,
             'zip_code' => $zip_code,
             'country' => $country,
             'user_id' => $user_id
         ]);
+        if ($result) {
+            return $this->pdo->lastInsertId();
+        }
+        return false;
     }
 
     public function update($address_id, $street, $city, $zip_code, $country) {

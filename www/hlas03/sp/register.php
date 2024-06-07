@@ -17,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = $validator->validateRegistration($first_name, $last_name, $email, $phone, $password, $confirm_password);
 
     if (empty($errors)) {
+        $phone = $validator->validateAndFormatPhone($phone);
         $userDB = new UsersDB();
         $result = $userDB->create($first_name, $last_name, $email, $phone, $password);
 
@@ -55,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="form-group">
             <label for="phone">Telefonní číslo:</label>
             <input type="tel" class="form-control" id="phone" name="phone" value="<?php echo htmlspecialchars($phone ?? ''); ?>" required>
+            <small class="form-text text-muted">zadejte telefonní číslo ve tvaru +420 xxx xxx xxx</small>
         </div>
         <div class="form-group">
             <label for="password">Heslo:</label>

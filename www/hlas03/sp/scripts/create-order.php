@@ -3,11 +3,8 @@ session_start();
 require_once __DIR__ . '/../db/OrdersDB.php';
 require_once __DIR__ . '/../db/OrderItemsDB.php';
 require_once __DIR__ . '/../db/ProductsDB.php';
-
-if (!isset($_SESSION['user_id']) && !isset($_SESSION['guest_user_id'])) {
-    header('Location: ../login.php');
-    exit;
-}
+require_once __DIR__ . '/../db/AddressDB.php';
+require_once __DIR__ . '/../db/HostUsersDB.php';
 
 try {
     // Připravte data z košíku a session
@@ -33,8 +30,45 @@ try {
     $totalPrice += $checkoutData['shipping_method']['price'];
     $totalPrice += $checkoutData['payment_method']['fee'];
 
-    // Vytvoření objednávky
     $ordersDB = new OrdersDB();
+    $addressDB = new AddressDB();
+
+    // Kontrola a vytvoření hostujícího uživatele, pokud není uživatel přihlášen
+    if (!isset($_SESSION['user_id'])) {
+        $guestDB = new HostUsersDB();
+        $basic_info = $_SESSION['basic_info'];
+        $first_name = htmlspecialchars(trim($basic_info['first_name']));
+        $last_name = htmlspecialchars(trim($basic_info['last_name']));
+        $email = htmlspecialchars(trim($basic_info['email']));
+        $phone = htmlspecialchars(trim($basic_info['phone']));
+
+        $guest_user_id = $guestDB->create($first_name, $last_name, $email, $phone);
+
+        if ($guest_user_id) {
+            $_SESSION['guest_user_id'] = $guest_user_id;
+        } else {
+            throw new Exception('Vytvoření nového hosta selhalo.');
+        }
+    }
+
+    // Zkontrolujte, zda `selected_address` obsahuje `address_id`
+    if (!isset($checkoutData['address']['address_id'])) {
+        // Vytvořte novou adresu s `user_id` jako `null`
+        $new_address_id = $addressDB->create(
+            $checkoutData['address']['street'],
+            $checkoutData['address']['city'],
+            $checkoutData['address']['zip_code'],
+            $checkoutData['address']['country'],
+            null
+        );
+
+        if ($new_address_id) {
+            $checkoutData['address']['address_id'] = $new_address_id;
+        } else {
+            throw new Exception('Vytvoření nové adresy selhalo.');
+        }
+    }
+
     $orderData = [
         'status' => 'active',
         'created_at' => date('Y-m-d H:i:s'),
@@ -44,6 +78,7 @@ try {
         'host_user_id' => $_SESSION['guest_user_id'] ?? null,
         'address_id' => $checkoutData['address']['address_id']
     ];
+
     $order_id = $ordersDB->create($orderData);
 
     // Vytvoření položek objednávky

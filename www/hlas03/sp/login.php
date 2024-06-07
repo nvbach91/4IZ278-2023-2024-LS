@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <button type="submit" class="btn btn-primary">Login</button>
         <div class="mt-3">
-            <p>Don't have an account? <a href="register.php">Register here</a></p>
+            <p>Nemáte ještě účet? <a href="register.php">Registrovat zde</a></p>
         </div>
     </form>
 </div>
