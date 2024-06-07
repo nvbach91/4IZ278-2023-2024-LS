@@ -1,0 +1,39 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Brands
+{% endblock %}
+
+{% block body %}
+	<div class="bg-white shadow-md rounded-lg p-6">
+		<h1 class="text-3xl font-bold mb-4">Značky</h1>
+		<p class="mb-6">
+			Zde najdete přehled všech vašich značek.
+		</p>
+		<div class="flex justify-end mb-4">
+			<a href="{{ path('app_new_brand') }}" class="btn btn-primary">Přidat Značku</a>
+		</div>
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+			{% for brand in brands %}
+
+				<div class="card w-96 shadow-xl bg-accent">
+					<div class="card-body">
+						<h2 class="card-title">{{ brand.name }}</h2>
+						<p>Počet zákaznických karet:
+							{{ brand.loyaltyCards|length }}</p>
+						<p class="mb-6">
+							Počet administrátorů:
+							{{ brandsAdminCount[brand.id] }}
+						</p>
+						<div class="card-actions justify-end">
+							<a href="{{ path('app_brand', {'id': brand.id}) }}">
+								<button class="btn btn-primary">Zobrazit</button>
+							</a>
+						</div>
+					</div>
+				</div>
+			{% else %}
+				<p>Nebyly nalezeny žádné značky.</p>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}

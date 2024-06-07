@@ -1,0 +1,47 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Vaše karty
+{% endblock %}
+
+{% block body %}
+	<div class="bg-white shadow-md rounded-lg p-6">
+		<h1 class="text-3xl font-bold mb-4">Vaše karty</h1>
+		<div class="overflow-x-auto">
+			<table class="table">
+				<thead>
+					<tr>
+						<th></th>
+						<th>Značka</th>
+						<th>Jméno zákazníka</th>
+						<th>Email</th>
+						<th>Telefonní číslo</th>
+						<th>ID karty</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for card in pagination %}
+						<tr class="hover">
+							<th>{{ loop.index }}</th>
+							<td>{{ card.getBrand() ? card.getBrand().getName() : "Neznámá značka" }}</td>
+							<td>{{ card.customerName }}</td>
+							<td>{{ card.email }}</td>
+							<td>{{ card.phoneNumber }}</td>
+							<td>{{ card.cardIdentifier }}</td>
+							<td>
+								<a class="btn btn-secondary" href="{{ path('app_customer_loyalty_card_detail', {id: card.cardIdentifier}) }}">Detail karty</a>
+							</td>
+						</tr>
+					</a>
+				</tbody>
+			</tr>
+		{% else %}
+			<tr>
+				<td colspan="6">Nebyly nalezeny žádné karty.</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table></div><div class="flex justify-end">
+
+
+<a href="{{ path('app_home') }}" class="btn btn-primary">Zpět</a></div><div class="mt-4">
+{{ knp_pagination_render(pagination) }}</div></div>{% endblock %}

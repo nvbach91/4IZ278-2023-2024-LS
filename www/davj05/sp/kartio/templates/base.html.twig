@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="cs" data-theme="cupcake">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>
+			{% block title %}Kartio
+			{% endblock %}
+		</title>
+
+		{% block javascripts %}
+			{% block importmap %}
+				{{ importmap('app') }}
+			{% endblock %}
+		{% endblock %}
+	</head>
+	<body>
+		<nav class="navbar bg-base-100 shadow-md">
+			<div class="container mx-auto flex justify-between items-center">
+				<a href="" class="btn btn-ghost normal-case text-xl">Kartio</a>
+				<div>
+					<a href="{{ path('app_homepage') }}" class="btn btn-ghost btn-sm rounded-btn">Úvod</a>
+
+					<a href="{{ path('app_home') }}" class="btn btn-ghost btn-sm rounded-btn">Homepage</a>
+
+					{% if is_granted("ROLE_ADMIN") %}
+						<a href="{{ path('app_brands') }}" class="btn btn-ghost btn-sm rounded-btn">Značky</a>
+					{% else %}
+						<a href="{{ path('app_customer_loyalty_cards') }}" class="btn btn-ghost btn-sm rounded-btn">Karty</a>
+					{% endif %}
+
+					{% if is_granted("IS_AUTHENTICATED_FULLY") %}
+						<a href="{{ path('app_logout') }}" class="btn btn-ghost btn-sm rounded-btn">Odhlásit se</a>
+					{% else %}
+						<a href="{{ path('app_login') }}" class="btn btn-ghost btn-sm rounded-btn">Přihlásit se</a>
+					{% endif %}
+				</div>
+			</div>
+		</nav>
+
+		<div class="container mx-auto px-4 py-6">
+			<div class="alerts">
+				{% for label, messages in app.flashes %}
+					{% for message in messages %}
+						<div class="alert {{ label == 'success' ? 'alert-success' : 'alert-error' }} shadow-lg mb-4">
+							<div>
+								<span>{{ message }}</span>
+							</div>
+						</div>
+					{% endfor %}
+				{% endfor %}
+			</div>
+		</div>
+
+		<main class="container mx-auto px-4 py-6"> {% block body %}{% endblock %}
+			</main>
+
+			<footer class="footer bg-base-200 text-base-content shadow-md mt-6">
+				<div class="container mx-auto text-center p-4">
+					<p>&copy; 2024 Kartio by Jakub David. Všechna práva vyhrazena.</p>
+				</div>
+			</footer>
+		</body>
+	</html>

@@ -1,0 +1,18 @@
+[{
+  "_id": {
+    "$oid": "6662cbcb53d0300bfc01e255"
+  },
+  "email": "jakub.david@resonect.cz",
+  "password": "$2y$13$lI0WsRQ4Q5ybbOBWBrJbu.eLqqbKEm73W3fk6OG/xRdyJmeVrD7De",
+  "roles": [
+    "ROLE_ADMIN"
+  ]
+},
+{
+  "_id": {
+    "$oid": "6662ccaf53d0300bfc01e257"
+  },
+  "email": "test@email.cz",
+  "password": "$2y$13$t483qQXKwVQ2Mf4OghvW2OP1XHNrJQ8I.LVi2QjJHDvAx6EQEq0O.",
+  "roles": []
+}]

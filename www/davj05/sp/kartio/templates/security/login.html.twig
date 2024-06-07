@@ -1,0 +1,40 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Login
+{% endblock %}
+
+{% block body %}
+	<div class="bg-white shadow-md rounded-lg p-6">
+		<h1 class="text-3xl font-bold mb-4">Login</h1>
+		<p class="mb-6">
+			Prosím přihlaste se.
+		</p>
+		<div class="flex justify-end mb-4">
+			<a href="{{ path('app_homepage') }}" class="btn btn-primary">Zpět na Úvod</a>
+		</div>
+
+		{% if error %}
+			<div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+		{% endif %}
+
+		<form action="{{ path('app_login') }}" method="post">
+
+			<div class="mb-4 lg:w-96">
+				<label for="username" class="input input-bordered flex input-accent items-center gap-2 mb-5">Email
+					<input type="text" id="username" name="_username" value="{{ last_username }}" class="grow">
+				</label>
+
+				<label for="password" class="input input-bordered flex input-accent items-center gap-2">Heslo
+					<input type="password" id="password" name="_password" class="grow">
+				</label>
+
+				{# If you want to control the URL the user is redirected to on success #}
+				<input type="hidden" name="_target_path" value="{{ path('app_home') }}">
+			</div>
+			<button type="submit" class="btn btn-primary">Přihlásit</button>
+		</form>
+
+
+	</div>
+{% endblock %}

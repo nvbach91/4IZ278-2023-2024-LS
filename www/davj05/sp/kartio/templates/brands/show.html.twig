@@ -1,0 +1,57 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	{{ brand.name }}
+{% endblock %}
+
+{% block body %}
+	<div class="bg-white shadow-md rounded-lg p-6">
+		<h1 class="text-3xl font-bold mb-4">{{ brand.name }}</h1>
+		<p class="mb-6">Zde naleznete přehled karty vydaných značkou "{{ brand.name }}".</p>
+		<div class="flex justify-end mb-4">
+			<a href="{{ path('app_brands') }}" class="btn btn-primary">Zpět na Značky</a>
+			<a href="{{ path('app_brand_invite', {'id': brand.id}) }}" class="btn btn-primary">Sdílet přístup</a>
+			<a href="{{ path('app_add_card', {'id': brand.id}) }}" class="btn btn-primary">Přidat Kartu</a>
+		</div>
+		<div>
+			{% if brand.picturePath %}
+				<img src="{{ asset('uploads/pictures/' ~ brand.picturePath) }}" alt="Logo značky {{ brand.name }}" class="mb-4" width="200px">
+			{% endif %}
+		</div>
+		<divclass="overflow-x-auto">
+			<table class="table">
+				<thead>
+					<tr>
+						<th></th>
+						<th>Jméno</th>
+						<th>Email</th>
+						<th>Telefon</th>
+						<th>Identifikátor karty</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for card in brand.loyaltyCards %}
+						<tr class="hover">
+							<th>{{ loop.index }}</th>
+							<td>{{ card.customerName }}</td>
+							<td>{{ card.email }}</td>
+							<td>{{ card.phoneNumber }}</td>
+							<td>{{ card.cardIdentifier }}</td>
+							<td>
+								<form method="post" action="{{ path('app_remove_card', {'id': brand.id}) }}">
+									<input type="hidden" name="email" value="{{ card.email }}">
+									<button type="submit" class="btn btn-danger">Odstranit</button>
+								</form>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="6">Nebyly nalezeny žádné karty.</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+{% endblock %}

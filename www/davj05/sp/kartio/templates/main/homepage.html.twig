@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Kartio
+{% endblock %}
+
+{% block body %}
+	<div class="bg-white shadow-md rounded-lg p-6">
+		<h1 class="text-3xl font-bold mb-4">Vítejte v Kartio!</h1>
+
+		<div class="bg-white shadow-md rounded-lg p-6">
+			<p class="mb-4">
+				<strong>Kartio</strong>
+				je webová aplikace určená pro obchodníky a jejich zákazníky, která umožňuje efektivní správu značek a věrnostních karet. Aplikace je navržena tak, aby poskytovala jednoduché a přehledné rozhraní pro všechny uživatele.
+			</p>
+			<h2 class="text-2xl font-bold mb-2">Hlavní funkce aplikace:</h2>
+			<ul class="list-disc list-inside mb-4">
+				<li>
+					<strong>Správa značek:</strong>
+					<ul class="list-disc list-inside ml-6">
+						<li>Obchodníci mohou vytvářet a spravovat své vlastní značky.</li>
+						<li>Každá značka může mít přiřazené správce, kteří mají přístup k jejím údajům a mohou provádět změny.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Věrnostní karty:</strong>
+					<ul class="list-disc list-inside ml-6">
+						<li>Obchodníci mohou vydávat věrnostní karty svým zákazníkům.</li>
+						<li>Každá věrnostní karta obsahuje údaje o zákazníkovi, jako je jméno, e-mail a telefonní číslo.</li>
+						<li>E-mail musí být unikátní pro každou věrnostní kartu konkrétní značky, což zajišťuje, že na stejný e-mail nemůže být vydána další karta stejné značky.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Registrace a přihlášení uživatelů:</strong>
+					<ul class="list-disc list-inside ml-6">
+						<li>Zákazníci se mohou registrovat pomocí svého e-mailu.</li>
+						<li>Po přihlášení mohou zákazníci vidět všechny své věrnostní karty, které byly vydány na jejich e-mail.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Pozvání dalších správců:</strong>
+					<ul class="list-disc list-inside ml-6">
+						<li>Obchodníci mohou pozvat další uživatele jako správce značky, čímž jim umožní přístup k administraci značky a vydávání věrnostních karet.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Bezpečnost a validace vstupů:</strong>
+					<ul class="list-disc list-inside ml-6">
+						<li>Aplikace zajišťuje bezpečné přihlášení a registraci uživatelů.</li>
+						<li>Validace vstupních údajů je prováděna pro zajištění správnosti a integrity dat.</li>
+					</ul>
+				</li>
+			</ul>
+
+			<h2 class="text-2xl font-bold mb-2">Technologie použité v aplikaci:</h2>
+			<ul class="list-disc list-inside mb-4">
+				<li>
+					<strong>Symfony:</strong>
+					PHP framework pro tvorbu webových aplikací.</li>
+				<li>
+					<strong>MongoDB:</strong>
+					NoSQL databáze pro ukládání dat o uživatelích, značkách a věrnostních kartách.</li>
+				<li>
+					<strong>Tailwind CSS</strong>
+					a
+					<strong>DaisyUI:</strong>
+					Nástroje pro styling a tvorbu uživatelského rozhraní.</li>
+				<li>
+					<strong>Twig:</strong>
+					Šablonovací engine pro PHP, který se používá pro renderování stránek.</li>
+				<li>
+					<strong>API Platform:</strong>
+					Pro vytváření a správu API rozhraní, které umožňuje přístup k datům.</li>
+			</ul>
+
+
+		</div>
+	</div>
+{% endblock %}
