@@ -56,13 +56,13 @@ $orders = $ordersDB->findByUserId($_SESSION['user_id']);
                     </table>
                     <?php
                     $shippingMethod = $shippingMethodsDB->findById($order['shipping_method_id']);
-                    $shippingPrice = $shippingMethod ? $shippingMethod['price'] : 0;
+                    $shippingPrice = $order['shipping_price'];
                     $totalPrice += $shippingPrice;
 
                     $paymentMethod = $paymentMethodsDB->findById($order['payment_method_id']);
-                    $paymentFee = $paymentMethod ? $paymentMethod['fee'] : 0;
+                    $paymentFee = $order['payment_fee'];
                     $totalPrice += $paymentFee;
-                    ?>
+                    ?>  
                     <p><strong>Doprava:</strong> <?php echo htmlspecialchars($shippingMethod['name'], ENT_QUOTES, 'UTF-8'); ?> - <?php echo htmlspecialchars($shippingPrice, ENT_QUOTES, 'UTF-8'); ?> Kč</p>
                     <p><strong>Poplatek za platbu:</strong> <?php echo htmlspecialchars($paymentMethod['name'], ENT_QUOTES, 'UTF-8'); ?> - <?php echo htmlspecialchars($paymentFee, ENT_QUOTES, 'UTF-8'); ?> Kč</p>
                     <h5><strong>Celková cena:</strong> <?php echo htmlspecialchars($totalPrice, ENT_QUOTES, 'UTF-8'); ?> Kč</h5>

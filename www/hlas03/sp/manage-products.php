@@ -9,13 +9,17 @@ if (!isset($_SESSION['role_id']) || $_SESSION['role_id'] != 2) {
 }
 
 $productsDB = new ProductsDB();
-$products = $productsDB->find();
-
+$nItemsPerPage = 3; 
+$totalItems = $productsDB->countAllProducts();
+$nPages = ceil($totalItems / $nItemsPerPage);
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $nItemsPerPage;
+$products = $productsDB->findItemsPage($offset, $nItemsPerPage);
 ?>
 
 <div class="container mt-5">
     <h2>Správa produktů</h2>
-    <a href="manage-product" class="btn btn-primary my-3">Přidat nový produkt</a>
+    <a href="manage-product.php" class="btn btn-primary my-3">Přidat nový produkt</a>
     <table class="table">
         <thead>
             <tr>
@@ -35,7 +39,7 @@ $products = $productsDB->find();
                     <td><?php echo htmlspecialchars($product['price'], ENT_QUOTES, 'UTF-8'); ?> Kč</td>
                     <td>
                         <a href="manage-product.php?product_id=<?php echo htmlspecialchars($product['product_id'], ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-warning btn-sm">Upravit</a>
-                        <form action="scripts/delete-product" method="post" class="d-inline">
+                        <form action="scripts/delete-product.php" method="post" class="d-inline">
                             <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($product['product_id'], ENT_QUOTES, 'UTF-8'); ?>">
                             <button type="submit" class="btn btn-danger btn-sm">Smazat</button>
                         </form>
@@ -44,6 +48,15 @@ $products = $productsDB->find();
             <?php endforeach; ?>
         </tbody>
     </table>
+    <nav>
+        <ul class="pagination">
+            <?php for ($i = 1; $i <= $nPages; $i++): ?>
+                <li class="page-item <?php echo ($i == $page) ? 'active' : ''; ?>">
+                    <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                </li>
+            <?php endfor; ?>
+        </ul>
+    </nav>
 </div>
 
 <?php require __DIR__ . '/include/footer.php'; ?>

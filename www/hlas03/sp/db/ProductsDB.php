@@ -69,5 +69,20 @@ class ProductsDB extends Database {
         $statement->execute(['product_id' => $product_id]);
         return $statement->fetchAll(PDO::FETCH_COLUMN);
     }
+
+    public function countAllProducts() {
+        $sql = "SELECT COUNT(product_id) FROM $this->tableName";
+        $statement = $this->pdo->query($sql);
+        return $statement->fetchColumn();
+    }
+
+    public function findItemsPage($offset, $nItemsPerPage) {
+        $sql = "SELECT * FROM $this->tableName ORDER BY product_id DESC LIMIT :limit OFFSET :offset";
+        $statement = $this->pdo->prepare($sql);
+        $statement->bindValue(':limit', $nItemsPerPage, PDO::PARAM_INT);
+        $statement->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>

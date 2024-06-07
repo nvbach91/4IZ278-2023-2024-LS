@@ -74,7 +74,9 @@ try {
         'created_at' => date('Y-m-d H:i:s'),
         'user_id' => $_SESSION['user_id'] ?? null,
         'payment_method_id' => $checkoutData['payment_method']['payment_method_id'],
+        'payment_fee' => $checkoutData['payment_method']['fee'],
         'shipping_method_id' => $checkoutData['shipping_method']['shipping_methods_id'],
+        'shipping_price' => $checkoutData['shipping_method']['price'],
         'host_user_id' => $_SESSION['guest_user_id'] ?? null,
         'address_id' => $checkoutData['address']['address_id']
     ];

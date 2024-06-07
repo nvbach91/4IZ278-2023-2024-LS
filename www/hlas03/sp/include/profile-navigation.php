@@ -12,6 +12,11 @@
         <li class="nav-item">
             <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'orders.php' ? 'active' : ''; ?>" href="./orders.php">Objednávky</a>
         </li>
+        <?php if (isset($_SESSION['role_id']) && $_SESSION['role_id'] == 2): ?>
+                    <li class="nav-item">
+                        <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'statistics.php' ? 'active' : ''; ?>" href="./statistics.php">Statistiky</a>
+                    </li>
+        <?php endif; ?>
     </ul>
 </div>
 
