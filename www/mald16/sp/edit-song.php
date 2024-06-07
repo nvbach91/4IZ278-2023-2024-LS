@@ -103,7 +103,7 @@ if (isset($_POST) && !empty($_POST)) {
         <label class="form-label">Producent <span class="form-required">*</span></label>
         <select class="form-select" name="producer">
             <?php foreach ($producers as $producer) : ?>
-                <option value="<?php echo $producer["org_user_id"] ?>" <?php echo $producer["org_user_id"] == $Song->producer ? "selected" : "" ?>><?php echo $producer["name"] ?> <?php echo $producer["name"] == $_SESSION["user-name"] ? "(ty)" : "" ?></option>
+                <option value="<?php echo $producer["org_user_id"] ?>" <?php echo $producer["org_user_id"] == $Song->producer ? "selected" : "" ?>><?php echo $producer["name"] == "" ? $producer["email"] : $producer["name"] ?> <?php echo $producer["name"] == $_SESSION["user-name"] ? "(ty)" : "" ?></option>
             <?php endforeach ?>
         </select>
     </div>
@@ -145,7 +145,7 @@ if (isset($_POST) && !empty($_POST)) {
             <select class="form-select" name="client">
                 <?php foreach ($clients as $cli) : ?>
                     <option value="<?php echo $cli["org_user_id"] ?>" <?php echo $cli["org_user_id"] == $Song->client ? "selected" : "" ?>>
-                        <?php echo $cli["name"] ?>
+                        <?php echo $cli["name"] == "" ? $cli["email"] : $cli["name"] ?>
                     </option>
                 <?php endforeach; ?>
             </select>

@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 	});
 
-	// Call the toggleServiceState function for each checkbox to set the initial state
 	checkboxes.forEach(function (checkbox) {
 		toggleServiceState(checkbox);
 	});

@@ -79,8 +79,6 @@ class User {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
-
     public function getSongs() {
         global $db;
         // Vrací i jména producentů a klientů, jméno organizace
@@ -107,7 +105,8 @@ class User {
     LEFT JOIN 
         organizations o ON s.org_id = o.org_id  -- Join for organization name
     WHERE 
-        oc.email = :email OR op.email = :email;      
+        oc.email = :email OR op.email = :email    
+    ORDER BY s.song_id DESC;      
     ");
         $stmt->bindParam(":email", $this->email, PDO::PARAM_STR);
         $stmt->execute();

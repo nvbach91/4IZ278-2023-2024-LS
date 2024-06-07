@@ -52,16 +52,38 @@ $Organization = new Organization($Song->orgId);
 $existingOrganization = $Organization->getOrganization();
 
 $User = new User($_SESSION["user-email"], $Organization->orgId);
+$AccessUser = new User($_SESSION["user-email"], $Song->orgId); // an user, who is trying to make this change
+
+$UserInOrg = $User->getUserInOrg();
 
 $services = $Song->getServices();
 
 $producerName = $Organization::getUserName($Song->producer);
+
+// FIXME: kontrolovat, zda je uživatel klientem u této skladby
+// var_dump($Song);
+// echo "<br>";
+// var_dump($UserInOrg);
 
 if (!isset($_GET["sid"]) || empty($_GET["sid"]) || !$existingSong || !$existingOrganization) {
     $_SESSION["em"] = 3;
     header('Location: ' . "./index.php");
     exit();
 }
+
+
+// else if ($AccessUser->getUserInOrg() == false) {
+//     $_SESSION["em"] = 25;
+//     header('Location: ' . "./index.php");
+//     exit();
+// }
+
+
+// else if (($Song->client != $UserInOrg["org_user_id"]) || ) {
+//     $_SESSION["em"] = 25;
+//     header('Location: ' . "./index.php");
+//     exit();
+// }
 ?>
 
 <?php include "./inc/head.php" ?>

@@ -88,7 +88,7 @@ if (isset($_POST["user-input"]) && !empty($_POST["user-input"])) {
 <div class="btn-group">
     <a href="edit-org.php?oid=<?php echo $existingOrg["org_id"] ?>" class="btn btn-outline-primary">Úprava organizace 🏢 <?php if (count($orgServices) == 0) : ?><span class="badge bg-danger">!</span><?php endif ?></a>
     <a href="create-song.php?oid=<?php echo $existingOrg["org_id"] ?>" class="btn btn-outline-primary">Nová skladba 🎸</a>
-    <a href="view-org-songs.php?oid=<?php echo $existingOrg["org_id"] ?>" class="btn btn-outline-primary">Skladby v organizaci 🎶</a>
+    <a href="view-org-songs.php?oid=<?php echo $existingOrg["org_id"] ?>&view=pending" class="btn btn-outline-primary">Skladby v organizaci 🎶</a>
     <a href="edit-org-users.php?oid=<?php echo $existingOrg["org_id"] ?>" class="btn btn-outline-primary active">Členové organizace 👥 <?php if (count($orgClients) == 0 || count($orgProducers) == 0) : ?><span class="badge bg-danger">!</span><?php endif ?></a>
 </div>
 <br>

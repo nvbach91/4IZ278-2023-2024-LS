@@ -87,7 +87,7 @@ if (isset($_POST["service-input"]) && !empty($_POST["service-input"])) {
 <div class="btn-group">
     <a href="edit-org.php?oid=<?php echo $existingOrg["org_id"] ?>" class="btn btn-primary active">Úprava organizace 🏢 <?php if (count($orgServices) == 0) : ?><span class="badge bg-danger">!</span><?php endif ?></a>
     <a href="create-song.php?oid=<?php echo $existingOrg["org_id"] ?>" class="btn btn-outline-primary">Nová skladba 🎸</a>
-    <a href="view-org-songs.php?oid=<?php echo $existingOrg["org_id"] ?>" class="btn btn-outline-primary">Skladby v organizaci 🎶</a>
+    <a href="view-org-songs.php?oid=<?php echo $existingOrg["org_id"] ?>&view=pending" class="btn btn-outline-primary">Skladby v organizaci 🎶</a>
     <a href="edit-org-users.php?oid=<?php echo $existingOrg["org_id"] ?>" class="btn btn-outline-primary">Členové organizace 👥 <?php if (count($orgClients + $orgProducers) == 0) : ?><span class="badge bg-danger">!</span><?php endif ?></a>
     <?php if (count($orgSongs) == 0 && $AccessUser->getRole() == 3) : ?>
         <a href="delete-org.php?oid=<?php echo $existingOrg["org_id"] ?>" class="btn btn-outline-danger">Odebrat organizaci 🗑️</a>

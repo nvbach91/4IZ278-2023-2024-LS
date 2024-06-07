@@ -51,17 +51,17 @@ if (isset($_GET['code'])) {
             header('Location: ' . "../index.php");
             exit();
         } else {
-            $_SESSION["sm"] = 23;
-            header('Location: ' . "index.php");
+            $_SESSION["em"] = 23;
+            header('Location: ' . "../index.php");
             exit();
         }
     } else {
-        $_SESSION["sm"] = 23;
-        header('Location: ' . "index.php");
+        $_SESSION["em"] = 23;
+        header('Location: ' . "../index.php");
         exit();
     }
 } else {
-    $_SESSION["sm"] = 23;
-    header('Location: ' . "index.php");
+    $_SESSION["em"] = 23;
+    header('Location: ' . "../index.php");
     exit();
 }

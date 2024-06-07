@@ -38,7 +38,7 @@ if (isset($_POST) && !empty($_POST)) {
 <?php require "./logic/messages.php"; ?>
 <form method="POST" action="<?php $_SERVER['PHP_SELF'] ?>">
     <div class="mb-3">
-        <label class="form-label">Název organizace <span class="form-require_onced">*</span></label>
+        <label class="form-label">Název organizace <span class="form-required">*</span></label>
         <input type="text" name="org-name" class="form-control" placeholder="Abbey Road Studios">
     </div>
 
