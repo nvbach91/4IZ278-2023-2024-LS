@@ -13,7 +13,12 @@
 			<a href="{{ path('app_brand_invite', {'id': brand.id}) }}" class="btn btn-primary">Sdílet přístup</a>
 			<a href="{{ path('app_add_card', {'id': brand.id}) }}" class="btn btn-primary">Přidat Kartu</a>
 		</div>
-		<div class="overflow-x-auto">
+		<div>
+			{% if brand.picturePath %}
+				<img src="{{ asset('uploads/pictures/' ~ brand.picturePath) }}" alt="Logo značky {{ brand.name }}" class="mb-4" width="200px">
+			{% endif %}
+		</div>
+		<divclass="overflow-x-auto">
 			<table class="table">
 				<thead>
 					<tr>

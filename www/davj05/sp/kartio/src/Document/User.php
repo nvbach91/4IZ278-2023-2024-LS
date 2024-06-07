@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
 
-#[ODM\Document(collection: "users")]
+#[ODM\Document(collection: "new_users")]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ODM\Id]

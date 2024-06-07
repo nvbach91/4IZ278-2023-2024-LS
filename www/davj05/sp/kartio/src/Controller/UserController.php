@@ -14,7 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Writer\PngWriter;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 # This controller is responsible for handling user-related actions
@@ -33,7 +35,7 @@ class UserController extends AbstractController
 
     # This method is responsible for rendering the list of loyalty cards
     #[Route("/loyalty-cards", name: "app_customer_loyalty_cards")]
-    public function loyaltyCards(DocumentManager $dm, SecurityBundleSecurity $security): Response
+    public function loyaltyCards(DocumentManager $dm, SecurityBundleSecurity $security, PaginatorInterface $paginator, Request $request): Response
     {
         $user = $security->getUser();
 
@@ -59,8 +61,14 @@ class UserController extends AbstractController
             }
         }
 
+        $pagination = $paginator->paginate(
+            $loyaltyCards,
+            $request->query->getInt("page", 1), // Current page number
+            2
+        );
+
         return $this->render("customer/loyalty_cards.html.twig", [
-            "loyaltyCards" => $loyaltyCards,
+            "pagination" => $pagination,
         ]);
     }
 

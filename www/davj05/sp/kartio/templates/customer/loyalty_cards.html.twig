@@ -19,7 +19,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for card in loyaltyCards %}
+					{% for card in pagination %}
 						<tr class="hover">
 							<th>{{ loop.index }}</th>
 							<td>{{ card.getBrand() ? card.getBrand().getName() : "Neznámá značka" }}</td>
@@ -41,4 +41,7 @@
 		{% endfor %}
 	</tbody>
 </table></div><div class="flex justify-end">
-<a href="{{ path('app_home') }}" class="btn btn-primary">Zpět</a></div></div>{% endblock %}
+
+
+<a href="{{ path('app_home') }}" class="btn btn-primary">Zpět</a></div><div class="mt-4">
+{{ knp_pagination_render(pagination) }}</div></div>{% endblock %}

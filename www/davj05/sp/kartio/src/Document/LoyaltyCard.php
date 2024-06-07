@@ -6,9 +6,15 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Doctrine\ODM\MongoDB\Types\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ODM\EmbeddedDocument()]
+#[ODM\Document(collection: "new_card", indexes: [
+    new ODM\Index(keys: ["email" => "asc"], options: ["unique" => true]),
+    new ODM\Index(keys: ["cardIdentifier" => "asc"], options: ["unique" => true])
+])]
 class LoyaltyCard
 {
+    #[ODM\Id]
+    private $id;
+
     #[ODM\Field(type: Type::STRING)]
     #[Assert\NotBlank]
     private string $customerName;
@@ -39,6 +45,11 @@ class LoyaltyCard
         $this->email = $email;
         $this->phoneNumber = $phoneNumber;
         $this->cardIdentifier = $cardIdentifier ?: $this->generateCardIdentifier();
+    }
+
+    public function getId(): ?string
+    {
+        return $this->id;
     }
 
     public function getCustomerName(): string

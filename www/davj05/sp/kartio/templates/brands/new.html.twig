@@ -11,10 +11,16 @@
 			{{ form_start(form) }}
 			<div class="mb-4 lg:w-96">
 
-				<label class="input input-bordered flex input-accent items-center gap-2">
+				<label class="input input-bordered flex input-accent items-center gap-2 mb-4">
 					{{ form_label(form.name) }}
 					{{ form_widget(form.name) }}
 					{{ form_errors(form.name) }}
+				</label>
+
+				<label class="input input-bordered flex input-accent items-center gap-2">
+					{{ form_label(form.picture) }}
+					{{ form_widget(form.picture) }}
+					{{ form_errors(form.picture) }}
 				</label>
 			</div>
 			<button type="submit" class="btn btn-primary">Vytvořit</button>
