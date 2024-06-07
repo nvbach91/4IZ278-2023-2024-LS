@@ -3,8 +3,6 @@
 require_once 'db/Users.php';
 require_once 'db/Dorms.php';
 
-$usernameMessage = null;
-$usernameError = false;
 $passwordMessage = null;
 $passwordError = false;
 $dormMessage = null;
@@ -16,7 +14,6 @@ $dormsDb = new DormsDB();
 
 $dormitories = $dormsDb->find();
 
-$username = '';
 $password = '';
 $defaultDorm = null;
 
@@ -37,37 +34,10 @@ if($registeredUser == null){
 $hasPassword = $registeredUser['passwordHash'] != null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
     $defaultDorm = $_POST['dorm'] ?? null;
 
     if(password_verify(htmlspecialchars($_POST['confirmpassword'] ?? '' ), htmlspecialchars($registeredUser['passwordHash'] ?? '')) || !$hasPassword) {
-        do {
-            
-            if(!empty($_POST['username'])){
-                $username = htmlspecialchars($_POST['username']);
-                $registeredUser = $usersDb->getUser($username, '');
-
-                if($registeredUser != null){
-                    $usernameMessage = 'Username already taken';
-                    $usernameError = true;
-                    break;
-                }
-
-                if(strlen($username) < 3){
-                    $usernameMessage = 'Username is too short';
-                    $usernameError = true;
-                    break;
-                }
-
-                setcookie('display_name', $username, time() + 3600, "/");
-                $usersDb->updateUsername($username, $_COOKIE['display_name']);
-                $usernameMessage = 'Username changed';
-                $username = '';
-            }
-
-        } while(0);
 
         do {
             if(empty($_POST['password']) && empty($_POST['retypepassword'])){
@@ -185,10 +155,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <?php include __DIR__ . '/components/header.php' ?>
 <form method="post" action="settings.php" class="form" enctype="multipart/form-data">
-    <?php if($usernameMessage != null){
-            echo $usernameError == true ? '<div class="error">'.$usernameMessage.'</div>' : '<div class="correct">'.$usernameMessage.'</div>';
-        }
-    ?>
     <?php if($passwordMessage != null){
             echo $passwordError == true ? '<div class="error">'.$passwordMessage.'</div>' : '<div class="correct">'.$passwordMessage.'</div>';
         }
@@ -202,10 +168,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     ?>
 <div class="form-container">
-    <div class="form-group">
-        <label for="username">Change username:</label>
-        <input class="form-control" value="<?php echo $username; ?>" placeholder="<?php echo $_COOKIE['display_name'] ?>" type="text" name="username" id="username">
-    </div>
     <div class="form-group">
         <label for="photo">Choose profile picture:</label>
         <input class="form-control-file" type="file" name="photo" id="photo" accept="image/png, image/jpeg">

@@ -169,7 +169,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div class="form-group">
             <label for="time">Time*:</label>
-            <input type="datetime-local" value="<?php echo $time; ?>" class="form-control" name="time">
+            <input type="datetime-local" id="datetime" value="<?php echo $time; ?>" class="form-control" name="time">
         </div>
         <div class="form-group">
             <label for="price">Price*:</label>

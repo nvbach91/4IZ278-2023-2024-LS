@@ -57,6 +57,18 @@ class MealsDB extends Database {
         return $statement->rowCount() > 0;
     }
 
+    public function searchMeals($query, $sort, $dir){
+        if(!in_array($sort, ['pickup_time', 'price'])) $sort = 'pickup_time';
+        if(!in_array($dir, ['asc', 'desc'])) $dir = 'asc';
+
+        $sql = "SELECT *, id AS meal_id FROM sp_meals WHERE status = 1 AND title LIKE :search ORDER BY $sort $dir";
+        $statement = $this->prepare($sql);
+        $statement->bindValue(':search', "%$query%");
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
+
     public function find(){
         $sql = 'SELECT * FROM sp_meals';
         $statement = $this->prepare($sql);

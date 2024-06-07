@@ -192,3 +192,18 @@
 .card-avatar {
   margin-right: 10px;
 }
+
+.search-container {
+  display: flex;
+  width: 100%;
+}
+
+.top-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.btn-search {
+  margin-left: 10px;
+}

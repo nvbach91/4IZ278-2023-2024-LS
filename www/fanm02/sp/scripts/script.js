@@ -25,6 +25,11 @@ $(document).ready(function () {
   if($("#defaultOpen").length){
     document.getElementById("defaultOpen").click();
   }
+
+  if($("#datetime").length){
+    let dateElement = document.getElementById("datetime");
+    dateElement.min = new Date().toISOString().slice(0,new Date().toISOString().lastIndexOf(":"));
+  }
 })
 
 function sendMessage(element, mealId, sender, receiver) {
