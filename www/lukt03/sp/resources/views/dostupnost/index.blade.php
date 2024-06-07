@@ -1,53 +1,51 @@
 <x-app-layout>
-	<x-slot:title>{{ __('Všechny účty') }}</x-slot>
+	<x-slot:title>{{ __('Moje dostupnost') }}</x-slot>
 
     <x-slot:header>
         <x-header-heading>
-            {{ __('Všechny účty') }}
+            {{ __('Moje dostupnost') }}
         </x-header-heading>
     </x-slot>
 
-	@if (session('status') === 'profile-deleted')
+	@if (session('status') === 'event-deleted')
 		<x-alert type="success">
 			<p class="font-bold">
-				{{ __('Účet :email byl smazán', ['email' => session('email')]) }}
+				{{ __('Událost byla smazána') }}
 			</p>
 		</x-alert>
 	@endif
 
 	<div class="py-12">
-		<div class="max-w-6xl mx-auto sm:px-6 lg:px-8 space-y-6">
+		<div class="max-w-5xl mx-auto sm:px-6 lg:px-8 space-y-6">
+			<div class="flex justify-end">
+				<form method="post">
+					@csrf
+					@method('get')
+
+					<x-primary-button formaction="{{ route('dostupnost.create') }}">
+						{{ __('Přidat termín') }}
+					</x-primary-button>
+				</form>
+			</div>
+
 			<div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
 				<table class="w-full">
 					<thead>
 						<tr class="border-b">
-							<th></th>
-							<th class="px-4 pt-0 pb-3 text-start">
-								{{ __('Jméno') }}
-							</th>
-							<th class="px-4 pt-0 pb-3 text-start">
-								{{ __('E-mail') }}
-							</th>
-							<th class="px-4 pt-0 pb-3 text-start">
-								{{ __('Lokalita') }}
+							<th class="px-4 pt-0 pb-3 text-center">
+								{{ __('Od') }}
 							</th>
 							<th class="px-4 pt-0 pb-3 text-center">
-								{{ __('Počet koček') }}
+								{{ __('Do') }}
 							</th>
-							<th class="px-4 pt-0 pb-3 text-center">
-								{{ __('Neověřený') }}
-							</th>
-							<th class="px-4 pt-0 pb-3 text-center">
-								{{ __('Zveřejněný') }}
-							</th>
-							<th class="px-4 pt-0 pb-3 text-center">
+							<th class="px-4 pt-0 pb-3 text-center" colspan="2">
 								{{ __('Akce') }}
 							</th>
 						</tr>
 					</thead>
 					<tbody>
-						@forelse ($users as $user)
-							@include('profile.partials.index-row')
+						@forelse ($events as $event)
+							@include('dostupnost.partials.index-row')
 						@empty
 							<td colspan="5" class="p-4 text-center">{{ __('Zatím tu nic není.') }}</td>
 						@endforelse
@@ -57,12 +55,12 @@
 		</div>
 	</div>
 
-	<form id="edit-profile" method="post">
+	<form id="edit-event" method="post">
 		@csrf
 		@method('get')
 	</form>
 
-	<x-modal name="confirm-user-deletion" focusable>
+	<x-modal name="confirm-event-deletion" focusable>
         <form method="post" x-bind:action="action" class="p-6">
             @csrf
             @method('delete')
@@ -75,7 +73,7 @@
                 </x-secondary-button>
 
                 <x-danger-button class="ms-3">
-                    {{ __('Smazat účet') }}
+                    {{ __('Smazat termín') }}
                 </x-danger-button>
             </div>
         </form>

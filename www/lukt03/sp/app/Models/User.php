@@ -96,7 +96,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function availableTimes(): HasMany
     {
-        return $this->hasMany(AvailableTime::class, 'sitter_id');
+        return $this->hasMany(AvailableTime::class, 'sitter_id')->orderBy('start', 'asc');
     }
 
     public function sittingsAsOwner(): HasMany

@@ -57,9 +57,7 @@
 			</div>
 
 			<div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-				<div class="max-w-xl">
-					@include('profile.partials.sitting-availability')
-				</div>
+				@include('profile.partials.sitting-availability')
 			</div>
 
 			<div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
@@ -75,4 +73,25 @@
 			</div>
 		</div>
 	</div>
+
+	@push('scripts')
+		<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/main.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/main.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/locales/cs.js"></script>
+		<script> 
+            document.addEventListener('DOMContentLoaded', () => {
+                var calendarEl = document.getElementById('calendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+					locale: 'cs',
+                    initialView: 'timeGridWeek',
+					nowIndicator: true,
+					allDaySlot: false,
+					scrollTime: '9:00',
+					validRange: (nowDate) => ({ start: nowDate }),
+					events: @json($user->availableTimes),
+                });
+                calendar.render();
+            });
+        </script>
+    @endpush
 </x-app-layout>

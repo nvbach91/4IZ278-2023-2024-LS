@@ -27,7 +27,7 @@ class CatController extends Controller
                 ->with('cats', Cat::all());
         } else {
             return view('cat.index-my')
-                ->with('cats', Cat::whereBelongsTo(auth()->user(), 'owner')->get());
+                ->with('cats', auth()->user()->cats ?? []);
         }
     }
 

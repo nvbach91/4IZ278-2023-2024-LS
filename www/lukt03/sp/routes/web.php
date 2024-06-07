@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\AvailableTimeController;
 use App\Http\Controllers\CatController;
 use App\Http\Controllers\ProfileController;
-use App\Models\Cat;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -43,6 +43,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
         ->parameters(['kocky' => 'cat'])
         ->missing(fn () => throw new NotFoundHttpException('Kočka neexistuje'));
+
+    Route::resource('dostupnost', AvailableTimeController::class)
+        ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
+        ->parameters(['dostupnost' => 'event']);
 });
 
 Route::fallback(fn () => throw new NotFoundHttpException('Stránka nenalezena'));

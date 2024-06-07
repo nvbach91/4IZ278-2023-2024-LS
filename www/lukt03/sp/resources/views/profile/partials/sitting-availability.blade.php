@@ -5,5 +5,5 @@
         </h2>
     </header>
 
-	Tady bude kalendář
+	<div id="calendar"></div>
 </section>

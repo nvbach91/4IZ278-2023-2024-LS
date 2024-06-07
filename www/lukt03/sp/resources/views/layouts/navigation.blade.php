@@ -27,6 +27,9 @@
                             <x-nav-link :href="route('kocky.index')" :active="request()->routeIs('kocky.index')">
                                 {{ __('Moje kočky') }}
                             </x-nav-link>
+                            <x-nav-link :href="route('dostupnost.index')" :active="request()->routeIs('dostupnost.index')">
+                                {{ __('Moje dostupnost') }}
+                            </x-nav-link>
                         @endif
                     </div>
                 @endauth
@@ -108,6 +111,9 @@
                     </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('kocky.index')" :active="request()->routeIs('kocky.index')">
                         {{ __('Moje kočky') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('dostupnost.index')" :active="request()->routeIs('dostupnost.index')">
+                        {{ __('Moje dostupnost') }}
                     </x-responsive-nav-link>
                 </div>
             @endif

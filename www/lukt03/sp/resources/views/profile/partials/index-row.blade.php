@@ -13,6 +13,9 @@
 	<td class="p-4">
 		{{ $user->location }}
 	</td>
+	<td class="p-4 text-center">
+		{{ $user->cats()->count() }}
+	</td>
 	<td class="p-4">
 		@if (!$user->hasVerifiedEmail())
 			<x-entypo-cross class="fill-red-700 m-auto" />
