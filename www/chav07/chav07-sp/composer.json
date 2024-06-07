@@ -16,6 +16,7 @@
     ],
     "require": {
         "twbs/bootstrap": "5.3.3",
-        "league/oauth2-facebook": "^2.2"
+        "league/oauth2-facebook": "^2.2",
+        "phpmailer/phpmailer": "*"
     }
 }

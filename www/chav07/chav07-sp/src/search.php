@@ -17,6 +17,11 @@ if(isset($_GET["page"]) && isset($_GET["query"])){
     $query = htmlspecialchars(strip_tags(trim($rawQuery)));
 }
 
+if(strlen($query) < 1){
+    header("location: " . BASE_URL . "/");
+    exit(400);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -52,6 +57,7 @@ if(isset($_GET["page"]) && isset($_GET["query"])){
 
         <?php include __DIR__ . "/includes/footer.php";?>
     </div>
+    <script src="./js/validateInput.js"></script>
     <script src="./../vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

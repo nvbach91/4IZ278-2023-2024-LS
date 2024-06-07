@@ -65,7 +65,7 @@ if ($book === null) {
             <div class="row mt-2">
                 <div class="col-lg-3 col-1"></div>
                 <div class="col-lg-6  col-10 d-flex flex-column flex-lg-row book-detail-buttons justify-content-center">
-                    <a class="btn btn-primary" href="<?php echo htmlspecialchars(BASE_URL . "/cart/add.php?id=" . $book->id); ?>" aria-label="Add to cart">Add to cart</a>
+                    <a class="btn btn-primary" href="<?php echo htmlspecialchars(BASE_URL . "/cart/add.php?id=" . $book->id); ?>" aria-label="Add to cart" <?php echo htmlspecialchars(BASE_URL . "/cart/add.php?id=" . $book->id); ?>>Add to cart</a>
                     <?php if(isAuthorized(AuthRole::Admin)):?>
                         <a class="btn btn-secondary" href="<?php echo htmlspecialchars(BASE_URL . "/edit.php?id=" . $book->id); ?>" aria-label="Edit">Edit</a>
                     <?php endif; ?>
@@ -91,6 +91,7 @@ if ($book === null) {
 
         <?php include __DIR__ . "/includes/footer.php";?>
     </div>
+    <script src="./js/validateInput.js"></script>
     <script src="./../vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

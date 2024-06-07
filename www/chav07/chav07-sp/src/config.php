@@ -1,3 +1,4 @@
+
 <?php
 
 
@@ -8,14 +9,14 @@ define("BASE_URL", "/chav07-sp/src");
 define("ITEMS_PER_PAGE", 20);
 
 //APP_ID is facebook's app id for OAUTH2
-define("APP_ID", 0);
+define("APP_ID", 1189908115507903);
 //APP_SECRET is facebook's app secret for OAUTH2
-define("APP_SECRET", "{secret}");
+define("APP_SECRET", "bfb81d585c72f7a27d97f7ab1796a41e");
 
 //APP_REDIRECT has to be changed to reflect your enviroment setup. Change the http://localhost to your domain (e.g. http://example.com )
-define("APP_REDIRECT", "http://localhost". BASE_URL. "/authentication/oauth.php");
+define("APP_REDIRECT", "https://eso.vse.cz". BASE_URL. "/authentication/oauth.php");
 //GRAPH_API_VERSION is current facebooks Graph api version
-define("GRAPH_API_VERSION","v20.0");
+define("GRAPH_API_VERSION","v19.0");
 
 
 ?>

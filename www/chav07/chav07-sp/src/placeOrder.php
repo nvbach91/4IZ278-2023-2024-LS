@@ -11,7 +11,7 @@ require_once __DIR__ . "/database/Order.php";
 require_once __DIR__ . "/database/BookRepository.php";
 require_once __DIR__ . "/database/AuthorRepository.php";
 require_once __DIR__ . "/database/OrderRepository.php";
-
+require_once __DIR__ . "/orders/sendMail.php";
 
 
 //session_start();
@@ -84,6 +84,12 @@ foreach($cart as $item){
     $bookRepo->updateBook( $item->book->id, $updatedBook);
 
 }
+//email
+$emailResult = SendOrderMail($user->email, $latestOrder->id, $cart);
+if(!$emailResult){
+    exit("failed to send email");
+}
+
 
 unset($_SESSION["cart"]);
 ?>
@@ -114,6 +120,7 @@ unset($_SESSION["cart"]);
 
     <?php include __DIR__ . "/includes/footer.php";?>
 </div>
+<script src="./js/validateInput.js"></script>
 <script src="./../vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

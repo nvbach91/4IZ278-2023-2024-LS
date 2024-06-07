@@ -74,7 +74,7 @@ if ($book === null) {
             <div class="row g-2 mt-2">
                 <div class="col-6">
                     <label for="bookPrice" class="form-label">Price</label>
-                    <input name="bookPrice"id="bookPrice" class="form-control" type="number" min="1" step="0.01" placeholder="199.90" value="<?php echo htmlspecialchars($book->price)?>" required>
+                    <input name="bookPrice"id="bookPrice" class="form-control" type="number" min="1" step="0.01" placeholder="199.90" value="<?php echo $book->price;?>" required>
                 </div>
                 <div class="col-6">
                     <label for="bookStock" class="form-label">Stock</label>
@@ -88,7 +88,7 @@ if ($book === null) {
                 </div>
                 <div class="col-6">
                     <label for="bookIsbn10" class="form-label">ISBN10</label>
-                    <input name="bookIsbn10"id="bookIsbn10" class="form-control" type="text" maxlength="13" placeholder="0-000-00000-0" value="<?php echo htmlspecialchars($book->isbn10)?>">
+                    <input name="bookIsbn10"id="bookIsbn10" class="form-control" type="text" maxlength="13" placeholder="0-000-00000-0" value="<?php echo htmlspecialchars($book->isbn10??"" )?>">
                 </div>
             </div>
             <div class="row g-2 mt-2">
@@ -106,6 +106,7 @@ if ($book === null) {
 
     <?php include __DIR__ . "/includes/footer.php";?>
 </div>
+<script src="./js/validateInput.js"></script>
 <script src="./../vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

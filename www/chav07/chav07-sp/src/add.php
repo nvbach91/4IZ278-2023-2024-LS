@@ -88,6 +88,7 @@ if (!isAuthorized(AuthRole::Admin)){
 
     <?php include __DIR__ . "/includes/footer.php";?>
 </div>
+<script src="./js/validateInput.js"></script>
 <script src="./../vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

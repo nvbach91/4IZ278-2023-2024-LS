@@ -23,7 +23,7 @@ require_once __DIR__ . '/config.php';
         <?php require './requires/navigation.php'; ?>
 
         <div class="container-sm pt-3 navbar-spacing">
-            <form action="./authentication/login.php" method="post" class="was-validated">
+            <form action="./authentication/login.php" method="post" class="">
                 <div class="row mb-3">
                     <div class="col-6 mx-auto">
                         <h1>Log in</h1>
@@ -72,6 +72,7 @@ require_once __DIR__ . '/config.php';
         </div>
         <?php include __DIR__ . "/includes/footer.php";?>
     </div>
+    <script src="./js/validateInput.js"></script>
     <script src="./../vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

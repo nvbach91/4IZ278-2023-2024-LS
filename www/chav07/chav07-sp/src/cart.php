@@ -77,7 +77,8 @@ $valid = false;
 
                     </div>
 
-                    <p class="col-2 text-end d-flex flex-column justify-content-center align-items-end"><?php echo htmlspecialchars($object->book->price * $object->quantity); ?> CZK</p>
+                    <p class="col-1 text-end d-flex flex-column justify-content-center align-items-end"><?php echo htmlspecialchars($object->book->price); ?> CZK</p>
+                    <p class="col-1 text-end d-flex flex-column justify-content-center align-items-end"><?php echo htmlspecialchars($object->book->price * $object->quantity); ?> CZK</p>
 
                     <div class="col-2 text-end d-flex flex-column justify-content-center align-items-end">
                         <a class="btn btn-danger" href="<?php echo htmlspecialchars(BASE_URL . "/cart/remove.php?id=".$id);?>">
@@ -107,6 +108,7 @@ $valid = false;
     </main>
 
     <?php include __DIR__ . "/includes/footer.php";?>
+    <script src="./js/validateInput.js"></script>
     <script src="./../vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

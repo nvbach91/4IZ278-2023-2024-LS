@@ -36,7 +36,7 @@ if(
     $bookTitle = htmlspecialchars(trim($_POST["bookTitle"]));
     $bookAuthor = htmlspecialchars(trim($_POST["bookAuthor"]));
     $bookDescription = htmlspecialchars(trim($_POST["bookDescription"]));
-    $bookPrice = (float)filter_var($_POST["bookPrice"], FILTER_SANITIZE_NUMBER_FLOAT);
+    $bookPrice = filter_var($_POST["bookPrice"], FILTER_SANITIZE_NUMBER_INT);
     $bookStock = filter_var($_POST["bookStock"],FILTER_SANITIZE_NUMBER_INT);
     $bookIsbn13 = htmlspecialchars(trim($_POST["bookIsbn13"]));
     $bookIsbn10 = htmlspecialchars(trim($_POST["bookIsbn10"]));
@@ -57,9 +57,10 @@ if(
     }
 
 //length check
-if( strlen($bookIsbn10) > 13 || strlen($bookIsbn13) > 17 || strlen($bookTitle) > 255 || strlen($bookDescription) > 3000 ){
+if( strlen($bookIsbn10) > 13 || strlen($bookIsbn13) > 17 || strlen($bookTitle) < 255 || strlen($bookDescription) > 3000 ){
         header("HTTP/1.1 400 Bad Request");
-        header("location:" . BASE_URL . htmlspecialchars("/edit.php?id=" . $bookId));
+//        header("location:" . BASE_URL . htmlspecialchars("/edit.php?id=" . $bookId));
+	echo "Too long";
         exit(400);
     }
 
@@ -78,7 +79,7 @@ if( strlen($bookIsbn10) > 13 || strlen($bookIsbn13) > 17 || strlen($bookTitle) >
         $author->id,
         $bookTitle,
         $bookDescription,
-        (float)$bookPrice,
+        $bookPrice,
         $bookStock,
         $bookIsbn13,
         $bookIsbn10,

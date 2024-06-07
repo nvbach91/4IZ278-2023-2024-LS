@@ -5,9 +5,16 @@ require_once __DIR__ . "/../config.php";
 
 startSessionIfNone();
 
+$query = "";
+if(isset($_GET["query"])){
+    $query = $_GET["query"];
+}
 
 ?>
 
+<script>
+   
+</script>
 <nav class="navbar fixed-top navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,8 +27,8 @@ startSessionIfNone();
                     </li>
 
                     <li class="nav-item">
-                        <form class="d-flex" role="search" action="<?php echo BASE_URL; ?>/search.php" method="GET">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query">
+                        <form class="d-flex" role="search" action="<?php echo BASE_URL; ?>/search.php" method="GET" onsubmit="return onEmptyQuery('searchField')">
+                            <input class="form-control me-2" id="searchField" type="search" placeholder="Search" aria-label="Search" minlength="1"  name="query" <?php echo ((strlen($query) < 1) ? htmlspecialchars("") : htmlspecialchars("value=".$query)); ?>>
                             <input style="display: none;" type="number" name="page" value="0">
                             <button class="btn btn-outline-success" type="submit">Search</button>
                         </form>

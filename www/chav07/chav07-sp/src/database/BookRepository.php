@@ -224,6 +224,7 @@ class BookRepository implements IBookRepository{
             $statement = $pdo->prepare("INSERT INTO 
                                                 BOOKS(BOOKS.ID_AUTHOR, BOOKS.TITLE, BOOKS.DESCRIPTION, BOOKS.PRICE, BOOKS.STOCK, BOOKS.ISBN13, BOOKS.ISBN10, BOOKS.IMAGE_URL)
                                                 VALUES(:authorId, :title, :description, :price, :stock, :isbn13, :isbn10, :imageUrl); ");
+
             $statement->execute([
                 "authorId" => $book->authorId,
                 "title" => $book->title,

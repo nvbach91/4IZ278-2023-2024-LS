@@ -43,6 +43,14 @@ if ($book === null){
     header("location:" . BASE_URL ."/");
     exit(404);
 }
+
+if($book->stock < 1){
+    header("HTTP/1.1 400 Bad Request");
+    header("location:" . BASE_URL ."/");
+    exit(400);
+}
+
+
 $_SESSION["cart"][$id] = new \Vilem\BookBookGo\database\CartObject(1, $book);
 header("HTTP/1.1 200 OK");
 header("location:" . BASE_URL ."/cart.php");

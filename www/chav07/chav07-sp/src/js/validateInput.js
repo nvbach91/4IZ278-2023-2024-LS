@@ -39,3 +39,18 @@ function disableButton(){
     submitButton.disabled = true;
 
 }
+
+function setWasValidated(){
+    const form = document.getElementById("regForm");
+    if(!form.classList.contains("was-validated")){
+        form.classList.add("was-validated");
+    }
+    
+}
+function onEmptyQuery(filedId){
+    const el = document.getElementById(filedId);
+    if(el.value == ""){
+        return false;
+    }
+    return true;
+}
