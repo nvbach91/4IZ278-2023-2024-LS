@@ -21,6 +21,7 @@ $registeredUser = $usersDb->getUser($_COOKIE['display_name'], '');
 
 if ($registeredUser == null) {
     setcookie('display_name', '', -1, "/");
+    session_destroy();
     header('Location: login.php');
     exit;
 }

@@ -17,7 +17,7 @@
                 <p>Price: <?php echo $meal['price']; ?>$</p>
             </div>
             <div class='modal-footer'>
-                <?php if ($_COOKIE['display_name'] != $user['username'] && $meal['status'] == 1) : ?>
+                <?php if ($_SESSION['user']['username'] != $user['username'] && $meal['status'] == 1) : ?>
                     <a href='paywall.php?meal_id=<?php echo $meal['meal_id']; ?>' class='btn btn-primary'>Purchase</a>
                 <?php endif; ?>
                 <button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>

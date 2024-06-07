@@ -3,6 +3,8 @@
 require_once 'db/Users.php';
 require_once 'db/Dorms.php';
 
+session_start();
+
 $passwordMessage = null;
 $passwordError = false;
 $dormMessage = null;
@@ -20,13 +22,15 @@ $defaultDorm = null;
 
 if(!isset($_COOKIE['display_name'])){
     header('Location: login.php');
+    session_destroy();
     exit;
 }
 
-$registeredUser = $usersDb->getUser(htmlspecialchars($_COOKIE['display_name']), '');
+$registeredUser = $_SESSION['user'];
 
 if($registeredUser == null){
     setcookie('display_name', '', -1, "/");
+    session_destroy();
     header('Location: login.php');
     exit;
 }

@@ -5,10 +5,12 @@ require_once './utils/helpers.php';
 
 class MessagesDB extends Database {
 
-    public function getMessages($meal){
-        $sql = 'SELECT * FROM sp_messages WHERE meal_id = :meal ORDER BY sent_at ASC';
+    public function getMessages($meal, $user, $offset){
+        $sql = 'SELECT * FROM sp_messages WHERE meal_id = :meal AND (sender_id = :user OR receiver_id = :user) ORDER BY sent_at ASC LIMIT 10 OFFSET :offset';
         $statement = $this->prepare($sql);
         $statement->bindParam(':meal', $meal);
+        $statement->bindParam(':user', $user);
+        $statement->bindParam(':offset', $offset, PDO::PARAM_INT);
         $statement->execute();
 
         return $statement->fetchAll();

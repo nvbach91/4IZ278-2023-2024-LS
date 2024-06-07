@@ -32,15 +32,13 @@ $(document).ready(function () {
   }
 })
 
-function sendMessage(element, mealId, sender, receiver) {
+function sendMessage(element, mealId) {
   $.ajax({
     type: 'POST',
     url: 'send-message.php',
     data: {
       content: escapeHtml(element.value),
       meal_id: mealId,
-      sender_id: sender,
-      receiver_id: receiver
     },
     success: function (response) {
       console.log('message sent');
@@ -55,10 +53,11 @@ function updateMessages(element, mealId, boughtChat) {
     url: 'get-messages.php',
     data: {
       meal_id: mealId,
+      offset: element.children.length
     },
     success: function (response) {
+      console.log(response)
       let messages = JSON.parse(response);
-      element.innerHTML = "";
 
       for (const message of messages) {
         if (message['sender_id'] == registeredUserId) {

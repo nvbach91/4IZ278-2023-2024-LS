@@ -16,9 +16,7 @@
                 <input type='text' class='form-control chat-input' placeholder='Type your message...'>
                 <button type='button' onclick="sendMessage(
                                             document.querySelector('#bchatModal<?php echo $meal['meal_id']; ?> input'),
-                                            <?php echo $meal['meal_id']; ?>,
-                                            registeredUserId,
-                                            <?php echo $meal['chef_id']; ?>
+                                            <?php echo $meal['meal_id']; ?>
                                         )" class='btn btn-primary button-send'>Send</button>
             </div>
         </div>

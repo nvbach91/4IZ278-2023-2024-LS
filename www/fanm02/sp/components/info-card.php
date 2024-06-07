@@ -2,7 +2,7 @@
     require_once 'utils/helpers.php';
     require_once 'db/Users.php';
 
-    if(!isset($_COOKIE['display_name'])) {
+    if(!isset($_SESSION['user'])) {
         header('Location: login.php');
     }
 

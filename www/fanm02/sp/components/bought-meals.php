@@ -5,7 +5,7 @@ require_once './db/Users.php';
 $mealsDb = new MealsDB();
 $usersDb = new UsersDB();
 
-$registeredUser = $usersDb->getUser($_COOKIE['display_name'], '');
+$registeredUser = $_SESSION['user'];
 
 $boughtMeals = $ordersDb->getBoughtMeals($registeredUser['id']);
 ?>

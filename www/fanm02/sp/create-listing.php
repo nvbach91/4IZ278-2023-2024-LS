@@ -15,7 +15,9 @@ if (!isset($_COOKIE['display_name'])) {
     exit;
 }
 
-$registeredUser = $usersDb->getUser(htmlspecialchars($_COOKIE['display_name']), '');
+session_start();
+
+$registeredUser = $_SESSION['user'];
 
 if ($registeredUser == null) {
     setcookie('display_name', '', -1, "/");

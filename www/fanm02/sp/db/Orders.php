@@ -33,6 +33,15 @@ class OrdersDB extends Database {
         return $statement->fetchAll();
     }
 
+    public function getOrderByMeal($meal){
+        $sql = 'SELECT * FROM sp_orders WHERE meal_id = :meal';
+        $statement = $this->prepare($sql);
+        $statement->bindParam(':meal', $meal);
+        $statement->execute();
+
+        return $statement->fetch();
+    }
+
     public function getOrdersBySeller($seller){
         $sql = 'SELECT * FROM sp_orders WHERE seller_id = :seller';
         $statement = $this->prepare($sql);

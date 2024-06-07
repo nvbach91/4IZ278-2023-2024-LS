@@ -55,9 +55,11 @@ if (isset($_GET['code']) && !empty($_GET['code'])) {
 
             if ($registeredUser == null) {
                 $usersDb->createOAuth([$_SESSION['google_name'], $profile['email']]);
+                $_SESSION['user'] = $usersDb->getUser($_SESSION['google_name'], $profile['email']);
                 setcookie('display_name', $_SESSION['google_name'], time() + 3600, "/");
             }
             else {
+                $_SESSION['user'] = $registeredUser;
                 setcookie('display_name', $registeredUser['username'], time() + 3600, "/");
             }
 

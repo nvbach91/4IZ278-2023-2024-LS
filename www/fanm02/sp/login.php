@@ -37,9 +37,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($registeredUser['photo_url'] != null) {
             setcookie('photo_url', $registeredUser['photo_url'], time() + 3600, "/");
         }
-
         $error = false;
         $message = 'Logged successfuly as ' . $registeredUser['username'];
+
+        session_start();
+        $_SESSION['user'] = $registeredUser;
+
         header('Location: index.php');
     } while (0);
 }

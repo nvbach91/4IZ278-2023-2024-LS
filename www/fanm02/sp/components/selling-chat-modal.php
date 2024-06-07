@@ -17,8 +17,6 @@
                 <button type='button' onclick="sendMessage(
                                             document.querySelector('#schatModal<?php echo $meal['meal_id']; ?> input'),
                                             <?php echo $meal['meal_id']; ?>,
-                                            registeredUserId,
-                                            <?php echo $meal['chef_id']; ?>
                                         )" class='btn btn-primary button-send'>Send</button>
             </div>
         </div>

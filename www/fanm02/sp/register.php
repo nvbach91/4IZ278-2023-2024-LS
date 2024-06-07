@@ -56,6 +56,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $usersDb->create([$username, $email, $passwordHash]);
 
         setcookie('display_name', $username, time() + 3600, "/");
+
+        session_start();
+        $_SESSION['user'] = $usersDb->getUser($username, $email);
         $error = false;
         $message = 'Registration successful';
         header('Location: index.php');

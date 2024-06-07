@@ -1,22 +1,36 @@
 <?php
 
 require_once 'db/Messages.php';
+require_once 'db/Meals.php';
+require_once 'db/Orders.php';
 
 $messagesDb = new MessagesDB();
+$mealsDb = new MealsDB();
+$ordersDb = new OrdersDB();
+
+session_start();
 
 // Check if the AJAX request is received
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    if(!isset($_POST['content']) || trim($_POST['content']) == '' || !isset($_POST['meal_id']) || !isset($_POST['sender_id']) || !isset($_POST['receiver_id'])){
+    if(!isset($_POST['content']) || trim($_POST['content']) == '' || !isset($_POST['meal_id'])){
         exit;
     }
 
-    $content = htmlspecialchars($_POST['content']);
-    $meal_id = $_POST['meal_id'];
-    $sender_id = $_POST['sender_id'];
-    $receiver_id = $_POST['receiver_id'];
+    $user = $_SESSION['user'];
+    $mealId = $_POST['meal_id'];
 
-    $result = $messagesDb->create([$meal_id, $sender_id, $receiver_id, $content]);
+    $meal = $mealsDb->getMeal($mealId);
+    $order = $ordersDb->getOrderByMeal($mealId);
+
+    $content = htmlspecialchars($_POST['content']);
+    
+    $isSenderChef = $meal['chef_id'] == $user['id'];
+
+    $senderId = $user['id'];
+    $receiverId = $isSenderChef ? $order['buyer_id'] : $order['seller_id'];
+
+    $result = $messagesDb->create([$mealId, $senderId, $receiverId, $content]);
     
     echo 1;
 }
