@@ -5,7 +5,7 @@ class CharactersDB extends Database
 
     function createCharacter($character)
     {
-        $sql = "INSERT INTO sp_characters (name, image, class, gold, xp, level, strength, dexterity, hitpoints, luck, stamina, user_id) VALUES (:name, :image, :class, :gold, :xp, :level, :strength, :dexterity, :hitpoints, :luck, :stamina, :user_id)";
+        $sql = "INSERT INTO sp_characters (name, image, class, gold, xp, level, strength, hitpoints, luck, stamina, last_action_time, user_id) VALUES (:name, :image, :class, :gold, :xp, :level, :strength, :hitpoints, :luck, :stamina, :last_action_time, :user_id)";
 
         $result = $this->runQuery($sql, [
             'name' => $character->getName(),
@@ -15,10 +15,10 @@ class CharactersDB extends Database
             'xp' => $character->getXp(),
             'level' => $character->getLevel(),
             'strength' => $character->getStrength(),
-            'dexterity' => $character->getDexterity(),
             'hitpoints' => $character->getHitpoints(),
             'luck' => $character->getLuck(),
             'stamina' => $character->getStamina(),
+            'last_action_time' => $character->getLastActionTime(),
             'user_id' => $character->getUserId(),
         ]);
 
@@ -41,7 +41,7 @@ class CharactersDB extends Database
 
     function updateCharacter($character)
     {
-        $sql = "UPDATE sp_characters SET name = :name, image = :image, class = :class, gold = :gold, xp = :xp, level = :level, strength = :strength, dexterity = :dexterity, hitpoints = :hitpoints, luck = :luck, stamina = :stamina WHERE user_id = :user_id";
+        $sql = "UPDATE sp_characters SET name = :name, image = :image, class = :class, gold = :gold, xp = :xp, level = :level, strength = :strength, hitpoints = :hitpoints, luck = :luck, stamina = :stamina, last_action_time = :last_action_time WHERE user_id = :user_id";
 
         $result = $this->runQuery($sql, [
             'name' => $character->getName(),
@@ -51,10 +51,10 @@ class CharactersDB extends Database
             'xp' => $character->getXp(),
             'level' => $character->getLevel(),
             'strength' => $character->getStrength(),
-            'dexterity' => $character->getDexterity(),
             'hitpoints' => $character->getHitpoints(),
             'luck' => $character->getLuck(),
             'stamina' => $character->getStamina(),
+            'last_action_time' => $character->getLastActionTime(),
             'user_id' => $character->getUserId(),
         ]);
 

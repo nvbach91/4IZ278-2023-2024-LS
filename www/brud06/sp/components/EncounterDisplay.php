@@ -47,14 +47,14 @@ $_SESSION['encounter_result'] = $result;
 
     <div class=row-encounter>
         <div class="character-card">
-            <h2>Character</h2>
-            <p>Name: <?php echo $character->getName(); ?></p>
+            <img class = "encounter_image" src="../<?php echo $character->getImage(); ?>" alt="Character Image">
+            <h2><?php echo $character->getName(); ?></h2>
             <p>HP left: <?php echo max(0, $character->getHitpoints()); ?></p>
         </div>
 
         <div class="character-card">
-            <h2>Monster</h2>
-            <p>Name: <?php echo $monster->getName(); ?></p>
+            <img class = "encounter image" src="../<?php echo $monster->getImage(); ?>" alt="Monster Image">
+            <h2><?php echo $monster->getName(); ?></h2>
             <p>HP left: <?php echo max(0, $monster->getHitpoints()); ?></p>
         </div>
     </div>

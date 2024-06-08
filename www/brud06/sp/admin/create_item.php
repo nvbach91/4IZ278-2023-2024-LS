@@ -15,18 +15,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $equipment_type = trim($_POST['equipment_type']);
     $valid_types = ['weapon', 'armor', 'trinket', 'legs'];
 
-    $strength = $dexterity = $hitpoints = $luck = $price_to_buy = $price_to_sell = 0;
+    $strength = $hitpoints = $luck = $price_to_buy = $price_to_sell = 0;
 
     if (!is_numeric($_POST['strength'])) {
         $errors[] = "Strength must be a number.";
     } else {
         $strength = intval($_POST['strength']);
-    }
-
-    if (!is_numeric($_POST['dexterity'])) {
-        $errors[] = "Dexterity must be a number.";
-    } else {
-        $dexterity = intval($_POST['dexterity']);
     }
 
     if (!is_numeric($_POST['hitpoints'])) {
@@ -63,7 +57,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'name' => $name, 
             'image' => $image, 
             'strength' => $strength, 
-            'dexterity' => $dexterity, 
             'hitpoints' => $hitpoints, 
             'luck' => $luck, 
             'equipment_type' => $equipment_type, 
@@ -87,7 +80,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     Name: <input type="text" name="name">
     Image: <input type="text" name="image">
     Strength: <input type="text" name="strength">
-    Dexterity: <input type="text" name="dexterity">
     Hitpoints: <input type="text" name="hitpoints">
     Luck: <input type="text" name="luck">
     Equipment Type: <input type="text" name="equipment_type">

@@ -10,7 +10,6 @@ $character = $characterDB->findCharacterByUserId($_SESSION['user_id']);
 
 $gold = $character['gold'];
 $strength = $character['strength'];
-$dexterity = $character['dexterity'];
 $hitpoints = $character['hitpoints'];
 $luck = $character['luck'];
 
@@ -47,7 +46,7 @@ if (isset($_SESSION['quests'])) {
                     <li><a href="./QuestDisplay.php">Quests</a></li>
                     <li><a href="./BlacksmithDisplay.php">Blacksmith</a></li>
                     <li><a href="#">Dungeons</a></li>
-                    <li><a href="#">Hall of Fame</a></li>
+                    <li><a href="../logout.php">Logout</a></li>
                 </ul>
             </nav>
         </aside>

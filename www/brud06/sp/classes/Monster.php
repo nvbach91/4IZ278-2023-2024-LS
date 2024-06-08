@@ -3,9 +3,9 @@ class Monster
 {
     private $id;
     private $name;
+    private $image;
     private $level;
     private $strength;
-    private $dexterity;
     private $hitpoints;
     private $luck;
     private $isDungeonMonster;
@@ -19,14 +19,14 @@ class Monster
             $data = $args[0];
             $this->id = $data['monster_id'];
             $this->name = $data['name'];
+            $this ->image = $data['image'];
             $this->level = $data['level'];
             $this->strength = $data['strength'];
-            $this->dexterity = $data['dexterity'];
             $this->hitpoints = $data['hitpoints'];
             $this->luck = $data['luck'];
             $this->isDungeonMonster = $data['isDungeonMonster'];
         } else if ($numArgs == 8) {
-            list($this->id, $this->name, $this->level, $this->strength, $this->dexterity, $this->hitpoints, $this->luck, $this->isDungeonMonster) = $args;
+            list($this->id, $this->name, $this->level, $this->strength, $this->hitpoints, $this->luck, $this->isDungeonMonster) = $args;
         }
     }
     public function getId()
@@ -45,6 +45,10 @@ class Monster
     public function setName($name)
     {
         $this->name = $name;
+    }
+    public function getImage()
+    {
+        return $this->image;
     }
 
     public function getLevel()
@@ -66,17 +70,6 @@ class Monster
     {
         $this->strength = $strength;
     }
-
-    public function getDexterity()
-    {
-        return $this->dexterity;
-    }
-
-    public function setDexterity($dexterity)
-    {
-        $this->dexterity = $dexterity;
-    }
-
     public function getHitpoints()
     {
         return $this->hitpoints;

@@ -12,7 +12,7 @@ $character = $characterDB->findCharacterByUserId($_SESSION['user_id']);
 
 $gold = $character['gold'];
 $strength = $character['strength'];
-$dexterity = $character['dexterity'];
+$stamina = $character['stamina'];
 $hitpoints = $character['hitpoints'];
 $luck = $character['luck'];
 
@@ -73,16 +73,16 @@ $itemsDB = new ItemsDB();
                                     <li class="smallText">Damage</li>
                                 </div>
                                 <div class="attribute">
-                                    <li>Dexterity: <?php echo $dexterity; ?> <button class='increaseStat'>+</button></li>
-                                    <li class="smallText">Chance to Avoid</li>
-                                </div>
-                                <div class="attribute">
                                     <li>HitPoints: <?php echo $hitpoints; ?> <button class='increaseStat'>+</button></li>
                                     <li class="smallText">Hit Point</li>
                                 </div>
                                 <div class="attribute">
                                     <li>Luck: <?php echo $luck; ?> <button class='increaseStat'>+</button></li>
                                     <li class="smallText">Critical Hit</li>
+                                </div>
+                                <div class="attribute">
+                                    <li>Stamina: <?php echo $stamina; ?></li>
+                                    <li class="smallText">Energy left</li>
                                 </div>
                             </ul>
                         </div>
@@ -95,6 +95,12 @@ $itemsDB = new ItemsDB();
                                 <?php $weapon = $itemsDB->getItemDetails($equippedItems['Weapon']['item_id']); ?>
                                 <img class='item-img' src="../<?php echo $weapon['image']; ?>" alt="Weapon Image" id="weaponImage">
                                 <h3 class="item-name"><?php echo $weapon['name']; ?></h3>
+                                <div class="item-stats">
+                                    <p>Strength: <?php echo $weapon['strength']; ?></p>
+                                    <p>Hitpoins: <?php echo $weapon['hitpoints']; ?></p>
+                                    <p>Luck: <?php echo $weapon['luck']; ?></p>
+
+                                </div>
                             <?php endif; ?>
                         </div>
                         <div class="item-card">
@@ -103,6 +109,12 @@ $itemsDB = new ItemsDB();
                                 <?php $armor = $itemsDB->getItemDetails($equippedItems['Armor']['item_id']); ?>
                                 <img class="item-img" src="../<?php echo $armor['image']; ?>" alt="Armor Image" id="armorImage">
                                 <h3 class="item-name"><?php echo $armor['name']; ?></h3>
+                                <div class="item-stats">
+                                    <p>Strength: <?php echo $armor['strength']; ?></p>
+                                    <p>Hitpoins: <?php echo $armor['hitpoints']; ?></p>
+                                    <p>Luck: <?php echo $armor['luck']; ?></p>
+
+                                </div>
                             <?php endif; ?>
                         </div>
                         <div class="item-card">
@@ -111,6 +123,12 @@ $itemsDB = new ItemsDB();
                                 <?php $trinket = $itemsDB->getItemDetails($equippedItems['Trinket']['item_id']); ?>
                                 <img class = "item-img" src="../<?php echo $trinket['image']; ?>" alt="Ring Image" id="ringImage">
                                 <h3 class="item-name"><?php echo $trinket['name']; ?></h3>
+                                <div class="item-stats">
+                                    <p>Strength: <?php echo $trinket['strength']; ?></p>
+                                    <p>Hitpoins: <?php echo $trinket['hitpoints']; ?></p>
+                                    <p>Luck: <?php echo $trinket['luck']; ?></p>
+
+                                </div>
                             <?php endif; ?>
                         </div>
                         <div class="item-card">
@@ -119,6 +137,12 @@ $itemsDB = new ItemsDB();
                                 <?php $boots = $itemsDB->getItemDetails($equippedItems['Legs']['item_id']); ?>
                                 <img class = "item-img" src="../<?php echo $boots['image']; ?>" alt="Boots Image" id="bootsImage">
                                 <h3 class="item-name"><?php echo $boots['name']; ?></h3>
+                                <div class="item-stats">
+                                    <p>Strength: <?php echo $boots['strength']; ?></p>
+                                    <p>Hitpoins: <?php echo $boots['hitpoints']; ?></p>
+                                    <p>Luck: <?php echo $boots['luck']; ?></p>
+
+                                </div>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -137,9 +161,7 @@ $itemsDB = new ItemsDB();
                                 <h3 class="item-name"><?php echo $item['name']; ?></h3>
                                 <!-- Display item stats here. -->
                                 <div class="item-stats">
-                                    <!-- Replace 'stat1', 'stat2', etc. with the actual stat names. -->
                                     <p>Strength: <?php echo $item['strength']; ?></p>
-                                    <p>Dexterity: <?php echo $item['dexterity']; ?></p>
                                     <p>Hitpoins: <?php echo $item['hitpoints']; ?></p>
                                     <p>Luck: <?php echo $item['luck']; ?></p>
 

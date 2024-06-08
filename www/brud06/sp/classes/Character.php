@@ -8,10 +8,10 @@ class Character
     private $xp;
     private $level;
     private $strength;
-    private $dexterity;
     private $hitpoints;
     private $luck;
     private $stamina;
+    private $last_action_time;
     private $user_id;
 
     public function __construct()
@@ -28,13 +28,15 @@ class Character
         $this->xp = $data['xp'];
         $this->level = $data['level'];
         $this->strength = $data['strength'];
-        $this->dexterity = $data['dexterity'];
         $this->hitpoints = $data['hitpoints'];
         $this->luck = $data['luck'];
         $this->stamina = $data['stamina'];
+        $this->last_action_time = $data['last_action_time'];
         $this->user_id = $data['user_id'];
     } else if ($numArgs == 12) {
-        list($this->name, $this->image, $this->class, $this->gold, $this->xp, $this->level, $this->strength, $this->dexterity, $this->hitpoints, $this->luck, $this->stamina, $this->user_id) = $args;
+        list($this->name, $this->image, $this->class, $this->gold, $this->xp, $this->level, 
+        $this->strength, $this->hitpoints, $this->luck, $this->stamina, $this->last_action_time,
+        $this->user_id) = $args;
     }
 }
 
@@ -108,16 +110,6 @@ class Character
         $this->strength = $strength;
     }
 
-    public function getDexterity()
-    {
-        return $this->dexterity;
-    }
-
-    public function setDexterity($dexterity)
-    {
-        $this->dexterity = $dexterity;
-    }
-
     public function getHitpoints()
     {
         return $this->hitpoints;
@@ -147,6 +139,14 @@ class Character
     {
         $this->stamina = $stamina;
     }
+    public function getLastActionTime()
+    {
+        return $this->last_action_time;
+    }
+    public function setLastActionTime($last_action_time)
+    {
+        $this->last_action_time = $last_action_time;
+    }
 
     public function getUserId()
     {
@@ -157,5 +157,21 @@ class Character
     {
         $this->user_id = $user_id;
     }
+public function recoverStamina() {
+    $current_time = time();
+    $time_passed = $current_time - $this->last_action_time;
+
+    // Regenerate stamina based on the time passed
+    // For example, regenerate 1 stamina point every 10 seconds
+    $stamina_to_recover = floor($time_passed / 10);
+
+    // Add the recovered stamina to the current stamina, up to the maximum
+    $this->stamina = min($this->stamina + $stamina_to_recover, 100);
+
+    // Update the last action time
+    $this->last_action_time = $current_time;
+
+    return $this->stamina;
+}
 }
 ?>
