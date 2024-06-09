@@ -2,14 +2,23 @@
 session_start();
 
 require_once '../db/CharactersDB.php';
-require_once '../db/InventoryDB.php';
-require_once '../db/ItemsDB.php';
+require_once '../db/DungeonsDB.php';
 require_once '../classes/Character.php';
+require_once '../classes/Dungeon.php';
 
 $characterDB = new CharactersDB();
 $character = $characterDB->findCharacterByUserId($_SESSION['user_id']);
+$dungeonsDB = new DungeonsDB();
+$forrestDungeonData = $dungeonsDB->getDungeonById(1);
+$forrestDungeon = new Dungeon($forrestDungeonData);
+
+
+
+
 
 $gold = $character['gold'];
+$level = $character['level'];
+$level_requirement = $forrestDungeon->getMinLvl()
 
 ?>
 <!DOCTYPE html>
@@ -22,6 +31,7 @@ $gold = $character['gold'];
     <title>Browser game</title>
 
 </head>
+
 <body>
     <div class="wrapper">
         <aside>
@@ -37,16 +47,23 @@ $gold = $character['gold'];
                 </ul>
             </nav>
         </aside>
-        <main class = "dungeons">
+        <main class="dungeons">
             <div class="dungeon-card">
-                <img src="../path/to/dungeon1/image.jpg" alt="Dungeon 1 Image">
-                <h2>Dungeon 1</h2>
-                <p>Description of Dungeon 1</p>
+                <img src="../<?php echo $forrestDungeonData['image'] ?>" alt="ForrestDungeonImage">
+                <h2><?php echo $forrestDungeon->getName() ?></h2>
+                <p><?php echo $forrestDungeon->getDescription() ?></p>
+                <?php if ($level >= $level_requirement) : ?>
+                    <form action="./FloorDisplay.php" method="post">
+                        <button class="enter-dungeon" type="submit">Enter</button>
+                    </form>
+                <?php else : ?>
+                    <button class="enter-dungeon" disabled>Level 10 required to enter</button>
+                <?php endif; ?>
             </div>
             <div class="dungeon-card">
-                <img src="../path/to/dungeon2/image.jpg" alt="Dungeon 2 Image">
-                <h2>Dungeon 2</h2>
-                <p>Description of Dungeon 2</p>
+                <img src="../img/bob.jpg" alt="TBD">
+                <h2>Under construction</h2>
+                <p>Please look forward to it</p>
             </div>
         </main>
 </body>

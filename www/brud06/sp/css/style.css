@@ -519,7 +519,7 @@ tr:nth-child(even) {
 }
 
 .dungeon-card {
-    width: 300px;
+    width: 400px;
     border: 1px solid #ccc;
     border-radius: 10px;
     overflow: hidden;
@@ -530,7 +530,7 @@ tr:nth-child(even) {
 
 .dungeon-card img {
     width: 100%;
-    height: 200px;
+    height: auto;
     object-fit: cover;
 }
 
@@ -544,4 +544,64 @@ tr:nth-child(even) {
     font-size: 16px;
     color: #666;
     margin: 0 10px 10px;
+}
+.enter-dungeon {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.enter-dungeon:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+.enter-dungeon:not(:disabled):hover {
+    background-color: #0056b3;
+}
+.floor{
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    background-color: #f0f0f0;
+
+}
+.floor-card {
+    width: 500px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.challenge-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.challenge-button:hover {
+    background-color: #0056b3;
+}
+.floor-image {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border-radius: 10px;
 }

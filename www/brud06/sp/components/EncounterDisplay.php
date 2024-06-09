@@ -47,13 +47,13 @@ $_SESSION['encounter_result'] = $result;
 
     <div class=row-encounter>
         <div class="character-card">
-            <img class = "encounter_image" src="../<?php echo $character->getImage(); ?>" alt="Character Image">
+            <img class="encounter_image" src="../<?php echo $character->getImage(); ?>" alt="Character Image">
             <h2><?php echo $character->getName(); ?></h2>
             <p>HP left: <?php echo max(0, $character->getHitpoints()); ?></p>
         </div>
 
         <div class="character-card">
-            <img class = "encounter image" src="../<?php echo $monster->getImage(); ?>" alt="Monster Image">
+            <img class="encounter image" src="../<?php echo $monster->getImage(); ?>" alt="Monster Image">
             <h2><?php echo $monster->getName(); ?></h2>
             <p>HP left: <?php echo max(0, $monster->getHitpoints()); ?></p>
         </div>
@@ -62,7 +62,7 @@ $_SESSION['encounter_result'] = $result;
 
     <div class="result-section">
         <p>Result: <?php echo $encounter->encounterResultDisplay($result); ?></p>
-        <form method="POST" action="../finish_quest.php">
+        <form method="POST" action="../<?php echo $_SESSION['fight_type'] == 'dungeon' ? 'finish_dungeon_fight.php' : 'finish_quest.php'; ?>">
             <button type="submit">Confirm</button>
         </form>
     </div>

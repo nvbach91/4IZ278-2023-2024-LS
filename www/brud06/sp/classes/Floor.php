@@ -1,25 +1,36 @@
 <?php
 class Floor {
-    private $floor;
-    private $monster_id;
-    private $dungeon_id;
+    private $floor_id;
+    private $number;
     private $xp;
     private $gold;
+    private $monster_id;
+    private $dungeon_id;
 
-    public function __construct($floor, $monster_id, $dungeon_id, $xp, $gold) {
-        $this->floor = $floor;
-        $this->monster_id = $monster_id;
-        $this->dungeon_id = $dungeon_id;
-        $this->xp = $xp;
-        $this->gold = $gold;
+
+    public function __construct() {
+        $args = func_get_args();
+        $numArgs = func_num_args();
+    
+        if ($numArgs == 1 && is_array($args[0])) {
+            $data = $args[0];
+            $this->floor_id = $data['floor_id'];
+            $this->number = $data['number'];
+            $this->xp = $data['xp'];
+            $this->gold = $data['gold'];
+            $this->monster_id = $data['monster_id'];
+            $this->dungeon_id = $data['dungeon_id'];
+        } else if ($numArgs == 6) {
+            list($this->floor_id, $this->number, $this->xp, $this->gold, $this->monster_id, $this->dungeon_id) = $args;
+        }
     }
 
     public function getFloor() {
-        return $this->floor;
+        return $this->floor_id;
     }
 
     public function setFloor($floor) {
-        $this->floor = $floor;
+        $this->floor_id = $floor;
     }
 
     public function getMonsterId() {
