@@ -18,7 +18,6 @@
       <a class="navbar-brand" href="index.php">Home</a>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item"><a class="nav-link" href="#">Profile</a></li>
           <?php if (isset($_COOKIE['name'])) : ?>
             <li class="nav-item"><a class="nav-link" href="../logout.php">Logout</a></li>
           <?php else : ?>

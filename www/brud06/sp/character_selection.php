@@ -1,6 +1,9 @@
 <?php
 session_start();
 require_once 'db/CharactersDB.php';
+require_once 'restrictions/user_required.php';
+require_once 'restrictions/unban_required.php';
+
 include './includes/head.php';
 
 $characterDB = new CharactersDB();

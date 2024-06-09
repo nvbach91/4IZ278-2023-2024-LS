@@ -45,7 +45,7 @@ if (isset($_SESSION['quests'])) {
                     <li><a href="./CharacterDisplay.php">Character</a></li>
                     <li><a href="./QuestDisplay.php">Quests</a></li>
                     <li><a href="./BlacksmithDisplay.php">Blacksmith</a></li>
-                    <li><a href="#">Dungeons</a></li>
+                    <li><a href="./DungeonDisplay.php">Dungeons</a></li>
                     <li><a href="../logout.php">Logout</a></li>
                 </ul>
             </nav>

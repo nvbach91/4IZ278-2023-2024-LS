@@ -12,11 +12,12 @@ class UsersDB extends Database
     }
     function createUser($user)
     {
-        $sql = "INSERT INTO sp_users (email , password, privilege) VALUES (:email, :password, :privilege)";
+        $sql = "INSERT INTO sp_users (email , password, privilege, isBanned) VALUES (:email, :password, :privilege, :isBanned)";
         $result = $this->runQuery($sql, [
             'email' => $user['email'],
             'password' => $user['password'],
             'privilege' => 1,
+            'isBanned' => 0
         ]);
         return $result !== false;
     }
@@ -31,6 +32,13 @@ class UsersDB extends Database
     function fetchAllUsers()
     {
         $statement = $this->pdo->prepare("SELECT * FROM sp_users");
+        $statement->execute();
+        return $statement->fetchAll();
+    }
+
+    function fetchRegularUsers()
+    {
+        $statement = $this->pdo->prepare("SELECT * FROM sp_users WHERE privilege = 1");
         $statement->execute();
         return $statement->fetchAll();
     }
@@ -52,6 +60,23 @@ class UsersDB extends Database
         ]);
         return $result !== false;
     }
+
+
+    function banUser($user_id)
+    {
+        $sql = "UPDATE sp_users SET isBanned = 1 WHERE user_id = :user_id";
+        $result = $this->runQuery($sql, ['user_id' => $user_id]);
+        return $result !== false;
+    }
+
+    function unbanUser($user_id)
+    {
+        $sql = "UPDATE sp_users SET isBanned = 0 WHERE user_id = :user_id";
+        $result = $this->runQuery($sql, ['user_id' => $user_id]);
+        return $result !== false;
+    }
+
+
     function create($attribute)
     {
         //empty

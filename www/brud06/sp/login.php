@@ -20,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['name'] = $email;
         $_SESSION['privilege'] = $user['privilege'];
         $_SESSION['user_id'] = $user['user_id'];
+        $_SESSION['isBanned'] = $user['isBanned'];
         setcookie('name', $email, time() + (86400 * 30), "/");
         
          // Check user privilege and redirect accordingly

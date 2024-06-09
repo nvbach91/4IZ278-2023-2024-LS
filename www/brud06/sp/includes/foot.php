@@ -1,6 +1,6 @@
 <footer class="footer mt-auto py-3 bg-light">
   <div class="container">
-    <span class="text-muted">My Website Footer</span>
+    <span class="text-muted">Danterra @Daniel Brus 2024</span>
   </div>
 </footer>
 

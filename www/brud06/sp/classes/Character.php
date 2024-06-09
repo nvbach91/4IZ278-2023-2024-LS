@@ -12,6 +12,7 @@ class Character
     private $luck;
     private $stamina;
     private $last_action_time;
+    private $progression;
     private $user_id;
 
     public function __construct()
@@ -32,11 +33,12 @@ class Character
         $this->luck = $data['luck'];
         $this->stamina = $data['stamina'];
         $this->last_action_time = $data['last_action_time'];
+        $this->progression = $data['progression'];
         $this->user_id = $data['user_id'];
-    } else if ($numArgs == 12) {
+    } else if ($numArgs == 13) {
         list($this->name, $this->image, $this->class, $this->gold, $this->xp, $this->level, 
         $this->strength, $this->hitpoints, $this->luck, $this->stamina, $this->last_action_time,
-        $this->user_id) = $args;
+        $this->progression, $this->user_id) = $args;
     }
 }
 
@@ -146,6 +148,14 @@ class Character
     public function setLastActionTime($last_action_time)
     {
         $this->last_action_time = $last_action_time;
+    }
+    public function getProgression()
+    {
+        return $this->progression;
+    }
+    public function setProgression($progression)
+    {
+        $this->progression = $progression;
     }
 
     public function getUserId()

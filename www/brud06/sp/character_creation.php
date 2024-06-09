@@ -25,9 +25,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $luck = 10;
     $stamina = 100;
     $last_action_time = time();
+    $progression = 1;
     
 
-    $character = new Character($name, $image, $class, $gold, $xp, $level, $strength, $hitpoints, $luck, $stamina, $last_action_time, $userId);
+    $character = new Character($name, $image, $class, $gold, $xp, $level, $strength, $hitpoints, $luck, $stamina, $last_action_time, $progression, $userId);
     $characterDB = new CharactersDB();
     $characterDB->createCharacter($character);
     
@@ -51,17 +52,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <input type="text" id="name" name="name" required>
 
     <label>Character Image:</label>
-    <input type="radio" id="warrior1m" name="image" value="img/warior1m.jpg" required>
-    <label for="image1"><img src="img/warrior1m.jpg" height="50"></label>
+    <input type="radio" id="warrior1m" name="image" value="img/warrior1m.jpg">
+    <label for="warrior1m"><img src="img/warrior1m.jpg" height="50"></label>
 
     <input type="radio" id="warrior1f" name="image" value="img/warrior1f.jpg">
-    <label for="image2"><img src="img/warrior1f.jpg" width="50"></label>
+    <label for="warrior1f"><img src="img/warrior1f.jpg" width="50"></label>
 
     <input type="radio" id="mage1f" name="image" value="img/mage1f.jpg">
-    <label for="image3"><img src="img/mage1f.jpg" width="50"></label>
+    <label for="mage1f"><img src="img/mage1f.jpg" width="50"></label>
 
     <input type="radio" id="mage1m" name="image" value="img/mage1m.jpg">
-    <label for="image4"><img src="img/mage1m.jpg" width="50"></label>
+    <label for="mage1m"><img src="img/mage1m.jpg" width="50"></label>
 
     <input type="submit" value="Create Character">
 </form>

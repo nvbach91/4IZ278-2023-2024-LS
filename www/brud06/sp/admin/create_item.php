@@ -1,4 +1,5 @@
 <?php
+session_start();
 require '../restrictions/admin_required.php';
 require_once '../db/ItemsDB.php';
 $itemsDB = new ItemsDB();

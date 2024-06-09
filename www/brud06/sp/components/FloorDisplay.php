@@ -14,10 +14,11 @@ require_once '../classes/Monster.php';
 $floorsDB = new FloorsDB();
 $monsterDB = new MonstersDB();
 $charactersDB = new CharactersDB();
-$current_floor = 2;
+
 $character = $charactersDB->findCharacterByUserId($_SESSION['user_id']);
 $gold = $character['gold'];
 
+$current_floor = $character['progression'];
 
 $floorToBeDisplayed = $floorsDB->getFloorById($current_floor);
 $monster = $monsterDB->getMonsterById($floorToBeDisplayed['monster_id']);

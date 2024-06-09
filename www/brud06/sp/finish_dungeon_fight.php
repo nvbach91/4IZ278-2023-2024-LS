@@ -20,6 +20,7 @@ $characterXp = $character->getXp();
 $characterGold = $character->getGold();
 $characterLevel = $character->getLevel();
 $requiredXP = 150;
+$progression = $character->getProgression();
 
 // Retrieve quest's XP and gold
 $floorXp = $floor->getXp();
@@ -36,6 +37,7 @@ if (isset($_SESSION['encounter_result']) && $_SESSION['encounter_result']) {
         $character->setLevel($characterLevel + 1);
         $character->setXp($character->getXp() - $requiredXP);
     }
+    $character->setProgression($progression + 1);
     $characterDB->updateCharacter($character);
     unset($_SESSION['fight_type']);
     header('Location: components/CharacterDisplay.php');

@@ -1,5 +1,5 @@
-
-<?php 
+<?php
+session_start();
 require_once '../restrictions/admin_required.php'; 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: create_item.php');
         exit;
     } elseif (isset($_POST['editItem'])) {
-        header('Location: edit-item.php');
+        header('Location: edit_item_display.php');
         exit;
     } elseif (isset($_POST['manageUsers'])) {
         header('Location: manage_users.php');
@@ -20,8 +20,9 @@ if (isset($_SESSION['success_message'])) {
 }
 ?>
 <?php include '../includes/admin_head.php'; ?>
-<form method="POST">
+<form method="POST" class = "admin-form">
     <button type="submit" name="createItem">Create Item</button>
+    <button type="submit" name="editItem">Edit Item</button>
     <button type="submit" name="manageUsers">Manage Users</button>
 </form>
 <?php include '../includes/foot.php'; ?>

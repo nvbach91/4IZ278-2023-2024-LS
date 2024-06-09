@@ -1,27 +1,28 @@
 <?php
+session_start();
 require '../restrictions/admin_required.php';
 require_once '../db/UsersDB.php';
 $usersDB = new UsersDB();
 
 
-//if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['ban_id'])) {
-//$ban_id = $_POST['ban_id'];
-//$usersDB->banUser($ban_id);
-//}
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['back'])) {
         header('Location: admin_interface.php');
         exit;
     }
 
-    // Uncomment the following lines if you want to implement the ban functionality
-    // if (isset($_POST['ban_id'])) {
-    //     $ban_id = $_POST['ban_id'];
-    //     $usersDB->banUser($ban_id);
-    // }
+    if (isset($_POST['user_id'])) {
+        $user_id = $_POST['user_id'];
+        if (isset($_POST['ban'])) {
+            $usersDB->banUser($user_id);
+        } elseif (isset($_POST['unban'])) {
+            $usersDB->unbanUser($user_id);
+        }
+    }
 }
 
-$users = $usersDB->fetchAllUsers();
+
+$users = $usersDB->fetchRegularUsers();
 
 
 include '../includes/admin_head.php';
@@ -41,8 +42,12 @@ include '../includes/admin_head.php';
             <td><?php echo $user['email']; ?></td>
             <td>
                 <form method="post">
-                    <input type="hidden" name="ban_id" value="<?php echo $user['user_id']; ?>">
-                    <input type="submit" value="Ban">
+                    <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
+                    <?php if ($user['isBanned']) : ?>
+                        <input type="submit" name="unban" value="unban">
+                    <?php else : ?>
+                        <input type="submit" name="ban" value="ban">
+                    <?php endif; ?>
                 </form>
             </td>
         </tr>

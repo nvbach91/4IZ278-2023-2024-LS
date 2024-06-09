@@ -47,6 +47,24 @@ public function create($data)
     
         return $itemStats;
     }
+    
+    public function updateItem($itemId, $newValues)
+    {
+        $setClauses = [];
+        foreach ($newValues as $key => $value) {
+            // Ensure that all values are either strings or integers
+            if (is_array($value)) {
+                $value = implode(',', $value);
+            } elseif (is_object($value)) {
+                $value = (string) $value;
+            }
+            $setClauses[] = "$key = :$key";
+            $newValues[$key] = $value;
+        }
+        $sql = "UPDATE sp_items SET " . implode(', ', $setClauses) . " WHERE item_id = :item_id";
+        $newValues['item_id'] = $itemId;
+        $this->runQuery($sql, $newValues);
+    }
 
     public function find($conditions)
     {

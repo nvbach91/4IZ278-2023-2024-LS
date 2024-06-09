@@ -605,3 +605,8 @@ tr:nth-child(even) {
     margin: 0 auto;
     border-radius: 10px;
 }
+.admin-form button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
