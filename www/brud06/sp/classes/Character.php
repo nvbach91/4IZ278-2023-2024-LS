@@ -157,21 +157,32 @@ class Character
     {
         $this->user_id = $user_id;
     }
-public function recoverStamina() {
-    $current_time = time();
-    $time_passed = $current_time - $this->last_action_time;
-
-    // Regenerate stamina based on the time passed
-    // For example, regenerate 1 stamina point every 10 seconds
-    $stamina_to_recover = floor($time_passed / 10);
-
-    // Add the recovered stamina to the current stamina, up to the maximum
-    $this->stamina = min($this->stamina + $stamina_to_recover, 100);
-
-    // Update the last action time
-    $this->last_action_time = $current_time;
-
-    return $this->stamina;
-}
+    public function recoverStamina() {
+        $current_time = time();
+    
+        // Ensure last_action_time is numeric
+        if (!is_numeric($this->last_action_time)) {
+            $this->last_action_time = $current_time;
+        }
+    
+        $time_passed = $current_time - $this->last_action_time;
+    
+        // Regenerate stamina based on the time passed
+        // For example, regenerate 1 stamina point every 10 seconds
+        $stamina_to_recover = floor($time_passed / 10);
+    
+        // Ensure stamina is numeric
+        if (!is_numeric($this->stamina)) {
+            $this->stamina = 0;
+        }
+    
+        // Add the recovered stamina to the current stamina, up to the maximum
+        $this->stamina = min($this->stamina + $stamina_to_recover, 100);
+    
+        // Update the last action time
+        $this->last_action_time = $current_time;
+    
+        return $this->stamina;
+    }
 }
 ?>

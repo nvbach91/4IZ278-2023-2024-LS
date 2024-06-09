@@ -39,6 +39,14 @@ public function create($data)
         $result = $this->runQuery($sql, ['item_id' => $item_id]);
         return $result ? $result[0] : false;
     }
+    public function getItemStats($itemId)
+    {
+        $stmt = $this->pdo->prepare("SELECT strength, hit_points, luck FROM sp_items WHERE item_id = :item_id");
+        $stmt->execute(['item_id' => $itemId]);
+        $itemStats = $stmt->fetch();
+    
+        return $itemStats;
+    }
 
     public function find($conditions)
     {

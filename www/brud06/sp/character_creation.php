@@ -7,8 +7,6 @@ require_once 'db/CharactersDB.php';
 
 var_dump($_SESSION['user_id']);
 
-//character_pictures = []
-//character_pictures.append('img/warrior.png')
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = htmlspecialchars(trim($_POST['name']));
@@ -18,7 +16,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $image = $_POST['image'];
 
     // Define the other character attributes
-    //$image = 'img/profile-placeholder.png'; // Replace with actual image
     $class = 'Warrior';
     $gold = 10;
     $xp = 0;
@@ -27,12 +24,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hitpoints = 100;
     $luck = 10;
     $stamina = 100;
-    $last_action_time = date('Y-m-d H:i:s');
+    $last_action_time = time();
     
 
     $character = new Character($name, $image, $class, $gold, $xp, $level, $strength, $hitpoints, $luck, $stamina, $last_action_time, $userId);
     $characterDB = new CharactersDB();
-    var_dump($character); // Add this line
     $characterDB->createCharacter($character);
     
 

@@ -5,6 +5,7 @@ require_once '../restrictions/user_required.php';
 require_once '../db/CharactersDB.php';
 require_once '../db/ItemsDB.php';
 require_once '../db/InventoryDB.php';
+require_once '../classes/Character.php';
 
 
 $characterDB = new CharactersDB();
@@ -29,6 +30,10 @@ $strength = $character['strength'];
 $stamina = $character['stamina'];
 $hitpoints = $character['hitpoints'];
 $luck = $character['luck'];
+
+$characterInstance = new Character($character);
+$characterInstance-> recoverStamina();
+$characterDB->updateCharacter($characterInstance);
 ?>
 
 <!DOCTYPE html>

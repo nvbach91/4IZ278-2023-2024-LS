@@ -5,6 +5,15 @@ session_start();
 require_once '../db/CharactersDB.php';
 require_once '../db/InventoryDB.php';
 require_once '../db/ItemsDB.php';
+require_once '../classes/Character.php';
+
+// Display error message if it exists
+if (isset($_SESSION['error'])): ?>
+    <div class='error'><?php echo $_SESSION['error']; ?></div>
+    <?php unset($_SESSION['error']); ?>
+<?php endif;
+
+
 
 
 $characterDB = new CharactersDB();
@@ -19,8 +28,13 @@ $luck = $character['luck'];
 $inventoryDB = new InventoryDB();
 $inventory = $inventoryDB->getInventory($character['character_id']);
 $equippedItems = $inventoryDB->getEquippedItemsWithType($character['character_id']);
-var_dump($equippedItems);
+//var_dump($equippedItems);
 $itemsDB = new ItemsDB();
+
+$characterInstance = new Character($character);
+$characterInstance-> recoverStamina();
+$characterDB->updateCharacter($characterInstance);
+
 ?>
 
 <!DOCTYPE html>
