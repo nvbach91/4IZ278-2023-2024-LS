@@ -1,6 +1,6 @@
-import { useState, createContext, useContext, Fragment, PropsWithChildren, Dispatch, SetStateAction } from 'react';
-import { Link, InertiaLinkProps } from '@inertiajs/react';
+import { createContext, Dispatch, Fragment, PropsWithChildren, SetStateAction,useContext, useState } from 'react';
 import { Transition } from '@headlessui/react';
+import { InertiaLinkProps,Link } from '@inertiajs/react';
 
 const DropDownContext = createContext<{
     open: boolean;
@@ -83,8 +83,7 @@ const Content = ({
     );
 };
 
-const DropdownLink = ({ className = '', children, ...props }: InertiaLinkProps) => {
-    return (
+const DropdownLink = ({ className = '', children, ...props }: InertiaLinkProps) => (
         <Link
             {...props}
             className={
@@ -95,7 +94,6 @@ const DropdownLink = ({ className = '', children, ...props }: InertiaLinkProps) 
             {children}
         </Link>
     );
-};
 
 Dropdown.Trigger = Trigger;
 Dropdown.Content = Content;

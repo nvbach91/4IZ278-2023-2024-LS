@@ -1,11 +1,12 @@
-import { useState, PropsWithChildren, ReactNode } from 'react';
+import { PropsWithChildren, ReactNode, useState } from 'react';
+import { Box } from '@chakra-ui/react';
+import { Link } from '@inertiajs/react';
+
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import { Link } from '@inertiajs/react';
 import { User } from '@/types';
-import { Box } from '@chakra-ui/react';
 
 export default function Authenticated({
     user,
@@ -15,7 +16,7 @@ export default function Authenticated({
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
-        <Box minH={'100vh'} bg="gray.100">
+        <Box minH="100vh" bg="gray.100">
             <nav className="bg-white border-b border-gray-100">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">

@@ -1,9 +1,11 @@
+import { Head } from '@inertiajs/react';
+
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { PageProps } from '@/types';
+
 import DeleteUserForm from './Partials/DeleteUserForm';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm';
-import { Head } from '@inertiajs/react';
-import { PageProps } from '@/types';
 
 export default function Edit({
     auth,

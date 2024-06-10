@@ -1,11 +1,12 @@
-import { useEffect, FormEventHandler } from 'react';
+import { FormEventHandler,useEffect } from 'react';
+import { Head, Link, useForm } from '@inertiajs/react';
+
 import Checkbox from '@/Components/Checkbox';
-import GuestLayout from '@/Layouts/GuestLayout';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
-import { Head, Link, useForm } from '@inertiajs/react';
+import GuestLayout from '@/Layouts/GuestLayout';
 
 export default function Login({ status, canResetPassword }: { status?: string; canResetPassword: boolean }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -14,11 +15,9 @@ export default function Login({ status, canResetPassword }: { status?: string; c
         remember: false,
     });
 
-    useEffect(() => {
-        return () => {
+    useEffect(() => () => {
             reset('password');
-        };
-    }, []);
+        }, []);
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();

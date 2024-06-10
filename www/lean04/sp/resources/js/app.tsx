@@ -1,23 +1,24 @@
 import './bootstrap';
-import '../css/app.css';
 
 import { createRoot } from 'react-dom/client';
+import { ChakraProvider } from '@chakra-ui/react';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import { ChakraProvider } from '@chakra-ui/react';
+
+import '../css/app.css';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
-createInertiaApp({
+void createInertiaApp({
     title: (title) => `${title} - ${appName}`,
-    resolve: (name) => resolvePageComponent(`./Pages/${name}.tsx`, import.meta.glob('./Pages/**/*.tsx')),
+    resolve: async (name) => resolvePageComponent(`./Pages/${name}.tsx`, import.meta.glob('./Pages/**/*.tsx')),
     setup({ el, App, props }) {
         const root = createRoot(el);
 
         root.render(
             <ChakraProvider>
                 <App {...props} />
-            </ChakraProvider>
+            </ChakraProvider>,
         );
     },
     progress: {
