@@ -1,9 +1,3 @@
-<?php 
-
-
-
-?>
-
 <nav class="navbar">
         <div class="navbar-container">
             <img class="logo" src="./img/logo2.jpg" alt="logo">
@@ -21,6 +15,9 @@
                     <?php if (isset($_COOKIE['email'])) { ?>
                         <li class="navbar-item">
                             <a class="nav-link" href="cart.php">Cart</a>
+                        </li>
+                        <li class="navbar-item">
+                            <a class="nav-link" href="wishlist.php">Wishlist</a>
                         </li>
                         <li class="navbar-item">
                             <a class="nav-link" href="../Controller/logout.php">Logout</a>

@@ -11,7 +11,11 @@ $usermMail = $_COOKIE['email'];
 
 
 if (!empty($_SESSION['cart'])) {
+
+    $productDB = new ProductDB();
+    $orderDB = new OrderDB();
     $userDB = new UserDB();
+
     $userID = array_values($userDB->findUserIDByEmail($usermMail)[0])[0];
     var_dump($userID);
     $order = [
@@ -19,21 +23,32 @@ if (!empty($_SESSION['cart'])) {
         'user_id' => "$userID",
     ];
 
-    $orderDB = new OrderDB();
-    $orderDB->createOrder($order);
+    $lastId = $orderDB->createOrder($order);
+
+    $products = [];
+
+    foreach ($_SESSION['cart'] as $productId) {
+        $product = $productDB->find('products', 'product_id', $productId)[0];
+        array_push($products, $product);
+    }
+
+    foreach ($products as $product) {
+        $orderDB->insertOrderProducts($lastId, $product);
+    }
+
     $_SESSION['cart'] = [];
     
-    $subject = 'the subject';
-    $message = 'hello';
-    $headers = 'From: webmaster@example.com' . "\r\n" .
-    'Reply-To: webmaster@example.com' . "\r\n" .
-    'X-Mailer: PHP/' . phpversion();
+    // $subject = 'the subject';
+    // $message = 'hello';
+    // $headers = 'From: webmaster@example.com' . "\r\n" .
+    // 'Reply-To: webmaster@example.com' . "\r\n" .
+    // 'X-Mailer: PHP/' . phpversion();
 
-    $success = mail('patrik.talkner@seznam.cz', $subject, $message, $headers);
-    if (!$success) {
-        $errorMessage = error_get_last()['message'];
-        var_dump($errorMessage);
-    }
+    // $success = mail('patrik.talkner@seznam.cz', $subject, $message, $headers);
+    // if (!$success) {
+    //     $errorMessage = error_get_last()['message'];
+    //     var_dump($errorMessage);
+    // }
 
     //mail('patrik.talkner@seznam.cz', $subject, $message, $headers);
 

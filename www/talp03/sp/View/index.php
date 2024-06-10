@@ -30,12 +30,13 @@ require '../Controller/home.php';
                             <h5 class="product-name"><?php echo $product['name']; ?></h5>
                             <p class="product-description"><?php echo $product['description']; ?></p>
                             <div class="product-bodyend">
-                                <a href="../Controller/buyController.php?product_id=<?php echo $product['product_id']; ?>" class="product-button">Buy</a>
+                                <a href="../Controller/addToWishlist.php?product_id=<?php echo $product['product_id']; ?>" class="product-button">Wishlist</a>
                                 <p class="product-price"><?php echo $product['price'] . ' Kč'; ?></p>
                             </div>
                             <?php if (isset($userPrivilige) && $userPrivilige >= 1) { ?>
                                     <a href="edit-product.php?product_id=<?php echo $product['product_id']; ?>" class="edit-button">Edit Product</a>
                             <?php } ?>
+                            <a href="../Controller/buyController.php?product_id=<?php echo $product['product_id']; ?>" class="edit-button">Buy</a>
                         </div>
                     </div>
                     <?php endforeach; ?>

@@ -7,7 +7,7 @@ class ProductDB extends Database {
     public function findAll() {
         $statement = $this->pdo->prepare('SELECT * FROM products');
         $statement->execute();
-        return $statement->fetchAll();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function updateProduct($data) {
@@ -35,20 +35,14 @@ class ProductDB extends Database {
         $statement = $this->pdo->prepare('SELECT * FROM products WHERE category_id = :category_id');
         $statement->bindValue(':category_id', $category, PDO::PARAM_INT);
         $statement->execute();
-        return $statement->fetchAll();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function findId($id) {
         $statement = $this->pdo->prepare('SELECT product_id FROM products WHERE product_id = :product_id');
         $statement->bindValue(':product_id', $id, PDO::PARAM_INT);
         $statement->execute();
-        return $statement->fetchAll();
-    }
-
-    public function getPriceSum($question_marks) {
-        $statement = $this->pdo->prepare("SELECT SUM(price) FROM products WHERE product_id IN ($question_marks)");
-        $statement->execute();
-        return $statement->fetchAll();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 

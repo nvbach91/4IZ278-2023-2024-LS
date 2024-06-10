@@ -1,6 +1,7 @@
 <?php
 
 require '../Controller/loginController.php';
+require '../Controller/oauthController.php';
 
 ?>
 
@@ -16,6 +17,9 @@ require '../Controller/loginController.php';
         </div>
         <button type="submit" class="register-button">Login</button>
     </form>
+    <div class="user-container">
+        <a href="https://github.com/login/oauth/authorize?client_id=<?php echo $_ENV['CLIENT_ID']; ?>&scope=user">Login with Github</a>
+    </div>
     <?php include './includes/footer.php'; ?>
 </body>
 </html>

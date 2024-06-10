@@ -14,14 +14,14 @@ class UserDB extends Database {
         $statement = $this->pdo->prepare('SELECT user_id FROM users WHERE email = :email');
         $statement->bindValue(':email', $email, PDO::PARAM_STR);
         $statement->execute();
-        return $statement->fetchAll();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function findUserIDByEmail($email) {
         $statement = $this->pdo->prepare('SELECT user_id FROM users WHERE email = :email');
         $statement->bindValue(':email', $email, PDO::PARAM_STR);
         $statement->execute();
-        return $statement->fetchAll();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function changePrivilege($data) {
