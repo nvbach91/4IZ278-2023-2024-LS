@@ -3,7 +3,6 @@
 session_start();
 require '../Model/OrderDB.php';
 require '../Model/ProductDB.php';
-require '../Model/ProductOrderDB.php';
 require '../Model/UserDB.php';
 
 $priceSum = $_GET['price'];

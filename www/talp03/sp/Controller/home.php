@@ -1,24 +1,28 @@
 <?php
 
-require_once '../Model/UserDB.php';
 require '../Model/ProductDB.php';
 require '../Model/CategoryDB.php';
 
-$userDB = new UserDB();
-$users = $userDB->findAll();
+$productsDB = new ProductDB();
 
-$userPrivilige;
+$nItems = $productsDB->countProducts();
+$nItemsPerPagination = 9;
 
-if (isset($_COOKIE['email'])) {
-    $user = $userDB->find('users', 'email', $_COOKIE['email'])[0];
-    $userPrivilige = $user['privilege'];
+$nPaginations = ceil($nItems / $nItemsPerPagination);
+$nItemsOnLastPagination = $nItems %  $nItemsPerPagination;
+
+if (isset($_GET['page'])) {
+    $page = $_GET['page'];
+} else {
+    $page = 1;
 }
 
-$productsDB = new ProductDB();
+$offset = ($page - 1) * $nItemsPerPagination;
+
 if (isset($_GET['category_id'])) {
-    $products = $productsDB->findByCategory($_GET['category_id']);
+    $itemsPerPage = $productsDB->fetchItemsPageByCategory($offset, $nItemsPerPagination, $_GET['category_id']);
 } else {
-    $products = $productsDB->findAll();
+    $itemsPerPage = $productsDB->fetchItemsPage($offset, $nItemsPerPagination);
 }
 
 $categoryDB = new CategoryDB();

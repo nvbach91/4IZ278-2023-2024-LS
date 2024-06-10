@@ -22,6 +22,7 @@ require '../Controller/editProductPage.php';
             <input type="url" class="form-control" name="img" value="<?php echo $product['img']; ?>">
             <label for="category">Category</label>
             <input type="number" class="form-control" name="category_id" value="<?php echo $product['category_id']; ?>">
+            <input type="hidden" class="form-control" name="last_updated" value="<?php echo $product['last_updated']; ?>">
         </div>
         <button type="submit" class="edit-button">Save changes</button>
     </form>

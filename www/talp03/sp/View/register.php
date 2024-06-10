@@ -7,6 +7,13 @@ require '../Controller/registration.php';
 <?php include './includes/head.php'; ?>
 <body>
     <?php require './includes/navbar.php'; ?>
+    <?php if (!empty($errors)): ?>
+        <div class="form-errors">
+            <?php foreach($errors as $error): ?>
+                <p class="form-error"><?php echo $error; ?></p>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="form">
         <div class="form-group">
             <label for="name">Enter name</label>

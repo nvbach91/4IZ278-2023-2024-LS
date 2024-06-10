@@ -11,7 +11,7 @@ class UserDB extends Database {
     }
 
     public function getPrivilege($email) {
-        $statement = $this->pdo->prepare('SELECT user_id FROM users WHERE email = :email');
+        $statement = $this->pdo->prepare('SELECT privilege FROM users WHERE email = :email');
         $statement->bindValue(':email', $email, PDO::PARAM_STR);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -24,10 +24,10 @@ class UserDB extends Database {
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function changePrivilege($data) {
+    public function changePrivilege($userId, $privilege) {
         $statement = $this->pdo->prepare('UPDATE users SET privilege = :privilege WHERE user_id = :user_id');
-        $statement->bindValue(':privilege', $data['privilege'], PDO::PARAM_INT);
-        $statement->bindValue(':user_id', $data['user_id'], PDO::PARAM_INT);
+        $statement->bindValue(':privilege', $privilege, PDO::PARAM_INT);
+        $statement->bindValue(':user_id', $userId, PDO::PARAM_INT);
         $statement->execute();
     }
 

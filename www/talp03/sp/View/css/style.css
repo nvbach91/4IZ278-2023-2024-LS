@@ -39,11 +39,41 @@ main {
     align-items: center;
 }
 
-.product-container {
+.main-container {
     display: flex;
     height: 100%;
     width: 100%;
     align-items: center;
+}
+
+.products-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+}
+
+.pagination {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+}
+
+.pagination a {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color: black;
+    margin: 0px 3px 0px 3px;
+    text-decoration: none;
+    width: 30px;
+    height: 30px;
+    align-content: center;
+    align-self: center;
+    text-align: center;
+    border-radius: 3px;
 }
 
 .navbar-container {
@@ -175,6 +205,7 @@ main {
     background-color: black;
     text-decoration: none;
     font-size: 20px;
+    border-radius: 3px;
     width: 70px;
     height: 30px;
     align-content: center;
@@ -241,7 +272,7 @@ label {
     flex-grow: 1;
 }
 
-.order {
+.order-info {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -262,9 +293,13 @@ label {
     height: 40px;
     align-content: center;
     text-align: center;
-    margin: 13px 0px 13px 0px;
+    margin: 10px 0px 10px 0px;
     border-radius: 3px;
     align-self: center;
+}
+
+.delete {
+    background-color: rgb(201, 2, 2);
 }
 
 .create-button {
@@ -291,4 +326,66 @@ label {
 .user-form {
     display: flex;
     flex-direction: row;
+}
+
+.order {
+    display: flex;
+    border: black solid 2px;
+    padding: 10px;
+    max-width: 63%;
+    margin-bottom: 10px;
+}
+
+.order-body{
+    display: flex;
+    flex-direction: row;
+    align-content: space-around;
+}
+
+.order-bodystart {
+    display: flex;
+    flex-direction: column;
+}
+
+.order-id {
+    margin-bottom: 15px;
+    font-size: 20px;
+    margin-right: 280px;
+}
+
+.order-price {
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.order-bodyend {
+    display: flex;
+    flex-direction: column;
+    justify-self: flex-end;
+    align-self: flex-end;
+    height: 100%;
+    align-self: center;
+}
+
+.delete-product {
+    justify-content: center;
+}
+
+.verify-buttons {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.verify-buttons p{
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
 }
