@@ -1,12 +1,14 @@
 <?php
-class User {
+class User
+{
     private $username;
     private $id;
     private $password;
     private $privilege;
     private $isBanned;
 
-    public function __construct($id, $username, $password, $privilege, $isBanned) {
+    public function __construct($id, $username, $password, $privilege, $isBanned)
+    {
         $this->id = $id;
         $this->username = $username;
         $this->password = $password;
@@ -14,44 +16,53 @@ class User {
         $this->isBanned = $isBanned;
     }
 
-    public function getUsername() {
+    public function getUsername()
+    {
         return $this->username;
     }
 
-    public function setUsername($username) {
+    public function setUsername($username)
+    {
         $this->username = $username;
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
     }
 
-    public function getPassword() {
+    public function getPassword()
+    {
         return $this->password;
     }
 
-    public function setPassword($password) {
+    public function setPassword($password)
+    {
         $this->password = $password;
     }
 
-    public function getPrivilege() {
+    public function getPrivilege()
+    {
         return $this->privilege;
     }
 
-    public function setPrivilege($privilege) {
+    public function setPrivilege($privilege)
+    {
         $this->privilege = $privilege;
     }
 
-    public function getIsBanned() {
+    public function getIsBanned()
+    {
         return $this->isBanned;
     }
 
-    public function setIsBanned($isBanned) {
+    public function setIsBanned($isBanned)
+    {
         $this->isBanned = $isBanned;
     }
 }
-?>

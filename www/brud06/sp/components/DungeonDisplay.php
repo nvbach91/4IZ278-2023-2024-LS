@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+require_once '../restrictions/user_required_for_components.php';
+require_once '../restrictions/character_required.php';
 require_once '../db/CharactersDB.php';
 require_once '../db/DungeonsDB.php';
 require_once '../classes/Character.php';
@@ -11,6 +13,7 @@ $character = $characterDB->findCharacterByUserId($_SESSION['user_id']);
 $dungeonsDB = new DungeonsDB();
 $forrestDungeonData = $dungeonsDB->getDungeonById(1);
 $forrestDungeon = new Dungeon($forrestDungeonData);
+$forrestDungeonFloors = 2;
 
 
 
@@ -18,6 +21,7 @@ $forrestDungeon = new Dungeon($forrestDungeonData);
 
 $gold = $character['gold'];
 $level = $character['level'];
+$progression = $character['progression'];
 $level_requirement = $forrestDungeon->getMinLvl()
 
 ?>
@@ -52,12 +56,14 @@ $level_requirement = $forrestDungeon->getMinLvl()
                 <img src="../<?php echo $forrestDungeonData['image'] ?>" alt="ForrestDungeonImage">
                 <h2><?php echo $forrestDungeon->getName() ?></h2>
                 <p><?php echo $forrestDungeon->getDescription() ?></p>
-                <?php if ($level >= $level_requirement) : ?>
+                <?php if ($level < $level_requirement) : ?>
+                    <button class="enter-dungeon" disabled>Level 10 required to enter</button>
+                <?php elseif ($progression > $forrestDungeonFloors) : ?>
+                    <button class="enter-dungeon" disabled>You've completed all the floors</button>
+                <?php else : ?>
                     <form action="./FloorDisplay.php" method="post">
                         <button class="enter-dungeon" type="submit">Enter</button>
                     </form>
-                <?php else : ?>
-                    <button class="enter-dungeon" disabled>Level 10 required to enter</button>
                 <?php endif; ?>
             </div>
             <div class="dungeon-card">

@@ -7,10 +7,12 @@ $authResult = null;
 require_once 'db/UsersDB.php';
 $userDB = new UsersDB();
 
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
-    // Add your validations here
+    
     $user = $userDB->findUser($email);
 
     if ($user === null) {
@@ -32,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         
     } else {
-        $messageForUser = "Incorrect password!";
+        $messageForUser = "Password is incorrect!";
     }
     unset($_GET['message']);
 }
@@ -48,6 +50,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h2><?php echo $message; ?></h2>
         </div>
     <?php } ?>
+
+    <?php if (!empty($messageForUser)): ?>
+        <div class="alert alert-info">
+            <h3><?php echo $messageForUser; ?></h3>
+        </div>
+    <?php endif; ?>
+
     <h1>Login</h1>
     <form class="form-signup" method="POST">
         <div class="form-group">

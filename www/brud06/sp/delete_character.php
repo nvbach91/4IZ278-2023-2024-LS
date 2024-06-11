@@ -13,6 +13,8 @@ $character = $characterDB->findCharacterByUserId($_SESSION['user_id']);
 $inventoryDB->deleteCharacterInventory($character['character_id']);
 $characterDB->deleteCharacter($character['character_id']);
 
+unset($_SESSION['character_id']);
+
 header('Location: character_selection.php');
 
 

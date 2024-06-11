@@ -4,7 +4,6 @@ require_once 'database.php';
 class InventoryDB extends Database
 {
 
-
     function addItemToInventory($character_id, $item_id)
     {
         $sql = "INSERT INTO sp_inventory (character_id, item_id, is_equipped) VALUES (:character_id, :item_id, false)";
@@ -25,10 +24,9 @@ class InventoryDB extends Database
     function deleteCharacterInventory($characterId)
     {
         $sql = "DELETE FROM sp_inventory WHERE character_id = :character_id";
-        $stmt = $this->pdo->prepare($sql);
-        $result = $stmt->execute(['character_id' => $characterId]);
-        return $result !== false;
+        return $this->runQuery($sql, ['character_id' => $characterId]);
     }
+    //Do not touch, somehow works
     function equipItem($itemId)
     {
         // Get the item type
@@ -53,9 +51,7 @@ class InventoryDB extends Database
     function unequipItem($itemId)
     {
         $sql = "UPDATE sp_inventory SET equipped = FALSE WHERE item_id = :item_id";
-        $stmt = $this->pdo->prepare($sql);
-        $result = $stmt->execute(['item_id' => $itemId]);
-        return $result !== false;
+        return $this->runQuery($sql, ['item_id' => $itemId]);
     }
     public function getEquippedItems($characterId)
     {
@@ -124,6 +120,23 @@ class InventoryDB extends Database
         return $equippedItems;
     }
 
+    function getInventoryCount($character_id)
+    {
+        $sql = "SELECT COUNT(*) FROM sp_inventory WHERE character_id = :character_id AND is_equipped = 0";
+
+        $stmt = $this->pdo->prepare($sql);
+
+        $stmt->execute(['character_id' => $character_id]);
+        $count = $stmt->fetchColumn();
+
+        return $count;
+    }
+    public function getItemsByCharacterId($characterId)
+    {
+        $sql = "SELECT * FROM sp_inventory WHERE character_id = :character_id";
+        $params = ['character_id' => $characterId];
+        return $this->runQuery($sql, $params);
+    }
 
 
 

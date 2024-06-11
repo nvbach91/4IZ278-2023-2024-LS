@@ -3,7 +3,6 @@ session_start();
 require_once '../classes/MonsterEncounter.php';
 require_once '../db/CharactersDB.php';
 require_once '../db/MonstersDB.php';
-//require_once '../restrictions/user_required.php';
 
 // Check if character_id and monster_id are in the session
 if (!isset($_SESSION['character_id'], $_SESSION['monster_id'])) {

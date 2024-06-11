@@ -1,17 +1,24 @@
 <?php
 
 session_start();
-require_once '../restrictions/user_required.php';
+require_once '../restrictions/user_required_for_components.php';
+require_once '../restrictions/character_required.php';
 require_once '../db/CharactersDB.php';
 require_once '../db/ItemsDB.php';
 require_once '../db/InventoryDB.php';
 require_once '../classes/Character.php';
 
+if (isset($_SESSION['blacksmith_message'])) {
+    $blacksmithMessage = $_SESSION['blacksmith_message'];
+    unset($_SESSION['blacksmith_message']);
+} else {
+    $blacksmithMessage = null;
+}
+
 
 $characterDB = new CharactersDB();
 $character = $characterDB->findCharacterByUserId($_SESSION['user_id']);
 $itemsDB = new ItemsDB();
-//$randomItems = $itemsDB->getRandomItems(6);
 // Check if there are already blacksmith items in the session
 if (isset($_SESSION['blacksmith_items'])) {
     // Use the blacksmith items from the session
@@ -32,7 +39,7 @@ $hitpoints = $character['hitpoints'];
 $luck = $character['luck'];
 
 $characterInstance = new Character($character);
-$characterInstance-> recoverStamina();
+$characterInstance->recoverStamina();
 $characterDB->updateCharacter($characterInstance);
 ?>
 
@@ -48,6 +55,11 @@ $characterDB->updateCharacter($characterInstance);
 </head>
 
 <body>
+<?php if ($blacksmithMessage !== null) : ?>
+    <div class="message">
+        <?php echo $blacksmithMessage; ?>
+    </div>
+<?php endif; ?>
     <div class="wrapper">
         <aside>
             <nav>
@@ -85,7 +97,7 @@ $characterDB->updateCharacter($characterInstance);
                                     <li>Strength: <?php echo $strength; ?> <button class='increaseStat'>+</button></li>
                                     <li class="smallText">Damage</li>
                                 </div>
-                
+
                                 <div class="attribute">
                                     <li>HitPoints: <?php echo $hitpoints; ?> <button class='increaseStat'>+</button></li>
                                     <li class="smallText">Hit Point</li>
@@ -131,10 +143,10 @@ $characterDB->updateCharacter($characterInstance);
                             <?php endif; ?>
                         </div>
                         <div class="item-card">
-                            <!-- Ring goes here -->
+                            <!-- Trinket goes here -->
                             <?php if ($equippedItems['Trinket'] !== null) : ?>
                                 <?php $trinket = $itemsDB->getItemDetails($equippedItems['Trinket']['item_id']); ?>
-                                <img class = "item-img" src="../<?php echo $trinket['image']; ?>" alt="Ring Image" id="ringImage">
+                                <img class="item-img" src="../<?php echo $trinket['image']; ?>" alt="Ring Image" id="ringImage">
                                 <h3 class="item-name"><?php echo $trinket['name']; ?></h3>
                                 <div class="item-stats">
                                     <p>Strength: <?php echo $trinket['strength']; ?></p>
@@ -148,7 +160,7 @@ $characterDB->updateCharacter($characterInstance);
                             <!-- Boots go here -->
                             <?php if ($equippedItems['Legs'] !== null) : ?>
                                 <?php $boots = $itemsDB->getItemDetails($equippedItems['Legs']['item_id']); ?>
-                                <img class = "item-img" src="../<?php echo $boots['image']; ?>" alt="Boots Image" id="bootsImage">
+                                <img class="item-img" src="../<?php echo $boots['image']; ?>" alt="Boots Image" id="bootsImage">
                                 <h3 class="item-name"><?php echo $boots['name']; ?></h3>
                                 <div class="item-stats">
                                     <p>Strength: <?php echo $boots['strength']; ?></p>
@@ -201,7 +213,7 @@ $characterDB->updateCharacter($characterInstance);
                                         <p>Luck: <?php echo $item['luck']; ?></p>
                                     </div>
                                 </div>
-                                
+
                             <?php endforeach; ?>
                         </div>
                     </div>
@@ -217,14 +229,14 @@ $characterDB->updateCharacter($characterInstance);
         </div>
     </div>
     <div id="inventoryActionDialog" class="confirm-dialog-hidden">
-    <div class="confirm-dialog-content">
-        <p id="inventoryActionDialogText"></p>
-        <button id="inventoryActionDialogEquip">Equip</button>
-        <button id="inventoryActionDialogSell">Sell</button>
-        <button id="inventoryActionDialogCancel">Cancel</button>
-    </div>
+        <div class="confirm-dialog-content">
+            <p id="inventoryActionDialogText"></p>
+            <button id="inventoryActionDialogEquip">Equip</button>
+            <button id="inventoryActionDialogSell">Sell</button>
+            <button id="inventoryActionDialogCancel">Cancel</button>
+        </div>
 
-</div>
+    </div>
     <script src="../js/script.js"></script>
 </body>
 

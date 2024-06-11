@@ -2,10 +2,11 @@
 session_start();
 
 
+require_once 'restrictions/user_required.php';
 require_once 'classes/Character.php';
 require_once 'db/CharactersDB.php';
 
-var_dump($_SESSION['user_id']);
+//var_dump($_SESSION['user_id']);
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -27,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $last_action_time = time();
     $progression = 1;
     
-
+    // Create the character
     $character = new Character($name, $image, $class, $gold, $xp, $level, $strength, $hitpoints, $luck, $stamina, $last_action_time, $progression, $userId);
     $characterDB = new CharactersDB();
     $characterDB->createCharacter($character);

@@ -1,8 +1,7 @@
 <?php
-//session_start();
 
 if (!isset($_SESSION['name'])) {
-    header('Location: login.php');
+    header('Location: login.php?message=Please+log+in+first');
     exit;
 }
 ?>

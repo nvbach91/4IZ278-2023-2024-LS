@@ -16,11 +16,24 @@ $characterData = $characterDB->findCharacterByUserId($_SESSION['user_id']);
 $character = new Character($characterData);
 $gold = $character->getGold();
 
+$inventoryCount = $inventoryDB->getInventoryCount($characterData['character_id']);
+
+$isFull = $inventoryCount >= 6;
+
 if (isset($_SESSION['item_name'])) {
     $itemName = $_SESSION['item_name'];
     $item = $itemsDB->findByName($itemName);
 
-    if ($gold >= $item['price_to_buy']) {
+    $ownedItems = $inventoryDB->getItemsByCharacterId($characterData['character_id']);
+    $isOwned = in_array($item['item_id'], array_column($ownedItems, 'item_id'));
+
+    if ($gold < $item['price_to_buy']) {
+        $_SESSION['blacksmith_message'] = "Not enough gold!";
+    } elseif ($isFull) {
+        $_SESSION['blacksmith_message'] = "Inventory is full!";
+    }      elseif ($isOwned) {
+            $_SESSION['blacksmith_message'] = "You already possess this item!";
+    } else {
         $inventoryDB->addItemToInventory($characterData['character_id'], $item['item_id']);
         $gold -= $item['price_to_buy'];
         $character->setGold($gold);
@@ -31,12 +44,8 @@ if (isset($_SESSION['item_name'])) {
         if ($key !== false) {
             unset($_SESSION['blacksmith_items'][$key]);
         }
-        
-        header('Location: components/CharacterDisplay.php');
+
+        header('Location: components/BlacksmithDisplay.php');
         exit();
     }
-    else {
-        echo "Not enough gold!";
-    }
-
 }

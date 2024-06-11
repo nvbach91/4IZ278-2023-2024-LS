@@ -16,31 +16,33 @@ class Character
     private $user_id;
 
     public function __construct()
-{
-    $args = func_get_args();
-    $numArgs = func_num_args();
+    {
+        $args = func_get_args();
+        $numArgs = func_num_args();
 
-    if ($numArgs == 1 && is_array($args[0])) {
-        $data = $args[0];
-        $this->name = $data['name'];
-        $this->image = $data['image'];
-        $this->class = $data['class'];
-        $this->gold = $data['gold'];
-        $this->xp = $data['xp'];
-        $this->level = $data['level'];
-        $this->strength = $data['strength'];
-        $this->hitpoints = $data['hitpoints'];
-        $this->luck = $data['luck'];
-        $this->stamina = $data['stamina'];
-        $this->last_action_time = $data['last_action_time'];
-        $this->progression = $data['progression'];
-        $this->user_id = $data['user_id'];
-    } else if ($numArgs == 13) {
-        list($this->name, $this->image, $this->class, $this->gold, $this->xp, $this->level, 
-        $this->strength, $this->hitpoints, $this->luck, $this->stamina, $this->last_action_time,
-        $this->progression, $this->user_id) = $args;
+        if ($numArgs == 1 && is_array($args[0])) {
+            $data = $args[0];
+            $this->name = $data['name'];
+            $this->image = $data['image'];
+            $this->class = $data['class'];
+            $this->gold = $data['gold'];
+            $this->xp = $data['xp'];
+            $this->level = $data['level'];
+            $this->strength = $data['strength'];
+            $this->hitpoints = $data['hitpoints'];
+            $this->luck = $data['luck'];
+            $this->stamina = $data['stamina'];
+            $this->last_action_time = $data['last_action_time'];
+            $this->progression = $data['progression'];
+            $this->user_id = $data['user_id'];
+        } else if ($numArgs == 13) {
+            list(
+                $this->name, $this->image, $this->class, $this->gold, $this->xp, $this->level,
+                $this->strength, $this->hitpoints, $this->luck, $this->stamina, $this->last_action_time,
+                $this->progression, $this->user_id
+            ) = $args;
+        }
     }
-}
 
     public function getName()
     {
@@ -167,32 +169,31 @@ class Character
     {
         $this->user_id = $user_id;
     }
-    public function recoverStamina() {
+    public function recoverStamina()
+    {
         $current_time = time();
-    
+
         // Ensure last_action_time is numeric
         if (!is_numeric($this->last_action_time)) {
             $this->last_action_time = $current_time;
         }
-    
+
         $time_passed = $current_time - $this->last_action_time;
-    
+
         // Regenerate stamina based on the time passed
-        // For example, regenerate 1 stamina point every 10 seconds
         $stamina_to_recover = floor($time_passed / 10);
-    
+
         // Ensure stamina is numeric
         if (!is_numeric($this->stamina)) {
             $this->stamina = 0;
         }
-    
+
         // Add the recovered stamina to the current stamina, up to the maximum
         $this->stamina = min($this->stamina + $stamina_to_recover, 100);
-    
+
         // Update the last action time
         $this->last_action_time = $current_time;
-    
+
         return $this->stamina;
     }
 }
-?>

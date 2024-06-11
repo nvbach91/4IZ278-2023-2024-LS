@@ -1,5 +1,6 @@
 <?php
-class Quest {
+class Quest
+{
     private $id;
     private $xp;
     private $gold;
@@ -7,10 +8,11 @@ class Quest {
     private $stamina_cost;
     private $monster_id;
 
-    public function __construct() {
+    public function __construct()
+    {
         $args = func_get_args();
         $numArgs = func_num_args();
-    
+
         if ($numArgs == 1 && is_array($args[0])) {
             $data = $args[0];
             $this->id = $data['quest_id'];
@@ -24,52 +26,63 @@ class Quest {
         }
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
     }
 
-    public function getXp() {
+    public function getXp()
+    {
         return $this->xp;
     }
 
-    public function setXp($xp) {
+    public function setXp($xp)
+    {
         $this->xp = $xp;
     }
 
-    public function getGold() {
+    public function getGold()
+    {
         return $this->gold;
     }
 
-    public function setGold($gold) {
+    public function setGold($gold)
+    {
         $this->gold = $gold;
     }
 
-    public function getDescription() {
+    public function getDescription()
+    {
         return $this->description;
     }
 
-    public function setDescription($description) {
+    public function setDescription($description)
+    {
         $this->description = $description;
     }
 
-    public function getStaminaCost() {
+    public function getStaminaCost()
+    {
         return $this->stamina_cost;
     }
 
-    public function setStaminaCost($stamina_cost) {
+    public function setStaminaCost($stamina_cost)
+    {
         $this->stamina_cost = $stamina_cost;
     }
 
-    public function getMonsterId() {
+    public function getMonsterId()
+    {
         return $this->monster_id;
     }
 
-    public function setMonsterId($monster_id) {
+    public function setMonsterId($monster_id)
+    {
         $this->monster_id = $monster_id;
     }
 }
-?>

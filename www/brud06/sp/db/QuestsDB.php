@@ -5,17 +5,14 @@ class QuestsDB extends Database
 
     function getRandomQuests($limit)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM sp_quests ORDER BY RAND() LIMIT :limit");
-        $stmt->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $results = $this->runQuery("SELECT * FROM sp_quests ORDER BY RAND() LIMIT :limit", ['limit' => $limit]);
+        return $results;
     }
+
     function getQuestById($quest_id)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM sp_quests WHERE quest_id = :quest_id");
-        $stmt->bindValue(':quest_id', (int) $quest_id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $results = $this->runQuery("SELECT * FROM sp_quests WHERE quest_id = :quest_id", ['quest_id' => $quest_id]);
+        return $results ? $results[0] : false;
     }
 
     function create($attribute)
@@ -34,8 +31,4 @@ class QuestsDB extends Database
     {
         //empty
     }
-
-
-
-
 }

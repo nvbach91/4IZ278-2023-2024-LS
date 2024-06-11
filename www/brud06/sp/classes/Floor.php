@@ -1,5 +1,6 @@
 <?php
-class Floor {
+class Floor
+{
     private $floor_id;
     private $number;
     private $xp;
@@ -8,10 +9,11 @@ class Floor {
     private $dungeon_id;
 
 
-    public function __construct() {
+    public function __construct()
+    {
         $args = func_get_args();
         $numArgs = func_num_args();
-    
+
         if ($numArgs == 1 && is_array($args[0])) {
             $data = $args[0];
             $this->floor_id = $data['floor_id'];
@@ -25,44 +27,53 @@ class Floor {
         }
     }
 
-    public function getFloor() {
+    public function getFloor()
+    {
         return $this->floor_id;
     }
 
-    public function setFloor($floor) {
+    public function setFloor($floor)
+    {
         $this->floor_id = $floor;
     }
 
-    public function getMonsterId() {
+    public function getMonsterId()
+    {
         return $this->monster_id;
     }
 
-    public function setMonsterId($monster_id) {
+    public function setMonsterId($monster_id)
+    {
         $this->monster_id = $monster_id;
     }
 
-    public function getDungeonId() {
+    public function getDungeonId()
+    {
         return $this->dungeon_id;
     }
 
-    public function setDungeonId($dungeon_id) {
+    public function setDungeonId($dungeon_id)
+    {
         $this->dungeon_id = $dungeon_id;
     }
 
-    public function getXp() {
+    public function getXp()
+    {
         return $this->xp;
     }
 
-    public function setXp($xp) {
+    public function setXp($xp)
+    {
         $this->xp = $xp;
     }
 
-    public function getGold() {
+    public function getGold()
+    {
         return $this->gold;
     }
 
-    public function setGold($gold) {
+    public function setGold($gold)
+    {
         $this->gold = $gold;
     }
 }
-?>

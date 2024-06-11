@@ -26,4 +26,4 @@ if ($character) {
     <button onclick="location.href='character_creation.php'">Create Character</button>
 <?php endif; ?>
 
-<script src="./JS/script.js"></script>
+<script src="./js/script.js"></script>

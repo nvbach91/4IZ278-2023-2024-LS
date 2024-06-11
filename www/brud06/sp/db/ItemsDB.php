@@ -3,30 +3,27 @@ require_once 'database.php';
 class ItemsDB extends Database
 {
 
-public function create($data)
-{
-    $sql = "INSERT INTO sp_items (name, image, strength, hitpoints, luck, equipment_type, price_to_buy, price_to_sell) VALUES (:name, :image, :strength, :hitpoints, :luck, :equipment_type, :price_to_buy, :price_to_sell)";
-    $this->runQuery($sql, [
-        'name' => $data['name'],
-        'image' => $data['image'],
-        'strength' => $data['strength'],
-        'hitpoints' => $data['hitpoints'],
-        'luck' => $data['luck'],
-        'equipment_type' => $data['equipment_type'],
-        'price_to_buy' => $data['price_to_buy'],
-        'price_to_sell' => $data['price_to_sell']
-    ]);
-}
-
+    public function create($data)
+    {
+        $sql = "INSERT INTO sp_items (name, image, strength, hitpoints, luck, equipment_type, price_to_buy, price_to_sell) VALUES (:name, :image, :strength, :hitpoints, :luck, :equipment_type, :price_to_buy, :price_to_sell)";
+        $this->runQuery($sql, [
+            'name' => $data['name'],
+            'image' => $data['image'],
+            'strength' => $data['strength'],
+            'hitpoints' => $data['hitpoints'],
+            'luck' => $data['luck'],
+            'equipment_type' => $data['equipment_type'],
+            'price_to_buy' => $data['price_to_buy'],
+            'price_to_sell' => $data['price_to_sell']
+        ]);
+    }
 
     public function getRandomItems($limit = 6)
     {
-        $sql = "SELECT * FROM sp_items ORDER BY RAND() LIMIT :limit";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetchAll();
+        $results = $this->runQuery("SELECT * FROM sp_items ORDER BY RAND() LIMIT :limit", ['limit' => $limit]);
+        return $results;
     }
+
     public function findByName($name)
     {
         $sql = "SELECT * FROM sp_items WHERE name = :name";
@@ -44,10 +41,10 @@ public function create($data)
         $stmt = $this->pdo->prepare("SELECT strength, hit_points, luck FROM sp_items WHERE item_id = :item_id");
         $stmt->execute(['item_id' => $itemId]);
         $itemStats = $stmt->fetch();
-    
+
         return $itemStats;
     }
-    
+
     public function updateItem($itemId, $newValues)
     {
         $setClauses = [];
@@ -75,10 +72,11 @@ public function create($data)
         $result = $this->runQuery($sql, $conditions);
         return $result ? $result[0] : false;
     }
-public function getItemDetails($itemId) {
-    $conditions = ['item_id' => $itemId];
-    return $this->find($conditions);
-}
+    public function getItemDetails($itemId)
+    {
+        $conditions = ['item_id' => $itemId];
+        return $this->find($conditions);
+    }
 
     public function findByCategory($category_id)
     {

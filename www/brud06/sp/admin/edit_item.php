@@ -1,6 +1,5 @@
 <?php
 session_start();
-require_once '../restrictions/user_required.php';
 require_once '../restrictions/admin_required.php';
 require_once '../db/ItemsDB.php';
 $itemsDB = new ItemsDB();
@@ -21,12 +20,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ];
 
     $itemsDB->updateItem($item_id, $newValues);
+    $_SESSION['success_message'] = "Item updated successfully!";
+    header('Location: edit_item_display.php');
 }
 
 $item = $itemsDB->getItem($_SESSION['item_id']);
 ?>
 
-<form class = "item form" method="post">
+<form class="item form" method="post">
     <input type="hidden" name="item_id" value="<?php echo isset($item['item_id']) ? $item['item_id'] : ''; ?>">
     Name: <input type="text" name="name" value="<?php echo isset($item['name']) ? $item['name'] : ''; ?>">
     Image URL: <input type="text" name="image" value="<?php echo isset($item['image']) ? $item['image'] : ''; ?>">

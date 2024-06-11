@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../restrictions/admin_required.php'; 
+require_once '../restrictions/admin_required.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['createItem'])) {
@@ -20,7 +20,7 @@ if (isset($_SESSION['success_message'])) {
 }
 ?>
 <?php include '../includes/admin_head.php'; ?>
-<form method="POST" class = "admin-form">
+<form method="POST" class="admin-form">
     <button type="submit" name="createItem">Create Item</button>
     <button type="submit" name="editItem">Edit Item</button>
     <button type="submit" name="manageUsers">Manage Users</button>

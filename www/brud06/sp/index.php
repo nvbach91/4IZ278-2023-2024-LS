@@ -1,11 +1,7 @@
 <?php
 $maintanance = false;
-$gold = 100;
 if($maintanance){
     echo "Site is under maintanance";
-}
-else{
-    echo "Site is live";
 }
 
 

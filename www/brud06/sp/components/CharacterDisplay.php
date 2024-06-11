@@ -1,14 +1,15 @@
 <?php
 
 session_start();
-//require_once '../restrictions/user_required.php';
+require_once '../restrictions/user_required_for_components.php';
+require_once '../restrictions/character_required.php';
 require_once '../db/CharactersDB.php';
 require_once '../db/InventoryDB.php';
 require_once '../db/ItemsDB.php';
 require_once '../classes/Character.php';
 
 // Display error message if it exists
-if (isset($_SESSION['error'])): ?>
+if (isset($_SESSION['error'])) : ?>
     <div class='error'><?php echo $_SESSION['error']; ?></div>
     <?php unset($_SESSION['error']); ?>
 <?php endif;
@@ -32,7 +33,7 @@ $equippedItems = $inventoryDB->getEquippedItemsWithType($character['character_id
 $itemsDB = new ItemsDB();
 
 $characterInstance = new Character($character);
-$characterInstance-> recoverStamina();
+$characterInstance->recoverStamina();
 $characterDB->updateCharacter($characterInstance);
 
 ?>
@@ -101,7 +102,6 @@ $characterDB->updateCharacter($characterInstance);
                             </ul>
                         </div>
                     </div>
-                    <!-- Rest of your code... -->
                     <div class="equipment">
                         <div class="item-card">
                             <!-- Weapon goes here -->
@@ -135,7 +135,7 @@ $characterDB->updateCharacter($characterInstance);
                             <!-- Ring goes here -->
                             <?php if ($equippedItems['Trinket'] !== null) : ?>
                                 <?php $trinket = $itemsDB->getItemDetails($equippedItems['Trinket']['item_id']); ?>
-                                <img class = "item-img" src="../<?php echo $trinket['image']; ?>" alt="Ring Image" id="ringImage">
+                                <img class="item-img" src="../<?php echo $trinket['image']; ?>" alt="Ring Image" id="ringImage">
                                 <h3 class="item-name"><?php echo $trinket['name']; ?></h3>
                                 <div class="item-stats">
                                     <p>Strength: <?php echo $trinket['strength']; ?></p>
@@ -149,7 +149,7 @@ $characterDB->updateCharacter($characterInstance);
                             <!-- Boots go here -->
                             <?php if ($equippedItems['Legs'] !== null) : ?>
                                 <?php $boots = $itemsDB->getItemDetails($equippedItems['Legs']['item_id']); ?>
-                                <img class = "item-img" src="../<?php echo $boots['image']; ?>" alt="Boots Image" id="bootsImage">
+                                <img class="item-img" src="../<?php echo $boots['image']; ?>" alt="Boots Image" id="bootsImage">
                                 <h3 class="item-name"><?php echo $boots['name']; ?></h3>
                                 <div class="item-stats">
                                     <p>Strength: <?php echo $boots['strength']; ?></p>

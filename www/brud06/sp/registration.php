@@ -40,7 +40,7 @@ if (!empty($_POST)) {
 
 <?php include './includes/head.php'; ?>
 <main class="main">
-    <h1>Name TBD</h1>
+    <h1>Webterra</h1>
     <form class="form-signup" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
         <h1>Registration</h1>
         <?php if ($_SERVER["REQUEST_METHOD"] == "POST") : ?>

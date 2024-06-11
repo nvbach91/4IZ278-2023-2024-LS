@@ -5,10 +5,8 @@ class DungeonsDB extends Database
 {
     function getDungeonById($id)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM sp_dungeons WHERE dungeon_id = :id");
-        $stmt->bindValue(':id', (int) $id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $results = $this->runQuery("SELECT * FROM sp_dungeons WHERE dungeon_id = :id", ['id' => $id]);
+        return $results ? $results[0] : false;
     }
     function create($attribute)
     {
@@ -26,6 +24,4 @@ class DungeonsDB extends Database
     {
         //empty
     }
-
-    
 }

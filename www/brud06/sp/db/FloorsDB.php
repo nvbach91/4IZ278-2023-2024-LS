@@ -26,6 +26,4 @@ class FloorsDB extends Database
     {
         //empty
     }
-
-    
 }

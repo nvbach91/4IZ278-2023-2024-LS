@@ -19,7 +19,7 @@ class Monster
             $data = $args[0];
             $this->id = $data['monster_id'];
             $this->name = $data['name'];
-            $this ->image = $data['image'];
+            $this->image = $data['image'];
             $this->level = $data['level'];
             $this->strength = $data['strength'];
             $this->hitpoints = $data['hitpoints'];

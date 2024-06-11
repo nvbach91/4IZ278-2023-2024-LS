@@ -19,7 +19,7 @@ class CharactersDB extends Database
             'luck' => $character->getLuck(),
             'stamina' => $character->getStamina(),
             'last_action_time' => $character->getLastActionTime(),
-            'progression'=>$character->getProgression(),
+            'progression' => $character->getProgression(),
             'user_id' => $character->getUserId(),
         ]);
 
@@ -43,7 +43,7 @@ class CharactersDB extends Database
     function updateCharacter($character)
     {
         $sql = "UPDATE sp_characters SET name = :name, image = :image, class = :class, gold = :gold, xp = :xp, level = :level, strength = :strength, hitpoints = :hitpoints, luck = :luck, stamina = :stamina, last_action_time = :last_action_time, progression = :progression WHERE user_id = :user_id";
-        
+
         $result = $this->runQuery($sql, [
             'name' => $character->getName(),
             'image' => $character->getImage(),
@@ -56,7 +56,7 @@ class CharactersDB extends Database
             'luck' => $character->getLuck(),
             'stamina' => $character->getStamina(),
             'last_action_time' => $character->getLastActionTime(),
-            'progression'=>$character->getProgression(),
+            'progression' => $character->getProgression(),
             'user_id' => $character->getUserId(),
         ]);
 
