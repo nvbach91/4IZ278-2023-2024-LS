@@ -17,7 +17,6 @@ class OrderDB extends Database {
         $statement = $this->pdo->prepare('INSERT INTO order_products (order_id, product_id, price) VALUES (:order_id, :product_id, :price)');
         $statement->bindValue(':order_id', $orderId);
         $statement->bindValue(':product_id', $productData['product_id']);
-        //$statement->bindValue(':quantity', $productData['quantity']);
         $statement->bindValue(':price', $productData['price']);
         $statement->execute();
     }
@@ -27,6 +26,19 @@ class OrderDB extends Database {
         $statement->bindValue(':user_id', $userId);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function updateOrderState($orderId, $state) {
+        $statement = $this->pdo->prepare('UPDATE orders SET state = :state WHERE order_id = :order_id');
+        $statement->bindValue(':state', $state, PDO::PARAM_STR);
+        $statement->bindValue(':order_id', $orderId, PDO::PARAM_INT);
+        $statement->execute();
+    }
+
+    public function deleteOrder($orderId) {
+        $statement = $this->pdo->prepare('DELETE FROM orders WHERE order_id = :order_id');
+        $statement->bindValue(':order_id', $orderId);
+        $statement->execute();
     }
 }
 

@@ -20,9 +20,6 @@ require_once '../Controller/userPrivilege.php';
                             <a class="nav-link" href="cart.php">Cart</a>
                         </li>
                         <li class="navbar-item">
-                            <a class="nav-link" href="wishlist.php">Wishlist</a>
-                        </li>
-                        <li class="navbar-item">
                             <?php if (isset($privilege) && $privilege['privilege'] >= 1) { ?>
                                 <a href="admin-profile.php" class="nav-link">Profile</a>
                             <?php } else {?>

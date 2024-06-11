@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+
 require '../Model/OrderDB.php';
 require '../Model/ProductDB.php';
 require '../Model/UserDB.php';
@@ -37,19 +38,18 @@ if (!empty($_SESSION['cart'])) {
 
     $_SESSION['cart'] = [];
     
-    // $subject = 'the subject';
-    // $message = 'hello';
-    // $headers = 'From: webmaster@example.com' . "\r\n" .
-    // 'Reply-To: webmaster@example.com' . "\r\n" .
-    // 'X-Mailer: PHP/' . phpversion();
+    $subject = 'Confirmation of your order';
+    $message = 'We have recieved your order.' . "\n" .
+                'We are now waiting for your payment.';
+    $headers = 'From: furniture@example.com' . "\r\n" .
+    'Reply-To: furniture@example.com' . "\r\n" .
+    'X-Mailer: PHP/' . phpversion();
 
-    // $success = mail('patrik.talkner@seznam.cz', $subject, $message, $headers);
-    // if (!$success) {
-    //     $errorMessage = error_get_last()['message'];
-    //     var_dump($errorMessage);
-    // }
-
-    //mail('patrik.talkner@seznam.cz', $subject, $message, $headers);
+    $success = mail('talp03@vse.cz', $subject, $message, $headers);
+    if (!$success) {
+        $errorMessage = error_get_last()['message'];
+        var_dump($errorMessage);
+    }
 
     header('Location: ../View/index.php');
     exit('Order succesful!');
