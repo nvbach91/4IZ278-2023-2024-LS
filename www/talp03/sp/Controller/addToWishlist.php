@@ -1,7 +1,6 @@
 <?php 
 
 require_once '../Model/UserDB.php';
-require_once '../Model/ProductDB.php';
 require_once '../Model/WishlistDB.php';
 
 if (!isset($_COOKIE['email'])) {
