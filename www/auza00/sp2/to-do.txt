@@ -1,0 +1,22 @@
+odstranit obrázek po odstranění spotu
+
+nehledat odkaz když obrázek neexistuje
+
+SQL injection?
+
+like vlastního spotu -> hned aktualizovat nebo nedovolit si ho sám liknout
+
+datum ať je hezký
+
+režim je hezky/prší
+
+po přihlášení se neukážou kolikrát režim přihlášeného
+
+------------------------
+databazove rozhrani (OOP class pro kazdou tabulku) aspon pro uzivatele
+REST API
+endpoint: GET /api/v1/spots?category=1 JSON
+endpoint: GET /api/v1/comments?spot_id=15 JSON
+stranka seznam spotu /spots.php administrator only
+Cross site scripting <script> to text
+nerefreshovat stranku po pridavani komentare
