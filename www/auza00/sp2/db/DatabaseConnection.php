@@ -4,8 +4,8 @@ class DatabaseConnection
 
     private const HOST_NAME = "md405.wedos.net";
     private const DB_NAME = "d341941_spot";
-    private const USER_NAME = "a341941_spot";
-    private const PASSWORD = "rcMcSkEs";
+    private const USER_NAME = "xxxxxxxx";
+    private const PASSWORD = "xxxxxxxx";
 
     private static PDO $pdo;
 
