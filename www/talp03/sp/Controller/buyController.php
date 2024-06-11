@@ -15,7 +15,7 @@ if (empty($productBuy)) {
 }
 
 $_SESSION['cart'][] = $productBuy['product_id'];
-var_dump($_SESSION['cart']);
+
 header('Location: ../View/cart.php');
 exit(); 
 ?>

@@ -31,16 +31,21 @@ if (!empty($_POST)) {
     }
 
     if (count($errors) == 0) {
-        $sucessMessage = 'Thank you for registration.';
 
         $_POST['password'] = password_hash($password, PASSWORD_DEFAULT);
         $userDB->registerUser($_POST);
 
-        mail(
-            'patrik.talkner@seznam.cz',
-            'registration successful',
-            '<h1>Thank you <h1>',
-        );
+        $subject = 'Confirmation of registration';
+        $message = 'Thank you for registration.';
+        $headers = 'From: furniture@example.com' . "\r\n" .
+        'Reply-To: furniture@example.com' . "\r\n" .
+        'X-Mailer: PHP/' . phpversion();
+
+        $success = mail('talp03@vse.cz', $subject, $message, $headers);
+        if (!$success) {
+            $errorMessage = error_get_last()['message'];
+            var_dump($errorMessage);
+        }   
         
         header('Location: login.php');
         exit();

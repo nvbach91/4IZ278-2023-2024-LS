@@ -17,5 +17,4 @@ $user = $userDB->findUserIDByEmail($_COOKIE['email'])[0];
 $wishlist = $wishlistDB->findUserWishlist($user['user_id'])[0];
 $products = $wishlistDB->findWishlistProducts($wishlist['wishlist_id']);
 
-
 ?>

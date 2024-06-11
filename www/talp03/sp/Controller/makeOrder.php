@@ -17,7 +17,6 @@ if (!empty($_SESSION['cart'])) {
     $userDB = new UserDB();
 
     $userID = array_values($userDB->findUserIDByEmail($usermMail)[0])[0];
-    var_dump($userID);
     $order = [
         'total_price' => "$priceSum",
         'user_id' => "$userID",

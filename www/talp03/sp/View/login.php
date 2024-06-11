@@ -18,7 +18,7 @@ require '../Controller/oauthController.php';
         <button type="submit" class="register-button">Login</button>
     </form>
     <div class="user-container">
-        <a href="https://github.com/login/oauth/authorize?client_id=<?php echo $_ENV['CLIENT_ID']; ?>&scope=user">Login with Github</a>
+        <a href="<?php echo $authUrl; ?>">Login with Github</a>
     </div>
     <?php include './includes/footer.php'; ?>
 </body>

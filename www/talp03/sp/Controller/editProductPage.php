@@ -8,7 +8,6 @@ $productID = $_GET['product_id'];
 $product = $productDB->find('products', 'product_id', $productID)[0];
 
 $lastUpdated = $product['last_updated'];
-var_dump($lastUpdated);
 
 if (!empty($_POST)) {
     $_POST['name'] = htmlspecialchars(trim($_POST['name']));
