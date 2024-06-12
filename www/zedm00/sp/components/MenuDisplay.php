@@ -1,11 +1,9 @@
 <?php
-
-$types = ["divadlo", "koncert", "vystava", "festival", "prednaska"];
-
+require_once './config/config.php';
 ?>
 
 <div class="list-group">
-    <?php foreach ($types as $type) { ?>
-        <a class="list-group-item" href="?category_id=<?php echo $type; ?>"><?php echo $type; ?></a>
+    <?php foreach (TYPES as $type) { ?>
+        <a class="list-group-item" href="customer_index.php?category_id=<?php echo $type['key']; ?>"><?php echo $type['translation']; ?></a>
     <?php } ?>
 </div>

@@ -1,16 +1,12 @@
 
-<!-- TODO -->
-
 <?php
+require_once __DIR__ . '/../config/config.php';
 
-const DB_HOSTNAME = 'localhost';
-const DB_DATABASE = 'becultureal';
-const DB_USERNAME = 'root';
-const DB_PASSWORD = '';
 
 abstract class DatabaseConnection
 {
     private static $pdo;
+
     public static function getPDOConnection()
     {
         if (self::$pdo == null) {
