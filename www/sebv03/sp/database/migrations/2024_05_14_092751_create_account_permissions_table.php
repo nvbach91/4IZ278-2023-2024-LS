@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('account_id')->constrained('accounts');
             $table->foreignId('user_id')->constrained('users');
             $table->enum('permission', ['owner', 'manager', 'follower']);
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
         });
     }
 

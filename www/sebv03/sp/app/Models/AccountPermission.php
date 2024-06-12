@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AccountPermission extends Model
 {
+    protected $fillable = ['account_id', 'user_id', 'permission'];
     use HasFactory;
     public function user()
     {

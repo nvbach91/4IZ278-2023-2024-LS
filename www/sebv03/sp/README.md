@@ -1,66 +1,223 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Systém internetového bankovnictví s imaginární měnou
+Webová aplikace bude sloužit jako systém internetového bankovnictví, do kterého se uživatelé mohou registrovat. Při **registraci** je uživateli zřízen bankovní účet, ze kterého může **příjmat** a **odesílat** platby.  Uživatelé si po **přihlášení** také mohou **zakládat** ve svém profilu **nové** bankovní **účty**. V základním přehledu si přihlášený uživatel může také **zobrazit aktuální zůstatek** svých účtů.  V **detailu účtů** může také **nastavit**, kteří uživatelé mají k tomuto **účtu přístup**.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Výčet stránek
+### Registrace
+Na této stránce se uživatelé mohou registrovat buď zadáním emailu, jména a hesla, nebo přes facebookový účet.
+### Přihlášení
+Zde se registrovaní uživatelé mohou přihlásit buď zadáním emailu + hesla, nebo facebookovým účtem.
+### Základní přehled
+Zde uživatelé po přihlášení vidí seznam účtů, ke kterým mají oprávnění, a jejich účetní zůstatky.
+#### Wireframe:
+![obrazek](https://github.com/nvbach91/4IZ278-2023-2024-LS/assets/60074633/a9df1ab1-dda5-4258-8377-cb417fc0a451)
+### Detail účtu
+Tady může uživatel vidět informace o účtu, ke kterému má oprávnění, jeho zůstatek, detaily o transakcích na tomto účtu a může spravovat, kteří uživatelé k tomuto účtu mají také přístup.
+#### Wireframe:
+![obrazek](https://github.com/nvbach91/4IZ278-2023-2024-LS/assets/60074633/1c5c5eb9-3db0-4587-b452-369b96b18dd7)
 
-## About Laravel
+### Odeslání platby
+Z této stránky lze zadat platbu z konkrétního účtu (ke kterému má uživatel přístup) na jiný účet. K platbě lze také volitelně přidat textovou zprávu
+### Profil
+Slouží k zobrazení a případné úpravě informací o uživateli.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Architektura
+- Webový server: Apache
+- Back-end:  Php 8+, Laravel 10 (protože na eso.vse.cz je php 8.1.20), Laravel Livewire
+- Databáze: MySQL
+- Návrhový vzor: Lehce upravený vzor MVC kvůli využití frameworku Livewire, který přenáší část odpovědosti z Controlleru do Livewire komponenty
+- Front-end: HTML + Tailwindcss, Laravel Livewire
+- Způsob komunikace mezi databází, serverem a klientem: Standardní MVC přístup pod frameworkem Laravel
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Návrh databáze
+![obrazek](https://github.com/nvbach91/4IZ278-2023-2024-LS/assets/60074633/cf11f606-bb03-4e05-aff3-30f8eef50b85)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+[https://dbdiagram.io/d/System-internetoveho-bankovnictvi-6625351f03593b6b618de0ac](https://dbdiagram.io/d/System-internetoveho-bankovnictvi-6625351f03593b6b618de0ac)
+```
+Table accounts {
+  id integer [primary key]
+  display_name varchar
+  created_at timestamp
+  balance decimal
+}
 
-## Learning Laravel
+Table users {
+  id integer [primary key]
+  name varchar
+  email varchar
+  password varchar
+  created_at timestamp
+}
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Table transactions {
+  id integer [primary key]
+  amount decimal
+  from_account integer
+  target_account integer
+  sent_by integer
+  sent_at timestamp
+  message varchar [null]
+}
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Table account_permissions {
+  account_id integer [primary key]
+  user_id integer [primary key]
+  permission_type enum
+}
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
+Ref: account_permissions.account_id > accounts.id
+Ref: account_permissions.user_id > users.id
+Ref: transactions.from_account > accounts.id
+Ref: transactions.target_account > accounts.id
+Ref: transactions.sent_by > users.id
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```
+## Use case diagram
+![obrazek](https://github.com/nvbach91/4IZ278-2023-2024-LS/assets/60074633/2761204a-0015-4d8e-92e5-d150820f15e6)
+[http://www.plantuml.com/plantuml/uml/SyfFKj2rKt3CoKnELR1Io4ZDoSa70000](http://www.plantuml.com/plantuml/uml/SyfFKj2rKt3CoKnELR1Io4ZDoSa70000)
+```
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+actor Uživatel as user
+package "Nepřihlášený Uživatel" {
+  (Registrace) as (UC1)
+  (Přihlášení) as (UC2)
+  user -- (UC1)
+  user -- (UC2)
+}
 
-### Premium Partners
+package "Přihlášený Uživatel" {
+  (Vytvoření bankovního účtu) as (UC3)
+  (Zobrazení zůstatků) as (UC4)
+  (Správa přístupu k účtu) as (UC5)
+  (Odeslání platby) as (UC6)
+  (Zobrazení detailů účtu) as (UC7)
+  (Úprava uživatelského profilu) as (UC8)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+  user -- (UC3)
+  user -- (UC4)
+  user -- (UC5)
+  user -- (UC6)
+  user -- (UC7)
+  user -- (UC8)
+}
 
-## Contributing
+@enduml
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Sekvenční diagram pro odeslání platby uživatelem
+![obrazek](https://github.com/nvbach91/4IZ278-2023-2024-LS/assets/60074633/8baaac78-f1c1-4965-b67d-a34aec227744)
+[http://www.plantuml.com/plantuml/uml/SyfFKj2rKt3CoKnELR1Io4ZDoSa70000](http://www.plantuml.com/plantuml/uml/SyfFKj2rKt3CoKnELR1Io4ZDoSa70000)
+```
+@startuml
+actor Uživatel as user
+participant "Webové Rozhraní" as web
+participant Server
+participant Databáze as db
 
-## Code of Conduct
+user -> web : Přihlásí se a zvolí odeslání platby
+web -> Server : Požadavek na formulář pro platbu
+Server -> user : Zobrazí formulář pro zadání detailů platby
+user -> Server : Odeslání vyplněného formuláře
+Server -> db : Ověření zůstatku a validitu účtu
+db -> Server : Potvrzení možnosti transakce
+Server -> db : Provedení transakce
+db -> Server : Potvrzení provedené transakce
+Server -> web : Informace o úspěšné transakci
+web -> user : Zobrazení potvrzení uživateli
+@enduml
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```
 
-## Security Vulnerabilities
+## Procesní diagram pro odeslání platby uživatelem
+![obrazek](https://github.com/nvbach91/4IZ278-2023-2024-LS/assets/60074633/24739ee6-9e89-4a27-940f-c96b4f386ba8)
+[http://www.plantuml.com/plantuml/uml/SyfFKj2rKt3CoKnELR1Io4ZDoSa70000](http://www.plantuml.com/plantuml/uml/SyfFKj2rKt3CoKnELR1Io4ZDoSa70000)
+```
+@startuml
+start
+:Uživatel se přihlásí do systému;
+:Uživatel zvolí odeslat platbu;
+:Vyplnění detailů platby;
+:Ověření údajů systémem;
+:Provedení transakce;
+:Uživatel obdrží potvrzení o transakci;
+stop
+@enduml
+```
+## Checklist
+| Kategorie                  | Požadavek                                       | splnění | spolehlivost | komentář |
+|----------------------------|-------------------------------------------------|---------|--------------|----------|
+| Databáze                   | M:N vztahy                                      |     X    |              |          |
+|                            | 1:N vztahy                                      |    X     |              |          |
+|                            | SQL joins                                       |     X    |              | Pokud by se nejednalo o porušení pravidel této práce, rád bych využil Eloquent ORM, který je součástí frameworku Laravel         | 
+|                            | Integritní omezení                              |  X       |              |          |
+|                            | Testovací data                                  |   X      |              |          |
+|----------------------------|-------------------------------------------------|---------|--------------|----------|
+| Validace a sanitace vstupů | Formuláře                                       |    X     |              |          |
+|                            | Datové typy                                     |     X    |              |          |
+|                            | Regulární výrazy                                |         |              |          |
+|                            | Serverová validace požadavků                    |    X     |              |          |
+|----------------------------|-------------------------------------------------|---------|--------------|----------|
+| Psaní kódu                 | Potlačení warningů - nedefinované hodnoty       |     X    |              |          |
+|                            | Formátování kódu                                |    X     |              |          |
+|                            | DRY princip - minimalizace opakování kódu       |     X    |              |          |
+|                            | SRP princip - single responsibility             |   X      |              |          |
+|                            | Pojmenování proměnných                          |   X      |              |          |
+|                            | Konzistence stylu psaní kódu                    |    X     |              |          |
+|                            | Verzování kódu (Git)                            |    X     |              |          |
+|                            | HTML5 validní + sémantické značky               |     X    |              |          |
+|----------------------------|-------------------------------------------------|---------|--------------|----------|
+| Objektové programování     | Zapouzdření                                     |         |              |          |
+|                            | Dědičnost                                       |    X     |              |          |
+|                            | Abstrakce                                       |   X      |              |          |
+|                            | Rozhraní                                        |         |              |          |
+|                            | Polymorfismus                                   |         |              |          |
+|                            | Magické metody                                  |   X      |              |          |
+|----------------------------|-------------------------------------------------|---------|--------------|----------|
+| Připojení k databázi       | PDO                                             |         |              |          |
+|                            | Prepared statement                              |         |              |          |
+|                            | SQL injection                                   |    X     |              |          |
+|----------------------------|-------------------------------------------------|---------|--------------|----------|
+| Performance                | Stránkování                                     |         |              |          |
+|                            | Indexace databázových tabulek                   |         |              |          |
+|                            | Filtrace a organizování zdrojů                  |         |              |          |
+|                            | Cache (mezipaměť)                               |         |              |          |
+|----------------------------|-------------------------------------------------|---------|--------------|----------|
+| Autentifikace              | Cookies                                         |         |              |          |
+|                            | Session                                         |    X     |              |          |
+|                            | Lokální strategie pro registraci a   přihlášení |   X      |              |          |
+|                            | OAuth, access token, login                      |    X     |              |          |
+|                            | Ukládánní hesel                                 |         |              |          |
+|                            | Uživatelská oprávnění                           |     X    |              |          |
+|                            | Uživatelské role                                |         |              |          |
+|----------------------------|-------------------------------------------------|---------|--------------|----------|
+| Datum a čas                | Časové pásmo                                    |     X    |              |          |
+|                            | Formátování časových hodnot                     |    X     |              |          |
+|----------------------------|-------------------------------------------------|---------|--------------|----------|
+| Návrhové vzory             | Model                                           |    X     |              |          |
+|                            | View                                            |     X    |              |          |
+|                            | Controller                                      |    X     |              |   Mírně upravené jejich využití kvůli Laravel Livewire komponentám       |
+|----------------------------|-------------------------------------------------|---------|--------------|----------|
+| Bezpečnost                 | XSS                                             |   X      |              |          |
+|                            | CSRF                                            |    X     |              |          |
+|                            | SQL injection                                   |     X    |              |          |
+|----------------------------|-------------------------------------------------|---------|--------------|----------|
+| API                        | CRUD operace                                    |   X      |              |          |
+|                            | HTTP metody                                     |      X   |              |          |
+|                            | Sémantické pojmenování zdrojů                   |   X      |              |          |
+|                            | Verzování                                       |         |              |          |
+|                            | Idempotence                                     |    X     |              |          |
+|----------------------------|-------------------------------------------------|---------|--------------|----------|
+| Provoz a údržba            | Sledovatelnost a logování                       |         |              |          |
+|                            | SEO URL                                         |    X     |              |          |
+|                            | Víceuživatelský přístup k datům                 |      X   |              |          |
+|----------------------------|-------------------------------------------------|---------|--------------|----------|
+| Funkcionality              | Generování souborů PDF                          |         |              |          |
+|                            | Posílání e-mailů                                |    X     |              |          |
+|                            | Oddělení ddministrační a uživatelské části      |         |              |          |
+|----------------------------|-------------------------------------------------|---------|--------------|----------|
+| Testování                  | Testovací scénáře pro manuální testování        |         |              |          |
+|                            | Dostupnost aplikace na internetu                |     X    |              |          |
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
