@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\CardController;
+use App\Http\Controllers\DeckController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -16,18 +20,41 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+Route::get('/', function (Request $request) {
+    $user = $request->user();
+    if ($user === null) {
+        return Inertia::render('Welcome');
+    }
+    return Redirect::route('card.showOwn');
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/explore-decks', [DeckController::class, 'showAll'])->name('deck.showAll');
+Route::get('/decks/{id}', [DeckController::class, 'show'])->name('deck.show');
+Route::get('/search-card', [CardController::class, 'showSearch'])->name('card.showSearch');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/my-collection', [CardController::class, 'showOwn'])->name('card.showOwn');
+
+    Route::get('/my-decks', [DeckController::class, 'showOwn'])->name('deck.showOwn');
+    Route::get('/add-deck', [DeckController::class, 'add'])->name('deck.add');
+    Route::get('/edit-deck/{id}', [DeckController::class, 'edit'])->name('deck.edit');
+
+    Route::get('/user/decks', [DeckController::class, 'getOwnDecks'])->name('deck.getOwnDecks');
+
+    Route::post('/decks/create', [DeckController::class, 'create'])->name('deck.create');
+    Route::put('/decks/update/{id}', [DeckController::class, 'update'])->name('deck.update');
+    Route::delete('/decks/delete/{id}', [DeckController::class, 'delete'])->name('deck.delete');
+
+
+
+    Route::put('/cards/addToCollection', [CardController::class, 'addToCollection'])->name('card.addToCollection');
+    Route::patch('/cards/changeCollectionCount', [CardController::class, 'changeCollectionCount'])->name('card.changeCollectionCount');
+    Route::patch('/cards/removeFromCollection', [CardController::class, 'removeFromCollection'])->name('card.removeFromCollection');
+
+    Route::put('/card/addToDeck', [CardController::class, 'addToDeck'])->name('card.addToDeck');
+    Route::patch('/cards/changeDeckCount', [CardController::class, 'changeDeckCount'])->name('card.changeDeckCount');
+    Route::patch('/cards/removeFromDeck', [CardController::class, 'removeFromDeck'])->name('card.removeFromDeck');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -36,7 +63,5 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
-
-use App\Http\Controllers\DeckController;
 
 Route::resource('decks', DeckController::class);

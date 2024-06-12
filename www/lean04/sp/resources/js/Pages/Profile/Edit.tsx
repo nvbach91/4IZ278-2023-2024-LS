@@ -1,3 +1,4 @@
+import { Card, CardBody, Stack } from '@chakra-ui/react';
 import { Head } from '@inertiajs/react';
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
@@ -19,25 +20,29 @@ export default function Edit({
         >
             <Head title="Profile" />
 
-            <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-                    <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+            <Stack spacing={6}>
+                <Card>
+                    <CardBody p={6}>
                         <UpdateProfileInformationForm
                             mustVerifyEmail={mustVerifyEmail}
                             status={status}
                             className="max-w-xl"
                         />
-                    </div>
+                    </CardBody>
+                </Card>
 
-                    <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <Card>
+                    <CardBody p={6}>
                         <UpdatePasswordForm className="max-w-xl" />
-                    </div>
+                    </CardBody>
+                </Card>
 
-                    <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <Card>
+                    <CardBody p={6}>
                         <DeleteUserForm className="max-w-xl" />
-                    </div>
-                </div>
-            </div>
+                    </CardBody>
+                </Card>
+            </Stack>
         </AuthenticatedLayout>
     );
 }

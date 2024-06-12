@@ -38,7 +38,6 @@ module.exports = {
         // own rules
         'arrow-body-style': ['error', 'as-needed'],
         'arrow-parens': ['error', 'always'],
-        'comma-dangle': ['error', 'always-multiline'],
         'func-names': ['error'],
         'no-console': ['error'],
         'no-constant-condition': ['error'],

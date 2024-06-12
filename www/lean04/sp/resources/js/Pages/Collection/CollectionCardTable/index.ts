@@ -1,0 +1,1 @@
+export { CollectionCardTable } from './CollectionCardTable';

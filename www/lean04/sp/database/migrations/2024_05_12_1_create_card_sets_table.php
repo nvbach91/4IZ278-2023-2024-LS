@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('card_sets', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->string('id')->primary();
             $table->string('name');
             $table->string('symbol_url')->nullable();
             $table->string('logo_url')->nullable();

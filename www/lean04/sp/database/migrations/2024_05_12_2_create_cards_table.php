@@ -12,13 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('cards', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->string('id')->primary();
             $table->string('name');
             $table->string('supertype')->nullable();
             $table->string('type');
             $table->string('subtype')->nullable();
-            $table->integer('hp')->nullable();
-            $table->uuid('set_id');
+            $table->string('set_id');
             $table->string('image_small_url')->nullable();
             $table->string('image_large_url')->nullable();
 

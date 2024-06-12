@@ -1,20 +1,50 @@
-import { PropsWithChildren } from 'react';
-import { Link } from '@inertiajs/react';
+import { PropsWithChildren, ReactNode } from 'react';
+import { Box, Button, Flex, HStack } from '@chakra-ui/react';
+import { Link as InertiaLink } from '@inertiajs/react';
 
 import ApplicationLogo from '@/Components/ApplicationLogo';
+import { ContentContainer } from '@/Components/ContentContainer';
+import NavLink from '@/Components/NavLink';
 
-export default function Guest({ children }: PropsWithChildren) {
+export default function Guest({ header, children }: PropsWithChildren<{ header?: ReactNode }>) {
     return (
-        <div className="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div>
-                <Link href="/">
-                    <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
-                </Link>
-            </div>
+        <Box minH="100vh" bg="gray.100">
+            <Box as="nav" bg="white" borderBottomWidth={1} borderBottomColor="gray.100">
+                <ContentContainer py={4}>
+                    <Flex justifyContent="space-between">
+                        <HStack spacing={6}>
+                            <InertiaLink href="/">
+                                <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
+                            </InertiaLink>
+                            <NavLink href={route('deck.showAll')} active={route().current('deck.showAll')}>
+                                Explore decks
+                            </NavLink>
+                            <NavLink href={route('card.showSearch')} active={route().current('card.showSearch')}>
+                                Search card
+                            </NavLink>
+                        </HStack>
 
-            <div className="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-                {children}
-            </div>
-        </div>
+                        <HStack spacing={4}>
+                            <Button variant="link" as={InertiaLink} href={route('login')}>
+                                Login
+                            </Button>
+                            <Button variant="link" as={InertiaLink} href={route('register')}>
+                                Register
+                            </Button>
+                        </HStack>
+                    </Flex>
+                </ContentContainer>
+            </Box>
+
+            {header && (
+                <Box as="header" bg="white" boxShadow="sm">
+                    <ContentContainer>{header}</ContentContainer>
+                </Box>
+            )}
+
+            <main>
+                <ContentContainer>{children}</ContentContainer>
+            </main>
+        </Box>
     );
 }

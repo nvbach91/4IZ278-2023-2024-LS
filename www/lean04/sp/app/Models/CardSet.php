@@ -8,13 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class CardSet extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory;
 
     public $incrementing = false;
+    public $timestamps = false;
     protected $keyType = 'string';
 
     protected $fillable = [
-        'name', 'symbol_url', 'logo_url'
+        'id', 'name', 'symbol_url', 'logo_url'
     ];
 
     public function cards()
