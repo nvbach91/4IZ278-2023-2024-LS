@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { FormEventHandler, useContext } from 'react';
 import { ArrowUpDownIcon } from '@chakra-ui/icons';
 import {
     Button,
@@ -21,10 +21,9 @@ import {
     useDisclosure,
     useToast,
 } from '@chakra-ui/react';
-import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
+import { useForm } from '@inertiajs/react';
 
-import CountedPokemonCardsContext from '@/contexts/CountedPokemonCardsContext';
+import { useQueryParams } from '@/hooks/useQueryParams';
 import { WithCountedPokemonCard } from '@/types';
 
 import { CurrentDeckContext } from '../../CurrentDeckContext';
@@ -34,39 +33,42 @@ export const ChangeCount = ({ pokemonCard }: WithCountedPokemonCard) => {
     const toast = useToast();
 
     const deck = useContext(CurrentDeckContext);
-    const { setCards } = useContext(CountedPokemonCardsContext);
-    const [count, setCount] = useState(pokemonCard.count);
 
-    const mutation = useMutation({
-        mutationFn: async () =>
-            axios.patch(route('card.changeDeckCount'), {
-                deck_id: deck.id,
-                card_id: pokemonCard.id,
-                count,
-            }),
-        onSuccess: () => {
-            setCards((cards) => cards.map((card) => (card.id === pokemonCard.id ? { ...card, count } : card)));
-            toast({
-                title: 'Count changed',
-                description: `${count}x ${pokemonCard.name} set to ${deck.name}.`,
-                status: 'success',
-                duration: 5000,
-                isClosable: true,
-                position: 'top-right',
-            });
-            onClose();
-        },
-        onError: () => {
-            toast({
-                title: 'An error occurred',
-                description: `There was an error changing the count of ${pokemonCard.name} in ${deck.name}.`,
-                status: 'error',
-                duration: 5000,
-                isClosable: true,
-                position: 'top-right',
-            });
-        },
+    const { patch, data, setData, processing } = useForm({
+        deck_id: deck.id,
+        card_id: pokemonCard.id,
+        count: pokemonCard.count,
     });
+
+    const queryParams = useQueryParams();
+
+    const handleSubmit: FormEventHandler = (event) => {
+        event.preventDefault();
+        patch(route('card.changeDeckCount', { id: deck.id, ...queryParams }), {
+            preserveState: false,
+            onSuccess: () => {
+                toast({
+                    title: 'Count changed',
+                    description: `${data.count}x ${pokemonCard.name} set to ${deck.name}.`,
+                    status: 'success',
+                    duration: 5000,
+                    isClosable: true,
+                    position: 'top-right',
+                });
+                onClose();
+            },
+            onError: () => {
+                toast({
+                    title: 'An error occurred',
+                    description: `There was an error changing the count of ${pokemonCard.name} in ${deck.name}.`,
+                    status: 'error',
+                    duration: 5000,
+                    isClosable: true,
+                    position: 'top-right',
+                });
+            },
+        });
+    };
 
     return (
         <>
@@ -78,22 +80,17 @@ export const ChangeCount = ({ pokemonCard }: WithCountedPokemonCard) => {
                 <ModalContent>
                     <ModalHeader>Change count</ModalHeader>
                     <ModalCloseButton />
-                    <form
-                        onSubmit={(event) => {
-                            event.preventDefault();
-                            mutation.mutate();
-                        }}
-                    >
+                    <form onSubmit={handleSubmit}>
                         <ModalBody>
                             <FormControl>
                                 <FormLabel>Count</FormLabel>
                                 <NumberInput
                                     defaultValue={1}
                                     min={1}
-                                    value={count}
-                                    onChange={(stringValue, numberValue) =>
-                                        setCount(stringValue === '' ? 1 : numberValue)
-                                    }
+                                    value={data.count}
+                                    onChange={(stringValue, numberValue) => {
+                                        setData('count', stringValue === '' ? 1 : numberValue);
+                                    }}
                                 >
                                     <NumberInputField autoFocus />
                                     <NumberInputStepper>
@@ -110,7 +107,7 @@ export const ChangeCount = ({ pokemonCard }: WithCountedPokemonCard) => {
                             <Button variant="ghost" mr={3} onClick={onClose}>
                                 Close
                             </Button>
-                            <Button type="submit" colorScheme="teal" isLoading={mutation.isPending}>
+                            <Button type="submit" colorScheme="teal" isLoading={processing}>
                                 Save
                             </Button>
                         </ModalFooter>

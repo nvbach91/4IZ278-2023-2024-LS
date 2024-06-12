@@ -1,28 +1,30 @@
-import { useState } from 'react';
 import { AddIcon } from '@chakra-ui/icons';
 import { Button, Card, CardBody, Flex, Stack, Text } from '@chakra-ui/react';
 import { Head, Link as InertiaLink } from '@inertiajs/react';
 import pluralize from 'pluralize';
 
-import CountedPokemonCardsContext from '@/contexts/CountedPokemonCardsContext';
+import Pagination from '@/Components/Pagination';
+import SearchInput from '@/Components/SearchInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { CountedPokemonCard, PageProps, WithPagination } from '@/types';
-
-import Pagination from '../../Components/Pagination';
+import { CountedPokemonCard, PageProps, WithPagination, WithSearchQuery } from '@/types';
 
 import { CollectionCardTable } from './CollectionCardTable';
 
-interface DetailProps extends PageProps, WithPagination {
+interface DetailProps extends PageProps, WithPagination, WithSearchQuery {
     cards: Array<CountedPokemonCard>;
     totalCardCount: number;
 }
 
-export default function MyCollection({ auth, cards: data, totalCardCount, page, totalPages }: DetailProps) {
-    const [cards, setCards] = useState<Array<CountedPokemonCard>>(data);
+export default function MyCollection({ auth, cards, totalCardCount, page, totalPages, searchQuery }: DetailProps) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">My collection</h2>}
+            header={
+                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
+                    My collection&nbsp;(
+                    <Text as="span">{pluralize('card', totalCardCount, true).replace(/ /g, '\u00A0')}</Text>)
+                </h2>
+            }
         >
             <Head title="My collection" />
 
@@ -31,7 +33,6 @@ export default function MyCollection({ auth, cards: data, totalCardCount, page, 
                     <CardBody>
                         <Stack spacing={4}>
                             <Flex justifyContent="space-between">
-                                <Text>{pluralize('card', totalCardCount, true)}</Text>
                                 <Button
                                     as={InertiaLink}
                                     href={route('card.showSearch')}
@@ -42,10 +43,9 @@ export default function MyCollection({ auth, cards: data, totalCardCount, page, 
                                 >
                                     Add card
                                 </Button>
+                                <SearchInput defaultValue={searchQuery} action={route('card.showOwn')} autoFocus />
                             </Flex>
-                            <CountedPokemonCardsContext.Provider value={{ cards, setCards }}>
-                                {cards.length === 0 ? null : <CollectionCardTable cards={cards} />}
-                            </CountedPokemonCardsContext.Provider>
+                            {cards.length === 0 ? null : <CollectionCardTable cards={cards} />}
                         </Stack>
                     </CardBody>
                 </Card>
@@ -55,7 +55,7 @@ export default function MyCollection({ auth, cards: data, totalCardCount, page, 
                     renderPage={({ page: pageValue, label, isDisabled }) => (
                         <Button
                             as={InertiaLink}
-                            href={route('card.showOwn', { page: pageValue })}
+                            href={route('card.showOwn', { page: pageValue, searchQuery })}
                             key={label}
                             isDisabled={isDisabled}
                         >

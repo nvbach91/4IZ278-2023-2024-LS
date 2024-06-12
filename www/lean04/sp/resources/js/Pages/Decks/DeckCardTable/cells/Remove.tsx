@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { FormEventHandler, useContext } from 'react';
 import {
     Button,
     MenuItem,
@@ -12,11 +12,10 @@ import {
     useDisclosure,
     useToast,
 } from '@chakra-ui/react';
-import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
+import { useForm } from '@inertiajs/react';
 import { FaTrash } from 'react-icons/fa6';
 
-import CountedPokemonCardsContext from '@/contexts/CountedPokemonCardsContext';
+import { useQueryParams } from '@/hooks/useQueryParams';
 import { WithCountedPokemonCard } from '@/types';
 
 import { CurrentDeckContext } from '../../CurrentDeckContext';
@@ -26,37 +25,41 @@ export const Remove = ({ pokemonCard }: WithCountedPokemonCard) => {
     const toast = useToast();
 
     const deck = useContext(CurrentDeckContext);
-    const { setCards } = useContext(CountedPokemonCardsContext);
 
-    const mutation = useMutation({
-        mutationFn: async () =>
-            axios.patch(route('card.removeFromDeck'), {
-                deck_id: deck.id,
-                card_id: pokemonCard.id,
-            }),
-        onSuccess: () => {
-            setCards((cards) => cards.filter((card) => card.id !== pokemonCard.id));
-            toast({
-                title: `Card removed from ${deck.name}`,
-                description: `${pokemonCard.name} removed from your ${deck.name}.`,
-                status: 'success',
-                duration: 5000,
-                isClosable: true,
-                position: 'top-right',
-            });
-            onClose();
-        },
-        onError: () => {
-            toast({
-                title: 'An error occurred',
-                description: `There was an error removing ${pokemonCard.name} from ${deck.name}`,
-                status: 'error',
-                duration: 5000,
-                isClosable: true,
-                position: 'top-right',
-            });
-        },
+    const queryParams = useQueryParams();
+
+    const { patch, processing } = useForm({
+        deck_id: deck.id,
+        card_id: pokemonCard.id,
     });
+
+    const handleSubmit: FormEventHandler = (event) => {
+        event.preventDefault();
+        patch(route('card.removeFromDeck', { id: deck.id, ...queryParams }), {
+            preserveState: false,
+            onSuccess: () => {
+                toast({
+                    title: `Card removed from ${deck.name}`,
+                    description: `${pokemonCard.name} removed from your ${deck.name}.`,
+                    status: 'success',
+                    duration: 5000,
+                    isClosable: true,
+                    position: 'top-right',
+                });
+                onClose();
+            },
+            onError: () => {
+                toast({
+                    title: 'An error occurred',
+                    description: `There was an error removing ${pokemonCard.name} from ${deck.name}`,
+                    status: 'error',
+                    duration: 5000,
+                    isClosable: true,
+                    position: 'top-right',
+                });
+            },
+        });
+    };
 
     return (
         <>
@@ -66,25 +69,21 @@ export const Remove = ({ pokemonCard }: WithCountedPokemonCard) => {
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Remove {pokemonCard.name}</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                        Do you want to remove <strong>{pokemonCard.name}</strong> from {deck.name}?
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button variant="ghost" mr={3} onClick={onClose}>
-                            Close
-                        </Button>
-                        <Button
-                            onClick={() => {
-                                mutation.mutate();
-                            }}
-                            isLoading={mutation.isPending}
-                            colorScheme="red"
-                        >
-                            Remove
-                        </Button>
-                    </ModalFooter>
+                    <form onSubmit={handleSubmit}>
+                        <ModalHeader>Remove {pokemonCard.name}</ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody>
+                            Do you want to remove <strong>{pokemonCard.name}</strong> from {deck.name}?
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button variant="ghost" mr={3} onClick={onClose}>
+                                Close
+                            </Button>
+                            <Button type="submit" isLoading={processing} colorScheme="red">
+                                Remove
+                            </Button>
+                        </ModalFooter>
+                    </form>
                 </ModalContent>
             </Modal>
         </>

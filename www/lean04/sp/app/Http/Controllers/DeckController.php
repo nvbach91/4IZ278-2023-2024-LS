@@ -125,6 +125,7 @@ class DeckController extends Controller
         $deck = Deck::findOrFail($id);
 
         $deckCards = $deck->cards;
+        $totalCardCount = $deckCards->sum('pivot.count');
 
         if ($deckCards->count() === 0) {
             return Inertia::render('Decks/Detail', [
@@ -132,10 +133,19 @@ class DeckController extends Controller
                 'totalPages' => 1,
                 'deck' => $deck,
                 'cards' => [],
+                'totalCardCount' => 0,
+                'searchQuery' => '',
             ]);
         }
 
         $page = $request->query('page', 1);
+        $searchQuery = $request->query('searchQuery', '');
+
+        if ($searchQuery) {
+            $deckCards = $deckCards->filter(function ($card) use ($searchQuery) {
+                return stripos($card->name, $searchQuery) !== false;
+            });
+        }
 
         $cards = $deckCards->forPage($page, DECK_CARD_DISPLAY_LIMIT)->values();
 
@@ -152,6 +162,8 @@ class DeckController extends Controller
             'cards' => $cards->load('cardSet')->map(function ($card) {
                 return $this->toPokemonCard($card);
             }),
+            'totalCardCount' => $totalCardCount,
+            'searchQuery' => $searchQuery,
         ]);
     }
 
@@ -178,8 +190,8 @@ class DeckController extends Controller
             'id' => $card->id,
             'name' => $card->name,
             'supertype' => $card->supertype,
-            'type' => $card->type,
-            'subtype' => $card->subtype,
+            'types' => [$card->type],
+            'subtypes' => [$card->subtype],
             'set' => [
                 'id' => $card->cardSet->id,
                 'name' => $card->cardSet->name,

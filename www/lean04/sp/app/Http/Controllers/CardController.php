@@ -20,6 +20,7 @@ class CardController extends Controller
         $user = $request->user();
 
         $totalCards = $user->cards;
+        $totalCardCount = $totalCards->sum('pivot.count');
 
         if ($totalCards->count() === 0) {
             return Inertia::render('Collection/MyCollection', [
@@ -27,10 +28,19 @@ class CardController extends Controller
                 'totalPages' => 1,
                 'cards' => [],
                 'totalCardCount' => 0,
+                'searchQuery' => '',
             ]);
         }
 
+
         $page = $request->query('page', 1);
+        $searchQuery = $request->query('searchQuery', '');
+
+        if ($searchQuery) {
+            $totalCards = $totalCards->filter(function ($card) use ($searchQuery) {
+                return stripos($card->name, $searchQuery) !== false;
+            });
+        }
 
         $cards = $totalCards->forPage($page, CARD_DISPLAY_LIMIT)->values();
 
@@ -46,7 +56,8 @@ class CardController extends Controller
             'cards' => $cards->load('cardSet')->map(function ($card) {
                 return $this->toPokemonCard($card);
             }),
-            'totalCardCount' => $totalCards->sum('pivot.count'),
+            'totalCardCount' => $totalCardCount,
+            'searchQuery' => $searchQuery,
         ]);
     }
 
@@ -104,7 +115,7 @@ class CardController extends Controller
             'count' => $validated['count'],
         ]);
 
-        return response()->json(['message' => 'Card count updated successfully.']);
+        return Redirect::route('card.showOwn', $request->query());
     }
 
     public function removeFromCollection(Request $request)
@@ -117,7 +128,7 @@ class CardController extends Controller
 
         $user->cards()->detach($validated['card_id']);
 
-        return response()->json(['message' => 'Card removed from user successfully.']);
+        return Redirect::route('card.showOwn', $request->query());
     }
 
     public function addToDeck(Request $request)
@@ -176,10 +187,10 @@ class CardController extends Controller
             'count' => $validated['count'],
         ]);
 
-        return response()->json(['message' => 'Card count updated successfully.']);
+        return Redirect::route('deck.show', $request->query());
     }
 
-    public function  removeFromDeck(Request $request)
+    public function removeFromDeck(Request $request)
     {
         $validated = $request->validate([
             'deck_id' => 'required|string',
@@ -192,7 +203,7 @@ class CardController extends Controller
 
         $deck->cards()->detach($validated['card_id']);
 
-        return response()->json(['message' => 'Card removed from deck successfully.']);
+        return Redirect::route('deck.show', $request->query());
     }
 
     private function storeCardAndCardSet($validated)
@@ -232,8 +243,8 @@ class CardController extends Controller
             'id' => $card->id,
             'name' => $card->name,
             'supertype' => $card->supertype,
-            'type' => $card->type,
-            'subtype' => $card->subtype,
+            'types' => [$card->type],
+            'subtypes' => [$card->subtype],
             'set' => [
                 'id' => $card->cardSet->id,
                 'name' => $card->cardSet->name,

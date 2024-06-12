@@ -42,3 +42,7 @@ export interface WithPagination {
     limit: number;
     totalPages: number;
 }
+
+export interface WithSearchQuery {
+    searchQuery: string;
+}

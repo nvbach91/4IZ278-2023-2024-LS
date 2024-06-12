@@ -23,15 +23,34 @@ export const Delete = ({ deck }: WithDeck) => {
     const mutation = useMutation({
         mutationFn: async () => axios.delete(route('deck.delete', { id: deck.id })),
         onSuccess: () => {
-            toast({
-                title: `Deck deleted`,
-                description: `${deck.name} has been deleted.`,
-                status: 'success',
-                duration: 5000,
-                isClosable: true,
-                position: 'top-right',
-            });
             onClose();
+            const promise = new Promise<void>((resolve) => {
+                setTimeout(() => {
+                    window.location.href = route('deck.showOwn');
+                    resolve();
+                }, 2000);
+            });
+            toast.promise(promise, {
+                loading: {
+                    title: `Deck deleted`,
+                    description: `${deck.name} has been deleted. You will be redirected to your deck list shortly.`,
+                    isClosable: true,
+                    position: 'top-right',
+                    colorScheme: 'green',
+                },
+                success: {
+                    title: 'Redirecting to your deck list',
+                    isClosable: true,
+                    position: 'top-right',
+                    colorScheme: 'blue',
+                },
+                error: {
+                    title: 'An error occurred',
+                    description: `There was an error deleting ${deck.name}`,
+                    isClosable: true,
+                    position: 'top-right',
+                },
+            });
         },
         onError: () => {
             toast({
