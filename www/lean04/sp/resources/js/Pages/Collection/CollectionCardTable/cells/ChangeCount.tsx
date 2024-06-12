@@ -33,13 +33,12 @@ export const ChangeCount = ({ pokemonCard }: WithCountedPokemonCard) => {
     const queryParams = useQueryParams();
 
     const { patch, data, setData, processing } = useForm({
-        card_id: pokemonCard.id,
         count: pokemonCard.count,
     });
 
     const handleSubmit: FormEventHandler = (event) => {
         event.preventDefault();
-        patch(route('card.changeCollectionCount', queryParams), {
+        patch(route('card.changeCollectionCount', { id: pokemonCard.id, ...queryParams }), {
             preserveState: false,
             onSuccess: () => {
                 toast({

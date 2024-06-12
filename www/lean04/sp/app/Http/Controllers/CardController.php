@@ -66,12 +66,11 @@ class CardController extends Controller
         return Inertia::render('Cards/Search');
     }
 
-    public function addToCollection(Request $request)
+    public function addToCollection(Request $request, $cardId)
     {
-
         $validated = $request->validate([
             'count' => 'required|integer',
-            'card_id' => 'required|string',
+
             'name' => 'required|string',
             'supertype' => 'required|string',
             'type' => 'nullable|string',
@@ -85,7 +84,7 @@ class CardController extends Controller
             'set_logo_url' => 'required|string',
         ]);
 
-        $card = $this->storeCardAndCardSet($validated);
+        $card = $this->storeCardAndCardSet(array_merge($validated, ['card_id' => $cardId]));
 
         $user = $request->user();
 
@@ -102,43 +101,36 @@ class CardController extends Controller
         return response()->json(['message' => 'Card added or created and attached to user successfully.']);
     }
 
-    public function changeCollectionCount(Request $request)
+    public function changeCollectionCount(Request $request, $cardId)
     {
         $validated = $request->validate([
-            'card_id' => 'required|string',
             'count' => 'required|integer',
         ]);
 
-        $user = $request->user();
-
-        $user->cards()->updateExistingPivot($validated['card_id'], [
-            'count' => $validated['count'],
-        ]);
+        $request
+            ->user()
+            ->cards()
+            ->updateExistingPivot($cardId, ['count' => $validated['count']]);
 
         return Redirect::route('card.showOwn', $request->query());
     }
 
-    public function removeFromCollection(Request $request)
+    public function removeFromCollection(Request $request, $cardId)
     {
-        $validated = $request->validate([
-            'card_id' => 'required|string',
-        ]);
-
-        $user = $request->user();
-
-        $user->cards()->detach($validated['card_id']);
+        $request
+            ->user()
+            ->cards()
+            ->detach($cardId);
 
         return Redirect::route('card.showOwn', $request->query());
     }
 
-    public function addToDeck(Request $request)
+    public function addToDeck(Request $request, $deckId, $cardId)
     {
 
         $validated = $request->validate([
-            'deck_id' => 'required|string',
-
             'count' => 'required|integer',
-            'card_id' => 'required|string',
+
             'name' => 'required|string',
             'supertype' => 'required|string',
             'type' => 'nullable|string',
@@ -152,9 +144,9 @@ class CardController extends Controller
             'set_logo_url' => 'required|string',
         ]);
 
-        $card = $this->storeCardAndCardSet($validated);
+        $card = $this->storeCardAndCardSet(array_merge($validated, ['card_id' => $cardId]));
 
-        $deck = Deck::findOrFail($validated['deck_id']);
+        $deck = Deck::findOrFail($deckId);
 
         $this->authorize('update', $deck);
 
@@ -171,66 +163,59 @@ class CardController extends Controller
         return response()->json(['message' => 'Card added or created and attached to deck successfully.']);
     }
 
-    public function changeDeckCount(Request $request)
+    public function changeDeckCount(Request $request, $deckId, $cardId)
     {
         $validated = $request->validate([
-            'deck_id' => 'required|string',
-            'card_id' => 'required|string',
             'count' => 'required|integer',
         ]);
 
-        $deck = Deck::findOrFail($validated['deck_id']);
+        $deck = Deck::findOrFail($deckId);
 
         $this->authorize('update', $deck);
 
-        $deck->cards()->updateExistingPivot($validated['card_id'], [
+        $deck->cards()->updateExistingPivot($cardId, [
             'count' => $validated['count'],
         ]);
 
         return Redirect::route('deck.show', $request->query());
     }
 
-    public function removeFromDeck(Request $request)
+    public function removeFromDeck(Request $request, $deckId, $cardId)
     {
-        $validated = $request->validate([
-            'deck_id' => 'required|string',
-            'card_id' => 'required|string',
-        ]);
-
-        $deck = Deck::findOrFail($validated['deck_id']);
+        $deck = Deck::findOrFail($deckId);
 
         $this->authorize('update', $deck);
 
-        $deck->cards()->detach($validated['card_id']);
+        $deck->cards()->detach($cardId);
 
         return Redirect::route('deck.show', $request->query());
     }
 
-    private function storeCardAndCardSet($validated)
+    private function storeCardAndCardSet($data)
     {
-        $cardSet = CardSet::find($validated['set_id']);
+        $cardSet = CardSet::find($data['set_id']);
 
         if (!$cardSet) {
             $cardSet = CardSet::create([
-                'id' => $validated['set_id'],
-                'name' => $validated['set_name'],
-                'symbol_url' => $validated['set_symbol_url'],
-                'logo_url' => $validated['set_logo_url'],
+                'id' => $data['set_id'],
+                'name' => $data['set_name'],
+                'symbol_url' => $data['set_symbol_url'],
+                'logo_url' => $data['set_logo_url'],
             ]);
         }
 
-        $card = Card::find($validated['card_id']);
+        $card = Card::find($data['card_id']);
 
         if (!$card) {
             $card = Card::create([
-                'id' => $validated['card_id'],
-                'name' => $validated['name'],
-                'supertype' => $validated['supertype'],
-                'type' => $validated['type'],
-                'subtype' => $validated['subtype'],
-                'set_id' => $validated['set_id'],
-                'image_small_url' => $validated['image_small_url'],
-                'image_large_url' => $validated['image_large_url'],
+                'id' => $data['card_id'],
+                'name' => $data['name'],
+                'supertype' => $data['supertype'],
+                'type' => $data['type'],
+                'subtype' => $data['subtype'],
+                'set_id' => $data['set_id'],
+                'image_small_url' => $data['image_small_url'],
+                'image_large_url' => $data['image_large_url'],
             ]);
         }
 

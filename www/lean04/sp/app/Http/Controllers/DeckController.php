@@ -181,7 +181,7 @@ class DeckController extends Controller
 
         $deck->delete();
 
-        return Redirect::route('deck.showOwn', [], 303);
+        return Redirect::route('deck.showOwn');
     }
 
     private function toPokemonCard($card)

@@ -34,9 +34,8 @@ export const AddToCollection = ({ pokemonCard }: WithPokemonCard) => {
 
     const mutation = useMutation({
         mutationFn: async () =>
-            axios.put(route('card.addToCollection'), {
+            axios.put(route('card.addToCollection', { id: pokemonCard.id }), {
                 count,
-                card_id: pokemonCard.id,
                 name: pokemonCard.name,
                 supertype: pokemonCard.supertype,
                 type: pokemonCard.types ? pokemonCard.types[0] ?? null : null,

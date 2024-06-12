@@ -3,7 +3,6 @@
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\DeckController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
@@ -41,19 +40,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/user/decks', [DeckController::class, 'getOwnDecks'])->name('deck.getOwnDecks');
 
+    Route::put('/user/cards/{id}', [CardController::class, 'addToCollection'])->name('card.addToCollection');
+    Route::patch('/user/cards/{id}', [CardController::class, 'changeCollectionCount'])->name('card.changeCollectionCount');
+    Route::delete('/user/cards/{id}', [CardController::class, 'removeFromCollection'])->name('card.removeFromCollection');
+
     Route::post('/decks/create', [DeckController::class, 'create'])->name('deck.create');
     Route::put('/decks/update/{id}', [DeckController::class, 'update'])->name('deck.update');
     Route::delete('/decks/delete/{id}', [DeckController::class, 'delete'])->name('deck.delete');
 
-
-
-    Route::put('/cards/addToCollection', [CardController::class, 'addToCollection'])->name('card.addToCollection');
-    Route::patch('/cards/changeCollectionCount', [CardController::class, 'changeCollectionCount'])->name('card.changeCollectionCount');
-    Route::patch('/cards/removeFromCollection', [CardController::class, 'removeFromCollection'])->name('card.removeFromCollection');
-
-    Route::put('/card/addToDeck', [CardController::class, 'addToDeck'])->name('card.addToDeck');
-    Route::patch('/cards/changeDeckCount', [CardController::class, 'changeDeckCount'])->name('card.changeDeckCount');
-    Route::patch('/cards/removeFromDeck', [CardController::class, 'removeFromDeck'])->name('card.removeFromDeck');
+    Route::put('/decks/{deckId}/cards/{cardId}', [CardController::class, 'addToDeck'])->name('card.addToDeck');
+    Route::patch('/decks/{deckId}/cards/{cardId}', [CardController::class, 'changeDeckCount'])->name('card.changeDeckCount');
+    Route::delete('/decks/{deckId}/cards/{cardId}', [CardController::class, 'removeFromDeck'])->name('card.removeFromDeck');
 });
 
 Route::middleware('auth')->group(function () {

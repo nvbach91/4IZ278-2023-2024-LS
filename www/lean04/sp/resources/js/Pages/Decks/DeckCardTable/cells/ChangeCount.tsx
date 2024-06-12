@@ -35,8 +35,6 @@ export const ChangeCount = ({ pokemonCard }: WithCountedPokemonCard) => {
     const deck = useContext(CurrentDeckContext);
 
     const { patch, data, setData, processing } = useForm({
-        deck_id: deck.id,
-        card_id: pokemonCard.id,
         count: pokemonCard.count,
     });
 
@@ -44,7 +42,7 @@ export const ChangeCount = ({ pokemonCard }: WithCountedPokemonCard) => {
 
     const handleSubmit: FormEventHandler = (event) => {
         event.preventDefault();
-        patch(route('card.changeDeckCount', { id: deck.id, ...queryParams }), {
+        patch(route('card.changeDeckCount', { id: deck.id, deckId: deck.id, cardId: pokemonCard.id, ...queryParams }), {
             preserveState: false,
             onSuccess: () => {
                 toast({
