@@ -1,0 +1,14 @@
+SQL injection?
+
+checkSpot -> async/await, nikoliv přes inner.html
+
+datum ať je hezký
+
+režim je hezky/prší
+
+------------------------
+REST API
+endpoint: GET /api/v1/spots?category=1 JSON
+endpoint: GET /api/v1/comments?spot_id=15 JSON
+stranka seznam spotu /spots.php administrator only
+Cross site scripting <script> to text ?
