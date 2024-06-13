@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Account extends Model
 {
     protected $fillable = [
+        'id',
         'display_name',
         'balance'
     ];
@@ -25,5 +26,16 @@ class Account extends Model
     {
         return $this->hasMany(AccountPermission::class);
     }
-
+    public function getPermissions()
+    {
+        return $this->accountPermissions()->get();
+    }
+    public function getTransactions()
+    {
+        return $this->sentTransactions()->get()->merge($this->receivedTransactions()->get());
+    }
+    public function getOwner()
+    {
+        return $this->accountPermissions()->where('permission', 'owner')->first()->user;
+    }
 }

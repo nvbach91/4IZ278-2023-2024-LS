@@ -7,6 +7,7 @@ use App\Models\Account;
 use App\Models\AccountPermission;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
@@ -33,15 +34,15 @@ class RegisterController extends Controller
         ]);
        $account = Account::create([
             'display_name' => $user->name . '\'s Account',
-            'balance' => 0
+            'balance' => 100
         ]);
         AccountPermission::create([
             'user_id' => $user->id,
             'account_id' => $account->id,
             'permission' => 'owner'
         ]);
-        auth()->login($user);
-        return redirect()->route('home');
+        Auth::login($user, true);
+        return redirect()->route('dashboard');
 
     }
 

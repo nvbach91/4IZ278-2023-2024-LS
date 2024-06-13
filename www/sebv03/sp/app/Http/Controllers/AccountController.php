@@ -5,15 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use App\Http\Requests\StoreAccountRequest;
 use App\Http\Requests\UpdateAccountRequest;
+use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $accounts = Auth::user()->getAccounts();
+        return view('dashboard', [
+            'accounts' => $accounts
+        ]);
     }
 
     /**
@@ -37,7 +38,14 @@ class AccountController extends Controller
      */
     public function show(Account $account)
     {
-        //
+        $user = Auth::user();
+        $accounts = $user->getAccounts();
+        if (!$accounts->contains($account)) {
+            abort(403);
+        }
+        return view('manageAccount', [
+            'account' => $account
+        ]);
     }
 
     /**
