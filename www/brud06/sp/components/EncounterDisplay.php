@@ -19,10 +19,6 @@ $monsterData = $monsterDB->getMonsterById($_SESSION['monster_id']);
 $character = new Character($characterData);
 $monster = new Monster($monsterData);
 
-// Create a new MonsterEncounter and simulate the encounter
-$encounter = new MonsterEncounter();
-$result = $encounter->simulateEncounter($character, $monster);
-
 // Check if character and monster exist
 if (!$character || !$monster) {
     die('Invalid character or monster');
@@ -50,6 +46,12 @@ $_SESSION['encounter_result'] = $result;
             <h2><?php echo $character->getName(); ?></h2>
             <p>HP left: <?php echo max(0, $character->getHitpoints()); ?></p>
         </div>
+        <div class="report-section">
+            <h3>Encounter Report</h3>
+            <?php foreach ($encounter->getReport() as $reportLine) : ?>
+                <p><?php echo $reportLine; ?></p>
+            <?php endforeach; ?>
+        </div>
 
         <div class="character-card">
             <img class="encounter image" src="../<?php echo $monster->getImage(); ?>" alt="Monster Image">
@@ -57,6 +59,7 @@ $_SESSION['encounter_result'] = $result;
             <p>HP left: <?php echo max(0, $monster->getHitpoints()); ?></p>
         </div>
     </div>
+
 
 
     <div class="result-section">

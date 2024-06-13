@@ -4,6 +4,8 @@ require_once '../classes/Monster.php';
 
 class MonsterEncounter
 {
+    public $report = [];
+
     public function simulateEncounter(Character $character, Monster $monster)
     {
         $encounterSuccess = false;
@@ -14,13 +16,23 @@ class MonsterEncounter
         // Simulate the encounter
         while ($character->getHitpoints() > 0 && $monster->getHitpoints() > 0) {
             // Character hits monster
+            $this->report[] = $character->getName() . " hits " . $monster->getName() . " for " . $characterStrength . " HP.";
             $monster->setHitpoints($monster->getHitpoints() - $characterStrength);
             if ($monster->getHitpoints() <= 0) {
+                $this->report[] = $monster->getName() . " has died.";
                 break;
+            } else {
+                $this->report[] = $monster->getName() . " has " . $monster->getHitpoints() . " HP left.";
             }
 
             // Monster hits character
             $character->setHitpoints($character->getHitpoints() - $monsterStrength);
+            $this->report[] = $monster->getName() . " hits " . $character->getName() . " for " . $monsterStrength . " HP.";
+            if ($character->getHitpoints() <= 0) {
+                $this->report[] = $character->getName() . " has died.";
+            } else {
+                $this->report[] = $character->getName() . " has " . $character->getHitpoints() . " HP left.";
+            }
         }
 
         // Determine the outcome of the encounter
@@ -39,4 +51,10 @@ class MonsterEncounter
             echo "You have been defeated by the monster!";
         }
     }
+
+    public function getReport()
+    {
+        return $this->report;
+    }
 }
+?>

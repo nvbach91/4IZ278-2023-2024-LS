@@ -3,6 +3,7 @@ session_start();
 
 
 require_once 'restrictions/user_required.php';
+require_once 'restrictions/not_having_character_required.php';
 require_once 'classes/Character.php';
 require_once 'db/CharactersDB.php';
 

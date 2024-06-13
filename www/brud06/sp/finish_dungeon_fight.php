@@ -40,7 +40,7 @@ if (isset($_SESSION['encounter_result']) && $_SESSION['encounter_result']) {
     $character->setProgression($progression + 1);
     $characterDB->updateCharacter($character);
     unset($_SESSION['fight_type']);
-    header('Location: components/CharacterDisplay.php');
+    header('Location: components/FloorDisplay.php');
 }
 
 
