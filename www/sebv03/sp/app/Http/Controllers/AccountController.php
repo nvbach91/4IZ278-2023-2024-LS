@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
-use App\Http\Requests\StoreAccountRequest;
-use App\Http\Requests\UpdateAccountRequest;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\User;
+use Illuminate\Http\Request;
 class AccountController extends Controller
 {
     public function index()
@@ -28,9 +27,21 @@ class AccountController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAccountRequest $request)
+    public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'display_name' => 'required|string|max:255',
+
+        ]);
+        $account = Account::create([
+            'display_name' => $request->display_name,
+            'balance' => 0
+        ]);
+        $account->accountPermissions()->create([
+            'user_id' => Auth::id(),
+            'permission' => 'owner'
+        ]);
+        return redirect()->route('dashboard');
     }
 
     /**

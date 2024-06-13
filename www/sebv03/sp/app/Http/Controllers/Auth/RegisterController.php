@@ -42,8 +42,24 @@ class RegisterController extends Controller
             'permission' => 'owner'
         ]);
         Auth::login($user, true);
+        $this->sendWelcomeMail($user);
         return redirect()->route('dashboard');
 
+    }
+    private function sendWelcomeMail(User $user)
+    {
+        define('ADRESS', 'sebv03@vse.cz');
+        define('SUBJECT', 'Welcome internet banking');
+        define('message', 'Welcome to our internet banking. You have been registered successfully.');
+        $headers  = [
+            'MIME-Version: 1.0',
+            'Content-type: text/plain; charset=utf-8',
+            'From: '.ADRESS,
+            'Reply-To: '.ADRESS,
+            'X-Mailer: PHP/'.phpversion()
+        ];
+        $headers = implode("\r\n", $headers);
+        mail($user->email, SUBJECT, message, $headers);
     }
 
 }

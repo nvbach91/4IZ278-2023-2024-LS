@@ -29,6 +29,10 @@ class TransactionController extends Controller
         if (!$accounts->contains($account)) {
             abort(403);
         }
+        $accountPermission = $account->getPermissions()->where('user_id', $user->id)->first();
+        if (!$accountPermission || $accountPermission->permission == 'follower') {
+            abort(403);
+        }
         return view('createTransaction', [
             'account' => $account
         ]);
@@ -45,6 +49,10 @@ class TransactionController extends Controller
         ]);
         $user = Auth::user();
         $account = Account::find($request->account);
+        $accountPermission = $account->getPermissions()->where('user_id', $user->id)->first();
+        if (!$accountPermission || $accountPermission->permission == 'follower') {
+            abort(403);
+        }
         $this->validate($request, [
             'amount' => 'required|numeric|min:0.01|max:' . $account->balance
         ]);
