@@ -11,9 +11,30 @@ let points = {};
 
 /*spots on map vars*/
 let numRows = 0;
+let numRowsRaining = 0;
 let nextPoint;
 let allPoints = [];
+let allPointsRaining = [];
 let markerAddedToMap;
+
+let raining;
+if(sessionStorage.getItem("raining") == 'null'){
+    raining = false;    
+}
+else{
+    raining = sessionStorage.getItem("raining");
+}
+/*if (raining == 'true'){
+    document.body.style.filter= 'invert(1) hue-rotate(310deg)';
+}*/
+if(raining == 'true'){
+    document.getElementById('icon-sun').style.display = 'block';
+    document.getElementById('icon-rain').style.display = 'none';
+}
+else{
+    document.getElementById('icon-sun').style.display = 'none';
+    document.getElementById('icon-rain').style.display = 'block';
+}
 
 /*my spots vars*/
 let myPoints = [];
@@ -56,7 +77,6 @@ fetch("/../spot/DownloadSpot.php")
         spotsFinal = data;
         console.log(spotsFinal);
         numRows = spotsFinal.length;
-        document.getElementById("spots-number").innerHTML = numRows;
         console.log(numRows);
     })
     .catch((error) => {
@@ -76,87 +96,166 @@ map.loadImage(
             (error, image) => {
                 if (error) throw error;
                 map.addImage('smoke', image);
+                map.loadImage(
+                    './img/umbrella.png',
+                    (error, image) => {
+                        if (error) throw error;
+                        map.addImage('joint_raining', image);
 
-                for (let i = 0; i < numRows; i++) {
-                    let nextPoint = {
-                        'type': 'Feature' + [i],
-                        'geometry': {
-                            'type': 'Point',
-                            'coordinates': [spotsFinal[i][5], spotsFinal[i][6]]
-                        },
-                        'properties': {
-                            'spot_id': spotsFinal[i][0],
-                            'name': spotsFinal[i][3],
-                            'user_id': spotsFinal[i][1],
-                            'author': spotsFinal[i][2],
-                            'description': spotsFinal[i][4],
-                            'category': spotsFinal[i][7],
-                            //'likes': spotsFinal[i][7],
-                            'imageSRC': 'spot-img/' + spotsFinal[i][8],
-                            'image': spotsFinal[i][8],
-                            'date': spotsFinal[i][9],
+                        for (let i = 0; i < numRows; i++) {
+                            let nextPoint = {
+                                'type': 'Feature' + [i],
+                                'geometry': {
+                                    'type': 'Point',
+                                    'coordinates': [spotsFinal[i][5], spotsFinal[i][6]]
+                                },
+                                'properties': {
+                                    'spot_id': spotsFinal[i][0],
+                                    'name': spotsFinal[i][3],
+                                    'user_id': spotsFinal[i][1],
+                                    'author': spotsFinal[i][2],
+                                    'description': spotsFinal[i][4],
+                                    'category': spotsFinal[i][7],
+                                    //'likes': spotsFinal[i][7],
+                                    'imageSRC': 'spot-img/' + spotsFinal[i][8],
+                                    'image': spotsFinal[i][8],
+                                    'date': spotsFinal[i][9],
+                                }
+                            }
+                            allPoints.push(nextPoint);
+                            if (spotsFinal[i][7].split(",")[4] == 'pristresek') {
+                                let nextPoint2 = {
+                                    'type': 'Feature' + [i],
+                                    'geometry': {
+                                        'type': 'Point',
+                                        'coordinates': [spotsFinal[i][5], spotsFinal[i][6]]
+                                    },
+                                    'properties': {
+                                        'spot_id': spotsFinal[i][0],
+                                        'name': spotsFinal[i][3],
+                                        'user_id': spotsFinal[i][1],
+                                        'author': spotsFinal[i][2],
+                                        'description': spotsFinal[i][4],
+                                        'category': spotsFinal[i][7],
+                                        //'likes': spotsFinal[i][7],
+                                        'imageSRC': 'spot-img/' + spotsFinal[i][8],
+                                        'image': spotsFinal[i][8],
+                                        'date': spotsFinal[i][9],
+                                    }
+                                }
+                                allPointsRaining.push(nextPoint2);
+                            }
+                        }
+                        console.log('allPointsRaining: '+allPointsRaining);
+                        numRowsRaining = allPointsRaining.length;
+                        if (raining != 'true') {
+                            document.getElementById("spots-number").innerHTML = numRows;   
+                            map.addSource('point', {
+                                'type': 'geojson',
+                                'data': {
+                                    'type': 'FeatureCollection',
+                                    'features': allPoints,
+                                },
+                                'cluster': true,
+                                'clusterMaxZoom': 14, // Max zoom to cluster points on
+                                'clusterRadius': 70 // Radius of each cluster when clustering points (defaults to 50)
+                            });
+                            map.addLayer({
+                                'id': 'clusters',
+                                'type': 'symbol',
+                                'source': 'point',
+                                'filter': ['has', 'point_count'],
+                                'layout': {
+                                    'icon-image': 'smoke',
+                                    'icon-size': 0.24,
+                                    'icon-overlap': 'always',
+                                    'icon-padding': 0,
+                                    'icon-allow-overlap': true
+                                }
+                            });
+                            map.addLayer({
+                                'id': 'cluster-count',
+                                'type': 'symbol',
+                                'source': 'point',
+                                'filter': ['has', 'point_count'],
+                                'layout': {
+                                    'text-field': '{point_count_abbreviated}',
+                                    'text-font': ['Roboto_Black'],
+                                    'text-size': 31,
+                                    'icon-allow-overlap': true
+                                },
+                                'paint': {
+                                    'text-color': '#7FAC55',
+                                    'text-translate': [-4, 2],
+                                },
+                            });
+                            map.addLayer({
+                                'id': 'unclustered-points',
+                                'type': 'symbol',
+                                'source': 'point',
+                                'filter': ['!', ['has', 'point_count']],
+                                'layout': {
+                                    'icon-image': 'joint',
+                                    'icon-size': 0.12,
+                                    'icon-allow-overlap': true
+                                }
+                            });
+                        } else {
+                            document.getElementById("spots-number").innerHTML = numRowsRaining;  
+                            map.addSource('point', {
+                                'type': 'geojson',
+                                'data': {
+                                    'type': 'FeatureCollection',
+                                    'features': allPointsRaining,
+                                },
+                                'cluster': true,
+                                'clusterMaxZoom': 14, // Max zoom to cluster points on
+                                'clusterRadius': 70 // Radius of each cluster when clustering points (defaults to 50)
+                            });
+                            map.addLayer({
+                                'id': 'clusters',
+                                'type': 'symbol',
+                                'source': 'point',
+                                'filter': ['has', 'point_count'],
+                                'layout': {
+                                    'icon-image': 'smoke',
+                                    'icon-size': 0.24,
+                                    'icon-overlap': 'always',
+                                    'icon-padding': 0,
+                                    'icon-allow-overlap': true
+                                }
+                            });
+                            map.addLayer({
+                                'id': 'cluster-count',
+                                'type': 'symbol',
+                                'source': 'point',
+                                'filter': ['has', 'point_count'],
+                                'layout': {
+                                    'text-field': '{point_count_abbreviated}',
+                                    'text-font': ['Roboto_Black'],
+                                    'text-size': 31,
+                                    'icon-allow-overlap': true
+                                },
+                                'paint': {
+                                    'text-color': '#7FAC55',
+                                    'text-translate': [-4, 2],
+                                },
+                            });
+                            map.addLayer({
+                                'id': 'unclustered-points',
+                                'type': 'symbol',
+                                'source': 'point',
+                                'filter': ['!', ['has', 'point_count']],
+                                'layout': {
+                                    'icon-image': 'joint_raining',
+                                    'icon-size': 0.12,
+                                    'icon-allow-overlap': true
+                                }
+                            });
                         }
                     }
-                    allPoints.push(nextPoint);
-                }
-                console.log(allPoints);
-
-                map.addSource('point', {
-                    'type': 'geojson',
-                    'data': {
-                        'type': 'FeatureCollection',
-                        'features': allPoints,
-                    },
-                    'cluster': true,
-                    'clusterMaxZoom': 14, // Max zoom to cluster points on
-                    'clusterRadius': 70 // Radius of each cluster when clustering points (defaults to 50)
-                });
-
-                map.addLayer({
-                    'id': 'clusters',
-                    'type': 'symbol',
-                    'source': 'point',
-                    'filter': ['has', 'point_count'],
-                    'layout': {
-                        'icon-image': 'smoke',
-                        'icon-size': 0.24,
-                        'icon-overlap': 'always',
-                        'icon-padding': 0,
-                        'icon-allow-overlap': true
-                    }
-                });
-                map.addLayer({
-                    'id': 'cluster-count',
-                    'type': 'symbol',
-                    'source': 'point',
-                    'filter': ['has', 'point_count'],
-                    'layout': {
-                        'text-field': '{point_count_abbreviated}',
-                        'text-font': ['Roboto_Black'],
-                        'text-size': 31,
-                        'icon-allow-overlap': true
-                    },
-                    'paint': {
-                        'text-color': '#7FAC55',
-                        'text-translate': [-4, 2],
-                    },
-                });
-                map.addLayer({
-                    'id': 'unclustered-points',
-                    'type': 'symbol',
-                    'source': 'point',
-                    'filter': ['!', ['has', 'point_count']],
-                    'layout': {
-                        'icon-image': 'joint',
-                        'icon-size': 0.12,
-                        'icon-allow-overlap': true
-                    }
-                });
-            }
-        );
-
-
-
+                );
+            })
     });
 
 function flyToSpot(coordinates) {
@@ -174,29 +273,30 @@ function flyToSpot(coordinates) {
 async function mySpots() {
 
     document.getElementById('popup5-nick').innerHTML = `${user_username} spoty`;
-    for (let i = 0; i < numRows; i++) {
-        if (allPoints[i].properties.user_id == user_id) {
-            myPoints.push(allPoints[i]);
+    if (raining != 'true') {
+        for (let i = 0; i < numRows; i++) {
+            if (allPoints[i].properties.user_id == user_id) {
+                myPoints.push(allPoints[i]);
+            }
         }
-    }
-    if (myPoints.length == 0) {
-        mySpotsDiv.innerHTML +=
-            `
+        if (myPoints.length == 0) {
+            mySpotsDiv.innerHTML +=
+                `
                     <p id='no-spots-message'>
                         Zatím si nevložil žádnej spot. Naprav to! Určitě znáš nějaký krásný místečko který tu ještě není:3
                     </p>
                 `;
-    }
-    for (let i = 0; i < myPoints.length; i++) {
-        let spot_id = myPoints[i].properties.spot_id;
-        let coordinates = myPoints[i].geometry.coordinates.slice();
-        let name = myPoints[i].properties.name;
-        let date = myPoints[i].properties.date;
-        let likes = await checkMySpot(spot_id);
-        console.log('likes_numberb'+likes);
+        }
+        for (let i = 0; i < myPoints.length; i++) {
+            let spot_id = myPoints[i].properties.spot_id;
+            let coordinates = myPoints[i].geometry.coordinates.slice();
+            let name = myPoints[i].properties.name;
+            let date = myPoints[i].properties.date;
+            let likes = await checkMySpot(spot_id);
+            console.log('likes_numberb' + likes);
 
-        mySpotsDiv.innerHTML +=
-            `
+            mySpotsDiv.innerHTML +=
+                `
                 <div class='popup5-row'>
                     <div class='popup5-left' onclick="flyToSpot([${coordinates}])">
                         <p class='popup5-name'>${name}</p>
@@ -213,7 +313,51 @@ async function mySpots() {
                     </div>
                 </div>
                 `;
+        }
     }
+    else{
+        for (let i = 0; i < numRowsRaining; i++) {
+            if (allPointsRaining[i].properties.user_id == user_id) {
+                myPoints.push(allPointsRaining[i]);
+            }
+        }
+        if (myPoints.length == 0) {
+            mySpotsDiv.innerHTML +=
+                `
+                    <p id='no-spots-message'>
+                        Zatím si nevložil žádnej spot. Naprav to! Určitě znáš nějaký krásný místečko který tu ještě není:3
+                    </p>
+                `;
+        }
+        for (let i = 0; i < myPoints.length; i++) {
+            let spot_id = myPoints[i].properties.spot_id;
+            let coordinates = myPoints[i].geometry.coordinates.slice();
+            let name = myPoints[i].properties.name;
+            let date = myPoints[i].properties.date;
+            let likes = await checkMySpot(spot_id);
+            console.log('likes_numberb' + likes);
+
+            mySpotsDiv.innerHTML +=
+                `
+                <div class='popup5-row'>
+                    <div class='popup5-left' onclick="flyToSpot([${coordinates}])">
+                        <p class='popup5-name'>${name}</p>
+                        <p class='popup5-date'>${date}</p>                
+                    </div>
+                    <span class='popup5-like' onclick="flyToSpot([${coordinates}])">
+                        <span class='popup5-like-text' id="number-likesL-${spot_id}">${likes}</span>
+                        <i class="like-icon fa-solid fa-heart"></i>
+                    </span>
+                    <div class='popup5-delete'>
+                        <a href='/../spot/DeleteSpot.php?delete_spot_id=${spot_id}\'><button class='button-delete'">
+                            <i class='delete-icon fa-solid fa-xmark'></i>
+                        </button></a>                        
+                    </div>
+                </div>
+                `;
+        }
+    }
+
     //popupMySpots.style.display = 'block';
     //popupMySpotsAll.style.display = 'block';
 }

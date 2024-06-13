@@ -40,6 +40,7 @@ if (!isset($_SESSION['nick-taken'])) {
 </head>
 
 <body>
+    <div id="raining"></div>
     <div id='map'></div>
 
     <button id='info-button'>
@@ -76,6 +77,10 @@ if (!isset($_SESSION['nick-taken'])) {
             <i class='fa-solid fa-right-from-bracket'></i>
         </button>
     </section>
+    <button id="button-rain" class="button2">
+        <i class="fa-solid fa-cloud-rain" id="icon-rain"></i>
+        <i class="fa-solid fa-sun" id="icon-sun"></i>
+    </button>
     <div id='popup-all' class='popup-all'> <!-- add form popup-->
     </div>
     <div id='popup-all2' class='popup-all'>
@@ -302,14 +307,14 @@ console.log('sent data comment: '+post_data);
 
         function deleteComment(comment_id) {
             let data = new FormData();
-            data.append("delete_comment_id",comment_id);
+            data.append("delete_comment_id", comment_id);
 
             let xhr = new XMLHttpRequest();
             xhr.open("POST", "comment/DeleteComment.php");
             xhr.onload = function () {
                 console.log(this.response);
 
-                $('#comment-'+comment_id).hide();
+                $('#comment-' + comment_id).hide();
                 //commentContainer[b].scrollTop = commentContainer[b].scrollHeight;
 
                 /*let commentContainer = document.querySelectorAll(`#comments${sent_data[0]}, #commentsM${sent_data[0]}`);

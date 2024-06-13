@@ -243,14 +243,38 @@ button {
     background-color: #1f4100;
 }
 
-.button2:active {
+/*.button2:active {
     position: relative;
     top: 1px;
-}
+}*/
 
 .button2 i {
     font-size: 25px;
 }
+
+#button-rain{
+    position: absolute;
+    display: block;
+    right: 50px;
+    bottom: 55px;
+    margin: 8px;
+    border-radius: 100%;
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.6);
+}
+
+#button-rain:active{
+    position: absolute;
+    right: 50px;
+    bottom: 55px;
+}
+
+@media only screen and (max-width: 499px) {
+    #button-rain{
+        left: 15px;
+        top: 10px;
+    }
+}
+
 
 #button-logout {
     visibility: hidden;
@@ -1002,6 +1026,14 @@ button {
 #info-button p {
     padding: 0;
     margin: 0 auto;
+}
+
+@media only screen and (max-width: 499px) {
+    #info-button{
+        top: 49px;
+        left: auto;
+        right: 11px;
+    }
 }
 
 #popup4 {
@@ -1789,4 +1821,13 @@ button {
 }
 .admin_spots_img[src="/../spot-img/null"]{
     display: none;
+}
+
+/*raining*/
+#raining{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: block;
+    color: rgb(0, 16, 68);
 }

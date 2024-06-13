@@ -82,6 +82,16 @@ $('#main-button-signout').on('click', function () { //logout -> clear
     myPoints = [];
 });
 
+$('#button-rain').on('click', function () { //toggle between normal and raining mode
+    if(sessionStorage.getItem("raining") == 'null'){
+        sessionStorage.setItem("raining", 'true');
+    }
+    else{
+        sessionStorage.setItem("raining", 'null');
+    }
+    location.reload();
+});
+
 /*SHOW HIDE BKG OF POPUP*/
 $('#popup-all').on('click', function () { //add form popup
     popupAddForm.style.display = 'none';
