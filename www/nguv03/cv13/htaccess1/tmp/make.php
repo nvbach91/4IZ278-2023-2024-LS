@@ -1,1 +1,0 @@
-// ./htaccess1/tmp/make.php

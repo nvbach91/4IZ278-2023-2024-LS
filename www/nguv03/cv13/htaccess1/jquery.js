@@ -1,1 +1,0 @@
-// ./htaccess1/jquery.js
