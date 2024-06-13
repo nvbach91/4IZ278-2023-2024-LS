@@ -17,7 +17,8 @@ require '../Controller/wishlistController.php';
                             <div class="product-bodyend">
                                 <a href="../Controller/removeFromWishlist.php?product_id=<?php echo $product['product_id']; ?>" class="order-remove">Remove</a>
                                 <p class="product-price"><?php echo $product['price'] . ' Kč'; ?></p>
-                            </div>                        
+                            </div>
+                            <a href="../Controller/buyController.php?product_id=<?php echo $product['product_id']; ?>" class="edit-button">Buy</a>                        
                         </div>
                     </div>
                 <?php endforeach; ?>

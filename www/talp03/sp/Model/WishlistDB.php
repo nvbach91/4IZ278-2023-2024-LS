@@ -20,21 +20,21 @@ class WishlistDB extends Database {
         $statement->bindValue(':wishlist_id', $wishlistId);
         $statement->bindValue(':product_id', $productId);
         $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $statement->fetchAll();
     }
 
     public function findUserWishlist($userId) {
         $statement = $this->pdo->prepare('SELECT wishlist_id FROM wishlist WHERE user_id = :user_id');
         $statement->bindValue(':user_id', $userId);
         $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $statement->fetchAll();
     }
 
     public function findWishlistProducts($wishlistId) {
         $statement = $this->pdo->prepare('SELECT * FROM products JOIN wishlist_products ON products.product_id = wishlist_products.product_id WHERE wishlist_id = :wishlist_id');
         $statement->bindValue(':wishlist_id', $wishlistId);
         $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $statement->fetchAll();
     }
     
     public function createWishlist($userId) {

@@ -1,9 +1,10 @@
 <?php
 
-const DB_DATABASE = 'sp_eshop';
-const DB_HOSTNAME = 'localhost';
-const DB_USERNAME = 'root';
-const DB_PASSWORD = '';
+use Dotenv\Dotenv;
+include '../vendor/autoload.php';
+
+$dotenv = Dotenv::createImmutable('../');
+$dotenv->load();
 
 class DatabaseConnection {
     private static $pdo;
@@ -11,10 +12,11 @@ class DatabaseConnection {
     public static function getPDOConnection() {
         if (!self::$pdo) {
             self::$pdo = new PDO(
-                'mysql:host=' . DB_HOSTNAME .
-                ';dbname=' . DB_DATABASE,
-                DB_USERNAME,
-                DB_PASSWORD
+                'mysql:host=' . $_ENV['DB_HOSTNAME'] .
+                ';dbname=' . $_ENV['DB_DATABASE'],
+                $_ENV['DB_USERNAME'],
+                $_ENV['DB_PASSWORD'],
+                [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
             );
         }
         return self::$pdo;

@@ -25,7 +25,7 @@ require '../Controller/cartController.php';
             </div>
             <div class="order-info">
                 <p class="price-sum">Total price: <?php if (isset($priceSum)) {echo $priceSum;} else {echo 0;}?></p>
-                <a href="../Controller/makeOrder.php?price=<?php echo $priceSum; ?>" class="edit-button">Order</a>
+                <a href="../Controller/makeOrder.php" class="edit-button">Order</a>
             </div>
         </div>
     </main>

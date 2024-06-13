@@ -25,7 +25,7 @@ class OrderDB extends Database {
         $statement = $this->pdo->prepare('SELECT * FROM orders WHERE user_id = :user_id');
         $statement->bindValue(':user_id', $userId);
         $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $statement->fetchAll();
     }
 
     public function updateOrderState($orderId, $state) {

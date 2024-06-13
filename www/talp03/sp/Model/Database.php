@@ -19,7 +19,7 @@ abstract class Database {
         $statement = $this->pdo->prepare('SELECT * FROM ' . $table . ' WHERE ' . $column . ' = :data');
         $statement->bindValue(':data', $data, PDO::PARAM_STR);
         $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_ASSOC); 
+        return $statement->fetchAll(); 
     }
 
     public function create($data){

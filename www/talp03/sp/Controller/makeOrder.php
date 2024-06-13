@@ -6,7 +6,7 @@ require '../Model/OrderDB.php';
 require '../Model/ProductDB.php';
 require '../Model/UserDB.php';
 
-$priceSum = $_GET['price'];
+$priceSum = $_SESSION['price_sum'];
 $usermMail = $_COOKIE['email'];
 
 

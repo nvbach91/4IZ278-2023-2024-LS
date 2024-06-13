@@ -17,5 +17,6 @@ if (is_array($ids) && count($ids)) {
     }
 
     $priceSum = array_sum($productPrice);
+    $_SESSION['price_sum'] = $priceSum;
 }
 ?>

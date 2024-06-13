@@ -7,14 +7,14 @@ class ProductDB extends Database {
     public function findAll() {
         $statement = $this->pdo->prepare('SELECT * FROM products');
         $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $statement->fetchAll();
     }
 
     public function checkLastUpdate($productId) {
         $statement = $this->pdo->prepare('SELECT last_updated FROM products WHERE product_id = :product_id');
         $statement->bindValue(':product_id', $productId);
         $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $statement->fetchAll();
     }
 
     public function updateProduct($data, $lastUpdate) {
@@ -48,14 +48,14 @@ class ProductDB extends Database {
         $statement = $this->pdo->prepare('SELECT * FROM products WHERE category_id = :category_id');
         $statement->bindValue(':category_id', $category, PDO::PARAM_INT);
         $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $statement->fetchAll();
     }
 
     public function findId($id) {
         $statement = $this->pdo->prepare('SELECT product_id FROM products WHERE product_id = :product_id');
         $statement->bindValue(':product_id', $id, PDO::PARAM_INT);
         $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $statement->fetchAll();
     }
 
     public function fetchItemsPage($offset, $displayItems) {
@@ -63,7 +63,7 @@ class ProductDB extends Database {
         $statement->bindValue(':displayItems', $displayItems, PDO::PARAM_INT);
         $statement->bindValue(':offset', $offset, PDO::PARAM_INT);
         $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $statement->fetchAll();
     }
 
     public function fetchItemsPageByCategory($offset, $displayItems, $category) {
@@ -72,7 +72,7 @@ class ProductDB extends Database {
         $statement->bindValue(':offset', $offset, PDO::PARAM_INT);
         $statement->bindValue(':category_id', $category, PDO::PARAM_INT);
         $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $statement->fetchAll();
     }
 
     public function countProducts() {
