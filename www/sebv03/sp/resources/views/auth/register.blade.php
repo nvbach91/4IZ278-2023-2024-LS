@@ -28,4 +28,9 @@
                 </button>
             </div>
         </form>
+     <div class="text-center mt-4">
+         <a href="{{ route('auth.facebook') }}" class="w-full bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 inline-block">
+             Register using facebook
+         </a>
+     </div>
     </div>
