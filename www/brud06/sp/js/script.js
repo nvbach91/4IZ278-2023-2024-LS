@@ -56,7 +56,7 @@ function confirmInventoryAction(itemName) {
         .then(response => response.text())
         .then(data => {
             console.log(data);
-            window.location.href = '../components/CharacterDisplay.php';
+            window.location.href = '../components/BlacksmithDisplay.php';
         })
         .catch((error) => {
           console.error('Error:', error);

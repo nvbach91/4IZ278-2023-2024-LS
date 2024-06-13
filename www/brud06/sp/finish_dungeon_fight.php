@@ -7,9 +7,9 @@ require_once 'classes/Floor.php';
 
 // Get the quest from the database
 $floorsDB = new FloorsDB();
-    $challengedFloorId = $_SESSION['challenged_floor'];
-    $floorData = $floorsDB->getFloorById($challengedFloorId);
-    $floor = new Floor($floorData);
+$challengedFloorId = $_SESSION['challenged_floor'];
+$floorData = $floorsDB->getFloorById($challengedFloorId);
+$floor = new Floor($floorData);
 
 $characterDB = new CharactersDB();
 $characterData = $characterDB->findCharacterByUserId($_SESSION['user_id']);
@@ -39,8 +39,16 @@ if (isset($_SESSION['encounter_result']) && $_SESSION['encounter_result']) {
     }
     $character->setProgression($progression + 1);
     $characterDB->updateCharacter($character);
+
     unset($_SESSION['fight_type']);
+
+    if ($character->getProgression() == 3) {
+        header('Location: components/DungeonDisplay.php');
+        exit;
+    }
+
     header('Location: components/FloorDisplay.php');
+    exit;
 }
 
 

@@ -29,6 +29,21 @@ class Monster
             list($this->id, $this->name, $this->level, $this->strength, $this->hitpoints, $this->luck, $this->isDungeonMonster) = $args;
         }
     }
+
+    public function __get($property)
+    {
+        if (property_exists($this, $property)) {
+            return $this->$property;
+        }
+    }
+
+    public function __set($property, $value)
+    {
+        if (property_exists($this, $property)) {
+            $this->$property = $value;
+        }
+    }
+
     public function getId()
     {
         return $this->id;

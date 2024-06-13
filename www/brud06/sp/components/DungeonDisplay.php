@@ -54,8 +54,8 @@ $level_requirement = $forrestDungeon->getMinLvl()
         <main class="dungeons">
             <div class="dungeon-card">
                 <img src="../<?php echo $forrestDungeonData['image'] ?>" alt="ForrestDungeonImage">
-                <h2><?php echo $forrestDungeon->getName() ?></h2>
-                <p><?php echo $forrestDungeon->getDescription() ?></p>
+                <h2><?php echo $forrestDungeon->name ?></h2>
+                <p><?php echo $forrestDungeon->description ?></p>
                 <?php if ($level < $level_requirement) : ?>
                     <button class="enter-dungeon" disabled>Level 10 required to enter</button>
                 <?php elseif ($progression > $forrestDungeonFloors) : ?>
