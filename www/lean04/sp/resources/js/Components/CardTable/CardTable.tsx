@@ -3,9 +3,9 @@ import { Table as ChakraTable, Tbody, Tfoot, Thead } from '@chakra-ui/react';
 import { ColumnDef, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from '@tanstack/react-table';
 import { Card as PokemonCard } from 'pokemon-tcg-sdk-typescript/dist/sdk';
 
-import { BodyRow } from './BodyRow';
+import { BodyRow, HeadRow } from '../table';
+
 import { columns } from './columns';
-import { HeadRow } from './HeadRow';
 
 export interface CardTableProps<T extends PokemonCard> {
     data: Array<T>;
@@ -31,17 +31,17 @@ export default function Table<T extends PokemonCard>({ data, additionalColumns }
         <ChakraTable>
             <Thead>
                 {table.getHeaderGroups().map((headerGroup) => (
-                    <HeadRow key={headerGroup.id} headerGroup={headerGroup} />
+                    <HeadRow<PokemonCard> key={headerGroup.id} headerGroup={headerGroup} />
                 ))}
             </Thead>
             <Tbody>
                 {table.getRowModel().rows.map((row) => (
-                    <BodyRow key={row.id} row={row} />
+                    <BodyRow<PokemonCard> key={row.id} row={row} />
                 ))}
             </Tbody>
             <Tfoot>
                 {table.getFooterGroups().map((footerGroup) => (
-                    <HeadRow key={footerGroup.id} headerGroup={footerGroup} />
+                    <HeadRow<PokemonCard> key={footerGroup.id} headerGroup={footerGroup} />
                 ))}
             </Tfoot>
         </ChakraTable>

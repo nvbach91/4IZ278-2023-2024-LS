@@ -19,7 +19,7 @@ interface DetailProps extends PageProps, WithPagination, WithSearchQuery {
 }
 
 export default function Detail({ auth, deck, cards, totalCardCount, page, totalPages, searchQuery }: DetailProps) {
-    const isUserDeckOwner = auth.user && deck.owner_id === auth.user.id;
+    const isUserDeckOwner = auth.user && (deck.owner_id === auth.user.id || auth.user.privilege >= 1);
 
     return (
         <SharedLayout

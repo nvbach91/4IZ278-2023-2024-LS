@@ -23,7 +23,7 @@ class DeckPolicy
         if ($user === null) {
             return false;
         }
-        return $user->id === $deck->owner_id;
+        return $user->id === $deck->owner_id || $user->privilege >= 1;
     }
 
     /**
@@ -34,6 +34,6 @@ class DeckPolicy
         if ($user === null) {
             return false;
         }
-        return $user->id === $deck->owner_id;
+        return $user->id === $deck->owner_id || $user->privilege >= 1;
     }
 }

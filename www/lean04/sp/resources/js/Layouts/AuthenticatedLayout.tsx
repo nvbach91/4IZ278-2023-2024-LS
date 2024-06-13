@@ -43,6 +43,11 @@ export default function Authenticated({
                                 <MenuItem as={InertiaLink} href={route('profile.edit')}>
                                     Profile
                                 </MenuItem>
+                                {user.privilege >= 2 ? (
+                                    <MenuItem as={InertiaLink} href={route('user.showAll')}>
+                                        Admin
+                                    </MenuItem>
+                                ) : null}
                                 <MenuItem as={InertiaLink} method="post" href={route('logout')}>
                                     Log Out
                                 </MenuItem>
