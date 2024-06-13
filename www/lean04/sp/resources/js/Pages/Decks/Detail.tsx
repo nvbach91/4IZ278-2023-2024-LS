@@ -1,5 +1,17 @@
 import { AddIcon, EditIcon } from '@chakra-ui/icons';
-import { Button, Card, CardBody, Flex, HStack, Stack, Text } from '@chakra-ui/react';
+import {
+    Alert,
+    AlertDescription,
+    AlertIcon,
+    AlertTitle,
+    Button,
+    Card,
+    CardBody,
+    Flex,
+    HStack,
+    Stack,
+    Text,
+} from '@chakra-ui/react';
 import { Head, Link as InertiaLink } from '@inertiajs/react';
 import pluralize from 'pluralize';
 
@@ -20,7 +32,7 @@ interface DetailProps extends PageProps, WithPagination, WithSearchQuery {
 
 export default function Detail({ auth, deck, cards, totalCardCount, page, totalPages, searchQuery }: DetailProps) {
     const isUserDeckOwner = auth.user && (deck.owner_id === auth.user.id || auth.user.privilege >= 1);
-
+    const isDeckEmpty = cards.length === 0;
     return (
         <SharedLayout
             auth={auth}
@@ -47,38 +59,51 @@ export default function Detail({ auth, deck, cards, totalCardCount, page, totalP
                         <Delete deck={deck} />
                     </HStack>
                 ) : null}
-                <Card>
-                    <CardBody>
-                        <Stack spacing={4}>
-                            <Flex justifyContent="space-between">
-                                {isUserDeckOwner ? (
-                                    <Button
-                                        as={InertiaLink}
-                                        href={route('card.showSearch')}
-                                        colorScheme="teal"
-                                        leftIcon={<AddIcon />}
-                                        size="sm"
-                                        variant="outline"
-                                    >
-                                        Add card
-                                    </Button>
-                                ) : null}
-                                {totalCardCount === 0 ? null : (
-                                    <SearchInput
-                                        defaultValue={searchQuery}
-                                        action={route('deck.show', { id: deck.id })}
-                                        autoFocus
-                                    />
+                {cards.length === 0 ? (
+                    <Alert status="info">
+                        <AlertIcon />
+                        <AlertTitle>This deck is empty</AlertTitle>
+                        <AlertDescription>
+                            {isUserDeckOwner
+                                ? 'Add cards to this deck by clicking the button below.'
+                                : `There are no cards in ${deck.name}.`}
+                        </AlertDescription>
+                    </Alert>
+                ) : null}
+                {isDeckEmpty && !isUserDeckOwner ? null : (
+                    <Card>
+                        <CardBody>
+                            <Stack spacing={4}>
+                                <Flex justifyContent="space-between">
+                                    {isUserDeckOwner ? (
+                                        <Button
+                                            as={InertiaLink}
+                                            href={route('card.showSearch')}
+                                            colorScheme="teal"
+                                            leftIcon={<AddIcon />}
+                                            size="sm"
+                                            variant="outline"
+                                        >
+                                            Add card
+                                        </Button>
+                                    ) : null}
+                                    {totalCardCount === 0 ? null : (
+                                        <SearchInput
+                                            defaultValue={searchQuery}
+                                            action={route('deck.show', { id: deck.id })}
+                                            autoFocus
+                                        />
+                                    )}
+                                </Flex>
+                                {cards.length === 0 ? null : (
+                                    <CurrentDeckContext.Provider value={deck}>
+                                        <DeckCardTable cards={cards} isUserDeckOwner={isUserDeckOwner} />
+                                    </CurrentDeckContext.Provider>
                                 )}
-                            </Flex>
-                            {cards.length === 0 ? null : (
-                                <CurrentDeckContext.Provider value={deck}>
-                                    <DeckCardTable cards={cards} isUserDeckOwner={isUserDeckOwner} />
-                                </CurrentDeckContext.Provider>
-                            )}
-                        </Stack>
-                    </CardBody>
-                </Card>
+                            </Stack>
+                        </CardBody>
+                    </Card>
+                )}
                 <Pagination
                     currentPage={page}
                     totalPages={totalPages}
