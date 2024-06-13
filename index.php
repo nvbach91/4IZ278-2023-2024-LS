@@ -264,9 +264,15 @@ console.log('sent data comment: '+post_data);
 
             let data = new FormData();
             let comment_text = document.getElementById("koment").value;
+            document.getElementById("koment").value = "";
+            if(comment_text == ""){
+                comment_text = document.getElementById("komentM").value;
+                document.getElementById("komentM").value = "";
+            }
             //comment_text = DOMPurify.sanitize(comment_text);
             data.append("comment_spot_id", document.getElementById("comment_spot_id").value);
             data.append("koment", comment_text);
+            console.log(comment_text);
 
             let xhr = new XMLHttpRequest();
             xhr.open("POST", "comment/CommentSpot.php");
@@ -286,7 +292,7 @@ console.log('sent data comment: '+post_data);
                     for (let b = 0; b < commentContainer.length; b++) {
                         commentContainer[b].innerHTML +=
                             `
-                            <div class="comment" id="comment-${comment_id}">
+                            <div class="comment comment-${comment_id}" id="comment-${comment_id}">
                                 <div class="comment-bubble">
                                     <p class="comment-author">${sent_data[2]}</p><p class="comment-date">${sent_data[3]}</p><br>
                                     <p class="comment-text">${sent_data[4]}</p><br>
@@ -314,7 +320,7 @@ console.log('sent data comment: '+post_data);
             xhr.onload = function () {
                 console.log(this.response);
 
-                $('#comment-' + comment_id).hide();
+                $('.comment-' + comment_id).hide();
                 //commentContainer[b].scrollTop = commentContainer[b].scrollHeight;
 
                 /*let commentContainer = document.querySelectorAll(`#comments${sent_data[0]}, #commentsM${sent_data[0]}`);

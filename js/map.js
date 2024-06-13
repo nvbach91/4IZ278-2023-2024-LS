@@ -119,7 +119,7 @@ map.loadImage(
                                     //'likes': spotsFinal[i][7],
                                     'imageSRC': 'spot-img/' + spotsFinal[i][8],
                                     'image': spotsFinal[i][8],
-                                    'date': spotsFinal[i][9],
+                                    'date': changeDate(spotsFinal[i][9]),
                                 }
                             }
                             allPoints.push(nextPoint);
@@ -140,7 +140,7 @@ map.loadImage(
                                         //'likes': spotsFinal[i][7],
                                         'imageSRC': 'spot-img/' + spotsFinal[i][8],
                                         'image': spotsFinal[i][8],
-                                        'date': spotsFinal[i][9],
+                                        'date': changeDate(spotsFinal[i][9]),
                                     }
                                 }
                                 allPointsRaining.push(nextPoint2);
@@ -500,9 +500,9 @@ map.on('click', 'unclustered-points', (e) => {
                 </div>
             </div>
             <form class="comments-form" id="comment-formM" onsubmit="return ajax_call_comment()">
-                <input type="hidden" name="comment_spot_id" value="${spot_id}">
-                <textarea id='koment' name='koment' class='comment-form-text' placeholder='' required></textarea>
-                <button type='submit' class="button-send-comment"><i class="fa-solid fa-paper-plane comment-send"></i></button>
+                <input type="hidden" name="comment_spot_id" id="comment_spot_id" value="${spot_id}">
+                <textarea id='komentM' name='koment' class='comment-form-text' placeholder='' required></textarea>
+                <button type='submit' id="submit" class="button-send-comment"><i class="fa-solid fa-paper-plane comment-send"></i></button>
             </form>
         </div>
         `;
