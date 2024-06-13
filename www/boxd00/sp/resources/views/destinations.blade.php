@@ -5,7 +5,15 @@
     <div class="col">
         <div class="container mt-3">
             <h1>Destinace</h1>
-            <p>V této sekci bude seznam všech destinací.</p>
+            <p>S BlueJet se můžete proletět do těchto destinací:</p>
+            @foreach ($groupedDestinations as $country => $destinations)
+                <h2>{{ $country }}</h2>
+                <ul>
+                    @foreach ($destinations as $destination)
+                        <li>{{ $destination->name }}</li>
+                    @endforeach
+                </ul>
+            @endforeach
         </div>
     </div>
 </div>

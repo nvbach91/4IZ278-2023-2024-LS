@@ -6,12 +6,49 @@ body {
     background-color: rgb(235, 235, 235);
 }
 
+.errorText {
+    color: red;
+    display: none;
+}
+
+.navbarLink {
+    text-decoration: none;
+    font-weight: bold;
+    color: white;
+}
+.navbarLink:hover {
+    text-decoration: underline;
+}
+
+.successText {
+    color: green;
+}
+
+#isStudentRow {
+    display: none;
+}
+
+#loginLink {
+    display: none;
+}
+
 #mottobox {
     color: white;
 }
 
 #navbar * {
     color: white;
+}
+
+#profileLink {
+    text-decoration: none;
+}
+#profileLink:hover {
+    text-decoration: underline;
+}
+
+#registerForm {
+    display: none;
 }
 
 #ticketbox {

@@ -12,17 +12,17 @@
                 </div>
                 <div class="col-4">
                     <div class="container-fluid" id="ticketbox">
-                        <form method="POST" action="/findtickets">
+                        <form method="GET" action="/connections">
                             <div class="row">
                                 <div class="col-3">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="ticketType" id="ticketTypeOneWay">
+                                        <input class="form-check-input" type="radio" name="ticketType" value="oneway" id="ticketTypeOneWay">
                                         <label class="form-check-label" for="ticketTypeOneWay">Jednosměrná</label>
                                     </div>
                                 </div>
                                 <div class="col-3">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="ticketType" id="ticketTypeTwoWay">
+                                        <input class="form-check-input" type="radio" name="ticketType" value="twoway" id="ticketTypeTwoWay">
                                         <label class="form-check-label" for="ticketTypeTwoWay">Zpáteční</label>
                                     </div>
                                 </div>
@@ -30,49 +30,56 @@
                             <div class="row">
                                 <div class="col-6">
                                     <label>Let z</label>
-                                    <select class="form-select" aria-label="Select">
-                                        <option selected>Praha</option> <!-- destinations will be loaded from DB -->
-                                        <optgroup label="Argentina">
-                                            <option>Buenos Aires</option>
-                                        </optgroup>
-                                        <optgroup label="Brazílie">
-                                            <option>Rio de Janeiro</option>
-                                        </optgroup>
-                                        <optgroup label="Spojené státy">
-                                            <option>Chicago</option>
-                                            <option>New York</option>
-                                        </optgroup>
+                                    <select class="form-select" aria-label="Select" name="from" id="fromDestination" disabled>
+                                        <option value="PRG" selected>Praha</option>
+                                        @foreach ($groupedDestinations as $country => $destinations)
+                                            @if ($country != "Česká republika")
+                                            <optgroup label="{{ $country }}">
+                                                @foreach ($destinations as $destination)
+                                                    <option value="{{ $destination->airport_code }}">{{ $destination->name }}</option>
+                                                @endforeach
+                                            </optgroup>
+                                            @endif
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="col-6">
                                     <label>Let do</label>
-                                    <select class="form-select" aria-label="Select">
-                                        <option selected>Praha</option>
-                                        <optgroup label="Argentina">
-                                            <option>Buenos Aires</option>
-                                        </optgroup>
-                                        <optgroup label="Brazílie">
-                                            <option>Rio de Janeiro</option>
-                                        </optgroup>
-                                        <optgroup label="Spojené státy">
-                                            <option>Chicago</option>
-                                            <option>New York</option>
-                                        </optgroup>
+                                    <select class="form-select" aria-label="Select" name="to" id="toDestination" disabled>
+                                        <option value="PRG" selected>Praha</option>
+                                        @foreach ($groupedDestinations as $country => $destinations)
+                                            @if ($country != "Česká republika")
+                                            <optgroup label="{{ $country }}">
+                                                @foreach ($destinations as $destination)
+                                                    <option value="{{ $destination->airport_code }}">{{ $destination->name }}</option>
+                                                @endforeach
+                                            </optgroup>
+                                            @endif
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row mt-2">
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label>Datum odletu</label>
-                                        <input type="text" class="form-control">
+                                        <input type="date" class="form-control" id="departureDate" name="departure" disabled>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label>Datum návratu</label>
-                                        <input type="text" class="form-control">
+                                        <input type="date" class="form-control" id="returnDate" name="return" disabled>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <p class="errorText" id="todayAlert">Lety lze objednávat pouze od dnešního dne.</p>
+                                <p class="errorText" id="dateAlert">Datum návratu musí být později než datum odletu.</p>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-primary" id="searchFlightsButton" disabled>Vyhledat</button>
                                 </div>
                             </div>
                         </form>
@@ -87,10 +94,10 @@
 <div class="row">
     <div class="col">
         <div class="container">
-            <h1 class="mt-3">Placeholder</h1>
-            <p>
-                Information and section placeholder
-            </p>
+            <h1 class="mt-3">Vítejte</h1>
+            <p>Vítejte u BlueJet Airlines, vašeho průvodce k dobrodružství na vzdálených destinacích po celém světě. S pýchou sídlíme v srdci Prahy, odkud vzlétají naše moderní letadla, připravená splnit vaše největší cestovatelské sny.</p>
+            <p>Od Ameriky přes Afriku až po Asii, naše síť tras zahrnuje širokou škálu destinací, které vám umožní prozkoumat krásy světa a objevit nové kultury a zážitky. Bezpečnost a komfort našich cestujících je naší nejvyšší prioritou, a proto se naše posádky starají o vaše pohodlí a bezpečí od odletu až do příletu.</p>
+            <p>Připojte se k nám na palubě BlueJet Airlines a nechte se unášet na nezapomenutelné cestě, která překročí hranice a přivede vás do nových světů.</p>
         </div>
     </div>
 </div>
@@ -116,4 +123,12 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section("misc_scripts")
+@if (session("success"))
+<script type="text/javascript">
+    alert("{{ session('success') }}");
+</script>
+@endif
 @endsection
