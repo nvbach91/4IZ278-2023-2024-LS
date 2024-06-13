@@ -1,4 +1,4 @@
-import { FormEventHandler,useRef, useState } from 'react';
+import { FormEventHandler, useRef, useState } from 'react';
 import { useForm } from '@inertiajs/react';
 
 import DangerButton from '@/Components/DangerButton';
@@ -12,14 +12,7 @@ export default function DeleteUserForm({ className = '' }: { className?: string 
     const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
     const passwordInput = useRef<HTMLInputElement>(null);
 
-    const {
-        data,
-        setData,
-        delete: destroy,
-        processing,
-        reset,
-        errors,
-    } = useForm({
+    const { data, setData, post, processing, reset, errors } = useForm({
         password: '',
     });
 
@@ -30,7 +23,7 @@ export default function DeleteUserForm({ className = '' }: { className?: string 
     const deleteUser: FormEventHandler = (e) => {
         e.preventDefault();
 
-        destroy(route('profile.destroy'), {
+        post(route('profile.destroy'), {
             preserveScroll: true,
             onSuccess: () => closeModal(),
             onError: () => passwordInput.current?.focus(),

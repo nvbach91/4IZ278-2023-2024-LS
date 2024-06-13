@@ -24,11 +24,11 @@ export const Delete = ({ user }: WithUser) => {
 
     const queryParams = useQueryParams();
 
-    const { delete: del, processing } = useForm();
+    const { post, processing } = useForm();
 
     const handleSubmit: FormEventHandler = (event) => {
         event.preventDefault();
-        del(route('user.delete', { id: user.id, ...queryParams }), {
+        post(route('user.delete', { id: user.id, ...queryParams }), {
             preserveState: false,
             onSuccess: () => {
                 toast({

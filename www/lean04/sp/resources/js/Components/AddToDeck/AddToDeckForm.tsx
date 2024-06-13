@@ -41,7 +41,7 @@ export const AddToDeckForm = ({ pokemonCard, onClose }: AddToDeckFormProps) => {
 
     const mutation = useMutation({
         mutationFn: async () =>
-            axios.put(route('card.addToDeck', { deckId: selectedDeckId, cardId: pokemonCard.id }), {
+            axios.post(route('card.addToDeck', { deckId: selectedDeckId, cardId: pokemonCard.id }), {
                 count,
 
                 name: pokemonCard.name,

@@ -41,28 +41,28 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/user/decks', [DeckController::class, 'getOwnDecks'])->name('deck.getOwnDecks');
 
-    Route::put('/user/cards/{id}', [CardController::class, 'addToCollection'])->name('card.addToCollection');
-    Route::patch('/user/cards/{id}', [CardController::class, 'changeCollectionCount'])->name('card.changeCollectionCount');
-    Route::delete('/user/cards/{id}', [CardController::class, 'removeFromCollection'])->name('card.removeFromCollection');
+    Route::post('/user/addCard/{id}', [CardController::class, 'addToCollection'])->name('card.addToCollection');
+    Route::post('/user/changeCardCount/{id}', [CardController::class, 'changeCollectionCount'])->name('card.changeCollectionCount');
+    Route::post('/user/deleteCard/{id}', [CardController::class, 'removeFromCollection'])->name('card.removeFromCollection');
 
     Route::post('/decks/create', [DeckController::class, 'create'])->name('deck.create');
-    Route::put('/decks/update/{id}', [DeckController::class, 'update'])->name('deck.update');
-    Route::delete('/decks/delete/{id}', [DeckController::class, 'delete'])->name('deck.delete');
+    Route::post('/decks/update/{id}', [DeckController::class, 'update'])->name('deck.update');
+    Route::post('/decks/delete/{id}', [DeckController::class, 'delete'])->name('deck.delete');
 
-    Route::put('/decks/{deckId}/cards/{cardId}', [CardController::class, 'addToDeck'])->name('card.addToDeck');
-    Route::patch('/decks/{deckId}/cards/{cardId}', [CardController::class, 'changeDeckCount'])->name('card.changeDeckCount');
-    Route::delete('/decks/{deckId}/cards/{cardId}', [CardController::class, 'removeFromDeck'])->name('card.removeFromDeck');
+    Route::post('/decks/{deckId}/addCard/{cardId}', [CardController::class, 'addToDeck'])->name('card.addToDeck');
+    Route::post('/decks/{deckId}/changeCardCount/{cardId}', [CardController::class, 'changeDeckCount'])->name('card.changeDeckCount');
+    Route::post('/decks/{deckId}/deleteCard/{cardId}', [CardController::class, 'removeFromDeck'])->name('card.removeFromDeck');
 
     Route::get('admin', [UserController::class, 'showAll'])->name('user.showAll');
 
-    Route::put('/users/{id}', [UserController::class, 'update'])->name('user.update');
-    Route::delete('/users/{id}', [UserController::class, 'delete'])->name('user.delete');
+    Route::post('/users/update/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::post('/users/delete/{id}', [UserController::class, 'delete'])->name('user.delete');
 });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/delete', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__ . '/auth.php';

@@ -20,11 +20,11 @@ export const Delete = ({ deck }: WithDeck) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const toast = useToast();
 
-    const { delete: del, processing } = useForm();
+    const { post, processing } = useForm();
 
     const handleSubmit: FormEventHandler = (event) => {
         event.preventDefault();
-        del(route('deck.delete', { id: deck.id }), {
+        post(route('deck.delete', { id: deck.id }), {
             preserveState: false,
             onSuccess: () => {
                 onClose();
@@ -49,50 +49,6 @@ export const Delete = ({ deck }: WithDeck) => {
             },
         });
     };
-
-    // const mutation = useMutation({
-    //     mutationFn: async () => axios.delete(route('deck.delete', { id: deck.id })),
-    //     onSuccess: () => {
-    //         onClose();
-    //         const promise = new Promise<void>((resolve) => {
-    //             setTimeout(() => {
-    //                 window.location.href = route('deck.showOwn');
-    //                 resolve();
-    //             }, 2000);
-    //         });
-    //         toast.promise(promise, {
-    //             loading: {
-    //                 title: `Deck deleted`,
-    //                 description: `${deck.name} has been deleted. You will be redirected to your deck list shortly.`,
-    //                 isClosable: true,
-    //                 position: 'top-right',
-    //                 colorScheme: 'green',
-    //             },
-    //             success: {
-    //                 title: 'Redirecting to your deck list',
-    //                 isClosable: true,
-    //                 position: 'top-right',
-    //                 colorScheme: 'blue',
-    //             },
-    //             error: {
-    //                 title: 'An error occurred',
-    //                 description: `There was an error deleting ${deck.name}`,
-    //                 isClosable: true,
-    //                 position: 'top-right',
-    //             },
-    //         });
-    //     },
-    //     onError: () => {
-    //         toast({
-    //             title: 'An error occurred',
-    //             description: `There was an error deleting ${deck.name}`,
-    //             status: 'error',
-    //             duration: 5000,
-    //             isClosable: true,
-    //             position: 'top-right',
-    //         });
-    //     },
-    // });
 
     return (
         <>

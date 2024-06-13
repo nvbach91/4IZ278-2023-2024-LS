@@ -22,13 +22,13 @@ export const Remove = ({ pokemonCard }: WithCountedPokemonCard) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const toast = useToast();
 
-    const { delete: del, processing } = useForm();
+    const { post, processing } = useForm();
 
     const queryParams = useQueryParams();
 
     const handleSubmit: FormEventHandler = (event) => {
         event.preventDefault();
-        del(route('card.removeFromCollection', { id: pokemonCard.id, ...queryParams }), {
+        post(route('card.removeFromCollection', { id: pokemonCard.id, ...queryParams }), {
             preserveState: false,
             onSuccess: () => {
                 toast({

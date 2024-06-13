@@ -22,7 +22,7 @@ interface EditProps extends PageProps {
 }
 
 export default function Edit({ auth, deck }: EditProps) {
-    const { data, setData, put, errors, processing } = useForm({
+    const { data, setData, post, errors, processing } = useForm({
         name: deck.name,
     });
 
@@ -30,7 +30,7 @@ export default function Edit({ auth, deck }: EditProps) {
 
     const handleSubmit: FormEventHandler = (event) => {
         event.preventDefault();
-        put(route('deck.update', { id: deck.id }), {
+        post(route('deck.update', { id: deck.id }), {
             onSuccess: () => {
                 toast({
                     title: 'Deck updated',

@@ -32,7 +32,7 @@ export const Edit = ({ user }: WithUser) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const toast = useToast();
 
-    const { put, data, setData, processing } = useForm({
+    const { post, data, setData, processing } = useForm({
         name: user.name,
         email: user.email,
         privilege: user.privilege,
@@ -42,7 +42,7 @@ export const Edit = ({ user }: WithUser) => {
 
     const handleSubmit: FormEventHandler = (event) => {
         event.preventDefault();
-        put(route('user.update', { id: user.id, ...queryParams }), {
+        post(route('user.update', { id: user.id, ...queryParams }), {
             preserveState: false,
             onSuccess: () => {
                 toast({
