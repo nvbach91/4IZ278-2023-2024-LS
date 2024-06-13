@@ -289,12 +289,13 @@ console.log('sent data comment: '+post_data);
 
                     let commentContainer = document.querySelectorAll(`#comments${sent_data[0]}, #commentsM${sent_data[0]}`);
                     console.log(commentContainer);
+                    let date_readable = changeDate(sent_data[3]);
                     for (let b = 0; b < commentContainer.length; b++) {
                         commentContainer[b].innerHTML +=
                             `
                             <div class="comment comment-${comment_id}" id="comment-${comment_id}">
                                 <div class="comment-bubble">
-                                    <p class="comment-author">${sent_data[2]}</p><p class="comment-date">${sent_data[3]}</p><br>
+                                    <p class="comment-author">${sent_data[2]}</p><p class="comment-date">${date_readable}</p><br>
                                     <p class="comment-text">${sent_data[4]}</p><br>
                                     <a class="comment-delete" href="" onclick="return deleteComment(${comment_id});">Odstranit komentář</a>
                                 </div>

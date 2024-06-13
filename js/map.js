@@ -479,7 +479,7 @@ map.on('click', 'unclustered-points', (e) => {
                 <a href='#' onclick="unlike(${spot_id}, ${likes});" id="unlikeM-${spot_id}"><i class="fa-solid fa-heart like-true like"></i></a>
 
                 <h2>${name}</h2>
-                <p class='author author-${author}'>${author}</p>
+                <p class='author author-${author}'>${author} | ${date}</p>
                 <div class='icons'>
                     <i class='fa-solid fa-mountain icon-${vyhlidka}' title='Vyhlídka'></i>
                     <i class='fa-solid fa-water icon-${rybnik}' title='U vody'></i>
@@ -519,7 +519,7 @@ map.on('click', 'unclustered-points', (e) => {
                     <a href='#' onclick="unlike(${spot_id}, ${likes});" id="unlike-${spot_id}"><i class="fa-solid fa-heart like-true like"></i></a>
     
                     <h2>${name}</h2>
-                    <p class='author author-${author}'>${author}</p>
+                    <p class='author author-${author}'>${author} | ${date}</p>
                     <div class='icons'>
                         <i class='fa-solid fa-mountain icon-${vyhlidka}' title='Vyhlídka'></i>
                         <i class='fa-solid fa-water icon-${rybnik}' title='U vody'></i>

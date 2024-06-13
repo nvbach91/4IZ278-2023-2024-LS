@@ -83,7 +83,10 @@ $('#main-button-signout').on('click', function () { //logout -> clear
 });
 
 $('#button-rain').on('click', function () { //toggle between normal and raining mode
-    if(sessionStorage.getItem("raining") == 'null'){
+    if(sessionStorage.getItem("raining") === null){
+        sessionStorage.setItem("raining", 'true');
+    }
+    else if(sessionStorage.getItem("raining") == 'null'){
         sessionStorage.setItem("raining", 'true');
     }
     else{

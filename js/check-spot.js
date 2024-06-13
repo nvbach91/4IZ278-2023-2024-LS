@@ -236,9 +236,9 @@ function changeDate(date){
     let [year, month, day] = datePart.split('-');
 
     // Extract hour and minute from the time part
-    let [hour, minute] = timePart.split(':');
+    //let [hour, minute] = timePart.split(':');
 
     // Format the date as desired
-    let newDate = `${day}.${parseInt(month)}.${year} ${hour}:${minute}`;
+    let newDate = `${day}.${parseInt(month)}.${year}`;
     return newDate;
 }
