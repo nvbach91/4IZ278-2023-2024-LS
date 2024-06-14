@@ -8,4 +8,5 @@ export const CurrentDeckContext = createContext<Deck>({
     name: '',
     owner_id: '',
     updated_at: '',
+    totalCardCount: 0,
 });
