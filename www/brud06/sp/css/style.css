@@ -1,0 +1,663 @@
+body {
+    font-family: Arial, sans-serif;
+}
+.wrapper {
+    display: flex;
+}
+aside {
+    background-color: aqua;
+}
+
+main {
+    flex: 1;
+    position: relative;
+}
+
+
+aside nav {
+    width: 300px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    box-sizing: border-box;
+}
+
+aside nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+aside nav ul li a {
+    display: block;
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #ffffff;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+aside nav ul li a:hover {
+    background-color: #0056b3;
+}
+#profileImage {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+#characterImage {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+.background {
+    display:flex;
+    justify-content: space-between;
+    background-color: #f0f0f0; /* light gray */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+.equipment {
+    background-color: #f0f0f0; /* light gray */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.weapon, .armor, .ring, .boots {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #e0e0e0; /* slightly darker gray */
+    border-radius: 5px;
+    width: 120px;
+}
+.characterAndEquipment {
+    display: flex;
+    justify-content: space-between;
+    background-color: yellow;
+    flex: 1;
+    margin-right: 20px;
+}
+
+.characterInfo {
+    flex: 7;
+    margin-right: 20px;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.equipment {
+    flex: 3;
+}
+.level{
+    background-color: lime;
+    width: 90%;
+    text-align: center;
+    position: relative;
+}
+.xpBubble {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+    width: 200px;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.level:hover .xpBubble {
+    display: block;
+}
+.stats{
+    align-self: center;
+    width: 90%;
+    box-sizing: border-box;
+}
+.stats ul {
+    list-style-type: none;
+    width: 100%;
+    padding-left: 0;
+    margin-left: 0;
+    align-self: center;
+}
+.attribute{
+    border: 2px solid black;
+    margin-bottom: 5px;
+    padding: 4px;
+}
+.stats li {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;;
+}
+.smallText {
+    font-size: 16px !important;
+}
+.increaseStat {
+    margin-left: 50px;
+}
+.inventory{
+    flex: 1;
+    background-color: #0056b3;
+    display: grid;
+    grid-template-columns: repeat(3, 140px);
+    grid-template-rows: repeat(2, 140px);
+    gap: 10px; /* Adjust this value as needed */
+    justify-content: center;
+    padding-top: 20px;
+    height: 300px;
+    
+}
+.item {
+    background-color: #f0f0f0; /* light gray */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+#characterImage {
+    width: 250px; /* Increase this value */
+    height: 250px; /* Increase this value */
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+#weaponImage {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+}
+.goods {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.good {
+    width: 25%;
+}
+
+.card-img-top {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.price {
+    font-size: 32px;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.btn-group {
+    margin: 10px 10px;
+    background-color: #0056b3;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.emptyCart,
+.buyMoreStuff {
+    text-align: center;
+    font-size: 2em;
+}
+
+form {
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1.2em;
+}
+
+form input[type="text"],
+form input[type="password"],
+form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+form input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+form input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+.createItem {
+    font-size: 1.2em;
+}
+.container {
+    max-width: 70%;
+    margin: auto;
+}
+form input, form textarea {
+    display: block;
+    margin-bottom: 10px;
+}
+.character {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+}
+
+.character img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.character h2 {
+    font-size: 2em;
+    color: #333;
+}
+.character-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    background-color: #f0f0f0; /* light gray */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    height: 400px;
+}
+
+.character-card img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.character-card h2 {
+    font-size: 2em;
+    color: #333;
+}
+
+.character-card .hp {
+    font-size: 20px;
+}
+
+.encounter-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.row-encounter {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+.blacksmith-grid{
+    right: 20;
+    flex: 1;
+    background-color: #0056b3;
+    display: grid;
+    grid-template-columns: repeat(3, 140px);
+    grid-template-rows: repeat(2, 140px);
+    gap: 20px; /* Adjust this value as needed */
+    justify-content: center;
+    padding-top: 20px;
+    height: 300px;
+    
+}
+.item-card {
+    background-color: #f0f0f0; /* light gray */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 100px; /* adjust as needed */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.item-card .item-img {
+    width: 60%;
+    height: auto;
+}
+
+.item-card .item-name {
+    font-size: 16px; /* adjust as needed */
+    font-weight: bold;
+    margin-bottom: 3px; /* adjust as needed */
+}
+
+.item-card .item-price {
+    font-size: 16px; /* adjust as needed */
+    color: #000;
+    font-weight: bold; /* adjust as needed */
+    margin-top: 3px; /* adjust as needed */
+}
+.confirm-dialog-hidden {
+    display: none;
+}
+
+.confirm-dialog-visible {
+    display: flex;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.confirm-dialog-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+.item-card {
+    position: relative;
+        min-width: 100px;
+        min-height: 100px;
+        margin-bottom: 10px;
+}
+
+.item-stats {
+    display: none;
+    position: absolute;
+    /* Adjust the position as needed. */
+    top: 0;
+    left: -100px;
+    pointer-events: none;
+    /* Add other styles as needed (e.g., background color, padding, etc.). */
+} 
+.item-card:hover .item-stats {
+    display: block;
+    background-color: #f9f9f9;
+    padding: 0 20px;
+}
+.action-dialog-hidden {
+    display: none;
+}
+
+.action-dialog-visible {
+    display: flex;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.action-dialog-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+.item-form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: auto;
+}
+
+.item-form input[type="text"] {
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.item-form input[type="submit"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+.item-form input[type="submit"]:hover {
+    background-color: #45a049;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.back-button {
+    display: block;
+    width: 100px;
+    height: 30px;
+    margin: 20px auto;
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    background-color: #45a049;
+}
+.error {
+    color: red;
+    font-size: 20px;
+    border: 1px solid red;
+    padding: 10px;
+    margin: 10px;
+}
+.dungeons {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+.dungeon-card {
+    width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.dungeon-card img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.dungeon-card h2 {
+    font-size: 20px;
+    color: #333;
+    margin: 10px 0;
+}
+
+.dungeon-card p {
+    font-size: 16px;
+    color: #666;
+    margin: 0 10px 10px;
+}
+.enter-dungeon {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.enter-dungeon:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+.enter-dungeon:not(:disabled):hover {
+    background-color: #0056b3;
+}
+.floor{
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    background-color: #f0f0f0;
+
+}
+.floor-card {
+    width: 500px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.challenge-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.challenge-button:hover {
+    background-color: #0056b3;
+}
+.floor-image {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border-radius: 10px;
+}
+.admin-form button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.level-up-message {
+    color: green;
+    font-size: 20px;
+    font-weight: bold;
+}
+.github-login {
+    display: inline-block;
+    background-color: #008000;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.github-login:hover {
+    background-color: #006400;
+    color: #fff;
+}
+.upload-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.upload-image input[type="file"] {
+    margin: 10px 0;
+    color: #333;
+}
+
+.upload-image input[type="submit"] {
+    padding: 10px 20px;
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.upload-image input[type="submit"]:hover {
+    background-color: #0056b3;
+}
