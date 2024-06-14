@@ -1,12 +1,22 @@
 @php
 use Carbon\Carbon;
+
+if (!Auth::check()) {
+    $multiple = 1;
+} else {
+    $multiple = 1 - (Auth::user()->membership * 0.1);
+}
 @endphp
 
 @extends("base")
 
 @section("content")
 <div class="container mt-3">
+    @if (isset($status) and $status == "return")
+    <h1>Vyberte si zpáteční let ({{ request("from") }}-{{ request("to") }})</h1>
+    @else
     <h1>Nalezené lety ({{ request("from") }}-{{ request("to") }})</h1>
+    @endif
     @if (!isset($flights) || count($flights) == 0)
         <p>Bohužel nebyly nalezeny žádné lety.</p>
     @endif
@@ -20,7 +30,6 @@ use Carbon\Carbon;
             $formatTime = Carbon::parse($flight->connection->time)->format("H:i");
             $durationHours = intdiv($flight->connection->duration, 60);
             $durationMinutes = $flight->connection->duration % 60;
-            $multiple = 1 - (Auth::user()->membership * 0.1);
             $price = $flight->connection->price * $multiple;
             $economyPrice = round($price);
             $businessPrice = ceil(($price * 2) / 1000) * 1000 - 1;
@@ -48,7 +57,7 @@ use Carbon\Carbon;
                         @endif
                     </ul>
                     @if ($vacantEconomy + $vacantBusiness > 0)
-                    <form method="GET" action="/buyticket">
+                    <form method="GET" action="/~boxd00/app/chooseseat">
                         @csrf
                         <input type="number" class="d-none" name="fid" value="{{ $flight->id }}">
                         <input type="text" class="d-none" name="ticketType" value="{{ request('ticketType') }}">

@@ -9,6 +9,7 @@ function generateSeatTable() {
     const economyCols = 6;  
     const totalEconomySeats = 180; 
     const totalEconomyRows = Math.ceil(totalEconomySeats / economyCols); 
+    const columnLetters = ['A', 'B', 'C', 'D', 'E', 'F'];
 
     let seatNumber = 1; 
 
@@ -17,9 +18,10 @@ function generateSeatTable() {
         for (let j = 1; j <= businessCols; j++) {
             const seat = $('<td></td>');
             seat.addClass('available business');
-            seat.data('seat', `B${seatNumber}`); 
-            seat.text(seat.data('seat'));
-
+            const seatLabel = `B${i}${columnLetters[j - 1]}`;
+            seat.data('seat', seatLabel); 
+            seat.text(seatLabel);
+    
             seat.on('click', function() {
                 if (!seat.hasClass('unavailable')) {
                     $('#seatTable .selected').removeClass('selected');
@@ -27,9 +29,8 @@ function generateSeatTable() {
                     selectedSeatInput.val(seat.data('seat'));
                 }
             });
-
+    
             row.append(seat);
-            seatNumber++;
         }
         seatMap.append(row);
     }
@@ -38,12 +39,13 @@ function generateSeatTable() {
     for (let i = 1; i <= totalEconomyRows; i++) {
         const row = $('<tr></tr>');
         for (let j = 1; j <= economyCols; j++) {
-            if (seatNumber > totalEconomySeats) break; 
+            if (seatNumber > totalEconomySeats) break;
             const seat = $('<td></td>');
             seat.addClass('available economy');
-            seat.data('seat', `E${seatNumber}`); 
-            seat.text(seat.data('seat'));
-
+            const seatLabel = `E${i}${columnLetters[j - 1]}`;
+            seat.data('seat', seatLabel); 
+            seat.text(seatLabel);
+    
             seat.on('click', function() {
                 if (!seat.hasClass('unavailable')) {
                     $('#seatTable .selected').removeClass('selected');
@@ -51,6 +53,7 @@ function generateSeatTable() {
                     selectedSeatInput.val(seat.data('seat'));
                 }
             });
+    
             row.append(seat);
             seatNumber++;
         }

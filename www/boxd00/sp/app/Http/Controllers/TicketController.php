@@ -32,7 +32,7 @@ class TicketController extends Controller
         ->pluck('seat')
         ->toArray();
 
-        return view("buyticket", [
+        return view("chooseseat", [
             "flight" => $flight,
             "fromDestination" => $fromDestination,
             "toDestination" => $toDestination,
@@ -78,13 +78,14 @@ class TicketController extends Controller
             return redirect()->route("index");
         } else {
             $flight = Flight::findOrFail($ticket->flight_id);
-            $return = session("return");
+            // $return = session("return");
 
             return redirect()->route("connections", [
                 "ticketType" => "oneway",
                 "from" => $flight->connection->to_code,
                 "to" => $flight->connection->from_code,
-                "departure" => Carbon::parse($request->input("return"))->format("Y-m-d")
+                "departure" => Carbon::parse($request->input("return"))->format("Y-m-d"),
+                "status" => "return"
             ]);
         }
     }
@@ -92,10 +93,10 @@ class TicketController extends Controller
     public function delete(Request $request) {
         $tid = $request->input("tid");
 
-        $ticket = Ticket::findOrFail($tid);
-        $ticket->reserved_until = Carbon::now();
-
-        $ticket->save();
+        if (Ticket::where("id", $tid)->exists()) {
+            $ticket = Ticket::findOrFail($tid);
+            $ticket->delete();
+        }
 
         $bookedTickets = Session::get("bookedTickets", []);
         foreach ($bookedTickets as &$bt) {
@@ -126,19 +127,21 @@ class TicketController extends Controller
         return view("mytickets", ["tickets" => $tickets]);
     }
 
-    public function allTickets() {
-        if (!Auth::user()->is_admin) {
-            return redirect()->route("index"); // unauthorized access
-        }
+    public function confirm(Request $request) {
+        $seat = $request->input("seat");
+        $fid = $request->input("fid");
+        $ticketType = $request->input("ticketType");
+        $price = $request->input("price");
+        $return = $request->input("return");
 
-        $flights = Flight::with('connection')
-        ->whereDate('date', '>=', Carbon::today())
-        ->join('connection', 'flight.flight_code', '=', 'connection.flight_code')
-        ->orderBy('date')
-        ->orderBy('connection.time')
-        ->select('flight.*')
-        ->get();
+        $flight = Flight::findOrFail($fid);
 
-        return view("tickets", ["flights" => $flights]);
+        return view("confirmticket", [
+            "seat" => $seat,
+            "flight" => $flight,
+            "ticketType" => $ticketType,
+            "price" => $price,
+            "return" => $return
+        ]);
     }
 }

@@ -11,7 +11,7 @@
             @if (session("error"))
                 <div class="alert alert-success">{{ session("error") }}</div>
             @endif
-            <form method="PUT" action="{{ route('profile') }}" id="updateUserForm">
+            <form method="PUT" action="~boxd00/app/profile" id="updateUserForm">
                 @csrf
                 <div class="form-group">
                     <label>E-mail</label>

@@ -26,7 +26,7 @@
         <div class="col-4">
             <h1>Platba</h1>
             <p><b>Částka k uhrazení</b>: {{ $totalPrice }},- Kč</p>
-            <form method="POST" action="/payment" id="paymentForm">
+            <form method="POST" action="/~boxd00/app/payment" id="paymentForm">
                 @csrf
                 <div class="form-group">
                     <label for="cardName">Celé jméno</label>

@@ -12,7 +12,7 @@
                 </div>
                 <div class="col-4">
                     <div class="container-fluid" id="ticketbox">
-                        <form method="GET" action="/connections">
+                        <form method="GET" action="/~boxd00/app/connections">
                             <div class="row">
                                 <div class="col-3">
                                     <div class="form-check">
@@ -46,7 +46,8 @@
                                 <div class="col-6">
                                     <label>Let do</label>
                                     <select class="form-select" aria-label="Select" name="to" id="toDestination" disabled>
-                                        <option value="PRG" selected>Praha</option>
+                                        <!-- <option value="PRG" selected>Praha</option> -->
+                                        <option selected disabled></option>
                                         @foreach ($groupedDestinations as $country => $destinations)
                                             @if ($country != "Česká republika")
                                             <optgroup label="{{ $country }}">
@@ -74,7 +75,7 @@
                                 </div>
                             </div>
                             <div class="row mt-2">
-                                <p class="errorText" id="todayAlert">Lety lze objednávat pouze od dnešního dne.</p>
+                                <p class="errorText" id="todayAlert">Lety lze objednávat pouze od následujícího dne.</p>
                                 <p class="errorText" id="dateAlert">Datum návratu musí být později než datum odletu.</p>
                             </div>
                             <div class="row mt-2">

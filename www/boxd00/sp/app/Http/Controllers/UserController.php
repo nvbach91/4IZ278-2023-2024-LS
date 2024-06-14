@@ -18,7 +18,7 @@ class UserController extends Controller
             "lastName" => "required|string|max:255",
             "birthDate" => "required|date",
             "phone" => "required|string|max:13",
-            "isStudent" => "required|string" // on/off -> true/false
+            "isStudent" => "string" // on/off -> true/false
         ]);
 
         if ($validator->fails()) {

@@ -32,20 +32,21 @@
                 </li>
                 @if (Auth::user()->is_admin)
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('tickets') }}">Správa letenek</a>
+                    <a class="nav-link" href="{{ route('flights') }}">Správa</a>
                 </li>
                 @endif
                 @endauth
             </ul>
             <div class="ms-auto">
                 @guest
-                    <a href="/login"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#login-modal">Přihlásit se</button></a>
+                    <a href="{{ route('cart') }}"><i class="bi bi-cart-fill me-2" style="color: white; font-size: 1.5rem"></i></a>
+                    <a href="{{ route('login') }}"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#login-modal">Přihlásit se</button></a>
                 @endguest
                 @auth
                 <div class="d-flex align-items-center">
                     <a href="{{ route('cart') }}"><i class="bi bi-cart-fill me-2" style="color: white; font-size: 1.5rem"></i></a>
                     <a href="{{ route('profile') }}" id="profileLink"><span class="text-light mb-0"><b>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</b></span></a>
-                    <form method="POST" action="{{ route('logout') }}" class="ms-2">
+                    <form method="POST" action="~/boxd00/app/logout" class="ms-2">
                         @csrf
                         <button type="submit" class="btn btn-primary">Odhlásit se</button>
                     </form>

@@ -19,7 +19,7 @@
                         {{ session("error") }}
                     </div>
                 @endif
-                <form method="POST" action="/login" id="loginForm">
+                <form method="POST" action="/~boxd00/app/login" id="loginForm">
                     @csrf
                     <div class="mt-3">
                         <label for="email">E-mailová adresa</label>
@@ -33,7 +33,7 @@
                         <button type="submit" class="btn btn-primary" id="loginButton" disabled>Přihlásit se</button>
                     </div>
                 </form>
-                <form method="POST" action="/registeruser" id="registerForm">
+                <form method="POST" action="/~boxd00/app/register" id="registerForm">
                     @csrf
                     <div class="mt-3">
                         <label for="email">E-mailová adresa</label>

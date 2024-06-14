@@ -12,7 +12,7 @@
                 <li>Přístup do letištního salonku se slevou <b>50%</b></li>
             </ul>
             <p><b>Cena:</b> 9999,- Kč ročně</p>
-            <form method="GET" action="/payment">
+            <form method="GET" action="/~boxd00/app/payment">
                 @csrf
                 <input type="number" class="d-none" name="membershipPrice" value="9999">
                 @if (Auth::user()->membership < 1)
@@ -28,7 +28,7 @@
                 <li>Přístup do letištního salonku <b>zdarma</b></li>
             </ul>
             <p><b>Cena:</b> 15999,- Kč ročně</p>
-            <form method="GET" action="/payment">
+            <form method="GET" action="/~boxd00/app/payment">
                 @csrf
                 <input type="number" class="d-none" name="membershipPrice" value="15999">
                 @if (Auth::user()->membership < 2)

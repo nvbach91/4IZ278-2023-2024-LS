@@ -24,7 +24,7 @@
         <p>Váš košík je prázdný.</p>
     @else
     <p><b>Celková cena: </b>{{ $totalPrice }},- Kč</p>
-    <form method="GET" action="/payment">
+    <form method="GET" action="/~boxd00/app/payment">
         @csrf
         <button type="submit" class="btn btn-primary">Zaplatit vše</button>
     </form>
@@ -47,7 +47,7 @@
                     <li><b>Sedadlo: </b>{{ $ticket["seat"] }}</li>
                     <li><b>Cena: </b>{{ $ticket["price"] }},- Kč</li>
                 </ul>
-                <form method="POST" action="/deleteticket">
+                <form method="POST" action="/~boxd00/app/deleteticket">
                     @csrf
                     @method("DELETE")
                     <input type="number" class="d-none" name="tid" value="{{ $ticket['id'] }}">
