@@ -6,25 +6,32 @@ require_once './config/config.php';
 class EventsDB extends DB
 {
 
-    public function getEvents($page = 1, $category_id = null)
+    public function getEvents($page = 1, $category_id = null, $user_id)
     {
         if ($category_id === "all") $category_id = null;
         $limit = pageLimit;
         $offset = ($page - 1) * $limit;
 
         if ($category_id === null) {
-            $query = "SELECT event.*, advertizer.name AS advertizer_name FROM event 
+            $query = "SELECT event.*, advertizer.name AS advertizer_name, 
+              CASE WHEN ticket.id IS NOT NULL THEN 1 ELSE 0 END as user_has_ticket 
+              FROM event 
               JOIN advertizer ON event.advertizer_id = advertizer.id 
+              LEFT JOIN ticket ON event.id = ticket.event_id AND ticket.customer_id = :user_id
               ORDER BY time ASC LIMIT :limit OFFSET :offset";
         } else {
-            $query = "SELECT event.*, advertizer.name AS advertizer_name FROM event 
+            $query = "SELECT event.*, advertizer.name AS advertizer_name, 
+              CASE WHEN ticket.id IS NOT NULL THEN 1 ELSE 0 END as user_has_ticket 
+              FROM event 
               JOIN advertizer ON event.advertizer_id = advertizer.id 
+              LEFT JOIN ticket ON event.id = ticket.event_id AND ticket.customer_id = :user_id
               WHERE type = :category_id ORDER BY time ASC LIMIT :limit OFFSET :offset";
         }
 
         $statement = $this->db->prepare($query);
         $statement->bindParam(':limit', $limit, PDO::PARAM_INT);
         $statement->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $statement->bindParam(':user_id', $user_id);
 
         if ($category_id !== null) {
             $statement->bindParam(':category_id', $category_id);
@@ -35,13 +42,22 @@ class EventsDB extends DB
     }
 
 
-    public function getAdvertizerEvents($id)
+    public function getAdvertizerEvents($id, $past = false)
     {
-        $query = "SELECT event.*, COUNT(CASE WHEN ticket.confirmed IS NOT NULL THEN 1 END) as tickets_sold 
-          FROM event 
-          LEFT JOIN ticket ON event.id = ticket.event_id 
-          WHERE event.advertizer_id = :id 
-          GROUP BY event.id";
+        if ($past) {
+            $query = "SELECT event.*, COUNT(CASE WHEN ticket.confirmed IS NOT NULL THEN 1 END) as tickets_sold 
+            FROM event 
+            LEFT JOIN ticket ON event.id = ticket.event_id 
+            WHERE event.advertizer_id = :id AND event.time < NOW()
+            GROUP BY event.id";
+        } else {
+            $query = "SELECT event.*, COUNT(CASE WHEN ticket.confirmed IS NOT NULL THEN 1 END) as tickets_sold 
+            FROM event 
+            LEFT JOIN ticket ON event.id = ticket.event_id 
+            WHERE event.advertizer_id = :id AND event.time >= NOW()
+            GROUP BY event.id";
+        }
+
         $statement = $this->db->prepare($query);
         $statement->bindParam(':id', $id);
         $statement->execute();
@@ -136,13 +152,6 @@ class EventsDB extends DB
         $statement->execute();
         return $statement;
     }
-
-
-
-
-
-
-
 
     public function statistics($advertizer_id)
     {

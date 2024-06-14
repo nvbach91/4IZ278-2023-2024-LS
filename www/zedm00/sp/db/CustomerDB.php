@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/DB.php';
+
 class CustomerDB extends DB
 {
 
@@ -23,6 +24,16 @@ class CustomerDB extends DB
         $statement->bindParam(':email', $email);
         $statement->execute();
         return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function findCustomersByEvent($event_id)
+    {
+        $query = "SELECT * FROM customer JOIN ticket ON customer.id = ticket.customer_id WHERE ticket.event_id = :event_id";
+        $statement = $this->db->prepare($query);
+        $statement->bindParam(':event_id', $event_id);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+
     }
 
 }

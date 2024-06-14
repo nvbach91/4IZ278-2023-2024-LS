@@ -27,4 +27,21 @@ class AdvertizerDB extends DB
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function findAdvertizerById($id)
+    {
+        $query = "SELECT * FROM advertizer WHERE id = :id";
+        $statement = $this->db->prepare($query);
+        $statement->bindParam(':id', $id);
+        $statement->execute();
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updatePaymentInfo($account_number, $bank_code,  $id){
+        $query = "UPDATE advertizer SET account_number = :account_number, bank_code = :bank_code WHERE id = :id";
+        $statement = $this->db->prepare($query);
+        $statement->bindParam(':account_number', $account_number);
+        $statement->bindParam(':bank_code', $bank_code);
+        $statement->bindParam(':id', $id);
+        $statement->execute();
+    }
 }

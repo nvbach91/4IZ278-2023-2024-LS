@@ -12,7 +12,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : '';
 if (!$page || $page < 1 || $page > $pagesCount) {
     $page = 1;
 }
-$events = $eventsDB->getEvents($page, $category_id);
+$events = $eventsDB->getEvents($page, $category_id, $_SESSION['customer_id']);
 
 ?>
 <div class="row my-4">
@@ -46,7 +46,7 @@ $events = $eventsDB->getEvents($page, $category_id);
                     <?php if (!$event['cancelled']): ?>
                         <h5 class="mb-0"><?php echo formatPrice($event['price']); ?></h5>
                         <a class="btn btn-outline-primary rounded"
-                           href="event_detail.php?id=<?php echo $event['id']; ?>">Koupit</a>
+                           href="event_detail.php?id=<?php echo $event['id']; ?>"><?php echo !$event['user_has_ticket'] ? "Koupit" : "Náhled" ?></a>
                     <?php else: ?>
                         <h5 class="mb-0 text-danger">Zrušeno</h5>
                     <?php endif; ?>

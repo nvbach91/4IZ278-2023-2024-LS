@@ -19,7 +19,7 @@ class TicketsDB extends DB
         $query = "SELECT ticket.*, event.name, event.time, event.address
               FROM ticket
               JOIN event ON ticket.event_id = event.id
-              WHERE event.advertizer_id = :id AND ticket.confirmed IS NULL ORDER BY time ASC";
+              WHERE event.advertizer_id = :id AND ticket.confirmed IS NULL ORDER BY time DESC";
         $statement = $this->db->prepare($query);
         $statement->bindParam(':id', $id);
         $statement->execute();
@@ -44,7 +44,9 @@ class TicketsDB extends DB
         $statement = $this->db->prepare($query);
         $statement->bindParam(':event_id', $event_id);
         $statement->bindParam(':customer_id', $user_id);
+
         $statement->execute();
+
         return $statement;
     }
 

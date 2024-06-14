@@ -4,25 +4,48 @@ require_once __DIR__ . '/db/CustomerDB.php';
 $customerDB = new CustomerDB;
 session_start();
 
+$errors = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = htmlspecialchars(trim($_POST['email']));
     $password = htmlspecialchars(trim($_POST['password']));
     $hashed_password = hash('sha256', $password);
-    try {
-        $response = $customerDB->findCustomerByEmail($email);
-        if ($response['password'] != $hashed_password) {
-            throw new Exception("Špatné heslo");
-        }
-        $_SESSION['customer_id'] = $response["id"];
-        $_SESSION['name'] = $response["email"];
-        header("Location: customer_index.php");
-    } catch (Exception $e) {
-        echo $e->getMessage();
+
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = 'Špatný formát emailu: ' . $email;
     }
+
+    if (empty($errors)) {
+        try {
+            $response = $customerDB->findCustomerByEmail($email);
+            if ($response['password'] != $hashed_password) {
+                $errors[] = 'Špatné heslo.';
+            } else {
+                $_SESSION['customer_id'] = $response["id"];
+                $_SESSION['name'] = $response["email"];
+                header("Location: index.php");
+            }
+
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+
+    }
+
 }
 
-if (isset($_SESSION['customer_id'])) {
-    header("Location: customer_index.php");
+
+if (!empty($errors)) {
+    echo '<div class="alert alert-danger gap-3">';
+    foreach ($errors as $error) {
+        echo '<div>' . $error . '</div>';
+    }
+    echo '</div>';
+}
+
+
+if ($_SESSION['customer_id']) {
+    header("Location: index.php");
 }
 
 ?>
@@ -55,7 +78,7 @@ if (isset($_SESSION['customer_id'])) {
     </form>
 </div>
 
-
+<?php //require '../hotreloader.php'; ?>
 </body>
 </html>
 

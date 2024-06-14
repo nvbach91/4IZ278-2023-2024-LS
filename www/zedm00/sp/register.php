@@ -4,26 +4,55 @@
 
 $customerDB = new CustomerDB;
 session_start();
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$errors = [];
+
+
+if (!empty($_POST)) {
     $name = htmlspecialchars(trim($_POST['name']));
     $email = htmlspecialchars(trim($_POST['email']));
     $password = htmlspecialchars(trim($_POST['password']));
     $hashed_password = hash('sha256', $password);
     $year = htmlspecialchars(trim($_POST['year']));
 
-    try {
-        $response = $customerDB->createCustomer($name, $email, $hashed_password, $year);
-        $_SESSION['customer_id'] = $response;
-        $_SESSION['name'] = $email;
-        header("Location: index.php");
-    } catch (Exception $e) {
-        echo $e->getMessage();
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = 'Špatný formát emailu: ' . $email;
+    }
+
+    if (strlen($password) < 8) {
+        $errors[] = 'Heslo je příliš krátké.';
+    }
+
+    $format = 'Y-m-d\TH:i';
+    $dateTime = DateTime::createFromFormat($format, $year);
+
+    if ($dateTime && $dateTime->format($format) === $year) {
+        $errors[] = "Datum není ve správném formátu.";
+    }
+
+    if (empty($errors)) {
+        try {
+            $response = $customerDB->createCustomer($name, $email, $hashed_password, $year);
+            $_SESSION['customer_id'] = $response;
+            $_SESSION['name'] = $email;
+            header("Location: index.php");
+        } catch (Exception $e) {
+            $errors[] = $e->getMessage();
+        }
     }
 
 }
 
 if (isset($_SESSION['customer_id'])) {
     header("Location: index.php");
+}
+
+if (!empty($errors)) {
+    echo '<div class="alert alert-danger gap-3">';
+    foreach ($errors as $error) {
+        echo '<div>' . $error . '</div>';
+    }
+    echo '</div>';
 }
 
 ?>

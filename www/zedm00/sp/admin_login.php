@@ -9,11 +9,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         $response = $advertizerDB->findAdvertizerByUsername($email);
         if ($response['password'] != $hashed_password) {
-            throw new Exception("Špatné heslo");
+            $errors[] = 'Špatné heslo.';
+        } else {
+            $_SESSION['advertizer_id'] = $response["id"];
+            $_SESSION['name'] = $response["username"];
+            header("Location: admin_index.php");
         }
-        $_SESSION['advertizer_id'] = $response["id"];
-        $_SESSION['name'] = $response["username"];
-        header("Location: admin_index.php");
+
     } catch (Exception $e) {
         echo $e->getMessage();
     }
@@ -21,6 +23,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 if (isset($_SESSION['advertizer_id'])) {
     header("Location: admin_index.php");
+}
+
+if (!empty($errors)) {
+    echo '<div class="alert alert-danger gap-3">';
+    foreach ($errors as $error) {
+        echo '<div>' . $error . '</div>';
+    }
+    echo '</div>';
 }
 
 ?>

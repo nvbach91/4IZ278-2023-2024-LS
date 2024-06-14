@@ -1,6 +1,7 @@
 <?php require_once __DIR__ . '/db/AdvertizerDB.php';
-$advertizerDB = new AdvertizerDB;
+ $advertizerDB = new AdvertizerDB;
 session_start();
+$errors = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = htmlspecialchars(trim($_POST['name']));
     $username = htmlspecialchars(trim($_POST['username']));
@@ -9,6 +10,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $address = htmlspecialchars(trim($_POST['address']));
     $description = htmlspecialchars(trim($_POST['description']));
 
+    if (empty($username)) {
+        $errors[] = 'Uživatelské jméno je prázdné.';
+    }
+    if (strlen($password) < 8) {
+        $errors[] = 'Heslo je příliš krátké.';
+    }
+
+
     try {
         $response = $advertizerDB->createAdvertizer($username, $hashed_password, $name, $address, $description);
         $_SESSION['advertizer_id'] = $response;
@@ -16,6 +25,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: admin_index.php");
     } catch (Exception $e) {
         echo $e->getMessage();
+    }
+
+    if (!empty($errors)) {
+        echo '<div class="alert alert-danger gap-3">';
+        foreach ($errors as $error) {
+            echo '<div>' . $error . '</div>';
+        }
+        echo '</div>';
     }
 
 }

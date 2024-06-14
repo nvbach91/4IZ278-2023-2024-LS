@@ -1,8 +1,10 @@
 <?php require_once __DIR__ . './../../db/EventsDB.php'; ?>
+<?php require_once __DIR__ . './../../db/CustomerDB.php'; ?>
 <?php
 include __DIR__ . './../../utils.php';
 
 $eventsDB = new EventsDB;
+$customerDB = new CustomerDB;
 $id = $_GET['id'] ?? null;
 $state = $_GET['state'] ?? null;
 
@@ -17,6 +19,7 @@ if ($state == 'canceled') {
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
     $name = htmlspecialchars(trim($_POST['name']));
     $time = htmlspecialchars(trim($_POST['time']));
     $type = htmlspecialchars(trim($_POST['type']));
@@ -26,6 +29,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description = htmlspecialchars(trim($_POST['description']));
     $address = htmlspecialchars(trim($_POST['address']));
     $picture = htmlspecialchars(trim($_POST['picture']));
+
+    if (!is_numeric($capacity)) {
+        $errors[] = "Kapacita není číslo.";
+    }
+
+    if ($capacity < 0) {
+        $errors[] = "Kapacita je menší než 0.";
+    }
+
+    if ($price < 0) {
+        $errors[] = "Cena je menší než 0.";
+    }
+
+    if (!is_numeric($price)) {
+        $errors[] = "Cena není číslo.";
+    }
+
+    if ($name == '') {
+        $errors[] = "Jméno je prázdné.";
+    }
+
+    $format = 'Y-m-d\TH:i';
+    $dateTime = DateTime::createFromFormat($format, $time);
+
+    if ($dateTime && $dateTime->format($format) === $time) {
+        $errors[] = "Datum není ve správném formátu.";
+    }
+
 
     if ($id) {
         $eventsDB->updateEvent($id, $name, $time, $type, $price, $capacity, $description, $address, $picture);
@@ -47,14 +78,26 @@ if (isset($_GET['id'])) {
     $description = $event['description'];
     $address = $event['address'];
     $picture = $event['picture'];
+    $errors = [];
+
+    $customers = $customerDB->findCustomersByEvent($_GET['id']);
 
 
 }
 
 $canceled = $state == 'canceled' || (isset($event) && $event['cancelled']);
 
+if (!empty($errors)) {
+    echo '<div class="alert alert-danger mt-5 gap-3">';
+    foreach ($errors as $error) {
+        echo '<div>' . $error . '</div>';
+    }
+    echo '</div>';
+}
+
 
 ?>
+
 <div class="container d-flex flex-grow-1">
     <div class="row">
         <div class="col-3 text-center">
@@ -82,7 +125,7 @@ $canceled = $state == 'canceled' || (isset($event) && $event['cancelled']);
 
                     <div>
                         <label>Čas*</label>
-                        <input type="datetime-local" class="form-control" name="time"
+                        <input type="datetime-local" class="form-control" name="time" min="2024-01-01T00:00"
                                value="<?php echo htmlspecialchars(trim($time ?? '')); ?>" required>
                     </div>
                     <div>
@@ -148,6 +191,7 @@ $canceled = $state == 'canceled' || (isset($event) && $event['cancelled']);
                     <?php endif; ?>
 
 
+
                     <?php if (!$canceled): ?>
                         <button class="btn btn-primary col-12" type="submit">Uložit</button>
                     <?php endif; ?>
@@ -160,6 +204,22 @@ $canceled = $state == 'canceled' || (isset($event) && $event['cancelled']);
                            href="admin_create_event.php?id=<?php echo $id . "&state=deleted" ?>">Smazat</a>
                     <?php endif; ?>
                 </form>
+
+                <hr>
+                <h3>Seznam zákazníků s lístkem</h3>
+
+                <div class="row mb-5 ">
+                    <div class="col-4"><b>Jméno</b></div>
+                    <div class="col-4"><b>E-mail</b></div>
+                    <div class="col-4"> <b>Kód vstupenky</b></div>
+                    <hr>
+                    <?php foreach ($customers as $customer): ?>
+                        <div class="col-4"><?php echo $customer["name"]; ?></div>
+                        <div class="col-4"><?php echo $customer["email"]; ?></div>
+                        <div class="col-4"><?php echo $customer["code"]; ?></div>
+                    <?php endforeach; ?>
+                    <?php echo count($customers) === 0 ? "Žádné vstupenky" : "" ?>
+                </div>
             </div>
         </div>
     </div>

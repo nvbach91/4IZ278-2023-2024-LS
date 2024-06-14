@@ -1,8 +1,10 @@
 <?php
 require_once __DIR__ . './../../db/EventsDB.php';
 require_once __DIR__ . './../../db/TicketsDB.php';
+require_once __DIR__ . './../../db/AdvertizerDB.php';
 include __DIR__ . './../../utils.php';
 $eventsDB = new EventsDB;
+$advertizerDB = new AdvertizerDB;
 $ticketsDB = new TicketsDB;
 $event_id = $_GET['id'];
 
@@ -10,11 +12,12 @@ $event_id = $_GET['id'];
 if (isset($_GET['payment']) && $_GET["payment"] == 'ready') {
     $ticketsDB->payTicket($event_id, $_SESSION['customer_id']);
     header("Location: event_detail.php?id=" . $event_id);
-    return;
 }
 
 if ($event_id != null) {
     $event = $eventsDB->findEvent($event_id);
+    $advertizer = $advertizerDB->findAdvertizerById($event['advertizer_id']);
+
 
     $ticket = $ticketsDB->findTicketForUserEvent($event_id, $_SESSION['customer_id']);
     $ticketPaid = $ticket["paid"] ?? false;
@@ -45,6 +48,10 @@ if ($event_id != null) {
             <p>Typ: <?php echo $event['type']; ?></p>
             <hr>
 
+<!--            <p>Pořádá: --><?php //echo $advertizer['name']; ?><!--</p>-->
+
+            <hr>
+
             <h3><?php echo formatPrice($event['price']); ?></h3>
             <hr>
             <?php if (!isset($_GET['payment']) && !$ticketPaid && !$ticketConfirmed): ?>
@@ -52,27 +59,20 @@ if ($event_id != null) {
             <?php endif; ?>
 
             <?php
-            require './vendor/autoload.php';
 
-            use Endroid\QrCode\Builder\Builder;
-            use Endroid\QrCode\Writer\PngWriter;
+            $accountNumber = $advertizer["account_number"];
+            $bankCode = $advertizer["bank_code"];
+            $amount = $event["price"];
+            $currency = "CZK";
+            $message = "BeCultureal Payment";
+            $url = "http://api.paylibo.com/paylibo/generator/czech/image?accountNumber={$accountNumber}&bankCode={$bankCode}&amount={$amount}&currency={$currency}&message=" . urlencode($message);
 
-            if ($ticketPaid) {
-                $text = 'https://example.com?id=' . $event_id;
-                $result = Builder::create()
-                    ->writer(new PngWriter())
-                    ->data($text)
-                    ->build();
-
-                // Generate a data URI
-                $dataUri = $result->getDataUri();
-            }
 
             ?>
 
-            <?php if (isset($dataUri) && ($ticketPaid && !$ticketConfirmed)): ?>
+            <?php if ($url && ($ticketPaid && !$ticketConfirmed)): ?>
                 <div class="">
-                    <img src="<?php echo $dataUri; ?>"/>
+                    <img src="<?php echo $url; ?>" alt="Payment QR code"/>
                     <p>
                         Zaplaťte a vyčkejte na potvrzení platby pořadatelem.
                     </p>

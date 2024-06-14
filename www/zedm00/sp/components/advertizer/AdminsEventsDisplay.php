@@ -1,14 +1,26 @@
 <?php require_once __DIR__ . './../../db/EventsDB.php'; ?>
+<?php require_once __DIR__ . './../../db/AdvertizerDB.php'; ?>
 <?php
 include __DIR__ . './../../utils.php';
 
 $eventsDB = new EventsDB;
-
+$advertizerDB = new AdvertizerDB;
 $events = $eventsDB->getAdvertizerEvents($_SESSION['advertizer_id']);
 
 if (isset($_GET['cancel'])) {
     $eventsDB->cancelEvent($_GET['cancel']);
 }
+
+$advertizer = $advertizerDB->findAdvertizerById($_SESSION['advertizer_id']);
+$paymentInfoIsSet = $advertizer['account_number'] != null && $advertizer['bank_code'] != null;
+
+if (!$paymentInfoIsSet) {
+    echo '<div class="alert alert-danger  gap-3">';
+    echo '<div> Pro vytvoření nové události nastavte platební údaje.</div>';
+    echo '</div>';
+}
+
+
 ?>
 
 
@@ -16,9 +28,13 @@ if (isset($_GET['cancel'])) {
     <div class="row d-flex flex-grow-1">
         <div class="col-3 text-center d-flex f">
             <div class="mt-4 ">
-                <a href="admin_create_event.php" class="btn btn-primary btn-lg"> Nová událost</a>
+                <?php if ($paymentInfoIsSet): ?>
+                    <a href="admin_create_event.php" class="btn btn-primary btn-lg"> Nová událost</a>
+                <?php endif; ?>
                 <a href="admin_tickets.php" class="btn btn-outline-secondary btn-lg mt-2"> Lístky k potvrzení</a>
                 <a href="admin_statistics.php" class="btn btn-outline-secondary btn-lg mt-2"> Statistiky</a>
+                <a href="admin_payment_info.php" class="btn btn-outline-secondary btn-lg mt-2"> Nastavení platebních
+                    údajů</a>
             </div>
         </div>
         <div class="col-9 row my-4">
