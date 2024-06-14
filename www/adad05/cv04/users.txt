@@ -1,3 +1,0 @@
-Daniel Adam;dan@seznam.cz;123456789
-Adam Dan;adam@seznam.cz;111111111
-Dan Dan Adam;danadam@seznam.cz;123456789
