@@ -15,5 +15,5 @@ if ($delete_img_name != null){
 
 $spotsDB->deleteSpot($delete_spot_id);
 
-//header('Location: /../index.php');
+header('Location: /../index.php');
 ?>
