@@ -25,14 +25,15 @@ if (!empty($_SESSION['cart'])) {
     $lastId = $orderDB->createOrder($order);
 
     $products = [];
+    $productIds = $ids = array_keys($_SESSION['cart']);
 
-    foreach ($_SESSION['cart'] as $productId) {
+    foreach ($productIds as $productId) {
         $product = $productDB->find('products', 'product_id', $productId)[0];
         array_push($products, $product);
     }
 
     foreach ($products as $product) {
-        $orderDB->insertOrderProducts($lastId, $product);
+        $orderDB->insertOrderProducts($lastId, $product, $_SESSION['cart'][$product['product_id']]['quantity']);
     }
 
     $_SESSION['cart'] = [];
@@ -50,7 +51,7 @@ if (!empty($_SESSION['cart'])) {
         var_dump($errorMessage);
     }
 
-    header('Location: ../View/index.php');
+    header('Location: ../View/orders.php');
     exit('Order succesful!');
 } else {
     header('Location: ../View/cart.php');

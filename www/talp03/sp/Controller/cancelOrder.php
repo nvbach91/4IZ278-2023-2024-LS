@@ -3,10 +3,13 @@
 require '../Model/OrderDB.php';
 
 $orderDB = new OrderDB();
+$successMsg;
 
 if (isset($_GET['order_id'])) {
     $orderId = htmlspecialchars($_GET['order_id']);
     $orderDB->deleteOrder($orderId, 'paid');
+
+    $successMsg = "We canceled order number $orderId";
     
     $subject = 'Cancelation of your order';
     $message = 'We canceled your order.';
@@ -21,7 +24,7 @@ if (isset($_GET['order_id'])) {
     }
 }
 
-header('Location: ../View/orders.php');
+header("Location: ../View/orders.php?msg=$successMsg");
 exit();
 
 ?>

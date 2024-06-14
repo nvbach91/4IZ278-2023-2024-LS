@@ -15,10 +15,10 @@ require_once '../Controller/userPrivilege.php';
                             <span class="sr-only"></span>
                         </a>
                     </li>
+                    <li class="navbar-item">
+                        <a class="nav-link" href="cart.php">Cart</a>
+                    </li>
                     <?php if (isset($_COOKIE['email'])) { ?>
-                        <li class="navbar-item">
-                            <a class="nav-link" href="cart.php">Cart</a>
-                        </li>
                         <li class="navbar-item">
                             <?php if (isset($privilege) && $privilege['privilege'] >= 1) { ?>
                                 <a href="admin-profile.php" class="nav-link">Profile</a>

@@ -19,7 +19,11 @@ require '../Controller/createProduct.php';
             <label for="img">Picture of product</label>
             <input type="url" class="form-control" name="img">       
             <label for="category">Category</label>
-            <input type="number" class="form-control" name="category_id">
+            <select name="category_id" class="form-control">
+                <?php foreach ($categories as $category) { ?>
+                    <option value="<?php echo $category['category_id']; ?>"><?php echo $category['category_id']; ?> <?php echo $category['name']; ?></option>
+                <?php } ?>
+            </select>
         </div>
         <button type="submit" class="edit-button">Create product</button>
     </form>

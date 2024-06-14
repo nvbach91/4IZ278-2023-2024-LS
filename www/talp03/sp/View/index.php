@@ -31,10 +31,12 @@ require_once '../Controller/userPrivilege.php';
                             <div class="product-body">
                                 <h5 class="product-name"><?php echo $product['name']; ?></h5>
                                 <p class="product-description"><?php echo $product['description']; ?></p>
-                                <div class="product-bodyend">
-                                    <a href="../Controller/addToWishlist.php?product_id=<?php echo $product['product_id']; ?>" class="product-button">Wishlist</a>
-                                    <p class="product-price"><?php echo $product['price'] . ' Kč'; ?></p>
-                                </div>
+                                <?php if (isset($_COOKIE['email'])) { ?>
+                                    <div class="product-bodyend">
+                                        <a href="../Controller/addToWishlist.php?product_id=<?php echo $product['product_id']; ?>" class="product-button">Wishlist</a>
+                                        <p class="product-price"><?php echo $product['price'] . ' Kč'; ?></p>
+                                    </div>
+                                <?php } ?>
                                 <?php if (isset($privilege) && $privilege['privilege'] >= 1) { ?>
                                     <a href="edit-product.php?product_id=<?php echo $product['product_id']; ?>" class="edit-button">Edit Product</a>
                                     <a href="delete-product.php?product_id=<?php echo $product['product_id']; ?>" class="edit-button delete">Delete Product</a>

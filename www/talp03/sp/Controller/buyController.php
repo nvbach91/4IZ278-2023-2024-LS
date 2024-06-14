@@ -14,7 +14,19 @@ if (empty($productBuy)) {
     exit("Unable to find product!");
 }
 
-$_SESSION['cart'][] = $productBuy['product_id'];
+$ids = array_column($_SESSION['cart'], 'product_id');
+$key = array_search($productBuy['product_id'], $ids);
+$id = $ids[$key];
+
+if ($key === false) {
+    $productArray = [
+        'product_id' => $productBuy['product_id'],
+        'quantity' => 1
+    ];
+    $_SESSION['cart'][$productBuy['product_id']] = $productArray; 
+} else {
+    $_SESSION['cart'][$id]['quantity']++;
+}
 
 header('Location: ../View/cart.php');
 exit(); 

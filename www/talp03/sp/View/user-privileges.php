@@ -20,7 +20,7 @@ require '../Controller/editUserPrivilege.php';
                     <label for="email">Email</label>
                     <input type="text" class="form-control" name="email" value="<?php echo $user['email']; ?>" readonly>
                     <label for="privilege">Privilege</label>
-                    <input type="number" class="form-control" name="privilege" value="<?php echo $user['privilege']; ?>">
+                    <input type="number" class="form-control" name="privilege" value="<?php echo $user['privilege']; ?>" max="1">
                 </div>
                 <button type="submit" class="edit-button">Save changes</button>
             </form>

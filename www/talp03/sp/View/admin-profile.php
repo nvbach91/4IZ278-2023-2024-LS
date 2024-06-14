@@ -18,6 +18,9 @@ require_once '../Controller/entryPrivilege.php';
             <li class="category">
                 <a href="user-privileges.php">Users priviliges</a>
             </li>
+            <li class="category">
+                <a href="user-orders.php">Manage user orders</a>
+            </li>
         </ul>
     </div>
     <?php include './includes/footer.php'; ?>

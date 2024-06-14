@@ -397,3 +397,12 @@ label {
 .pay {
     background-color: rgb(0, 148, 0);
 }
+
+.order-product {
+    display: flex;
+    flex-direction: row;
+}
+
+.order-product p{
+    margin-right: 15px;
+}

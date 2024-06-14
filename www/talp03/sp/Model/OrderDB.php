@@ -3,6 +3,12 @@
 require_once 'Database.php';
 
 class OrderDB extends Database {
+
+    public function findAll() {
+        $statement = $this->pdo->prepare('SELECT * FROM orders');
+        $statement->execute();
+        return $statement->fetchAll();
+    }
     
     public function createOrder($order) {
         $statement = $this->pdo->prepare('INSERT INTO orders (total_price, user_id) VALUES (:total_price, :user_id);');
@@ -13,11 +19,12 @@ class OrderDB extends Database {
         return $lastId;
     }
 
-    public function insertOrderProducts($orderId, $productData) {
-        $statement = $this->pdo->prepare('INSERT INTO order_products (order_id, product_id, price) VALUES (:order_id, :product_id, :price)');
+    public function insertOrderProducts($orderId, $productData, $quantity) {
+        $statement = $this->pdo->prepare('INSERT INTO order_products (order_id, product_id, quantity, price) VALUES (:order_id, :product_id, :quantity, :price)');
         $statement->bindValue(':order_id', $orderId);
         $statement->bindValue(':product_id', $productData['product_id']);
         $statement->bindValue(':price', $productData['price']);
+        $statement->bindValue(':quantity', $quantity);
         $statement->execute();
     }
 
@@ -39,6 +46,13 @@ class OrderDB extends Database {
         $statement = $this->pdo->prepare('DELETE FROM orders WHERE order_id = :order_id');
         $statement->bindValue(':order_id', $orderId);
         $statement->execute();
+    }
+
+    public function findOrderProducts($orderId) {
+        $statement = $this->pdo->prepare('SELECT product_id, quantity FROM order_products WHERE order_id = :order_id');
+        $statement->bindValue(':order_id', $orderId);
+        $statement->execute();
+        return $statement->fetchAll();
     }
 }
 

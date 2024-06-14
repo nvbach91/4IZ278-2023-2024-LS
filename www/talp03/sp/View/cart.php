@@ -17,8 +17,8 @@ require '../Controller/cartController.php';
                             <div class="product-bodyend">
                                 <a href="../Controller/removeFromCart.php?product_id=<?php echo $product['product_id']; ?>" class="order-remove">Remove</a>
                                 <p class="product-price"><?php echo $product['price'] . ' Kč'; ?></p>
-                                
-                            </div>                        
+                            </div>
+                            <p class="product-price">Quantity:<?php echo $product['quantity']; ?></p>                      
                         </div>
                     </div>
                 <?php endforeach; ?>
