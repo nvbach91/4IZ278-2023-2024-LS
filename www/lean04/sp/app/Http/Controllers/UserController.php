@@ -18,6 +18,8 @@ class UserController extends Controller
      */
     public function showAll(Request $request)
     {
+        $this->authorize('viewAll', User::class);
+
         $totalUsers = User::all();
         $totalUserCount = $totalUsers->count();
 
@@ -29,8 +31,6 @@ class UserController extends Controller
                 'totalUserCount' => 0,
             ]);
         }
-
-        $this->authorize('viewAll', User::class);
 
         $searchQuery = $request->query('searchQuery', '');
 

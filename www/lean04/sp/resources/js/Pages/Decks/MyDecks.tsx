@@ -1,10 +1,12 @@
 import { AddIcon } from '@chakra-ui/icons';
-import { Box, Button, Card, CardBody, Grid, GridItem, Link, Stack } from '@chakra-ui/react';
+import { Box, Button, Stack } from '@chakra-ui/react';
 import { Head, Link as InertiaLink } from '@inertiajs/react';
 
 import Pagination from '@/Components/Pagination';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Deck, PageProps, WithPagination } from '@/types';
+
+import { DeckList } from './DeckList';
 
 interface MyProps extends PageProps, WithPagination {
     decks: Array<Deck>;
@@ -24,19 +26,7 @@ export default function MyDecks({ auth, decks, page, totalPages }: MyProps) {
                         Add new deck
                     </Button>
                 </Box>
-                <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-                    {decks.map((deck) => (
-                        <GridItem key={deck.id} w="100%">
-                            <Card>
-                                <CardBody>
-                                    <Link as={InertiaLink} href={route('deck.show', { id: deck.id })}>
-                                        {deck.name}
-                                    </Link>
-                                </CardBody>
-                            </Card>
-                        </GridItem>
-                    ))}
-                </Grid>
+                <DeckList decks={decks} />
                 <Pagination
                     currentPage={page}
                     totalPages={totalPages}

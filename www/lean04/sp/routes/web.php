@@ -54,6 +54,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/decks/{deckId}/deleteCard/{cardId}', [CardController::class, 'removeFromDeck'])->name('card.removeFromDeck');
 
     Route::get('admin', [UserController::class, 'showAll'])->name('user.showAll');
+    Route::get('statistics', [CardController::class, 'showStatistics'])->name('user.showStatistics');
 
     Route::post('/users/update/{id}', [UserController::class, 'update'])->name('user.update');
     Route::post('/users/delete/{id}', [UserController::class, 'delete'])->name('user.delete');

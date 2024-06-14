@@ -1,7 +1,8 @@
 import CardTable from '@/Components/CardTable';
+import { countColumn } from '@/shared/columns/countColumn';
 import { CountedPokemonCard } from '@/types';
 
-import { actionColumn, countColumn } from './columns';
+import { actionColumn } from './columns';
 
 interface DetailProps {
     isUserDeckOwner: boolean;

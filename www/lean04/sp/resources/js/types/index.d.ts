@@ -24,6 +24,7 @@ export interface Deck {
     name: string;
     owner_id: string;
     updated_at: string;
+    totalCardCount: number;
 }
 
 export interface WithDeck {

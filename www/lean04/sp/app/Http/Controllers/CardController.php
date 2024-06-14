@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Card;
 use App\Models\CardSet;
 use App\Models\Deck;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -220,6 +221,46 @@ class CardController extends Controller
         }
 
         return $card;
+    }
+
+    public function showStatistics()
+    {
+
+        $this->authorize('viewStatistics', User::class);
+
+        $mostOwnedCardsInCollections = $this->getSortedCardsByOverallCount(
+            User::all()
+                ->map(function ($user) {
+                    return $user->cards;
+                })
+        );
+
+        $mostUsedCardsInDecks = $this->getSortedCardsByOverallCount(
+            Deck::all()
+                ->map(function ($deck) {
+                    return $deck->cards;
+                })
+        );
+
+        return Inertia::render('Admin/Statistics', [
+            'mostOwnedCardsInCollections' => $mostOwnedCardsInCollections,
+            'mostUsedCardsInDecks' => $mostUsedCardsInDecks,
+        ]);
+    }
+
+    private function getSortedCardsByOverallCount($cards)
+    {
+        return $cards
+            ->flatten()
+            ->groupBy('id')
+            ->map(function ($group) {
+                $pokemonCard = $this->toPokemonCard($group->first());
+                return array_merge($pokemonCard, ['count' => $group->sum('pivot.count')]);
+            })
+            ->sortByDesc(function ($card) {
+                return $card['count'];
+            })
+            ->values();
     }
 
     private function toPokemonCard($card)

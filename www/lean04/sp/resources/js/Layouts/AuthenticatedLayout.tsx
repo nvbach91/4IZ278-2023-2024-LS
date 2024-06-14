@@ -44,9 +44,14 @@ export default function Authenticated({
                                     Profile
                                 </MenuItem>
                                 {user.privilege >= 2 ? (
-                                    <MenuItem as={InertiaLink} href={route('user.showAll')}>
-                                        Admin
-                                    </MenuItem>
+                                    <>
+                                        <MenuItem as={InertiaLink} href={route('user.showAll')}>
+                                            Admin
+                                        </MenuItem>
+                                        <MenuItem as={InertiaLink} href={route('user.showStatistics')}>
+                                            Statistics
+                                        </MenuItem>
+                                    </>
                                 ) : null}
                                 <MenuItem as={InertiaLink} method="post" href={route('logout')}>
                                     Log Out

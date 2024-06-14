@@ -29,4 +29,12 @@ class UserPolicy
     {
         return $user->privilege >= 2;
     }
+
+    /**
+     * Determine whether the user can view statistics.
+     */
+    public function viewStatistics(User $user): bool
+    {
+        return $user->privilege >= 2;
+    }
 }

@@ -1,7 +1,6 @@
-import { Center, Icon, Image, Tooltip } from '@chakra-ui/react';
+import { Image, Tooltip } from '@chakra-ui/react';
 import { createColumnHelper } from '@tanstack/react-table';
 import { Card as PokemonCard } from 'pokemon-tcg-sdk-typescript/dist/sdk';
-import { MdOutlineCameraAlt } from 'react-icons/md';
 
 const columnHelper = createColumnHelper<PokemonCard>();
 
@@ -11,9 +10,7 @@ export const columns = [
             const imgUrl = info.getValue();
             return (
                 <Tooltip hasArrow label={<Image src={imgUrl} />} bg="transparent" color="black">
-                    <Center>
-                        <Icon as={MdOutlineCameraAlt} boxSize={6} />
-                    </Center>
+                    <Image src={imgUrl} h="50px" />
                 </Tooltip>
             );
         },

@@ -21,59 +21,49 @@ class DeckController extends Controller
     public function showAll(Request $request)
     {
         $totalDecks = Deck::all();
-
-        if ($totalDecks->count() === 0) {
-            return Inertia::render('Decks/Explore', [
-                'page' => 1,
-                'totalPages' => 1,
-                'decks' => [],
-            ]);
-        }
-
         $page = $request->query('page', 1);
 
-        $decks = $totalDecks->forPage($page, DECK_DISPLAY_LIMIT)->values();
-
-        $totalPages = ceil($totalDecks->count() / DECK_DISPLAY_LIMIT);
-
-        if ($page > $totalPages) {
-            return Redirect::route('deck.showAll', ['page' => $totalPages]);
-        }
-
-        return Inertia::render('Decks/Explore', [
-            'page' => (int)$page,
-            'totalPages' => $totalPages,
-            'decks' => $decks,
-        ]);
+        return $this->renderDecks('Decks/Explore', 'deck.showAll', $totalDecks, $page);
     }
 
     public function showOwn(Request $request)
     {
 
         $totalOwnDecks = Deck::where('owner_id', $request->user()->id)->get();
+        $page = $request->query('page', 1);
 
-        if ($totalOwnDecks->count() === 0) {
-            return Inertia::render('Decks/MyDecks', [
+        return $this->renderDecks('Decks/MyDecks', 'deck.showOwn', $totalOwnDecks, $page);
+    }
+
+    private function renderDecks($renderName, $routeFallback, $totalDecks, $page)
+    {
+        if ($totalDecks->count() === 0) {
+            return Inertia::render($renderName, [
                 'page' => 1,
                 'totalPages' => 1,
                 'decks' => [],
             ]);
         }
 
-        $page = $request->query('page', 1);
+        $decks = $totalDecks->forPage($page, DECK_DISPLAY_LIMIT)->values();
 
-        $decks = $totalOwnDecks->forPage($page, DECK_DISPLAY_LIMIT)->values();
-
-        $totalPages = ceil($totalOwnDecks->count() / DECK_DISPLAY_LIMIT);
+        $totalPages = ceil($totalDecks->count() / DECK_DISPLAY_LIMIT);
 
         if ($page > $totalPages) {
-            return Redirect::route('deck.showOwn', ['page' => $totalPages]);
+            return Redirect::route($routeFallback, ['page' => $totalPages]);
         }
 
-        return Inertia::render('Decks/MyDecks', [
+        return Inertia::render($renderName, [
             'page' => (int)$page,
             'totalPages' => $totalPages,
-            'decks' => $decks,
+            'decks' => $decks->map(function ($deck) {
+                return [
+                    'id' => $deck->id,
+                    'name' => $deck->name,
+                    'owner' => $deck->owner->name,
+                    'totalCardCount' => $deck->cards->sum('pivot.count'),
+                ];
+            }),
         ]);
     }
 
