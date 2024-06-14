@@ -25,7 +25,7 @@ class ManageAccount extends Component
         $this->allUsers = User::all();
         $this->isOnlyOwner = $this->account->accountPermissions()->where('permission', 'owner')->count() == 1;
         $this->usersPermission = $this->account->accountPermissions()->where('user_id', auth()->id())->first()->permission;
-        $this->newPermissionType = 'owner';
+        $this->newPermissionType = 'manager';
     }
     public function render()
     {
@@ -46,7 +46,7 @@ class ManageAccount extends Component
     public function addPermission()
     {
         $this->validate([
-            'newPermissionType' => 'required|in:owner,manager,follower',
+            'newPermissionType' => 'required|in:manager,follower',
             'newPermissionUserId' => 'required|exists:users,id'
         ]);
         $accountPermission = new AccountPermission();

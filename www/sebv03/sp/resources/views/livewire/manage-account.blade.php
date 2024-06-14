@@ -56,7 +56,6 @@
                                     <td class="border px-4 py-2">{{ $permission->user->name }}</td>
                                     <td class="border px-4 py-2">
                                         <select wire:change="changePermissionType({{ $permission->id }}, $event.target.value)">
-                                            <option value="owner" {{ $permission->permission == 'owner' ? 'selected' : '' }}>owner</option>
                                             <option value="manager" {{ $permission->permission == 'manager' ? 'selected' : '' }}>manager</option>
                                             <option value="follower" {{ $permission->permission == 'follower' ? 'selected' : '' }}>follower</option>
                                         </select>
@@ -81,7 +80,6 @@
                                 </td>
                                 <td class="border px-4 py-2">
                                     <select  wire:model="newPermissionType">
-                                        <option selected value="owner">owner</option>
                                         <option value="manager">manager</option>
                                         <option value="follower">follower</option>
                                     </select>
