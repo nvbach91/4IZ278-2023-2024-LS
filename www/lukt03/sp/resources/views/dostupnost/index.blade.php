@@ -29,28 +29,66 @@
 			</div>
 
 			<div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-				<table class="w-full">
-					<thead>
-						<tr class="border-b">
-							<th class="px-4 pt-0 pb-3 text-center">
-								{{ __('Od') }}
-							</th>
-							<th class="px-4 pt-0 pb-3 text-center">
-								{{ __('Do') }}
-							</th>
-							<th class="px-4 pt-0 pb-3 text-center" colspan="2">
-								{{ __('Akce') }}
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						@forelse ($events as $event)
-							@include('dostupnost.partials.index-row')
-						@empty
-							<td colspan="5" class="p-4 text-center">{{ __('Zatím tu nic není.') }}</td>
-						@endforelse
-					</tbody>
-				</table>
+				<section>
+					<header class="mb-6">
+						{{ $futureEvents->onEachSide(1)->links() }}
+					</header>
+					<table class="w-full">
+						<thead>
+							<tr class="border-b">
+								<th class="px-4 pt-0 pb-3 text-center">
+									{{ __('Od') }}
+								</th>
+								<th class="px-4 pt-0 pb-3 text-center">
+									{{ __('Do') }}
+								</th>
+								<th class="px-4 pt-0 pb-3 text-center" colspan="2">
+									{{ __('Akce') }}
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							@forelse ($futureEvents as $event)
+								@include('dostupnost.partials.index-row')
+							@empty
+								<td colspan="5" class="p-4 text-center">{{ __('Zatím tu nic není.') }}</td>
+							@endforelse
+						</tbody>
+					</table>
+				</section>
+			</div>
+
+			<div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+				<section>
+					<header class="mb-6">
+						<h2 class="text-lg font-medium text-gray-900">
+							{{ __('Uplynulé termíny') }}
+						</h2>
+						{{ $pastEvents->onEachSide(1)->links() }}
+					</header>
+					<table class="w-full text-gray-500">
+						<thead>
+							<tr class="border-b">
+								<th class="px-4 pt-0 pb-3 text-center">
+									{{ __('Od') }}
+								</th>
+								<th class="px-4 pt-0 pb-3 text-center">
+									{{ __('Do') }}
+								</th>
+								<th class="px-4 pt-0 pb-3 text-center" colspan="2">
+									{{ __('Akce') }}
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							@forelse ($pastEvents as $event)
+								@include('dostupnost.partials.index-row')
+							@empty
+								<td colspan="5" class="p-4 text-center">{{ __('Zatím tu nic není.') }}</td>
+							@endforelse
+						</tbody>
+					</table>
+				</section>
 			</div>
 		</div>
 	</div>

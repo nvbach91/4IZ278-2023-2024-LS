@@ -15,9 +15,9 @@
 	</td>
 	<td class="text-center">
 		<div class="p-2 pb-0.5">
-			<x-primary-button form="edit-cat" formaction="{{ route('kocky.edit', ['cat' => $cat]) }}">
+			<x-secondary-button form="edit-cat" formaction="{{ route('kocky.edit', ['cat' => $cat]) }}">
 				{{ __('Upravit') }}
-			</x-primary-button>
+			</x-secondary-button>
 		</div>
 
 		<div class="p-2 pt-0.5">

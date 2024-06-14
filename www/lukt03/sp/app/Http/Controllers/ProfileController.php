@@ -18,7 +18,7 @@ class ProfileController extends Controller
         $this->authorize('viewAny', User::class);
 
         return view('profile.index')
-            ->with('users', User::all());
+            ->with('users', User::paginate(5));
     }
 
     /**
@@ -30,7 +30,9 @@ class ProfileController extends Controller
         $this->authorize('view', $user);
 
         return view('profile.show')
-            ->with('user', $user);
+            ->with('user', $user)
+            ->with('cats', $user->cats()->paginate(5, ['*'], 'catPage')->fragment('cats'))
+            ->with('reviews', $user->reviewsAsSitter()->paginate(5, ['*'], 'catPage')->fragment('reviews'));
     }
 
     /**

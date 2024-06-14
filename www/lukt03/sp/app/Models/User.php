@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Events\UserDeleted;
 use App\Events\UserUpdating;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -97,6 +98,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function availableTimes(): HasMany
     {
         return $this->hasMany(AvailableTime::class, 'sitter_id')->orderBy('start', 'asc');
+    }
+
+    public function futureAvailableTimes(): HasMany
+    {
+        return $this->hasMany(AvailableTime::class, 'sitter_id')->where('end', '>=', Carbon::now())->orderBy('start', 'asc');
+    }
+
+    public function pastAvailableTimes(): HasMany
+    {
+        return $this->hasMany(AvailableTime::class, 'sitter_id')->where('end', '<', Carbon::now())->orderBy('start', 'desc');
     }
 
     public function sittingsAsOwner(): HasMany

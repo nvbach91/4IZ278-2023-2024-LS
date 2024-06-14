@@ -51,9 +51,7 @@
 			@endif
 
 			<div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-				<div class="max-w-xl">
-					@include('profile.partials.profile-information')
-				</div>
+				@include('profile.partials.profile-information')
 			</div>
 
 			<div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
@@ -61,15 +59,11 @@
 			</div>
 
 			<div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-				<div class="max-w-xl">
-					@include('profile.partials.cats')
-				</div>
+				@include('profile.partials.cats')
 			</div>
 
 			<div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-				<div class="max-w-xl">
-					@include('profile.partials.reviews')
-				</div>
+				@include('profile.partials.reviews')
 			</div>
 		</div>
 	</div>
@@ -79,15 +73,15 @@
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/main.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/locales/cs.js"></script>
 		<script> 
-            document.addEventListener('DOMContentLoaded', () => {
-                var calendarEl = document.getElementById('calendar');
+            document.addEventListener("DOMContentLoaded", () => {
+                var calendarEl = document.getElementById("calendar");
                 var calendar = new FullCalendar.Calendar(calendarEl, {
-					locale: 'cs',
-                    initialView: 'timeGridWeek',
+					locale: "{{ config('app.locale') }}",
+                    initialView: "timeGridWeek",
 					nowIndicator: true,
 					allDaySlot: false,
-					scrollTime: '9:00',
-					validRange: (nowDate) => ({ start: nowDate }),
+					scrollTime: "9:00",
+					validRange: () => ({ start: new Date() }),
 					events: @json($user->availableTimes),
                 });
                 calendar.render();

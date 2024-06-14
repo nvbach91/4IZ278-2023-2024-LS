@@ -24,10 +24,10 @@ class CatController extends Controller
     
         if ($user->isAdmin()) {
             return view('cat.index')
-                ->with('cats', Cat::all());
+                ->with('cats', Cat::paginate(5));
         } else {
             return view('cat.index-my')
-                ->with('cats', auth()->user()->cats ?? []);
+                ->with('cats', auth()->user()->cats()->paginate(5));
         }
     }
 

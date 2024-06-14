@@ -1,9 +1,9 @@
 <tr class="border-b">
 	<td class="p-4 text-center">
-		{{ $event->start->format('Y-m-d H:i') }}
+		{{ $event->start->isoFormat('LLLL') }}
 	</td>
 	<td class="p-4 text-center">
-		{{ $event->end->format('Y-m-d H:i') }}
+		{{ $event->end->isoFormat('LLLL') }}
 	</td>
 	<td class="text-center">
 		<div class="p-2">

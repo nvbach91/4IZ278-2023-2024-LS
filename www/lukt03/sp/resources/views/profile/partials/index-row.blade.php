@@ -30,7 +30,7 @@
 		@if ($user->id !== auth()->user()->id)
 			<div class="p-2 pb-0.5">
 				<x-primary-button form="edit-profile" formaction="{{ route('profily.edit', ['user' => $user]) }}">
-					{{ __('Upravit účet') }}
+					{{ __('Upravit') }}
 				</x-primary-button>
 			</div>
 
@@ -42,7 +42,7 @@
 						title: '{{ __('Opravdu chcete smazat účet :email?', ['email' => $user->email]) }}',
 						action: '{{ route('profily.destroy', ['user' => $user]) }}',
 					})"
-				>{{ __('Smazat účet') }}</x-danger-button>
+				>{{ __('Smazat') }}</x-danger-button>
 			</div>
 		@endif
 	</td>

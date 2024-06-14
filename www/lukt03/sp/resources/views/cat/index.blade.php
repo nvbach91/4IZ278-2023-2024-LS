@@ -18,32 +18,37 @@
 	<div class="py-12">
 		<div class="max-w-5xl mx-auto sm:px-6 lg:px-8 space-y-6">
 			<div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-				<table class="w-full">
-					<thead>
-						<tr class="border-b">
-							<th></th>
-							<th class="px-4 pt-0 pb-3 text-start">
-								{{ __('Jméno') }}
-							</th>
-							<th class="px-4 pt-0 pb-3 text-start">
-								{{ __('Vlastník') }}
-							</th>
-							<th class="px-4 pt-0 pb-3 text-start">
-								{{ __('Popis') }}
-							</th>
-							<th class="px-4 pt-0 pb-3 text-center">
-								{{ __('Akce') }}
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						@forelse ($cats as $cat)
-							@include('cat.partials.index-row')
-						@empty
-							<td colspan="5" class="p-4 text-center">{{ __('Zatím tu nic není.') }}</td>
-						@endforelse
-					</tbody>
-				</table>
+				<section>
+					<header class="mb-6">
+						{{ $cats->onEachSide(1)->links() }}
+					</header>
+					<table class="w-full">
+						<thead>
+							<tr class="border-b">
+								<th></th>
+								<th class="px-4 pt-0 pb-3 text-start">
+									{{ __('Jméno') }}
+								</th>
+								<th class="px-4 pt-0 pb-3 text-start">
+									{{ __('Vlastník') }}
+								</th>
+								<th class="px-4 pt-0 pb-3 text-start">
+									{{ __('Popis') }}
+								</th>
+								<th class="px-4 pt-0 pb-3 text-center">
+									{{ __('Akce') }}
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							@forelse ($cats as $cat)
+								@include('cat.partials.index-row')
+							@empty
+								<td colspan="5" class="p-4 text-center">{{ __('Zatím tu nic není.') }}</td>
+							@endforelse
+						</tbody>
+					</table>
+				</section>
 			</div>
 		</div>
 	</div>

@@ -34,11 +34,10 @@
 				</form>
 			</div>
 
+			{{ $cats->onEachSide(1)->links() }}
 			@forelse ($cats as $cat)
 				<div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-					<div class="max-w-xl">
-						@include('cat.partials.cat-card')
-					</div>
+					@include('cat.partials.cat-card')
 				</div>
 			@empty
 				<div class="text-center">{{ __('Zatím žádné nemám.') }}</div>

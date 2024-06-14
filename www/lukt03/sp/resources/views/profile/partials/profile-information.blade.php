@@ -13,7 +13,7 @@
 			<p class="text-sm text-gray-600">{{ __('Skrytý profil') }}</p>
 		@endif
 
-		<p>{{ __('Registrace od') . ': ' . $user->created_at->format('Y-m-d') }}</p>
+		<p>{{ __('Registrace od') . ': ' . $user->created_at->isoFormat('LL') }}</p>
 
 		@if (isset($user->location))
 			<p><x-entypo-location-pin left class="inline align-text-bottom !h-5" />{{ $user->location }}</p>

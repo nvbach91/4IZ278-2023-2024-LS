@@ -14,7 +14,8 @@ class AvailableTimeController extends Controller
     public function index(): View
     {
         return view('dostupnost.index')
-            ->with('events', auth()->user()->availableTimes ?? []);
+            ->with('futureEvents', auth()->user()->futureAvailableTimes()->paginate(5, ['*'], 'futurePage'))
+            ->with('pastEvents', auth()->user()->pastAvailableTimes()->paginate(5, ['*'], 'pastPage'));
     }
 
     /**
