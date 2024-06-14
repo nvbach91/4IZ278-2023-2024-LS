@@ -1,0 +1,75 @@
+:root {
+    --bluejet-blue: #154360;
+}
+
+body {
+    background-color: rgb(235, 235, 235);
+}
+
+.cardLink {
+    text-decoration: none;
+}
+
+.clickableCard:hover {
+    background-color: rgb(223, 223, 223);
+}
+
+.errorText {
+    color: red;
+    display: none;
+}
+
+.navbarLink {
+    text-decoration: none;
+    font-weight: bold;
+    color: white;
+}
+.navbarLink:hover {
+    text-decoration: underline;
+}
+
+.successText {
+    color: green;
+}
+
+#isStudentRow {
+    display: none;
+}
+
+#loginLink {
+    display: none;
+}
+
+#mottobox {
+    color: white;
+}
+
+#navbar * {
+    color: white;
+}
+
+#profileLink {
+    text-decoration: none;
+}
+#profileLink:hover {
+    text-decoration: underline;
+}
+
+#registerForm {
+    display: none;
+}
+
+#ticketbox {
+    background-color: white;
+    opacity: 80%;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+}
+
+#ticketbox-bg-row {
+    background-image: url("https://cdn.kimkim.com/files/a/content_articles/featured_photos/67e29f693c4419341c375d333e11c210955cf3dc/big-4961ddd185dc668d672a13b52b6fe90f.jpg");
+    background-position-y: 40%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-top: 20vh;
+    padding-bottom: 20vh;
+}
