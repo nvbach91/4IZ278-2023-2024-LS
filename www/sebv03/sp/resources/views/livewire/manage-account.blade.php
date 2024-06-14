@@ -69,14 +69,14 @@
                             @endforeach
                             <tr>
                                 <td class="border px-4 py-2">
-                                    <select wire:model="newPermissionUserId">
-                                        <option value="">Select user</option>
+                                    <input type="text" wire:model.live.debounce.50ms="search" wire:keydown.debounce.50ms="updateSearch" wire:keydown="updateSearch" placeholder="Search users" class="w-full p-2 border border-gray-300 rounded">
+                                    <ul class="bg-white border border-gray-300 rounded mt-2">
                                         @foreach($allUsers as $user)
                                             @if(!$account->getPermissions()->contains('user_id', $user->id))
-                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                <li class="px-4 py-2 cursor-pointer @if($newPermissionUserId == $user->id) bg-gray-200 @endif hover:bg-gray-100" wire:click="$set('newPermissionUserId', {{ $user->id }})">{{ $user->name }}</li>
                                             @endif
                                         @endforeach
-                                    </select>
+                                    </ul>
                                 </td>
                                 <td class="border px-4 py-2">
                                     <select  wire:model="newPermissionType">

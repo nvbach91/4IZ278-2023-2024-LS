@@ -13,18 +13,20 @@ use Livewire\WithPagination;
 class ManageAccount extends Component
 {
     use WithPagination;
+
     public Account $account;
     public bool $showManagePermissions = false;
     public Collection $allUsers;
     public $newPermissionType;
     public $newPermissionUserId;
     public bool $isOnlyOwner;
+    public $search = '';
    public $usersPermission;
 
     public function mount(Account $account)
     {
         $this->account = $account;
-        $this->allUsers = User::all();
+        $this->allUsers = collect();
         $this->isOnlyOwner = $this->account->accountPermissions()->where('permission', 'owner')->count() == 1;
         $this->usersPermission = $this->account->accountPermissions()->where('user_id', auth()->id())->first()->permission;
         $this->newPermissionType = 'manager';
@@ -61,5 +63,9 @@ class ManageAccount extends Component
         $accountPermission->permission = $this->newPermissionType;
         $accountPermission->save();
         $this->newPermissionType = '';
+    }
+    public function updateSearch()
+    {
+        $this->allUsers = User::where('name', 'like', '%'.$this->search.'%')->get();
     }
 }
