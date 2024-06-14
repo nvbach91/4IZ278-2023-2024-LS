@@ -1,0 +1,408 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100%;
+    box-sizing: border-box;
+    align-content: center;
+}
+
+main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.navbar {
+    width: 100%;
+    height: 100px;
+    text-align: center;
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: center;
+    background-color: black;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 70%;
+    align-items: center;
+}
+
+.main-container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+}
+
+.products-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+}
+
+.pagination {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+}
+
+.pagination a {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color: black;
+    margin: 0px 3px 0px 3px;
+    text-decoration: none;
+    width: 30px;
+    height: 30px;
+    align-content: center;
+    align-self: center;
+    text-align: center;
+    border-radius: 3px;
+}
+
+.navbar-container {
+    display: flex;
+    height: 100%;
+    width: 70%;
+    align-items: center;
+}
+
+.navbar-brand {
+    text-decoration: none;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    margin-left: 15px;
+}
+
+.navbar-options {
+    justify-self: flex-end;
+    flex: 1;
+    align-self: center;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.navbar-list {
+    display: flex;
+    list-style: none;
+    height: 100%;
+    align-items: center;
+}
+
+.navbar-item {
+   height: 100%;
+   display: flex;
+   align-items: center;
+   margin-left: 10px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.categories {
+    flex: 1;
+    height: 100%;
+    align-self: flex-start;
+}
+
+.products {
+    flex: 3;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.footer {
+    align-self: stretch;
+    display: flex;
+    justify-content: center;
+    height: 80px;
+    align-items: center;
+    background-color: black;
+    margin-top: 30px;
+}
+
+.footer-text {
+    width: 70%;
+    text-align: center;
+    background-color: black;
+    color: white;
+}
+
+.category-list {
+    list-style: none;
+}
+
+.category a {
+    text-decoration: none;
+    color: black;
+    font-size: 30px;
+    line-height: 50px;
+    font-weight: bold;
+}
+
+.product {
+    width: calc(100% / 3 - 14px);
+    margin: 5px;
+    border: solid 2px black;
+    text-align: center;
+}
+
+.product-image {
+    width: 200px;
+    height: auto;
+    margin-top: 20px;
+}
+
+.product-body {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-bodyend {
+    display: flex;
+}
+
+.product-name {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.product-description {
+    word-wrap: break-word;
+    width: 90%;
+    align-self: center;
+}
+
+.product-button {
+    color: white;
+    background-color: black;
+    text-decoration: none;
+    font-size: 20px;
+    border-radius: 3px;
+    width: 70px;
+    height: 30px;
+    align-content: center;
+    margin: 10px;
+    flex-grow: 1;
+}
+
+.product-price {
+    font-weight: bold;
+    flex-grow: 1;
+    align-content: center;
+    font-size: 20px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 100px;
+}
+
+label {
+    margin-top: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 30px;
+}
+
+.register-button {
+    color: white;
+    background-color: black;
+    text-decoration: none;
+    font-size: 25px;
+    width: 110px;
+    height: 40px;
+    align-content: center;
+    text-align: center;
+    margin: 25px 0px 0px 0px;
+    border-radius: 3px;
+}
+
+.container-cart {
+    display: flex;
+    height: 100%;
+    width: 70%;
+    align-items: center;
+    flex-direction: column;
+}
+
+.order-remove {
+    color: white;
+    background-color: black;
+    text-decoration: none;
+    font-size: 20px;
+    width: 70px;
+    height: 30px;
+    align-content: center;
+    margin: 10px;
+    flex-grow: 1;
+}
+
+.order-info {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.price-sum {
+    margin: 20px 20px 0px 5px;
+}
+
+.edit-button, .create-button {
+    color: white;
+    background-color: black;
+    text-decoration: none;
+    font-size: 25px;
+    width: 200px;
+    height: 40px;
+    align-content: center;
+    text-align: center;
+    margin: 10px 0px 10px 0px;
+    border-radius: 3px;
+    align-self: center;
+}
+
+.delete {
+    background-color: rgb(201, 2, 2);
+}
+
+.create-button {
+    align-self: flex-end;
+    width: 240px;
+    margin-right: 20px;
+}
+
+.user-container {
+    display: flex;
+    align-self: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.user {
+    display: flex;
+}
+
+.user-form-group {
+    display: flex;
+}
+
+.user-form {
+    display: flex;
+    flex-direction: row;
+}
+
+.order {
+    display: flex;
+    border: black solid 2px;
+    padding: 10px;
+    max-width: 63%;
+    margin-bottom: 10px;
+}
+
+.order-body{
+    display: flex;
+    flex-direction: row;
+    align-content: space-around;
+}
+
+.order-bodystart {
+    display: flex;
+    flex-direction: column;
+}
+
+.order-id {
+    margin-bottom: 10px;
+    font-size: 20px;
+    margin-right: 280px;
+}
+
+.order-price {
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.order-bodyend {
+    display: flex;
+    flex-direction: column;
+    justify-self: flex-end;
+    align-self: flex-end;
+    height: 100%;
+    align-self: center;
+}
+
+.delete-product {
+    justify-content: center;
+}
+
+.verify-buttons {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.verify-buttons p{
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.cancel {
+    align-self: flex-start !important;
+}
+
+.pay {
+    background-color: rgb(0, 148, 0);
+}
+
+.order-product {
+    display: flex;
+    flex-direction: row;
+}
+
+.order-product p{
+    margin-right: 15px;
+}
