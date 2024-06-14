@@ -1,0 +1,46 @@
+:root {
+  --grey: rgba(204, 204, 204, 0.479);
+}
+
+.list-group {
+  width: 100%;
+  max-width: 780px;
+  margin-inline: 1.5rem;
+}
+
+.list-group-radio .list-group-item {
+  cursor: pointer;
+  border-radius: .5rem;
+}
+
+.list-group-radio .form-check-input {
+  z-index: 2;
+  margin-top: -.5em;
+}
+
+.list-group-radio .list-group-item:hover,
+.list-group-radio .list-group-item:focus {
+  background-color: var(--grey);
+}
+
+.list-group-radio .form-check-input:checked+.list-group-item {
+  background-color: var(--bs-body);
+  border-color: var(--bs-success);
+  box-shadow: 0 0 0 2px var(--bs-success);
+}
+
+.list-group-radio .form-check-input[disabled]+.list-group-item,
+.list-group-radio .form-check-input:disabled+.list-group-item {
+  pointer-events: none;
+  filter: none;
+  opacity: .5;
+}
+
+.radio-container {
+  height: 100px;
+}
+
+.form-check-input:checked {
+  background-color: var(--bs-success);
+  border-color: var(--bs-success);
+}
