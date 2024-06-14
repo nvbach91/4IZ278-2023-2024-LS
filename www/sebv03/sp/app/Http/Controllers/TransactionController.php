@@ -71,6 +71,7 @@ class TransactionController extends Controller
         $transaction->amount = $request->amount;
         $transaction->message = $request->message;
         $transaction->sent_by = $user->id;
+        $transaction->sent_at = now();
         $transaction->save();
         return redirect()->route('account.show', ['account' => $account]);
     }
