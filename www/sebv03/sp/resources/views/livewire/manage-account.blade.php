@@ -1,6 +1,7 @@
 <div>
     <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg mt-10">
         <h1 class="text-2xl font-bold mb-4">Detail of {{ $account->display_name }}</h1>
+        <h2 class="text-lg font-semibold">Account ID: {{ $account->id }}</h2>
         <div class="mb-6">
             <h2 class="text-lg font-semibold">Account balance:</h2>
             <div class="flex justify-between items-center bg-gray-100 p-4 rounded-lg shadow mt-2">

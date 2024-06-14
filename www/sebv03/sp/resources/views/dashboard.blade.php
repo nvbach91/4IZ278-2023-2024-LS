@@ -38,6 +38,8 @@
                         <div class="flex flex-col mb-4">
                             <label for="display_name" class="mb-2 font-semibold">Display name:</label>
                             <input type="text" name="display_name" id="display_name" class="border border-gray-300 p-2 rounded-lg" required>
+                            <label for="account_id" class="mb-2 font-semibold">Account ID:</label>
+                            <input type="number" name="account_id" id="account_id" class="border border-gray-300 p-2 rounded-lg" required>
                         </div>
                         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create account</button>
                     </form>

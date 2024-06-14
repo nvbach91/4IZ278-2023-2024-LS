@@ -30,10 +30,13 @@ class AccountController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'display_name' => 'required|string|max:255|unique:Account,display_name',
+            'display_name' => 'required|string|max:255',
+            'account_id' => 'required|unique:accounts,id'
+
 
         ]);
         $account = Account::create([
+            'id' => $request->account_id,
             'display_name' => $request->display_name,
             'balance' => 0
         ]);
