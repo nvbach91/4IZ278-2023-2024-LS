@@ -20,7 +20,7 @@ class AccountPermissionController extends Controller
             abort(403);
         }
         //check if the permission is valid
-        if (!in_array($permission, ['owner', 'manager', 'follower'])) {
+        if (!in_array($permission, ['manager', 'follower'])) {
             abort(400);
         }
 
