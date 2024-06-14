@@ -12,6 +12,7 @@ class CreateTransaction extends Component
     public Collection $allAccounts;
     public $displayBalance;
     public $transactionAmount;
+    public $targetAccountId;
 
     public function mount(Account $account)
     {
@@ -29,5 +30,12 @@ class CreateTransaction extends Component
             'transactionAmount' => 'required|numeric|min:0.01|max:' . $this->account->balance . '|min:0.01'
         ]);
         $this->displayBalance = $this->account->balance - $this->transactionAmount;
+        $this->checkId();
+    }
+    public function checkId()
+    {
+        $this->validate([
+            'targetAccountId' => 'required|exists:accounts,id'
+        ]);
     }
 }

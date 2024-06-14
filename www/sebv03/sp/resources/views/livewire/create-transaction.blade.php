@@ -22,13 +22,8 @@
             <form method="POST" action="{{ route('account.make-payment',['account' => $account->id]) }}" class="space-y-4">
                 @csrf
                 <div>
-                    <label for="targetAccount" class="block text-sm font-medium text-gray-700">Target account</label>
-                    <select name="targetAccount" id="targetAccount" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        <option value="">Select target account</option>
-                        @foreach($allAccounts as $targetAccount)
-                            <option value="{{ $targetAccount->id }}">{{ $targetAccount->display_name }} - {{$targetAccount->getOwner()->name}}</option>
-                        @endforeach
-                    </select>
+                    <label for="targetAccountId" class="block text-sm font-medium text-gray-700">Target account</label>
+                    <input wire:model="targetAccountId" wire:change="checkId" required placeholder="target account id"  class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" type="number" name="targetAccount" id="targetAccount" min="0" step="1">
                     <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
                     <input wire:model.live.debounce.50ms="transactionAmount" wire:keydown.debounce.50ms="amountChanged" type="number" id="amount" name="amount" min="0" step="0.01" max="{{$account->balance}}" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     <textarea name="message" id="message" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Message"></textarea>
