@@ -24,10 +24,10 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
     $zricenina = null;
     $pristresek = null;
     if(isset($_POST['vyhlidka'])){$vyhlidka = $_POST['vyhlidka'];};
-    if(isset($_POST['rybnik'])){$vyhlidka = $_POST['rybnik'];};
-    if(isset($_POST['ohniste'])){$vyhlidka = $_POST['ohniste'];};
-    if(isset($_POST['zricenina'])){$vyhlidka = $_POST['zricenina'];};
-    if(isset($_POST['pristresek'])){$vyhlidka = $_POST['pristresek'];};
+    if(isset($_POST['rybnik'])){$rybnik = $_POST['rybnik'];};
+    if(isset($_POST['ohniste'])){$ohniste = $_POST['ohniste'];};
+    if(isset($_POST['zricenina'])){$zricenina = $_POST['zricenina'];};
+    if(isset($_POST['pristresek'])){$pristresek = $_POST['pristresek'];};
 
     $categories = array($vyhlidka, $rybnik, $ohniste, $zricenina, $pristresek);
     $category = [];
