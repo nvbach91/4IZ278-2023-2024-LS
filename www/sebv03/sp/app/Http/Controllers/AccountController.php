@@ -30,7 +30,7 @@ class AccountController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'display_name' => 'required|string|max:255',
+            'display_name' => 'required|string|max:255|unique:Account,display_name',
 
         ]);
         $account = Account::create([

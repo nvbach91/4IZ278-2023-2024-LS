@@ -6,6 +6,11 @@
         <div class="space-y-4">
             @foreach($accounts as $account)
                 <div class="bg-gray-100 p-4 rounded-lg shadow">
+                    @if($account->getOwner() == Auth::user() )
+                        <span class="text-l font-semibold bg-black text-white rounded-full px-1 py-1 mx-1 shadow-lg">
+                            Owner
+                        </span>
+                    @endif
                     <div class="flex justify-between items-center">
                         <div>
                             <span class="text-lg font-semibold">{{ $account->display_name }}</span>
