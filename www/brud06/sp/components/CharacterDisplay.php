@@ -14,6 +14,13 @@ if (isset($_SESSION['error'])) : ?>
     <?php unset($_SESSION['error']); ?>
 <?php endif;
 
+// Level up message
+if (isset($_SESSION['level_up_message'])): ?>
+    <div class="level-up-message">
+        <?php echo $_SESSION['level_up_message']; unset($_SESSION['level_up_message']); ?>
+    </div>
+<?php endif;
+
 
 
 

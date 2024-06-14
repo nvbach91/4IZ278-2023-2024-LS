@@ -36,6 +36,8 @@ if (isset($_SESSION['encounter_result']) && $_SESSION['encounter_result']) {
     if ($character->getXp() >= $requiredXP) {
         $character->setLevel($characterLevel + 1);
         $character->setXp($character->getXp() - $requiredXP);
+
+        $_SESSION['level_up_message'] = "Congratulations! Your character has leveled up to " . $character->getLevel() . ".";
     }
     $character->setProgression($progression + 1);
     $characterDB->updateCharacter($character);

@@ -1,5 +1,8 @@
 <?php
+
 session_start();
+
+require_once 'oauth_config.php';
 
 $message = '';
 $messageForUser = '';
@@ -68,6 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input class="form-control" type="password" name="password">
             <button class="btn btn-primary" type="submit">Login</button>
         </div>
+        <a class = "github-login" href="https://github.com/login/oauth/authorize?client_id=<?php echo GITHUB_CLIENT_ID; ?>&redirect_uri=<?php echo urlencode(GITHUB_REDIRECT_URI); ?>&scope=user">Login with GitHub</a>
     </form>
 </main>
 <?php include 'includes/foot.php'; ?>

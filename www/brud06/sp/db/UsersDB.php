@@ -75,6 +75,25 @@ class UsersDB extends Database
         $result = $this->runQuery($sql, ['user_id' => $user_id]);
         return $result !== false;
     }
+    function findUserByGithubId($githubId)
+    {
+        $statement = $this->pdo->prepare("SELECT * FROM sp_users WHERE github_id = :github_id");
+        $statement->execute(['github_id' => $githubId]);
+        $users = $statement->fetchAll();
+        return count($users) > 0 ? $users[0] : null;
+    }
+    function createUserWithGithub($user)
+    {
+        $email = isset($user['email']) ? $user['email'] : 'default@example.com';
+        $sql = "INSERT INTO sp_users (email, github_id, privilege, isBanned) VALUES (:email, :github_id, :privilege, :isBanned)";
+        $result = $this->runQuery($sql, [
+            'email' => $email,
+            'github_id' => $user['id'],
+            'privilege' => 1,
+            'isBanned' => 0
+        ]);
+        return $result !== false;
+    }
 
 
     function create($attribute)
