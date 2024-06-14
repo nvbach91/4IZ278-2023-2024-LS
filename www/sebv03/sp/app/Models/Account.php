@@ -32,7 +32,8 @@ class Account extends Model
     }
     public function getTransactions()
     {
-        return $this->sentTransactions()->get()->merge($this->receivedTransactions()->get());
+        return Transaction::where('from_account', $this->id)
+            ->orWhere('target_account', $this->id);
     }
     public function getOwner()
     {

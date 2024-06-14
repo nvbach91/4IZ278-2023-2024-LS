@@ -8,9 +8,11 @@ use App\Models\AccountPermission;
 use App\Models\User;
 use Illuminate\Support\Collection;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class ManageAccount extends Component
 {
+    use WithPagination;
     public Account $account;
     public bool $showManagePermissions = false;
     public Collection $allUsers;
@@ -29,7 +31,11 @@ class ManageAccount extends Component
     }
     public function render()
     {
-        return view('livewire.manage-account');
+        $transactions = $this->account->getTransactions()->orderBy('created_at', 'desc')->paginate(3);
+        return view('livewire.manage-account',
+            [
+                'transactions' => $transactions
+            ]);
     }
     public function toggleManagePermissions()
     {

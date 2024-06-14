@@ -100,7 +100,7 @@
         <div>
             <h2 class="text-lg font-semibold">Transactions:</h2>
             <div class="space-y-4 mt-2">
-                @foreach($account->getTransactions()->sortByDesc('created_at') as $transaction)
+                @foreach($transactions as $transaction)
                     <div class="bg-gray-100 p-4 rounded-lg shadow">
                         <div class="flex justify-between items-center">
                             <div>
@@ -118,6 +118,9 @@
                         </div>
                     </div>
                 @endforeach
+                    <div class="mt-4">
+                        {{ $transactions->links() }}
+                    </div>
             </div>
         </div>
     </div>
