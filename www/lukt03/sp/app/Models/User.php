@@ -71,7 +71,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function avatarUrlWithPlaceholder(): Attribute
     {
         return Attribute::get(
-            fn () => Storage::url($this->avatar_path ?? 'public/avatars/placeholder.png')
+            fn () => Storage::url($this->avatar_path ?? 'avatars/placeholder.png')
         );
     }
 
@@ -112,21 +112,26 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function sittingsAsOwner(): HasMany
     {
-        return $this->hasMany(Sitting::class, 'owner_id');
+        return $this->hasMany(Sitting::class, 'owner_id')->orderBy('start', 'desc');
     }
 
     public function sittingsAsSitter(): HasMany
     {
-        return $this->hasMany(Sitting::class, 'sitter_id');
+        return $this->hasMany(Sitting::class, 'sitter_id')->orderBy('start', 'desc');
+    }
+
+    public function confirmedSittingsAsSitter(): HasMany
+    {
+        return $this->hasMany(Sitting::class, 'sitter_id')->where('status', 1)->orderBy('start', 'desc');
     }
 
     public function reviewsAsOwner(): HasManyThrough
     {
-        return $this->through('sittingsAsOwner')->has('review');
+        return $this->through('sittingsAsOwner')->has('review')->orderBy('id', 'desc');
     }
 
     public function reviewsAsSitter(): HasManyThrough
     {
-        return $this->through('sittingsAsSitter')->has('review');
+        return $this->through('sittingsAsSitter')->has('review')->orderBy('id', 'desc');
     }
 }

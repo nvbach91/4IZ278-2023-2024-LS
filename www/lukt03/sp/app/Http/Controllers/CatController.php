@@ -49,7 +49,7 @@ class CatController extends Controller
         $cat->fill($request->validated());
 
         if ($request->hasFile('photo')) {
-            if ($path = $request->file('photo')->store('public/cats')) {
+            if ($path = $request->file('photo')->store('cats', 'public')) {
                 $cat->photo_path = $path;
             }
         } else if ($request->boolean('delete_photo')) {
@@ -81,7 +81,7 @@ class CatController extends Controller
         $cat->fill($request->validated());
 
         if ($request->hasFile('photo')) {
-            if ($path = $request->file('photo')->store('public/cats')) {
+            if ($path = $request->file('photo')->store('cats', 'public')) {
                 $cat->photo_path = $path;
             }
         } else if ($request->boolean('delete_photo')) {

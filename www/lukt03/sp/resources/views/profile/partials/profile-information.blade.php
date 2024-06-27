@@ -1,6 +1,6 @@
 <section class="flex gap-6 text-gray-900">
 	<div class="shrink-0">
-		<img src="{{ asset($user->avatar_url_with_placeholder) }}" class="w-32 h-32 object-contain rounded-lg">
+		<img src="{{ asset($user->avatar_url_with_placeholder) }}" :alt="__('Avatar profilu')" class="w-32 h-32 object-contain rounded-lg">
 	</div>
 	<div class="leading-loose">
 		<header>
@@ -16,7 +16,7 @@
 		<p>{{ __('Registrace od') . ': ' . $user->created_at->isoFormat('LL') }}</p>
 
 		@if (isset($user->location))
-			<p><x-entypo-location-pin left class="inline align-text-bottom !h-5" />{{ $user->location }}</p>
+			<p><x-entypo-location-pin :alt="__('Lokalita')" class="inline align-text-bottom !h-5" />{{ $user->location }}</p>
 		@endif
 	</div>
 </section>

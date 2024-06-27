@@ -1,6 +1,6 @@
 <tr class="border-b">
 	<td class="p-1">
-		<img src="{{ asset($user->avatar_url_with_placeholder) }}" class="min-w-16 w-16 h-16 rounded-lg object-contain">
+		<img src="{{ asset($user->avatar_url_with_placeholder) }}" :alt="__('Avatar profilu')" class="min-w-16 w-16 h-16 rounded-lg object-contain">
 	</td>
 	<td class="p-4">
 		<x-link :href="route('profily.show', ['user' => $user->id])">

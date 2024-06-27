@@ -3,6 +3,7 @@
 use App\Http\Controllers\AvailableTimeController;
 use App\Http\Controllers\CatController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SittingController;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -18,9 +19,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 */
 
 
-Route::get('/', function () {
-    return view('home');
-})->name('index');
+Route::get('/', [SittingController::class, 'find'])->name('index');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profil', [ProfileController::class, 'show'])
@@ -47,6 +46,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('dostupnost', AvailableTimeController::class)
         ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
         ->parameters(['dostupnost' => 'event']);
+
+    Route::resource('hlidani', SittingController::class)
+        ->only(['index', 'store', 'update', 'destroy'])
+        ->parameters(['hlidani' => 'sitting'])
+        ->missing(fn () => throw new NotFoundHttpException('Hlídání neexistuje'));
 });
 
 Route::fallback(fn () => throw new NotFoundHttpException('Stránka nenalezena'));

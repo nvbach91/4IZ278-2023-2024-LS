@@ -55,7 +55,7 @@ class Cat extends Model
     public function photoUrlWithPlaceholder(): Attribute
     {
         return Attribute::get(
-            fn () => Storage::url($this->photo_path ?? 'public/cats/placeholder.png')
+            fn () => Storage::url($this->photo_path ?? 'cats/placeholder.png')
         );
     }
 

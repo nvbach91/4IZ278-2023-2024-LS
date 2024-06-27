@@ -20,12 +20,18 @@
                             <x-nav-link :href="route('kocky.index')" :active="request()->routeIs('kocky.index')">
                                 {{ __('Všechny kočky') }}
                             </x-nav-link>
+                            <x-nav-link :href="route('hlidani.index')" :active="request()->routeIs('hlidani.index')">
+                                {{ __('Všechna hlídání') }}
+                            </x-nav-link>
                         @else
                             <x-nav-link :href="route('index')" :active="request()->routeIs('index')">
                                 {{ __('Sháním hlídání') }}
                             </x-nav-link>
                             <x-nav-link :href="route('kocky.index')" :active="request()->routeIs('kocky.index')">
                                 {{ __('Moje kočky') }}
+                            </x-nav-link>
+                            <x-nav-link :href="route('hlidani.index')" :active="request()->routeIs('hlidani.index')">
+                                {{ __('Moje hlídání') }}
                             </x-nav-link>
                             @if (auth()->user()->isSitter())
                                 <x-nav-link :href="route('dostupnost.index')" :active="request()->routeIs('dostupnost.index')">
@@ -105,6 +111,9 @@
                     <x-responsive-nav-link :href="route('kocky.index')" :active="request()->routeIs('kocky.index')">
                         {{ __('Všechny kočky') }}
                     </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('hlidani.index')" :active="request()->routeIs('hlidani.index')">
+                        {{ __('Všechna hlídání') }}
+                    </x-responsive-nav-link>
                 </div>
             @else
                 <div class="py-2 space-y-1">
@@ -113,6 +122,9 @@
                     </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('kocky.index')" :active="request()->routeIs('kocky.index')">
                         {{ __('Moje kočky') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('hlidani.index')" :active="request()->routeIs('hlidani.index')">
+                        {{ __('Moje hlídání') }}
                     </x-responsive-nav-link>
                     @if (auth()->user()->isSitter())
                         <x-responsive-nav-link :href="route('dostupnost.index')" :active="request()->routeIs('dostupnost.index')">

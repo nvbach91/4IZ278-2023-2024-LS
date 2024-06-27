@@ -56,14 +56,29 @@
 
 			<div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
 				@include('profile.partials.sitting-availability')
-			</div>
-
-			<div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-				@include('profile.partials.cats')
+				<section class="mt-4" id="requestSection" hidden>
+					<header>
+						<h2 class="text-lg font-medium text-gray-900">
+							{{ __('Žádost o hlídání') }}
+						</h2>
+					</header>
+					<form method="post" action="{{ route('hlidani.store') }}">
+						@csrf
+						@method('post')
+						<p>{{ __('Od:') }} <span id="requestFrom"></p>
+						<p>{{ __('Do:') }} <span id="requestTo"></p>
+						<input type="hidden" id="availabilityId" name="availabilityId" value="">
+						<x-primary-button class="mt-1">{{ __('Požádat o hlídání') }}</x-primary-button>
+					</form>
+				</section>
 			</div>
 
 			<div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
 				@include('profile.partials.reviews')
+			</div>
+
+			<div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+				@include('profile.partials.cats')
 			</div>
 		</div>
 	</div>
@@ -83,6 +98,14 @@
 					scrollTime: "9:00",
 					validRange: () => ({ start: new Date() }),
 					events: @json($user->availableTimes),
+					eventMouseEnter: () => document.body.style.cursor = "pointer",
+					eventMouseLeave: () => document.body.style.cursor = "default",
+					eventClick: (info) => {
+						document.getElementById("availabilityId").value = info.event.id;
+						document.getElementById("requestFrom").innerText = info.event.start.toLocaleString('cs');
+						document.getElementById("requestTo").innerText = info.event.end.toLocaleString('cs');
+						document.getElementById("requestSection").removeAttribute("hidden"); 
+					}
                 });
                 calendar.render();
             });

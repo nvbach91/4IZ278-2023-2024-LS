@@ -46,7 +46,7 @@
                         <div>
                             <x-input-label for="photo" :value="__('Fotografie')" />
                             @isset($cat->photo_url)
-                                <img src="{{ asset($cat->photo_url) }}" class="rounded-lg w-32 h-32 object-contain mt-2">
+                                <img src="{{ asset($cat->photo_url) }}" :alt="__('Foto kočky')" class="rounded-lg w-32 h-32 object-contain mt-2">
                                 <div>
                                     <x-checkbox id="delete_photo" name="delete_photo">
                                         {{ __('Smazat fotografii') }}

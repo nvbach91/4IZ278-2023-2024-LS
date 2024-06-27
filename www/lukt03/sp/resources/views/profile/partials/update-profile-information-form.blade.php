@@ -67,7 +67,7 @@
         <div class="space-y-1">
             <x-input-label for="avatar" :value="__('Fotografie')" />
             @isset($user->avatar_url)
-                <img src="{{ asset($user->avatar_url) }}" class="rounded-lg w-32 h-32 object-contain mt-1">
+                <img src="{{ asset($user->avatar_url) }}" :alt="__('Avatar profilu')" class="rounded-lg w-32 h-32 object-contain mt-1">
                 <div>
                     <x-checkbox id="delete_avatar" name="delete_avatar">
                         {{ __('Smazat fotografii') }}

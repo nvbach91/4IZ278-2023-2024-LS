@@ -1,6 +1,6 @@
 <tr class="border-b">
 	<td class="p-1">
-		<img src="{{ asset($cat->photo_url_with_placeholder) }}" class="min-w-16 w-16 h-16 rounded-lg object-contain">
+		<img src="{{ asset($cat->photo_url_with_placeholder) }}" :alt="__('Foto kočky')" class="min-w-16 w-16 h-16 rounded-lg object-contain">
 	</td>
 	<td class="p-4">
 		{{ $cat->name }}

@@ -32,7 +32,7 @@ class ProfileController extends Controller
         return view('profile.show')
             ->with('user', $user)
             ->with('cats', $user->cats()->paginate(5, ['*'], 'catPage')->fragment('cats'))
-            ->with('reviews', $user->reviewsAsSitter()->paginate(5, ['*'], 'catPage')->fragment('reviews'));
+            ->with('reviews', $user->reviewsAsSitter()->paginate(5, ['*'], 'reviewPage')->fragment('reviews'));
     }
 
     /**
@@ -65,7 +65,7 @@ class ProfileController extends Controller
         }
 
         if ($request->hasFile('avatar')) {
-            if ($path = $request->file('avatar')->store('public/avatars')) {
+            if ($path = $request->file('avatar')->store('avatars', 'public')) {
                 $user->avatar_path = $path;
             }
         } else if ($request->boolean('delete_avatar')) {

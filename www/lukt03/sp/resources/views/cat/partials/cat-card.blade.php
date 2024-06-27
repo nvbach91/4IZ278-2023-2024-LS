@@ -1,6 +1,6 @@
 <section class="flex gap-8 text-gray-900">
 	<div class="shrink-0">
-		<img src="{{ asset($cat->photo_url_with_placeholder) }}" class="w-32 h-32 object-contain rounded-lg">
+		<img src="{{ asset($cat->photo_url_with_placeholder) }}" :alt="__('Foto kočky')" class="w-32 h-32 object-contain rounded-lg">
 	</div>
 	<div class="leading-loose">
 		<header>
