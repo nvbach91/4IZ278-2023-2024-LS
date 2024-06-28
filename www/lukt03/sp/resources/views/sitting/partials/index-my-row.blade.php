@@ -34,7 +34,7 @@
 					{{ __('Potvrdit') }}
 				</x-primary-button>
 			@endif
-			@if (($sitting->status == 0 && $sitting->start->isBefore(now())) || (sitting->status == 1 && $sitting->start->diffInHours(now()) > 24))
+			@if (($sitting->status == 0 && $sitting->start->isBefore(now())) || ($sitting->status == 1 && $sitting->start->diffInHours(now()) > 24))
 				<x-danger-button
 					x-data=""
 					x-on:click.prevent="$dispatch('open-modal', {
