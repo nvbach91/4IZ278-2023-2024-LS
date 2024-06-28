@@ -29,12 +29,12 @@
 	</td>
 	<td class="text-center">
 		<div class="p-2 pt-0.5">
-			@if ($sitting->sitter->id === auth()->user()->id && $sitting->status === 0 && $sitting->start->isAfter(now()))
+			@if ($sitting->sitter->id === auth()->user()->id && $sitting->status === 0 && $sitting->start->isBefore(now()))
 				<x-primary-button form="confirm-sitting" formaction="{{ route('hlidani.update', ['sitting' => $sitting]) }}">
 					{{ __('Potvrdit') }}
 				</x-primary-button>
 			@endif
-			@if ($sitting->status < 2 && $sitting->start->diffInHours(now()) > 24)
+			@if (($sitting->status == 0 && $sitting->start->isBefore(now())) || (sitting->status == 1 && $sitting->start->diffInHours(now()) > 24))
 				<x-danger-button
 					x-data=""
 					x-on:click.prevent="$dispatch('open-modal', {

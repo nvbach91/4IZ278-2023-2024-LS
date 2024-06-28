@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\AvailableTimeCollision;
+use App\Rules\AvailableTimeMinLength;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AvailableTimeUpdateRequest extends FormRequest
@@ -14,8 +16,8 @@ class AvailableTimeUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'start' => 'required|date|date_format:Y-m-d\TH:i|before:to',
-            'end' => 'required|date|date_format:Y-m-d\TH:i|after:from',
+            'start' => ['required', 'date', 'date_format:Y-m-d\TH:i', 'after:now', new AvailableTimeCollision],
+            'end' => ['required', 'date', 'date_format:Y-m-d\TH:i', 'after:start', new AvailableTimeMinLength],
         ];
     }
 }

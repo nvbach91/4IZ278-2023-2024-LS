@@ -53,7 +53,7 @@
                                 <x-entypo-location-pin :alt="__('Lokalita')" class="inline align-text-bottom !h-5" />{{ $user->location }}
                             </p>
                             <p>
-                                {{ count($user->confirmedSittingsAsSitter) }} uskutečněných hlídání
+                                {{ count($user->pastSittingsAsSitter) }} uskutečněných hlídání
                             </p>
                             <p>
                                 {{ __('Registrace od') . ': ' . $user->created_at->isoFormat('LL') }}

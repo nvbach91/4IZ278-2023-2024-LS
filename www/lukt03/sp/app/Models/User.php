@@ -120,9 +120,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Sitting::class, 'sitter_id')->orderBy('start', 'desc');
     }
 
-    public function confirmedSittingsAsSitter(): HasMany
+    public function pastSittingsAsSitter(): HasMany
     {
-        return $this->hasMany(Sitting::class, 'sitter_id')->where('status', 1)->orderBy('start', 'desc');
+        return $this->hasMany(Sitting::class, 'sitter_id')->where('status', 1)->where('end', '<', Carbon::now())->orderBy('start', 'desc');
     }
 
     public function reviewsAsOwner(): HasManyThrough

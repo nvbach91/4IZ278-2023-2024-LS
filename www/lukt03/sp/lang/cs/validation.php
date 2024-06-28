@@ -13,6 +13,7 @@ return [
     'alpha_num'            => ':Attribute může obsahovat pouze písmena a číslice.',
     'array'                => ':Attribute musí být pole.',
     'ascii'                => 'Číslo :attribute musí obsahovat pouze jednobajtové alfanumerické znaky a symboly.',
+    'at_least_15_minutes'   => 'Událost musí být dlouhá alespoň 15 minut.',
     'before'               => ':Attribute musí být datum před :date.',
     'before_or_equal'      => 'Datum :attribute musí být před nebo rovno :date.',
     'between'              => [
@@ -23,6 +24,7 @@ return [
     ],
     'boolean'              => ':Attribute musí být true nebo false',
     'can'                  => 'Pole :attribute obsahuje neautorizovanou hodnotu.',
+    'colliding_event'      => 'Událost nesmí kolidovat s jinou událostí.',
     'confirmed'            => ':Attribute nesouhlasí.',
     'current_password'     => 'Současné heslo není spravné.',
     'date'                 => ':Attribute musí být platné datum.',
@@ -180,6 +182,7 @@ return [
         'district'                 => 'okres',
         'duration'                 => 'doba trvání',
         'email'                    => 'e-mail',
+        'end'                      => 'konec',
         'excerpt'                  => 'výňatek',
         'filter'                   => 'filtr',
         'finished_at'              => 'skončil v',
@@ -247,6 +250,7 @@ return [
         'skills'                   => 'dovednosti',
         'slug'                     => 'slimák',
         'specialization'           => 'specializace',
+        'start'                    => 'začátek',
         'started_at'               => 'začalo v',
         'state'                    => 'Stát',
         'status'                   => 'postavení',
@@ -274,6 +278,11 @@ return [
     'custom' => [
         'location' => [
             'required_if_accepted' => 'Pokud chcete hlídat, vyplňte lokalitu',
+        ],
+    ],
+    'values' => [
+        'start' => [
+            'now' => 'teď',
         ],
     ],
 ];
